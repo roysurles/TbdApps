@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RecipeApp", "RecipeApp", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApp.Database", "src\RecipeApp.Database\RecipeApp.Database.csproj", "{4514B662-7D53-4D9F-80A4-162A6E0F4996}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApp.Shared", "src\RecipeApp.Shared\RecipeApp.Shared.csproj", "{58F968D3-B318-42D7-ACC0-DD8F6ED05C98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{4514B662-7D53-4D9F-80A4-162A6E0F4996}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4514B662-7D53-4D9F-80A4-162A6E0F4996}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4514B662-7D53-4D9F-80A4-162A6E0F4996}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58F968D3-B318-42D7-ACC0-DD8F6ED05C98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58F968D3-B318-42D7-ACC0-DD8F6ED05C98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58F968D3-B318-42D7-ACC0-DD8F6ED05C98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58F968D3-B318-42D7-ACC0-DD8F6ED05C98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +49,7 @@ Global
 		{4EBADFD1-3C1D-4669-8267-FD1975235760} = {F93E9ECC-2DF7-4B48-A65D-1477D7586D86}
 		{3DD50C30-A1BB-4CF5-B7EB-2199704B1514} = {41E46D78-F67C-4A7B-B06B-DAE473C8351B}
 		{4514B662-7D53-4D9F-80A4-162A6E0F4996} = {3DD50C30-A1BB-4CF5-B7EB-2199704B1514}
+		{58F968D3-B318-42D7-ACC0-DD8F6ED05C98} = {3DD50C30-A1BB-4CF5-B7EB-2199704B1514}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8042CBFD-132D-47AD-8FB4-00DBADAAA74D}
