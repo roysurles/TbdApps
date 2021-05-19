@@ -3,9 +3,29 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31313.79
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{41E46D78-F67C-4A7B-B06B-DAE473C8351B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tbd", "Tbd", "{F93E9ECC-2DF7-4B48-A65D-1477D7586D86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tbd.Shared", "src\Tbd.Shared\Tbd.Shared.csproj", "{CB8FA8E7-55A5-4F51-8D45-5517BE48B4DB}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CB8FA8E7-55A5-4F51-8D45-5517BE48B4DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB8FA8E7-55A5-4F51-8D45-5517BE48B4DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB8FA8E7-55A5-4F51-8D45-5517BE48B4DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB8FA8E7-55A5-4F51-8D45-5517BE48B4DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F93E9ECC-2DF7-4B48-A65D-1477D7586D86} = {41E46D78-F67C-4A7B-B06B-DAE473C8351B}
+		{CB8FA8E7-55A5-4F51-8D45-5517BE48B4DB} = {F93E9ECC-2DF7-4B48-A65D-1477D7586D86}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8042CBFD-132D-47AD-8FB4-00DBADAAA74D}
