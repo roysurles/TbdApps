@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +26,17 @@ namespace RecipeApp.CoreApi.Features.Introduction
 
         public IntroductionV1_0Controller(IIntroductionService introductionService) =>
             _introductionService = introductionService;
+
+        /// <summary>
+        /// Search Introductions based on criteria.
+        /// </summary>
+        /// <param name="introductionSearchRequestDto">Search criteria</param>
+        /// <returns>IApiResultModel of IEnumerable of IntroductionSearchResultDto.</returns>
+        /// <response code="200">OK - returns IApiResultModel of IEnumerable of IntroductionSearchResultDto.</response>
+        [HttpGet("search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IApiResultModel<IEnumerable<IntroductionSearchResultDto>>>> SearchAsync([FromBody] IntroductionSearchRequestDto introductionSearchRequestDto) =>
+            CreateActionResult(await _introductionService.SearchAsync(introductionSearchRequestDto).ConfigureAwait(false));
 
         /// <summary>
         /// Gets IntroductionDto for the desired Introduction Id

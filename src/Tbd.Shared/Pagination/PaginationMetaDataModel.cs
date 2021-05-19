@@ -81,7 +81,7 @@ namespace Tbd.Shared.Pagination
         /// The index of the TotalItemCount for the first item on this page.
         /// </summary>
         [JsonPropertyName("firstItemOnPage")]
-        public int FirstItemOnPage => (PageNumber - 1) * PageSize + 1;
+        public int FirstItemOnPage => ((PageNumber - 1) * PageSize) + 1;
 
         /// <summary>
         /// The index of the TotalItemCount for the last item on this page.

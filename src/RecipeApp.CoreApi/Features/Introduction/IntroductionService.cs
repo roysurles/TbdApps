@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -23,6 +24,13 @@ namespace RecipeApp.CoreApi.Features.Introduction
         {
             _logger = logger;
             _introductionRepository = introductionRepository;
+        }
+
+        public async Task<IApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto)
+        {
+            _logger.LogInformation($"{nameof(SelectAsync)}({nameof(introductionSearchRequestDto)})");
+
+            return CreateApiResultModel<IEnumerable<IntroductionSearchResultDto>>().SetData(await _introductionRepository.SearchAsync(introductionSearchRequestDto).ConfigureAwait(false));
         }
 
         public async Task<IApiResultModel<IntroductionDto>> SelectAsync(Guid id)
@@ -87,6 +95,8 @@ namespace RecipeApp.CoreApi.Features.Introduction
 
     public interface IIntroductionService
     {
+        Task<IApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto);
+
         Task<IApiResultModel<IntroductionDto>> SelectAsync(Guid id);
 
         Task<IApiResultModel<IntroductionDto>> InsertAsync(IntroductionDto introductionDto, string createdById);
