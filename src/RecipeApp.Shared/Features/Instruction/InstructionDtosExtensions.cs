@@ -1,8 +1,6 @@
 ﻿using System;
 
-using RecipeApp.Shared.Features.Instruction;
-
-namespace RecipeApp.Shared.Models.Instruction
+namespace RecipeApp.Shared.Features.Instruction
 {
     public static class InstructionDtosExtensions
     {

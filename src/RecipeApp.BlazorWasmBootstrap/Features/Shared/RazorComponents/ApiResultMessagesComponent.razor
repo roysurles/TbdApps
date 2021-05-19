@@ -1,0 +1,70 @@
+﻿@*https://github.com/dotnet/aspnetcore/issues/32765*@
+@if (Informations.Any())
+{
+    <div class="k-text-info">
+        <h3>Information</h3>
+        <ul>
+            @foreach (var information in Informations)
+            {
+                <li>@($"{information.Code} : {information.Message}".ToMarkupString())</li>
+            }
+        </ul>
+    </div>
+}
+
+@if (Warnings.Any())
+{
+    <div class="k-text-warning">
+        <h3>Warnings</h3>
+        <ul>
+            @foreach (var warning in Warnings)
+            {
+                <li>@($"{warning.Code} : {warning.Message}".ToMarkupString())</li>
+            }
+        </ul>
+    </div>
+}
+
+@if (Errors.Any())
+{
+    <div class="k-text-error">
+        <h3>Error</h3>
+        <ul>
+            @foreach (var error in Errors)
+            {
+                <li>@($"{error.Code} : {error.Message}".ToMarkupString())</li>
+            }
+        </ul>
+    </div>
+}
+
+@if (UnhandledExceptions.Any())
+{
+    <div class="k-text-error">
+        <h3>Unhandled Exception</h3>
+        <ul>
+            @foreach (var unhandledException in UnhandledExceptions)
+            {
+                <li>@($"{unhandledException.Code} : {unhandledException.Message}".ToMarkupString())</li>
+            }
+        </ul>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public IList<IApiResultMessageModel> ApiResultMessages { get; set; } = new List<IApiResultMessageModel>();
+
+    public IEnumerable<IApiResultMessageModel> Informations =>
+        ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Information));
+
+    public IEnumerable<IApiResultMessageModel> Warnings =>
+        ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Warning));
+
+    public IEnumerable<IApiResultMessageModel> Errors =>
+        ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Error));
+
+    public IEnumerable<IApiResultMessageModel> UnhandledExceptions =>
+        ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.UnhandledException));
+}

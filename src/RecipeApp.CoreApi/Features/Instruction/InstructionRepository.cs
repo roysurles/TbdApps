@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Dapper;
 
 using RecipeApp.Shared.Features.Instruction;
-using RecipeApp.Shared.Models.Instruction;
 
 using Tbd.WebApi.Shared.Repositories;
 

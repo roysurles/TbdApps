@@ -1,0 +1,28 @@
+﻿@inject ISessionService SessionService
+
+@if (SessionService.HostEnvironment.IsProduction().Equals(false))
+{
+    <div>
+        <label class="mr-3">Environment: @SessionService.HostEnvironment.Environment</label>
+        <label for="TraceIdTextBox">TraceId: </label>
+        <input id="TraceIdTextBox"
+               type="text"
+               class="form-control form-control-sm"
+               value="@SessionService.TraceId.ToString()"
+               style="width: 300px;" />
+        <button type="button"
+                title="Copy to Clipboard"
+                onclick="let control = document.getElementById('TraceIdTextBox'); control.focus(); control.select(); document.execCommand('copy'); return false;">
+            <i class="far fa-copy"></i>
+        </button>
+        <button type="button"
+                title="Generate new Id"
+                @onclick="() => SessionService.NewId()">
+            <i class="fa fa-file-o"></i>
+        </button>
+    </div>
+}
+
+@code {
+
+}

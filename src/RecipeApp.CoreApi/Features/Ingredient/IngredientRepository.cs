@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 
 using Dapper;
 
-using RecipeApp.Shared.Models.Ingredient;
-using RecipeApp.Shared.Models.Instruction;
+using RecipeApp.Shared.Features.Ingredient;
 
 using Tbd.WebApi.Shared.Repositories;
 

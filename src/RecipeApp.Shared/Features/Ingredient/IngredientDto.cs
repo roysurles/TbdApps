@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 using RecipeApp.Shared.Features.Dto;
 
-namespace RecipeApp.Shared.Models.Ingredient
+namespace RecipeApp.Shared.Features.Ingredient
 {
     public class IngredientDto : BaseDto
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RecipeApp.Shared.Models.Ingredient
+namespace RecipeApp.Shared.Features.Ingredient
 {
     public static class IngredientDtosExtensions
     {
