@@ -7,21 +7,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{41E46D78-F67
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tbd", "Tbd", "{F93E9ECC-2DF7-4B48-A65D-1477D7586D86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tbd.Shared", "src\Tbd.Shared\Tbd.Shared.csproj", "{CB8FA8E7-55A5-4F51-8D45-5517BE48B4DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tbd.Shared", "src\Tbd.Shared\Tbd.Shared.csproj", "{CB8FA8E7-55A5-4F51-8D45-5517BE48B4DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tbd.WebApi.Shared", "src\Tbd.WebApi.Shared\Tbd.WebApi.Shared.csproj", "{4EBADFD1-3C1D-4669-8267-FD1975235760}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tbd.WebApi.Shared", "src\Tbd.WebApi.Shared\Tbd.WebApi.Shared.csproj", "{4EBADFD1-3C1D-4669-8267-FD1975235760}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RecipeApp", "RecipeApp", "{3DD50C30-A1BB-4CF5-B7EB-2199704B1514}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApp.Database", "src\RecipeApp.Database\RecipeApp.Database.csproj", "{4514B662-7D53-4D9F-80A4-162A6E0F4996}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.Database", "src\RecipeApp.Database\RecipeApp.Database.csproj", "{4514B662-7D53-4D9F-80A4-162A6E0F4996}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApp.Shared", "src\RecipeApp.Shared\RecipeApp.Shared.csproj", "{58F968D3-B318-42D7-ACC0-DD8F6ED05C98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.Shared", "src\RecipeApp.Shared\RecipeApp.Shared.csproj", "{58F968D3-B318-42D7-ACC0-DD8F6ED05C98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApp.CoreApi", "src\RecipeApp.CoreApi\RecipeApp.CoreApi.csproj", "{3831CB05-2E61-4260-B775-0807DAE35D17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.CoreApi", "src\RecipeApp.CoreApi\RecipeApp.CoreApi.csproj", "{3831CB05-2E61-4260-B775-0807DAE35D17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApp.CoreApi.UnitTests", "src\RecipeApp.CoreApi.UnitTests\RecipeApp.CoreApi.UnitTests.csproj", "{5FBFBEFF-7C2F-477A-9F93-B62DCA8E8D2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.CoreApi.UnitTests", "src\RecipeApp.CoreApi.UnitTests\RecipeApp.CoreApi.UnitTests.csproj", "{5FBFBEFF-7C2F-477A-9F93-B62DCA8E8D2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApp.BlazorWasmBootstrap", "src\RecipeApp.BlazorWasmBootstrap\RecipeApp.BlazorWasmBootstrap.csproj", "{A6E5590A-0271-4E1F-AC6B-D09EA44E5A5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.BlazorWasmBootstrap", "src\RecipeApp.BlazorWasmBootstrap\RecipeApp.BlazorWasmBootstrap.csproj", "{A6E5590A-0271-4E1F-AC6B-D09EA44E5A5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

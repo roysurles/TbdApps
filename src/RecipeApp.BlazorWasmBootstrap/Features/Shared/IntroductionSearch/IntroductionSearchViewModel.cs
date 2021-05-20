@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -22,6 +23,10 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
             _logger = logger;
         }
 
+        public event EventHandler StateHasChangedEvent;
+
+        public bool HasSearched { get; protected set; }
+
         public IntroductionSearchRequestDto IntroductionSearchRequestDto { get; } =
             new IntroductionSearchRequestDto();
 
@@ -38,11 +43,17 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
             var response = await _introductionV1_0ApiClient.SearchAsync(IntroductionSearchRequestDto);
             ApiResultMessages.AddRange(response.Messages);
             IntroductionSearchResults.AddRange(response.Data);
+            HasSearched = true;
+            StateHasChangedEvent?.Invoke(this, EventArgs.Empty);
         }
     }
 
     public interface IIntroductionSearchViewModel : IBaseViewModel
     {
+        event EventHandler StateHasChangedEvent;
+
+        public bool HasSearched { get; }
+
         IntroductionSearchRequestDto IntroductionSearchRequestDto { get; }
 
         ObservableCollection<IntroductionSearchResultDto> IntroductionSearchResults { get; }
