@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
 using RecipeApp.Shared.Features.Introduction;
 
+using Tbd.Shared.Extensions;
+
 namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
 {
     public class IntroductionSearchViewModel : BaseViewModel, IIntroductionSearchViewModel
@@ -35,9 +37,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
 
             var response = await _introductionV1_0ApiClient.SearchAsync(IntroductionSearchRequestDto);
             ApiResultMessages.AddRange(response.Messages);
-            // TODO:  move this to an extension:  AddRange
-            foreach (var item in response.Data)
-                IntroductionSearchResults.Add(item);
+            IntroductionSearchResults.AddRange(response.Data);
         }
     }
 
