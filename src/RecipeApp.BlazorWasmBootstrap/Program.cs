@@ -14,6 +14,8 @@ using RecipeApp.Shared.Features;
 
 using Refit;
 
+using Tbd.Shared.ApiResult;
+
 namespace RecipeApp.BlazorWasmBootstrap
 {
     public static class Program
@@ -32,6 +34,8 @@ namespace RecipeApp.BlazorWasmBootstrap
             builder.Services.AddSingleton(_ => apiUrlsOptionsModel);
 
             builder.Services.AddSingleton<ISessionViewModel, SessionViewModel>();
+            builder.Services.AddScoped<CustomMessageHandler>();
+            builder.Services.AddTransient(typeof(IApiResultModel<>), typeof(ApiResultModel<>));
 
             builder.Services.AddRefitClient<IIntroductionV1_0ApiClient>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))
