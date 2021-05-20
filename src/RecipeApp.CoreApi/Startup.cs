@@ -63,6 +63,12 @@ namespace RecipeApp.CoreApi
         {
             services.Configure<ApiLoggingOptionsModel>(Configuration.GetSection("ApiLogging"));
 
+            services.AddCors(config =>
+                config.AddPolicy("AllowAll",
+                    p => p.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()));
+
             services.AddControllers();
 
             services.AddHttpContextAccessor();
@@ -110,6 +116,8 @@ namespace RecipeApp.CoreApi
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors("AllowAll");
 
             app.UseHttpsRedirection();
 

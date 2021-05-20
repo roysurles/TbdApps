@@ -18,7 +18,7 @@ namespace RecipeApp.CoreApi.Features.Introduction
 
         public async Task<IEnumerable<IntroductionSearchResultDto>> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto)
         {
-            using var connection = await CreateConnectionAsync().ConfigureAwait(false);
+            //using var connection = await CreateConnectionAsync().ConfigureAwait(false);
 
             // TODO:  Implement sproc...
             return new List<IntroductionSearchResultDto>()

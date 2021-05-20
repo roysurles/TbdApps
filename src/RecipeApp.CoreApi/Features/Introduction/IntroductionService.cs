@@ -30,7 +30,9 @@ namespace RecipeApp.CoreApi.Features.Introduction
         {
             _logger.LogInformation($"{nameof(SelectAsync)}({nameof(introductionSearchRequestDto)})");
 
-            return CreateApiResultModel<IEnumerable<IntroductionSearchResultDto>>().SetData(await _introductionRepository.SearchAsync(introductionSearchRequestDto).ConfigureAwait(false));
+            return CreateApiResultModel<IEnumerable<IntroductionSearchResultDto>>()
+                .SetData(await _introductionRepository.SearchAsync(introductionSearchRequestDto).ConfigureAwait(false))
+                .VerifyDataHasCount(ApiResultMessageModelTypeEnumeration.Information);
         }
 
         public async Task<IApiResultModel<IntroductionDto>> SelectAsync(Guid id)

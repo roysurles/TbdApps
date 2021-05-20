@@ -11,7 +11,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
 {
     public interface IIntroductionV1_0ApiClient
     {
-        [Get("/api/v1.0/Introduction/search")]
-        Task<IApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync([Body] IntroductionSearchRequestDto introductionSearchRequestDto);
+        [Post("/api/v1.0/Introduction/search")]
+        Task<ApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync([Body] IntroductionSearchRequestDto introductionSearchRequestDto);
     }
 }

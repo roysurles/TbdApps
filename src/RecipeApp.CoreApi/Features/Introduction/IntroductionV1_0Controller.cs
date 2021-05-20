@@ -33,7 +33,7 @@ namespace RecipeApp.CoreApi.Features.Introduction
         /// <param name="introductionSearchRequestDto">Search criteria</param>
         /// <returns>IApiResultModel of IEnumerable of IntroductionSearchResultDto.</returns>
         /// <response code="200">OK - returns IApiResultModel of IEnumerable of IntroductionSearchResultDto.</response>
-        [HttpGet("search")]
+        [HttpPost("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IApiResultModel<IEnumerable<IntroductionSearchResultDto>>>> SearchAsync([FromBody] IntroductionSearchRequestDto introductionSearchRequestDto) =>
             CreateActionResult(await _introductionService.SearchAsync(introductionSearchRequestDto).ConfigureAwait(false));
