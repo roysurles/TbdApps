@@ -1,27 +1,34 @@
 ﻿@inject ISessionViewModel SessionViewModel
 
-@if (SessionViewModel.HostEnvironment.IsProduction().Equals(false))
-{
-    <div>
-        <label class="mr-3">Environment: @(SessionViewModel.HostEnvironment.Environment)</label>
-        <label for="TraceIdTextBox">TraceId: </label>
-        <input id="TraceIdTextBox"
-               type="text"
-               class="form-control form-control-sm"
-               value="@(SessionViewModel.TraceId.ToString())"
-               style="width: 300px;" />
-        <button type="button"
-                title="Copy to Clipboard"
-                onclick="let control = document.getElementById('TraceIdTextBox'); control.focus(); control.select(); document.execCommand('copy'); return false;">
-            <i class="far fa-copy"></i>
-        </button>
-        <button type="button"
-                title="Generate new Id"
-                @onclick="() => SessionViewModel.NewId()">
-            <i class="fa fa-file-o"></i>
-        </button>
-    </div>
-}
+<div class="d-inline-flex">
+    <label style="color: whitesmoke">
+        Environment:&nbsp;@(SessionViewModel.HostEnvironment.Environment)&nbsp;&nbsp;
+    </label>
+    <label class="mr-3"
+           for="TraceIdTextBox"
+           style="color: whitesmoke">
+        TraceId:&nbsp;&nbsp;
+    </label>
+    <input id="TraceIdTextBox"
+           type="text"
+           class="form-control form-control-sm mr-3"
+           value="@(SessionViewModel.TraceId.ToString())"
+           style="width: 300px;" />
+    &nbsp;&nbsp;
+    <button type="button"
+            title="Copy to Clipboard"
+            class="mr-3"
+            onclick="let control = document.getElementById('TraceIdTextBox'); control.focus(); control.select(); document.execCommand('copy'); return false;">
+        <i class="far fa-copy"></i>
+    </button>
+    <button type="button"
+            title="Generate new Id"
+            class="mr-3"
+            @onclick="() => SessionViewModel.NewId()">
+        <i class="fa fa-file-o"></i>
+    </button>
+    &nbsp;&nbsp;
+</div>
 
 @code {
 
