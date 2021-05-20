@@ -1,32 +1,32 @@
-﻿using System;
+﻿
+using System;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 
-namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Services
+using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
+
+namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Session
 {
-    public class SessionService : ISessionService
+    public class SessionViewModel : BaseViewModel, ISessionViewModel
     {
-        private const string ComponentName = nameof(SessionService);
+        protected readonly ILogger<SessionViewModel> _logger;
 
-        protected readonly ILogger<SessionService> _logger;
-
-        public SessionService(NavigationManager navigationManager, IJSRuntime jsRuntime
-            , IWebAssemblyHostEnvironment hostEnvironment, ILogger<SessionService> logger)
+        public SessionViewModel(NavigationManager navigationManager, IJSRuntime jsRuntime
+            , IWebAssemblyHostEnvironment hostEnvironment, ILogger<SessionViewModel> logger)
         {
             NavigationManager = navigationManager;
             JSRuntime = jsRuntime;
             HostEnvironment = hostEnvironment;
             _logger = logger;
-
             navigationManager.LocationChanged += (sender, e) =>
             {
-                logger.LogInformation($"{ComponentName}.{nameof(navigationManager.LocationChanged)}({navigationManager.Uri})");
-                logger.LogInformation($"{ComponentName}.{nameof(navigationManager.LocationChanged)}.TraceId was {TraceId}");
+                logger.LogInformation($"{nameof(navigationManager.LocationChanged)}({navigationManager.Uri})");
+                logger.LogInformation($"{nameof(navigationManager.LocationChanged)}.TraceId was {TraceId}");
                 TraceId = Guid.NewGuid();
-                logger.LogInformation($"{ComponentName}.{nameof(navigationManager.LocationChanged)}.TraceId is {TraceId}");
+                logger.LogInformation($"{nameof(navigationManager.LocationChanged)}.TraceId is {TraceId}");
             };
         }
 
@@ -43,7 +43,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Services
         public void NewId() => TraceId = Guid.NewGuid();
     }
 
-    public interface ISessionService
+    public interface ISessionViewModel : IBaseViewModel
     {
         NavigationManager NavigationManager { get; }
 

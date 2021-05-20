@@ -7,7 +7,7 @@ using Refit;
 
 using Tbd.Shared.ApiResult;
 
-namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Services.IntroductionSearch
+namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
 {
     public interface IIntroductionV1_0ApiClient
     {

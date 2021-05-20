@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
 using RecipeApp.Shared.Features.Introduction;
 
-namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Services.IntroductionSearch
+namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
 {
     public class IntroductionSearchViewModel : BaseViewModel, IIntroductionSearchViewModel
     {

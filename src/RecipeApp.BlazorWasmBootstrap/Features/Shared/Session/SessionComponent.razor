@@ -1,14 +1,14 @@
-﻿@inject ISessionService SessionService
+﻿@inject ISessionViewModel SessionViewModel
 
-@if (SessionService.HostEnvironment.IsProduction().Equals(false))
+@if (SessionViewModel.HostEnvironment.IsProduction().Equals(false))
 {
     <div>
-        <label class="mr-3">Environment: @SessionService.HostEnvironment.Environment</label>
+        <label class="mr-3">Environment: @(SessionViewModel.HostEnvironment.Environment)</label>
         <label for="TraceIdTextBox">TraceId: </label>
         <input id="TraceIdTextBox"
                type="text"
                class="form-control form-control-sm"
-               value="@SessionService.TraceId.ToString()"
+               value="@(SessionViewModel.TraceId.ToString())"
                style="width: 300px;" />
         <button type="button"
                 title="Copy to Clipboard"
@@ -17,7 +17,7 @@
         </button>
         <button type="button"
                 title="Generate new Id"
-                @onclick="() => SessionService.NewId()">
+                @onclick="() => SessionViewModel.NewId()">
             <i class="fa fa-file-o"></i>
         </button>
     </div>

@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.MessageHandlers;
-using RecipeApp.BlazorWasmBootstrap.Features.Shared.Services;
-using RecipeApp.BlazorWasmBootstrap.Features.Shared.Services.IntroductionSearch;
+using RecipeApp.BlazorWasmBootstrap.Features.Shared.Session;
 using RecipeApp.Shared.Features;
 
 using Refit;
@@ -31,7 +31,7 @@ namespace RecipeApp.BlazorWasmBootstrap
             builder.Configuration.GetSection("ApiUrls").Bind(apiUrlsOptionsModel);
             builder.Services.AddSingleton(_ => apiUrlsOptionsModel);
 
-            builder.Services.AddSingleton<ISessionService, SessionService>();
+            builder.Services.AddSingleton<ISessionViewModel, SessionViewModel>();
 
             builder.Services.AddRefitClient<IIntroductionV1_0ApiClient>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))
