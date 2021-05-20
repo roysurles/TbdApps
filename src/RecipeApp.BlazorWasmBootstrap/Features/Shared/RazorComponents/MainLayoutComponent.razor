@@ -52,7 +52,8 @@
                            @bind-value="@(IntroductionSearchViewModel.IntroductionSearchRequestDto.SearchText)">
                     <button class="btn btn-outline-success"
                             type="button"
-                            @onclick="@SearchAsync">
+                            @onclick="@SearchAsync"
+                            disabled="@(IntroductionSearchViewModel.IsBusy)">
                         Search
                     </button>
                 </form>

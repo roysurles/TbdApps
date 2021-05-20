@@ -7,36 +7,45 @@
     <ApiResultMessagesComponent ApiResultMessages="@IntroductionSearchViewModel.ApiResultMessages" />
 </div>
 
-@if (IntroductionSearchViewModel.HasSearched)
+@if (IntroductionSearchViewModel.IsBusy)
 {
     <div class="row text-center">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">Ingredients</th>
-                    <th scope="col">Instructions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in IntroductionSearchViewModel.IntroductionSearchResults)
-                {
-                    <tr>
-                        <td title="@(item.Comment)">@(item.Title)</td>
-                        <td>@(item.IngredientsCount)</td>
-                        <td>@(item.InstructionsCount)</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <h3>Searching...</h3>
     </div>
 }
 else
 {
-    <div class="row text-center">
-        <h3>Welcome to the Recipe App</h3>
-        <p>Input a search term and click Search</p>
-    </div>
+    @if (IntroductionSearchViewModel.HasSearched)
+    {
+        <div class="row text-center">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Ingredients</th>
+                        <th scope="col">Instructions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in IntroductionSearchViewModel.IntroductionSearchResults)
+                    {
+                        <tr>
+                            <td title="@(item.Comment)">@(item.Title)</td>
+                            <td>@(item.IngredientsCount)</td>
+                            <td>@(item.InstructionsCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="row text-center">
+            <h3>Welcome to the Recipe App</h3>
+            <p>Input a search term and click Search</p>
+        </div>
+    }
 }
 
 @code {

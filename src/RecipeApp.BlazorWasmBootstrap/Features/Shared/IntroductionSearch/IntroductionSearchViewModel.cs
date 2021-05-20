@@ -37,6 +37,9 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
         {
             _logger.LogInformation(nameof(SearchAsync));
 
+            IsBusy = true;
+            StateHasChangedEvent?.Invoke(this, EventArgs.Empty);
+
             ClearApiResultMessages();
             IntroductionSearchResults.Clear();
 
@@ -44,6 +47,8 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
             ApiResultMessages.AddRange(response.Messages);
             IntroductionSearchResults.AddRange(response.Data);
             HasSearched = true;
+
+            IsBusy = false;
             StateHasChangedEvent?.Invoke(this, EventArgs.Empty);
         }
     }
