@@ -2,6 +2,7 @@
 @inherits LayoutComponentBase
 @inject ISessionViewModel SessionViewModel
 @inject IIntroductionSearchViewModel IntroductionSearchViewModel
+@inject ILogger<MainLayoutComponent> Logger
 @*<div class="page">
         <div class="sidebar">
             <NavMenuComponent />
@@ -29,13 +30,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                        <a class="nav-link active" aria-current="page" href="" @onclick="@NavigateToHome">Home</a>
                     </li>
                 </ul>
                 @if (SessionViewModel.HostEnvironment.IsProduction().Equals(false))
@@ -81,10 +76,19 @@
 
     protected string ComponentName = nameof(MainLayoutComponent);
 
+    protected void NavigateToHome()
+    {
+        // TODO:  Rendered TracedId is not changing....
+        Logger.LogInformation(nameof(NavigateToHome));
+        SessionViewModel.NavigationManager.NavigateTo("/");
+    }
+
     protected async Task SearchAsync()
     {
         try
         {
+            Logger.LogInformation(nameof(SearchAsync));
+
             IntroductionSearchViewModel.SetBusyFlag(true);
             SessionViewModel.NavigationManager.NavigateTo("/");
             await IntroductionSearchViewModel.SearchAsync();
