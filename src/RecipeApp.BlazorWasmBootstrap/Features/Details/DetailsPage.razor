@@ -1,0 +1,40 @@
+﻿@page "/Details"
+@page "/Details/{IntoductionId}"
+@inject ISessionViewModel SessionViewModel
+@inject IDetailsPageViewModel DetailsPageViewModel
+@inject ILogger<DetailsPage> Logger
+
+<h3>Details</h3>
+
+<div class="row mt-3 mb-3">
+    <ApiResultMessagesComponent ApiResultMessages="@DetailsPageViewModel.ApiResultMessages" />
+</div>
+
+@code {
+
+    [Parameter]
+    public Guid IntoductionId { get; set; } = Guid.Empty;
+
+    protected string PageName = nameof(DetailsPage);
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(OnInitializedAsync)}({IntoductionId.ToString()})");
+
+            DetailsPageViewModel.IsLoading = true;
+            await DetailsPageViewModel.InitializeAsync(IntoductionId);
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(DetailsPageViewModel.ApiResultMessages, ex, PageName);
+        }
+        finally
+        {
+            DetailsPageViewModel.IsLoading = false;
+            await base.OnInitializedAsync();
+        }
+    }
+
+}

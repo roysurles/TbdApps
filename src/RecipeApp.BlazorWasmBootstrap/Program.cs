@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using RecipeApp.BlazorWasmBootstrap.Features.Details;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.MessageHandlers;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Session;
@@ -41,6 +42,8 @@ namespace RecipeApp.BlazorWasmBootstrap
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))
                 .AddHttpMessageHandler<CustomMessageHandler>();
             builder.Services.AddSingleton<IIntroductionSearchViewModel, IntroductionSearchViewModel>();
+
+            builder.Services.AddTransient<IDetailsPageViewModel, DetailsPageViewModel>();
 
             await builder.Build().RunAsync();
         }

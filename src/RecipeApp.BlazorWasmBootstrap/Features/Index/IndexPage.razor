@@ -3,7 +3,7 @@
 @implements IDisposable
 @inject ISessionViewModel SessionViewModel
 @inject IIntroductionSearchViewModel IntroductionSearchViewModel
-@inject ILogger<IndexPage> Logger;
+@inject ILogger<IndexPage> Logger
 
 <div class="row mb-3">
     <ApiResultMessagesComponent ApiResultMessages="@IntroductionSearchViewModel.ApiResultMessages" />
@@ -83,7 +83,7 @@ else
     public void Dispose() =>
         IntroductionSearchViewModel.StateHasChangedEvent -= IntroductionSearchViewModel_StateHasChangedEvent;
 
-    protected string ComponentName = nameof(IndexPage);
+    protected string PageName = nameof(IndexPage);
 
     protected override void OnInitialized()
     {
@@ -106,7 +106,7 @@ else
         }
         catch (Exception ex)
         {
-            SessionViewModel.HandleException(IntroductionSearchViewModel.ApiResultMessages, ex, ComponentName);
+            SessionViewModel.HandleException(IntroductionSearchViewModel.ApiResultMessages, ex, PageName);
         }
         finally
         {
