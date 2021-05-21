@@ -32,9 +32,9 @@ namespace Tbd.WebApi.Shared.Repositories
         }
 
         public static PaginationMetaDataModel CreatePaginationMetaDataModel() =>
-            new PaginationMetaDataModel();
+            new();
 
         public static PaginationMetaDataModel CreatePaginationMetaDataModel(int pageNumber, int pageSize, int totalItemcount) =>
-            new PaginationMetaDataModel(pageNumber, pageSize, totalItemcount);
+            new(pageNumber, pageSize, totalItemcount);
     }
 }
