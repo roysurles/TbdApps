@@ -21,15 +21,25 @@
             <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                 <div class="accordion-body">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="IntroductionTitleInput" placeholder="Title">
+                        <input type="text"
+                               class="form-control"
+                               id="IntroductionTitleInput"
+                               placeholder="Title"
+                               @bind-value="@(DetailsPageViewModel.Introduction.Title)">
                         <label for="IntroductionTitleInput">Title</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="IntroductionCommentsInput" placeholder="Comments">
+                        <input type="text"
+                               class="form-control"
+                               id="IntroductionCommentsInput"
+                               placeholder="Comments"
+                               @bind-value="@(DetailsPageViewModel.Introduction.Comment)">
                         <label for="IntroductionCommentsInput">Comments</label>
                     </div>
                     <div class="">
-                        <button type="button" class="btn btn-primary btn-sm" title="Save Introduction">
+                        <button type="button"
+                                class="btn btn-primary btn-sm"
+                                title="Save Introduction">
                             <i class="fas fa-save"></i>
                             Save Introduction
                         </button>
@@ -52,7 +62,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">
-                                    <button type="button" class="btn btn-primary btn-sm" title="Add Ingredient">
+                                    <button type="button" class="btn btn-primary btn-sm" title="Add Ingredient" disabled="@(DetailsPageViewModel.Introduction.IsNew)">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                 </th>
@@ -90,7 +100,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">
-                                    <button type="button" class="btn btn-primary btn-sm" title="Add Instruction">
+                                    <button type="button" class="btn btn-primary btn-sm" title="Add Instruction" disabled="@(DetailsPageViewModel.Introduction.IsNew)">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                 </th>
