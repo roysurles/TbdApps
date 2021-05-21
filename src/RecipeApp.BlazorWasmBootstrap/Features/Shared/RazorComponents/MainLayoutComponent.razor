@@ -70,7 +70,7 @@
     </div>
 </main>
 
-<footer class="footer mt-auto py-3 bg-light" style="position:fixed; bottom:0; width:100%">
+<footer class="footer mt-auto py-3 bg-light" style="bottom:0; width:100%">
     <div class="container">
         <span class="text-muted">Place sticky footer content here.</span>
     </div>
@@ -78,7 +78,23 @@
 
 @code {
 
-    protected async Task SearchAsync() =>
-        await IntroductionSearchViewModel.SearchAsync();
+    protected string ComponentName = nameof(MainLayoutComponent);
+
+    protected async Task SearchAsync()
+    {
+        try
+        {
+            IntroductionSearchViewModel.SetBusyFlag(true);
+            await IntroductionSearchViewModel.SearchAsync();
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(IntroductionSearchViewModel.ApiResultMessages, ex, ComponentName);
+        }
+        finally
+        {
+            IntroductionSearchViewModel.SetBusyFlag(false);
+        }
+    }
 
 }

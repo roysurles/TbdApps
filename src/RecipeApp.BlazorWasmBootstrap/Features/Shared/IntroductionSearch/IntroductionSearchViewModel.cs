@@ -33,12 +33,18 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
         public ObservableCollection<IntroductionSearchResultDto> IntroductionSearchResults { get; } =
             new ObservableCollection<IntroductionSearchResultDto>();
 
+        public void OnStateHasChanged() =>
+            StateHasChangedEvent?.Invoke(this, EventArgs.Empty);
+
+        public void SetBusyFlag(bool isBusy)
+        {
+            IsBusy = isBusy;
+            OnStateHasChanged();
+        }
+
         public async Task SearchAsync()
         {
             _logger.LogInformation(nameof(SearchAsync));
-
-            IsBusy = true;
-            StateHasChangedEvent?.Invoke(this, EventArgs.Empty);
 
             ClearApiResultMessages();
             IntroductionSearchResults.Clear();
@@ -47,9 +53,6 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
             ApiResultMessages.AddRange(response.Messages);
             IntroductionSearchResults.AddRange(response.Data);
             HasSearched = true;
-
-            IsBusy = false;
-            StateHasChangedEvent?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -62,6 +65,10 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
         IntroductionSearchRequestDto IntroductionSearchRequestDto { get; }
 
         ObservableCollection<IntroductionSearchResultDto> IntroductionSearchResults { get; }
+
+        void OnStateHasChanged();
+
+        void SetBusyFlag(bool isBusy);
 
         Task SearchAsync();
     }

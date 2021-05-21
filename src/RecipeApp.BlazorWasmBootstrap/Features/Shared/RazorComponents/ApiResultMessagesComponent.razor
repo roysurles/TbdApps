@@ -1,7 +1,7 @@
 ﻿@*https://github.com/dotnet/aspnetcore/issues/32765*@
 @if (Informations.Any())
 {
-    <div class="k-text-info">
+    <div class="text-success">
         <h3>Information</h3>
         <ul>
             @foreach (var information in Informations)
@@ -14,7 +14,7 @@
 
 @if (Warnings.Any())
 {
-    <div class="k-text-warning">
+    <div class="text-warning">
         <h3>Warnings</h3>
         <ul>
             @foreach (var warning in Warnings)
@@ -27,8 +27,8 @@
 
 @if (Errors.Any())
 {
-    <div class="k-text-error">
-        <h3>Error</h3>
+    <div class="text-danger">
+        <h3>Errors</h3>
         <ul>
             @foreach (var error in Errors)
             {
@@ -40,8 +40,8 @@
 
 @if (UnhandledExceptions.Any())
 {
-    <div class="k-text-error">
-        <h3>Unhandled Exception</h3>
+    <div class="text-danger">
+        <h3>Unhandled Exceptions</h3>
         <ul>
             @foreach (var unhandledException in UnhandledExceptions)
             {
