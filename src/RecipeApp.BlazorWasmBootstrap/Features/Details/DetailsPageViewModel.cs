@@ -21,7 +21,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
         public IntroductionDto Introduction { get; protected set; } =
             new IntroductionDto();
 
-        public async Task InitializeAsync(Guid intoductionId)
+        public async Task<IDetailsPageViewModel> InitializeAsync(Guid intoductionId)
         {
             _logger.LogInformation($"{nameof(DetailsPageViewModel)}({intoductionId})");
 
@@ -29,6 +29,19 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
             Introduction = Guid.Empty == intoductionId
                 ? new IntroductionDto()
                 : new IntroductionDto();
+
+            return this;
+        }
+
+        public async Task<IDetailsPageViewModel> SaveIntroductionAsync()
+        {
+            _logger.LogInformation($"{nameof(SaveIntroductionAsync)}()");
+
+            // TODO:  make api call to save Introduction
+            // TODO:  populate api messages
+            // TODO:  Introduction = response.Data
+
+            return this;
         }
     }
 
@@ -36,6 +49,8 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
     {
         public IntroductionDto Introduction { get; }
 
-        Task InitializeAsync(Guid intoductionId);
+        Task<IDetailsPageViewModel> InitializeAsync(Guid intoductionId);
+
+        Task<IDetailsPageViewModel> SaveIntroductionAsync();
     }
 }

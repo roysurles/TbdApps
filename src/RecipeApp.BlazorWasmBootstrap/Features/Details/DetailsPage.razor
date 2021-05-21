@@ -39,7 +39,8 @@
                     <div class="">
                         <button type="button"
                                 class="btn btn-primary btn-sm"
-                                title="Save Introduction">
+                                title="Save Introduction"
+                                @onclick="@SaveIntroductionAsync">
                             <i class="fas fa-save"></i>
                             Save Introduction
                         </button>
@@ -149,6 +150,25 @@
         {
             DetailsPageViewModel.IsLoading = false;
             await base.OnInitializedAsync();
+        }
+    }
+
+    protected async Task SaveIntroductionAsync()
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(SaveIntroductionAsync)}()");
+
+            DetailsPageViewModel.IsBusy = true;
+            await DetailsPageViewModel.SaveIntroductionAsync();
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(DetailsPageViewModel.ApiResultMessages, ex, PageName);
+        }
+        finally
+        {
+            DetailsPageViewModel.IsBusy = false;
         }
     }
 
