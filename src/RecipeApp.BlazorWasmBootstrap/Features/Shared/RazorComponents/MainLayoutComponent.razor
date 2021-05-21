@@ -85,6 +85,7 @@
         try
         {
             IntroductionSearchViewModel.SetBusyFlag(true);
+            SessionViewModel.NavigationManager.NavigateTo("/");
             await IntroductionSearchViewModel.SearchAsync();
         }
         catch (Exception ex)

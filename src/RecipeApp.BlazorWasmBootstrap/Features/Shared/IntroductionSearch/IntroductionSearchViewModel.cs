@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
 using RecipeApp.Shared.Features.Introduction;
 
-using Tbd.Shared.Extensions;
+using Tbd.Shared.ApiResult;
 
 namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
 {
@@ -28,10 +28,12 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
         public bool HasSearched { get; protected set; }
 
         public IntroductionSearchRequestDto IntroductionSearchRequestDto { get; } =
-            new IntroductionSearchRequestDto();
+            new IntroductionSearchRequestDto { PageNumber = 1, PageSize = 10 };
 
-        public ObservableCollection<IntroductionSearchResultDto> IntroductionSearchResults { get; } =
-            new ObservableCollection<IntroductionSearchResultDto>();
+        public IApiResultModel<IEnumerable<IntroductionSearchResultDto>> IntroductionSearchResult { get; protected set; } =
+            new ApiResultModel<IEnumerable<IntroductionSearchResultDto>>()
+            .SetMeta(1, 10, 0)
+            .SetData(new List<IntroductionSearchResultDto>());
 
         public void OnStateHasChanged() =>
             StateHasChangedEvent?.Invoke(this, EventArgs.Empty);
@@ -42,16 +44,15 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
             OnStateHasChanged();
         }
 
-        public async Task SearchAsync()
+        public async Task SearchAsync(int pageNumber = 1, int pageSize = 10)
         {
-            _logger.LogInformation(nameof(SearchAsync));
+            _logger.LogInformation($"{nameof(SearchAsync)}({pageNumber}, {pageSize})");
 
             ClearApiResultMessages();
-            IntroductionSearchResults.Clear();
 
-            var response = await _introductionV1_0ApiClient.SearchAsync(IntroductionSearchRequestDto);
-            ApiResultMessages.AddRange(response.Messages);
-            IntroductionSearchResults.AddRange(response.Data);
+            IntroductionSearchRequestDto.SetPagination(pageNumber, pageSize);
+            IntroductionSearchResult = await _introductionV1_0ApiClient.SearchAsync(IntroductionSearchRequestDto);
+            ApiResultMessages.AddRange(IntroductionSearchResult.Messages);
             HasSearched = true;
         }
     }
@@ -64,12 +65,12 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
 
         IntroductionSearchRequestDto IntroductionSearchRequestDto { get; }
 
-        ObservableCollection<IntroductionSearchResultDto> IntroductionSearchResults { get; }
+        IApiResultModel<IEnumerable<IntroductionSearchResultDto>> IntroductionSearchResult { get; }
 
         void OnStateHasChanged();
 
         void SetBusyFlag(bool isBusy);
 
-        Task SearchAsync();
+        Task SearchAsync(int pageNumber = 1, int pageSize = 10);
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Tbd.Shared.Extensions
 {
-    public static class IEnumerableExtensions
+    public static class IEnumerable
     {
         public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> items) =>
             new(items);

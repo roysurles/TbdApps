@@ -30,8 +30,11 @@ namespace RecipeApp.CoreApi.Features.Introduction
         {
             _logger.LogInformation($"{nameof(SelectAsync)}({nameof(introductionSearchRequestDto)})");
 
+            var (PaginationMetaData, Data) = await _introductionRepository.SearchAsync(introductionSearchRequestDto).ConfigureAwait(false);
+
             return CreateApiResultModel<IEnumerable<IntroductionSearchResultDto>>()
-                .SetData(await _introductionRepository.SearchAsync(introductionSearchRequestDto).ConfigureAwait(false))
+                .SetMeta(PaginationMetaData)
+                .SetData(Data)
                 .VerifyDataHasCount(ApiResultMessageModelTypeEnumeration.Information);
         }
 

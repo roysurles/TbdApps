@@ -32,6 +32,15 @@ namespace Tbd.Shared.Pagination
         [JsonIgnore]
         [JsonPropertyName("fetch")]
         public int Fetch => PageSize;
+
+        /// <inheritdoc/>
+        public IPaginationRequestModel SetPagination(int pageNumber, int pageSize)
+        {
+            PageNumber = pageNumber;
+            PageSize = pageSize;
+
+            return this;
+        }
     }
 
     /// <summary>
@@ -60,5 +69,13 @@ namespace Tbd.Shared.Pagination
         /// </summary>
         [JsonIgnore]
         int Fetch { get; }
+
+        /// <summary>
+        /// Fluent set PageNumber & PageSize
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns>IPaginationRequestModel</returns>
+        IPaginationRequestModel SetPagination(int pageNumber, int pageSize);
     }
 }

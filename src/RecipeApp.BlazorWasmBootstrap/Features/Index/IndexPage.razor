@@ -3,14 +3,14 @@
 @implements IDisposable
 @inject IIntroductionSearchViewModel IntroductionSearchViewModel
 
-<div class="row text-center mb-3">
+<div class="row mb-3">
     <ApiResultMessagesComponent ApiResultMessages="@IntroductionSearchViewModel.ApiResultMessages" />
 </div>
 
 @if (IntroductionSearchViewModel.IsBusy)
 {
     <div class="row text-center text-primary">
-        <h3>Searching...please wait</h3>
+        <h3>Searching... please wait</h3>
     </div>
 }
 else
@@ -27,10 +27,10 @@ else
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in IntroductionSearchViewModel.IntroductionSearchResults)
+                    @foreach (var item in IntroductionSearchViewModel.IntroductionSearchResult.Data)
                     {
-                        <tr>
-                            <td title="@(item.Comment)">@(item.Title)</td>
+                        <tr title="@(item.Comment)">
+                            <td>@(item.Title)</td>
                             <td>@(item.IngredientsCount)</td>
                             <td>@(item.InstructionsCount)</td>
                         </tr>

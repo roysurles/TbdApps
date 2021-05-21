@@ -2,11 +2,8 @@
 
 namespace RecipeApp.Shared.Features.Introduction
 {
-    public class IntroductionSearchRequestDto
+    public class IntroductionSearchRequestDto : PaginationRequestModel
     {
         public string SearchText { get; set; }
-
-        public IPaginationRequestModel PaginationRequest { get; } =
-            new PaginationRequestModel();
     }
 }

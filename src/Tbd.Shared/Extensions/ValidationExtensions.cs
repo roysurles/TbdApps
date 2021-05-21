@@ -40,7 +40,7 @@ namespace Tbd.Shared.Extensions
                 return !nullObjReturnsFalse;
 
             // Single object
-            if (obj is not IEnumerable enumerable)
+            if (obj is not System.Collections.IEnumerable enumerable)
             {
                 returnResult = returnResult && Validator.TryValidateObject(obj, new ValidationContext(obj), validationResultList, validateAllProperties);
                 foreach (var validationResult in validationResultList)
@@ -54,7 +54,7 @@ namespace Tbd.Shared.Extensions
                 return true;
 
             // List of objects
-            foreach (var item in (IEnumerable)obj)
+            foreach (var item in (System.Collections.IEnumerable)obj)
             {
                 validationResultList.Clear();
                 returnResult = returnResult && Validator.TryValidateObject(item, new ValidationContext(item), validationResultList, validateAllProperties);

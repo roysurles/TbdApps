@@ -2,6 +2,8 @@
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
+using Tbd.Shared.Pagination;
+
 namespace Tbd.WebApi.Shared.Repositories
 {
     public abstract class BaseRepository
@@ -28,5 +30,11 @@ namespace Tbd.WebApi.Shared.Repositories
 
             return sqlConnection;
         }
+
+        public static PaginationMetaDataModel CreatePaginationMetaDataModel() =>
+            new PaginationMetaDataModel();
+
+        public static PaginationMetaDataModel CreatePaginationMetaDataModel(int pageNumber, int pageSize, int totalItemcount) =>
+            new PaginationMetaDataModel(pageNumber, pageSize, totalItemcount);
     }
 }

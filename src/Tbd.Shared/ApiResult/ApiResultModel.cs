@@ -45,7 +45,7 @@ namespace Tbd.Shared.ApiResult
         /// Pagination meta data.  This will not be serialized if there is no pagination meta data.
         /// </summary>
         [JsonPropertyName("meta")]
-        public IPaginationMetaDataModel Meta { get; set; }
+        public PaginationMetaDataModel Meta { get; set; }
 
         /// <summary>
         /// Flag indicating errors exist.
@@ -142,7 +142,7 @@ namespace Tbd.Shared.ApiResult
         /// </summary>
         /// <param name="paginationMetaDataModel">IPaginationMetaDataModel</param>
         /// <returns>IApiResultModel&lt;T&gt;</returns>
-        public IApiResultModel<T> SetMeta(IPaginationMetaDataModel paginationMetaDataModel)
+        public IApiResultModel<T> SetMeta(PaginationMetaDataModel paginationMetaDataModel)
         {
             Meta = paginationMetaDataModel;
             return this;
@@ -342,7 +342,7 @@ namespace Tbd.Shared.ApiResult
         /// <summary>
         /// Pagination meta data.  This will not be serialized if there is no pagination meta data.
         /// </summary>
-        IPaginationMetaDataModel Meta { get; set; }
+        PaginationMetaDataModel Meta { get; set; }
 
         /// <summary>
         /// Flag indicating errors exist.
@@ -405,7 +405,7 @@ namespace Tbd.Shared.ApiResult
         /// </summary>
         /// <param name="paginationMetaDataModel">IPaginationMetaDataModel</param>
         /// <returns>IApiResultModel&lt;T&gt;</returns>
-        IApiResultModel<T> SetMeta(IPaginationMetaDataModel paginationMetaDataModel);
+        IApiResultModel<T> SetMeta(PaginationMetaDataModel paginationMetaDataModel);
 
         /// <summary>
         /// Fluent method to set the next and previous urls of the Meta property.
