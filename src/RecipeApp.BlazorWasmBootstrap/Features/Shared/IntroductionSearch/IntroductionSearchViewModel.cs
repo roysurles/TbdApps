@@ -51,7 +51,8 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
             ClearApiResultMessages();
 
             IntroductionSearchRequestDto.SetPagination(pageNumber, pageSize);
-            IntroductionSearchResult = await _introductionV1_0ApiClient.SearchAsync(IntroductionSearchRequestDto);
+            using var response = await _introductionV1_0ApiClient.SearchAsync(IntroductionSearchRequestDto);
+            IntroductionSearchResult = response.Content;
             ApiResultMessages.AddRange(IntroductionSearchResult.Messages);
             HasSearched = true;
         }
