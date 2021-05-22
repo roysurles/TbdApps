@@ -30,7 +30,10 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="" @onclick="@NavigateToHome">Home</a>
+                        <a class="nav-link active" aria-current="page" href="" @onclick="@(_ => SessionViewModel.NavigationManager.NavigateTo("/"))">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="Details" @onclick="@(_ => SessionViewModel.NavigationManager.NavigateTo("/Details"))">New Recipe</a>
                     </li>
                 </ul>
                 @if (SessionViewModel.HostEnvironment.IsProduction().Equals(false))
@@ -75,13 +78,6 @@
 @code {
 
     protected string ComponentName = nameof(MainLayoutComponent);
-
-    protected void NavigateToHome()
-    {
-        Logger.LogInformation(nameof(NavigateToHome));
-
-        SessionViewModel.NavigationManager.NavigateTo("/");
-    }
 
     protected async Task SearchAsync()
     {
