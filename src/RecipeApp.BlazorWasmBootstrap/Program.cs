@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using RecipeApp.BlazorWasmBootstrap.Features.Details;
+using RecipeApp.BlazorWasmBootstrap.Features.Shared.ApiClients;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.MessageHandlers;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Session;
