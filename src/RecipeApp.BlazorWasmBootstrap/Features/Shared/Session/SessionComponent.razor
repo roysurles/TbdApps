@@ -1,4 +1,5 @@
-﻿@inject ISessionViewModel SessionViewModel
+﻿@implements IDisposable
+@inject ISessionViewModel SessionViewModel
 
 <div class="d-inline-flex">
     <label style="color: whitesmoke">
@@ -24,12 +25,25 @@
     <button type="button"
             title="Generate new Id"
             class="mr-3"
-            @onclick="() => SessionViewModel.NewId()">
+            @onclick="() => SessionViewModel.NewTraceId()">
         <i class="fa fa-file-o"></i>
     </button>
     &nbsp;&nbsp;
 </div>
 
 @code {
+
+    public void Dispose() =>
+        SessionViewModel.StateHasChangedEvent -= SessionViewModel_StateHasChangedEvent;
+
+    protected override void OnInitialized()
+    {
+        SessionViewModel.StateHasChangedEvent += SessionViewModel_StateHasChangedEvent;
+
+        base.OnInitialized();
+    }
+
+    protected void SessionViewModel_StateHasChangedEvent(object sender, EventArgs e) =>
+        StateHasChanged();
 
 }

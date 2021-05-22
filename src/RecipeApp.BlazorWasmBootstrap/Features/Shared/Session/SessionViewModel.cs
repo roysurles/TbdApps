@@ -30,10 +30,12 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Session
             {
                 logger.LogInformation($"{nameof(navigationManager.LocationChanged)}({navigationManager.Uri})");
                 logger.LogInformation($"{nameof(navigationManager.LocationChanged)}.TraceId was {TraceId}");
-                TraceId = Guid.NewGuid();
+                NewTraceId();
                 logger.LogInformation($"{nameof(navigationManager.LocationChanged)}.TraceId is {TraceId}");
             };
         }
+
+        public event EventHandler StateHasChangedEvent;
 
         public NavigationManager NavigationManager { get; protected set; }
 
@@ -45,7 +47,14 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Session
 
         public Guid TraceId { get; protected set; } = Guid.NewGuid();
 
-        public void NewId() => TraceId = Guid.NewGuid();
+        public void OnStateHasChanged() =>
+            StateHasChangedEvent?.Invoke(this, EventArgs.Empty);
+
+        public void NewTraceId()
+        {
+            TraceId = Guid.NewGuid();
+            OnStateHasChanged();
+        }
 
         public void HandleException(List<IApiResultMessageModel> apiResultMessages, Exception ex, string source
             , [CallerMemberName] string callerMemberName = null, params KeyValuePair<string, string>[] additionalData)
@@ -90,6 +99,8 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Session
 
     public interface ISessionViewModel : IBaseViewModel
     {
+        event EventHandler StateHasChangedEvent;
+
         NavigationManager NavigationManager { get; }
 
         IJSRuntime JSRuntime { get; }
@@ -100,7 +111,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Session
 
         Guid TraceId { get; }
 
-        void NewId();
+        void NewTraceId();
 
         void HandleException(List<IApiResultMessageModel> apiResultMessages, Exception ex, string source
             , [CallerMemberName] string callerMemberName = null, params KeyValuePair<string, string>[] additionalData);
