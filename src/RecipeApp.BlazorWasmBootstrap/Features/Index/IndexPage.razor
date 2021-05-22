@@ -40,34 +40,37 @@ else
                 </tbody>
             </table>
         </div>
-        <div class="row">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item @(IntroductionSearchViewModel.IntroductionSearchResult.Meta.HasPreviousPage.Equals(false).RenderDisabled())">
-                        <a class="page-link" href="#" @onclick="@(_ => SearchAsync(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber - 1))">
-                            Previous
-                        </a>
-                    </li>
-                    @for (int i = 0; i < Math.Min(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageCount, 10); i++)
-                    {
-                        var pageNumber = i + 1;
-                        var active = pageNumber.Equals(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber)
-                            ? "active"
-                            : "";
-                        <li class="page-item @active">
-                            <a class="page-link" href="#" @onclick="@(_ => SearchAsync(pageNumber))">
-                                @(pageNumber)
+        @if (IntroductionSearchViewModel.IntroductionSearchResult.Data.Any())
+        {
+            <div class="row">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item @(IntroductionSearchViewModel.IntroductionSearchResult.Meta.HasPreviousPage.Equals(false).RenderDisabled())">
+                            <a class="page-link" href="#" @onclick="@(_ => SearchAsync(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber - 1))">
+                                Previous
                             </a>
                         </li>
-                    }
-                    <li class="page-item @(IntroductionSearchViewModel.IntroductionSearchResult.Meta.HasNextPage.Equals(false).RenderDisabled())">
-                        <a class="page-link" href="#" @onclick="@(_ => SearchAsync(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber + 1))">
-                            Next
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+                        @for (int i = 0; i < Math.Min(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageCount, 10); i++)
+                        {
+                            var pageNumber = i + 1;
+                            var active = pageNumber.Equals(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber)
+                                ? "active"
+                                : "";
+                            <li class="page-item @active">
+                                <a class="page-link" href="#" @onclick="@(_ => SearchAsync(pageNumber))">
+                                    @(pageNumber)
+                                </a>
+                            </li>
+                        }
+                        <li class="page-item @(IntroductionSearchViewModel.IntroductionSearchResult.Meta.HasNextPage.Equals(false).RenderDisabled())">
+                            <a class="page-link" href="#" @onclick="@(_ => SearchAsync(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber + 1))">
+                                Next
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        }
     }
     else
     {

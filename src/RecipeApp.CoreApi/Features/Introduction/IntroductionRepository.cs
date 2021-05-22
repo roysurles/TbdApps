@@ -17,36 +17,36 @@ namespace RecipeApp.CoreApi.Features.Introduction
     {
         public IntroductionRepository(string connectionString) : base(connectionString) { }
 
+        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public async Task<(PaginationMetaDataModel PaginationMetaData, IEnumerable<IntroductionSearchResultDto> Data)> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto)
         {
-            // TODO:  Implement sproc...
-            //using var connection = await CreateConnectionAsync().ConfigureAwait(false);
-            //using var gridReader = await connection.QueryMultipleAsync(""
-            //    , new
-            //    {
-            //        introductionSearchRequestDto.SearchText,
-            //        introductionSearchRequestDto.Fetch,
-            //        introductionSearchRequestDto.Offset
-            //    }
-            //    , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
-            //var totalItemCount = await gridReader.ReadSingleAsync<int>().ConfigureAwait(false);
-            //var data = await gridReader.ReadAsync<IntroductionSearchResultDto>().ConfigureAwait(false);
-
-            //return (CreatePaginationMetaDataModel(introductionSearchRequestDto.PageNumber
-            //    , introductionSearchRequestDto.PageSize
-            //    , totalItemCount), data);
-
-            const int totalItemCount = 200;
-            var data = new List<IntroductionSearchResultDto>()
-            {
-                new IntroductionSearchResultDto{ Id = Guid.NewGuid(), Title = "Title1", Comment = "Comment1", IngredientsCount = 3, InstructionsCount = 4 },
-                new IntroductionSearchResultDto{ Id = Guid.NewGuid(), Title = "Title2", Comment = "Comment2", IngredientsCount = 7, InstructionsCount = 5 },
-                new IntroductionSearchResultDto{ Id = Guid.NewGuid(), Title = "Title3", Comment = "Comment3", IngredientsCount = 9, InstructionsCount = 10 }
-            };
+            using var connection = await CreateConnectionAsync().ConfigureAwait(false);
+            using var gridReader = await connection.QueryMultipleAsync("IntroductionSearch"
+                , new
+                {
+                    introductionSearchRequestDto.SearchText,
+                    introductionSearchRequestDto.Offset,
+                    introductionSearchRequestDto.Fetch
+                }
+                , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+            var totalItemCount = await gridReader.ReadSingleAsync<int>().ConfigureAwait(false);
+            var data = await gridReader.ReadAsync<IntroductionSearchResultDto>().ConfigureAwait(false);
 
             return (CreatePaginationMetaDataModel(introductionSearchRequestDto.PageNumber
                 , introductionSearchRequestDto.PageSize
                 , totalItemCount), data);
+
+            //const int totalItemCount = 200;
+            //var data = new List<IntroductionSearchResultDto>()
+            //{
+            //    new IntroductionSearchResultDto{ Id = Guid.NewGuid(), Title = "Title1", Comment = "Comment1", IngredientsCount = 3, InstructionsCount = 4 },
+            //    new IntroductionSearchResultDto{ Id = Guid.NewGuid(), Title = "Title2", Comment = "Comment2", IngredientsCount = 7, InstructionsCount = 5 },
+            //    new IntroductionSearchResultDto{ Id = Guid.NewGuid(), Title = "Title3", Comment = "Comment3", IngredientsCount = 9, InstructionsCount = 10 }
+            //};
+
+            //return (CreatePaginationMetaDataModel(introductionSearchRequestDto.PageNumber
+            //    , introductionSearchRequestDto.PageSize
+            //    , totalItemCount), data);
         }
 
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]

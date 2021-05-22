@@ -35,7 +35,7 @@ namespace RecipeApp.CoreApi.Features.Introduction
             return CreateApiResultModel<IEnumerable<IntroductionSearchResultDto>>()
                 .SetMeta(PaginationMetaData)
                 .SetData(Data)
-                .VerifyDataHasCount(ApiResultMessageModelTypeEnumeration.Information);
+                .VerifyDataHasCount(ApiResultMessageModelTypeEnumeration.Information, setHttpStatusCode: false);
         }
 
         public async Task<IApiResultModel<IntroductionDto>> SelectAsync(Guid id)

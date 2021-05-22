@@ -36,7 +36,7 @@ namespace RecipeApp.CoreApi.Features.Introduction
         [HttpPost("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IApiResultModel<IEnumerable<IntroductionSearchResultDto>>>> SearchAsync([FromBody] IntroductionSearchRequestDto introductionSearchRequestDto) =>
-            CreateActionResult(await _introductionService.SearchAsync(introductionSearchRequestDto).ConfigureAwait(false));
+            CreateActionResult(await _introductionService.SearchAsync(introductionSearchRequestDto).ConfigureAwait(false), false);
 
         /// <summary>
         /// Gets IntroductionDto for the desired Introduction Id
