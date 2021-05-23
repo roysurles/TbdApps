@@ -5,20 +5,20 @@ namespace RecipeApp.Shared.Features.Introduction
     public static class IntroductionDtosExtensions
     {
         public static object ToInsertParameters(this IntroductionDto introductionDto
-            , Guid id, string createdById, DateTime? createdOnUtc)
+            , string createdById = null, DateTime? createdOnUtc = null)
         {
             return new
             {
-                Id = introductionDto.Id = id,
+                Id = introductionDto.Id,
                 introductionDto.Title,
                 introductionDto.Comment,
                 CreatedById = introductionDto.CreatedById = createdById,
-                createdOnUtc = introductionDto.CreatedOnUtc = createdOnUtc
+                CreatedOnUtc = introductionDto.CreatedOnUtc = createdOnUtc
             };
         }
 
         public static object ToUpdateParameters(this IntroductionDto introductionDto
-            , string updatedById, DateTime? updatedOnUtc)
+            , string updatedById = null, DateTime? updatedOnUtc = null)
         {
             return new
             {

@@ -61,13 +61,13 @@ namespace RecipeApp.CoreApi.Features.Introduction
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public async Task<IntroductionDto> InsertAsync(IntroductionDto introductionDto, string createdById)
         {
-            var id = Guid.NewGuid();
-            var createdOnUtc = DateTime.UtcNow;
+            if (introductionDto.Id == Guid.Empty)
+                introductionDto.Id = Guid.NewGuid();
 
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);
 
             await connection.ExecuteAsync("IntroductionInsert"
-                , introductionDto.ToInsertParameters(id, createdById, createdOnUtc)
+                , introductionDto.ToInsertParameters(createdById, DateTime.UtcNow)
                 , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
 
             return introductionDto;
@@ -76,12 +76,10 @@ namespace RecipeApp.CoreApi.Features.Introduction
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public async Task<IntroductionDto> UpdateAsync(IntroductionDto introductionDto, string updatedById)
         {
-            var updatedOnUtc = DateTime.UtcNow;
-
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);
 
             await connection.ExecuteAsync("IntroductionUpdate"
-                , introductionDto.ToUpdateParameters(updatedById, updatedOnUtc)
+                , introductionDto.ToUpdateParameters(updatedById, DateTime.UtcNow)
                 , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
 
             return introductionDto;

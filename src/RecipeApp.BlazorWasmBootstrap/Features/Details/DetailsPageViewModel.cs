@@ -4,17 +4,23 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using RecipeApp.BlazorWasmBootstrap.Features.Shared.ApiClients;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
 using RecipeApp.Shared.Features.Introduction;
+
+using Tbd.Shared.Extensions;
 
 namespace RecipeApp.BlazorWasmBootstrap.Features.Details
 {
     public class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
     {
+        protected readonly IIntroductionV1_0ApiClient _introductionV1_0ApiClient;
         protected readonly ILogger<DetailsPageViewModel> _logger;
 
-        public DetailsPageViewModel(ILogger<DetailsPageViewModel> logger)
+        public DetailsPageViewModel(IIntroductionV1_0ApiClient introductionV1_0ApiClient
+            , ILogger<DetailsPageViewModel> logger)
         {
+            _introductionV1_0ApiClient = introductionV1_0ApiClient;
             _logger = logger;
         }
 
@@ -37,9 +43,19 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
         {
             _logger.LogInformation($"{nameof(SaveIntroductionAsync)}()");
 
-            // TODO:  make api call to save Introduction
-            // TODO:  populate api messages
-            // TODO:  Introduction = response.Data
+            ClearApiResultMessages();
+
+            if (Introduction.TryValidateObject(ApiResultMessages).Equals(false))
+                return this;
+
+            var saveIntroductionTask = Introduction.IsNew
+                ? _introductionV1_0ApiClient.InsertAsync(Introduction)
+                : _introductionV1_0ApiClient.UpdateAsync(Introduction);
+
+            await saveIntroductionTask;
+
+            AddMessages(saveIntroductionTask.Result.Messages);
+            Introduction = saveIntroductionTask.Result.Data;
 
             return this;
         }

@@ -58,11 +58,9 @@ namespace RecipeApp.CoreApi.Features.Introduction
 
             var apiResult = CreateApiResultModel<IntroductionDto>();
 
-            introductionDto.Id = Guid.NewGuid();
-
             return introductionDto.TryValidateObject(apiResult.Messages)
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.Created)
-                    .SetData(await _introductionRepository.UpdateAsync(introductionDto, createdById).ConfigureAwait(false))
+                    .SetData(await _introductionRepository.InsertAsync(introductionDto, createdById).ConfigureAwait(false))
                 : apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest);
         }
 
