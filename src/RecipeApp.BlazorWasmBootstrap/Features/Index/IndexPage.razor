@@ -24,17 +24,31 @@ else
                 <thead>
                     <tr>
                         <th scope="col">Title</th>
-                        <th scope="col">Ingredients</th>
-                        <th scope="col">Instructions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in IntroductionSearchViewModel.IntroductionSearchResult.Data)
                     {
+                        var itemId = item.Id.ToString();
+                        var detailLink = $"/Details/{itemId}";
                         <tr title="@(item.Comment)">
-                            <td>@(item.Title)</td>
-                            <td>@(item.IngredientsCount)</td>
-                            <td>@(item.InstructionsCount)</td>
+                            <td>
+                                <span>
+                                    <a class="nav-link active"
+                                       aria-current="page"
+                                       href="Details/{item.Id}"
+                                       @onclick="@(_ => SessionViewModel.NavigationManager.NavigateTo(detailLink))">
+                                        @item.Title
+                                    </a>
+                                    <span>
+                                        <span class="badge bg-info text-dark">Ingredients: @(item.IngredientsCount)</span>
+                                    </span>
+                                    <span>
+
+                                        <span class="badge bg-info text-dark">Instructions: @(item.InstructionsCount)</span>
+                                    </span>
+                                </span>
+                            </td>
                         </tr>
                     }
                 </tbody>
