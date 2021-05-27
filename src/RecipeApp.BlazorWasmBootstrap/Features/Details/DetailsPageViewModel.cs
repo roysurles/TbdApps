@@ -9,6 +9,7 @@ using RecipeApp.BlazorWasmBootstrap.Features.Shared.ApiClients;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
 using RecipeApp.Shared.Features.Introduction;
 
+using Tbd.RefitEx;
 using Tbd.Shared.Extensions;
 
 namespace RecipeApp.BlazorWasmBootstrap.Features.Details
@@ -45,11 +46,11 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
                 return this;
             }
 
-            var getIntroductionTask = _introductionV1_0ApiClient.GetAsync(_introductionId);
+            var getIntroductionTask = RefitExStaticMethods.TryInvokeApiAsync(
+                () => _introductionV1_0ApiClient.GetAsync(_introductionId), ApiResultMessages);
 
             await Task.WhenAll(getIntroductionTask);
-
-            AddMessages(getIntroductionTask.Result.Messages);
+            Introduction = getIntroductionTask.Result.Data;
 
             return this;
         }
@@ -64,12 +65,10 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
                 return this;
 
             var saveIntroductionTask = Introduction.IsNew
-                ? _introductionV1_0ApiClient.InsertAsync(Introduction)
-                : _introductionV1_0ApiClient.UpdateAsync(Introduction);
+                ? RefitExStaticMethods.TryInvokeApiAsync(() => _introductionV1_0ApiClient.InsertAsync(Introduction), ApiResultMessages)
+                : RefitExStaticMethods.TryInvokeApiAsync(() => _introductionV1_0ApiClient.UpdateAsync(Introduction), ApiResultMessages);
 
             await saveIntroductionTask;
-
-            AddMessages(saveIntroductionTask.Result.Messages);
             Introduction = saveIntroductionTask.Result.Data;
 
             return this;

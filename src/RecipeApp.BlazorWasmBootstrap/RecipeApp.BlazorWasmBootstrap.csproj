@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RecipeApp.Shared\RecipeApp.Shared.csproj" />
+    <ProjectReference Include="..\Tbd.RefitEx\Tbd.RefitEx.csproj" />
     <ProjectReference Include="..\Tbd.Shared\Tbd.Shared.csproj" />
   </ItemGroup>
 
