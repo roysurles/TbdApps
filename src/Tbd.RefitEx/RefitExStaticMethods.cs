@@ -13,7 +13,8 @@ namespace Tbd.RefitEx
     {
         [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
         public static async Task<ApiResultModel<TResult>> TryInvokeApiAsync<TResult>(Func<Task<ApiResultModel<TResult>>> func
-            , List<IApiResultMessageModel> apiResultMessages = null)
+            , List<IApiResultMessageModel> apiResultMessages = null
+            , TResult onExceptionDefaultData = default, bool onExceptionCreateNewDataIfNullDefault = true)
         {
             ApiResultModel<TResult> result = null;
 
@@ -23,7 +24,14 @@ namespace Tbd.RefitEx
             }
             catch (ApiException apiException)
             {
+                //  TODO:  add apiException.Content deserialize to custom error and include in result.AddErrorMessage
+                //  '{"error":{"code":"UnsupportedApiVersion","message":"The HTTP resource that matches the request URI 'https://localhost:44350/api/v1.0/Introduction' with API version '1.0' does not support HTTP method 'GET'.","innerError":null}}'
                 result = await apiException.GetContentAsAsync<ApiResultModel<TResult>>();
+                result.AddErrorMessage($"{apiException.Message}", apiException.Source, apiException.StatusCode);
+                var data = EqualityComparer<TResult>.Default.Equals(onExceptionDefaultData, default) && onExceptionCreateNewDataIfNullDefault
+                    ? Activator.CreateInstance<TResult>()
+                    : onExceptionDefaultData;
+                result.SetData(data);
             }
             catch (Exception)
             {

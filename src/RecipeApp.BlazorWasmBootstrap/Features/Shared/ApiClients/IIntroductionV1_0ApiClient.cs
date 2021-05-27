@@ -15,7 +15,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.ApiClients
         [Post("/api/v1.0/Introduction/search")]
         Task<ApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync([Body] IntroductionSearchRequestDto introductionSearchRequestDto);
 
-        [Get("/api/v1.0/Introduction")]
+        [Get("/api/v1.0/Introduction/{id}")]
         Task<ApiResultModel<IntroductionDto>> GetAsync(Guid id);
 
         [Post("/api/v1.0/Introduction")]
@@ -24,7 +24,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.ApiClients
         [Put("/api/v1.0/Introduction")]
         Task<ApiResultModel<IntroductionDto>> UpdateAsync([Body] IntroductionDto introductionDto);
 
-        [Delete("/api/v1.0/Introduction")]
+        [Delete("/api/v1.0/Introduction/{id}")]
         Task DeleteAsync(Guid id);
     }
 }

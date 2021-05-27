@@ -36,8 +36,7 @@ else
                                 <span>
                                     <a class="nav-link active"
                                        aria-current="page"
-                                       href="Details/{item.Id}"
-                                       @onclick="@(_ => SessionViewModel.NavigationManager.NavigateTo(detailLink))">
+                                       href="@detailLink">
                                         @item.Title
                                     </a>
                                     <span>

@@ -41,12 +41,13 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
             if (string.IsNullOrWhiteSpace(introductionId))
                 return SetIntroductionToNewDto();
 
-            if (Guid.TryParse(introductionId, out Guid _introductionId).Equals(false))
+            if (Guid.TryParse(introductionId, out Guid parsedGuid).Equals(false))
             {
                 IsValidIntroductionIdParameter = false;
                 AddInformationMessage("The Id for this page is incorrect.  Please navigate to the Home page and try again.", $"{nameof(DetailsPageViewModel)}.{nameof(InitializeAsync)}", HttpStatusCode.BadRequest.ToInt());
                 return this;
             }
+            _introductionId = parsedGuid;
 
             if (Equals(Guid.Empty, _introductionId))
                 return SetIntroductionToNewDto();
