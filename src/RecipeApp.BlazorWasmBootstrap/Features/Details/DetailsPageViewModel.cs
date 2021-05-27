@@ -39,10 +39,17 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
                 return this;
             }
 
-            // TODO:  make api call to get Introduction
-            Introduction = Equals(Guid.Empty, _introductionId)
-                ? new IntroductionDto()
-                : new IntroductionDto();
+            if (Equals(Guid.Empty, _introductionId))
+            {
+                Introduction = new IntroductionDto();
+                return this;
+            }
+
+            var getIntroductionTask = _introductionV1_0ApiClient.GetAsync(_introductionId);
+
+            await Task.WhenAll(getIntroductionTask);
+
+            AddMessages(getIntroductionTask.Result.Messages);
 
             return this;
         }
