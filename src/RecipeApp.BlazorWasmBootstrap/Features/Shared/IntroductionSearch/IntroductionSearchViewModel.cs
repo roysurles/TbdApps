@@ -8,6 +8,7 @@ using RecipeApp.BlazorWasmBootstrap.Features.Shared.ApiClients;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
 using RecipeApp.Shared.Features.Introduction;
 
+using Tbd.RefitEx;
 using Tbd.Shared.ApiResult;
 
 namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
@@ -52,9 +53,9 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
             ClearApiResultMessages();
 
             IntroductionSearchRequestDto.SetPagination(pageNumber, pageSize);
-            using var response = await _introductionV1_0ApiClient.SearchAsync(IntroductionSearchRequestDto);
-            IntroductionSearchResult = response.Content;
-            ApiResultMessages.AddRange(IntroductionSearchResult.Messages);
+            IntroductionSearchResult = await RefitExStaticMethods.TryInvokeApiAsync(
+                () => _introductionV1_0ApiClient.SearchAsync(IntroductionSearchRequestDto), ApiResultMessages);
+
             HasSearched = true;
         }
     }
