@@ -18,7 +18,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Models
             return this;
         }
 
-        protected IBaseViewModel AddApiResultMessage(ApiResultMessageModelTypeEnumeration apiResultMessageType, string message, string source = null, int? code = null)
+        public IBaseViewModel AddApiResultMessage(ApiResultMessageModelTypeEnumeration apiResultMessageType, string message, string source = null, int? code = null)
         {
             ApiResultMessages.Add(new ApiResultMessageModel
             {
@@ -30,16 +30,16 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Models
             return this;
         }
 
-        protected IBaseViewModel AddInformationMessage(string message, string source = null, int? code = null) =>
+        public IBaseViewModel AddInformationMessage(string message, string source = null, int? code = null) =>
             AddApiResultMessage(ApiResultMessageModelTypeEnumeration.Information, message, source, code);
 
-        protected IBaseViewModel AddWarningMessage(string message, string source = null, int? code = null) =>
+        public IBaseViewModel AddWarningMessage(string message, string source = null, int? code = null) =>
             AddApiResultMessage(ApiResultMessageModelTypeEnumeration.Warning, message, source, code);
 
-        protected IBaseViewModel AddErrorMessage(string message, string source = null, int? code = null) =>
+        public IBaseViewModel AddErrorMessage(string message, string source = null, int? code = null) =>
             AddApiResultMessage(ApiResultMessageModelTypeEnumeration.Error, message, source, code);
 
-        protected IBaseViewModel AddMessages(IEnumerable<ApiResultMessageModel> messages)
+        public IBaseViewModel AddMessages(IEnumerable<ApiResultMessageModel> messages)
         {
             ApiResultMessages.AddRange(messages);
             return this;
@@ -55,5 +55,15 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Models
         List<IApiResultMessageModel> ApiResultMessages { get; set; }
 
         IBaseViewModel ClearApiResultMessages();
+
+        IBaseViewModel AddApiResultMessage(ApiResultMessageModelTypeEnumeration apiResultMessageType, string message, string source = null, int? code = null);
+
+        IBaseViewModel AddInformationMessage(string message, string source = null, int? code = null);
+
+        IBaseViewModel AddWarningMessage(string message, string source = null, int? code = null);
+
+        IBaseViewModel AddErrorMessage(string message, string source = null, int? code = null);
+
+        IBaseViewModel AddMessages(IEnumerable<ApiResultMessageModel> messages);
     }
 }

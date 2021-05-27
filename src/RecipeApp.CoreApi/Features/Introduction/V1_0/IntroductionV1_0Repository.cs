@@ -91,10 +91,14 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);
             using var transaction = connection.BeginTransaction();
 
-            return await connection.ExecuteScalarAsync<int>("IntroductionDelete"
+            var result = await connection.ExecuteScalarAsync<int>("IntroductionDelete"
                 , new { id }
                 , transaction
                 , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+
+            transaction.Commit();
+
+            return result;
         }
     }
 

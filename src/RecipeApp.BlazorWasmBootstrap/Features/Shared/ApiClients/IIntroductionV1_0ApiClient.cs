@@ -25,6 +25,6 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.ApiClients
         Task<ApiResultModel<IntroductionDto>> UpdateAsync([Body] IntroductionDto introductionDto);
 
         [Delete("/api/v1.0/Introduction/{id}")]
-        Task DeleteAsync(Guid id);
+        Task<ApiResultModel<int>> DeleteAsync(Guid id);
     }
 }

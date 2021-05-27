@@ -75,9 +75,31 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
                 : RefitExStaticMethods.TryInvokeApiAsync(() => _introductionV1_0ApiClient.UpdateAsync(Introduction), ApiResultMessages);
 
             await saveIntroductionTask;
+            // TODO:  need snackbar or stacking alerts
+            if (saveIntroductionTask.Result.IsSuccessHttpStatusCode)
+                AddInformationMessage("Introduction saved successfully!", $"{nameof(DetailsPageViewModel)}.{nameof(SaveIntroductionAsync)}", 200);
             Introduction = saveIntroductionTask.Result.Data;
 
             return this;
+        }
+
+        public async Task<IDetailsPageViewModel> DeleteIntroductionAsync()
+        {
+            _logger.LogInformation($"{nameof(DeleteIntroductionAsync)}()");
+
+            ClearApiResultMessages();
+
+            if (Introduction?.IsNew == true)
+            {
+                AddInformationMessage("There is nothing to Delete!", $"{nameof(DetailsPageViewModel)}.{nameof(DeleteIntroductionAsync)}");
+                return this;
+            }
+
+            var apiResult = await RefitExStaticMethods.TryInvokeApiAsync(() => _introductionV1_0ApiClient.DeleteAsync(Introduction.Id), ApiResultMessages);
+            if (apiResult.IsSuccessHttpStatusCode)
+                AddInformationMessage("Introduction deleted successfully!", $"{nameof(DetailsPageViewModel)}.{nameof(DeleteIntroductionAsync)}", 200);
+
+            return SetIntroductionToNewDto();
         }
 
         protected IDetailsPageViewModel SetIntroductionToNewDto()
@@ -96,5 +118,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
         Task<IDetailsPageViewModel> InitializeAsync(string introductionId);
 
         Task<IDetailsPageViewModel> SaveIntroductionAsync();
+
+        Task<IDetailsPageViewModel> DeleteIntroductionAsync();
     }
 }
