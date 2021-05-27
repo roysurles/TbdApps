@@ -18,7 +18,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
     {
         protected readonly IIntroductionV1_0ApiClient _introductionV1_0ApiClient;
         protected readonly ILogger<DetailsPageViewModel> _logger;
-        protected Guid _introductionId;
+        protected Guid _introductionId = Guid.Empty;
 
         public DetailsPageViewModel(IIntroductionV1_0ApiClient introductionV1_0ApiClient
             , ILogger<DetailsPageViewModel> logger)
@@ -27,6 +27,8 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
             _logger = logger;
         }
 
+        public bool IsValidIntroductionIdParameter { get; protected set; } = true;
+
         public IntroductionDto Introduction { get; protected set; } =
             new IntroductionDto();
 
@@ -34,17 +36,20 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
         {
             _logger.LogInformation($"{nameof(DetailsPageViewModel)}({introductionId})");
 
-            if (string.IsNullOrWhiteSpace(introductionId) || Guid.TryParse(introductionId, out Guid parsedGuid).Equals(false))
+            IsValidIntroductionIdParameter = true;
+
+            if (string.IsNullOrWhiteSpace(introductionId))
+                return SetIntroductionToNewDto();
+
+            if (Guid.TryParse(introductionId, out Guid _introductionId).Equals(false))
             {
+                IsValidIntroductionIdParameter = false;
                 AddInformationMessage("The Id for this page is incorrect.  Please navigate to the Home page and try again.", $"{nameof(DetailsPageViewModel)}.{nameof(InitializeAsync)}", HttpStatusCode.BadRequest.ToInt());
                 return this;
             }
 
             if (Equals(Guid.Empty, _introductionId))
-            {
-                Introduction = new IntroductionDto();
-                return this;
-            }
+                return SetIntroductionToNewDto();
 
             var getIntroductionTask = RefitExStaticMethods.TryInvokeApiAsync(
                 () => _introductionV1_0ApiClient.GetAsync(_introductionId), ApiResultMessages);
@@ -73,11 +78,19 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
 
             return this;
         }
+
+        protected IDetailsPageViewModel SetIntroductionToNewDto()
+        {
+            Introduction = new IntroductionDto();
+            return this;
+        }
     }
 
     public interface IDetailsPageViewModel : IBaseViewModel
     {
-        public IntroductionDto Introduction { get; }
+        bool IsValidIntroductionIdParameter { get; }
+
+        IntroductionDto Introduction { get; }
 
         Task<IDetailsPageViewModel> InitializeAsync(string introductionId);
 

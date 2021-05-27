@@ -40,7 +40,8 @@
                         <button type="button"
                                 class="btn btn-primary btn-sm"
                                 title="Save Introduction"
-                                @onclick="@SaveIntroductionAsync">
+                                @onclick="@SaveIntroductionAsync"
+                                disabled="@(DetailsPageViewModel.IsValidIntroductionIdParameter.Equals(false))">
                             <i class="fas fa-save"></i>
                             Save Introduction
                         </button>
@@ -137,7 +138,7 @@
     {
         try
         {
-            Logger.LogInformation($"{nameof(OnInitializedAsync)}({IntoductionId.ToString()})");
+            Logger.LogInformation($"{nameof(OnInitializedAsync)}({IntoductionId})");
 
             DetailsPageViewModel.IsLoading = true;
             await DetailsPageViewModel.InitializeAsync(IntoductionId);
