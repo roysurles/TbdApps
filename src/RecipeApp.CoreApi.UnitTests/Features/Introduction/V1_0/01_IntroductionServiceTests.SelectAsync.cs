@@ -9,7 +9,7 @@ using Moq;
 
 using RecipeApp.Shared.Features.Introduction;
 
-namespace RecipeApp.CoreApi.UnitTests.Features.Introduction
+namespace RecipeApp.CoreApi.UnitTests.Features.Introduction.V1_0
 {
     // TODO:  Get this working....
     public partial class IntroductionServiceTests

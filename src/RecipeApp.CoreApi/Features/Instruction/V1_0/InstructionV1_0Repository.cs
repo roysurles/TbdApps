@@ -5,71 +5,71 @@ using System.Threading.Tasks;
 
 using Dapper;
 
-using RecipeApp.Shared.Features.Ingredient;
+using RecipeApp.Shared.Features.Instruction;
 
 using Tbd.WebApi.Shared.Repositories;
 
-namespace RecipeApp.CoreApi.Features.Ingredient
+namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 {
-    internal class IngredientRepository : BaseRepository, IIngredientRepository
+    internal class InstructionV1_0Repository : BaseRepository, IInstructionV1_0Repository
     {
-        public IngredientRepository(string connectionString) : base(connectionString) { }
+        public InstructionV1_0Repository(string connectionString) : base(connectionString) { }
 
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
-        public async Task<IngredientDto> SelectAsync(Guid id)
+        public async Task<InstructionDto> SelectAsync(Guid id)
         {
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);
-            return await connection.QueryFirstOrDefaultAsync<IngredientDto>("IngredientSelect"
-                , new { id }
-                , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+            return await connection.QueryFirstOrDefaultAsync<InstructionDto>("InstructionSelect"
+                   , new { id }
+                   , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
         }
 
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
-        public async Task<IngredientDto> InsertAsync(IngredientDto ingredientDto, string createdById)
+        public async Task<InstructionDto> InsertAsync(InstructionDto instructionDto, string createdById)
         {
             var id = Guid.NewGuid();
             var createdOnUtc = DateTime.UtcNow;
 
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);
 
-            await connection.ExecuteAsync("IngredientInsert"
-                , ingredientDto.ToInsertParameters(id, createdById, createdOnUtc)
+            await connection.ExecuteAsync("InstructionInsert"
+                , instructionDto.ToInsertParameters(id, createdById, createdOnUtc)
                 , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
 
-            return ingredientDto;
+            return instructionDto;
         }
 
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
-        public async Task<IngredientDto> UpdateAsync(IngredientDto ingredientDto, string updatedById)
+        public async Task<InstructionDto> UpdateAsync(InstructionDto instructionDto, string updatedById)
         {
             var updatedOnUtc = DateTime.UtcNow;
 
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);
 
-            await connection.ExecuteAsync("IngredientUpdate"
-                , ingredientDto.ToUpdateParameters(updatedById, updatedOnUtc)
+            await connection.ExecuteAsync("InstructionUpdate"
+                , instructionDto.ToUpdateParameters(updatedById, updatedOnUtc)
                 , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
 
-            return ingredientDto;
+            return instructionDto;
         }
 
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public async Task<int> DeleteAsync(Guid id)
         {
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);
-            return await connection.ExecuteScalarAsync<int>("IngredientDelete"
+            return await connection.ExecuteScalarAsync<int>("InstructionDelete"
                 , new { id }
                 , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
         }
     }
 
-    public interface IIngredientRepository
+    public interface IInstructionV1_0Repository
     {
-        Task<IngredientDto> SelectAsync(Guid id);
+        Task<InstructionDto> SelectAsync(Guid id);
 
-        Task<IngredientDto> InsertAsync(IngredientDto ingredientDto, string createdById);
+        Task<InstructionDto> InsertAsync(InstructionDto instructionDto, string createdById);
 
-        Task<IngredientDto> UpdateAsync(IngredientDto ingredientDto, string updatedById);
+        Task<InstructionDto> UpdateAsync(InstructionDto instructionDto, string updatedById);
 
         Task<int> DeleteAsync(Guid id);
     }

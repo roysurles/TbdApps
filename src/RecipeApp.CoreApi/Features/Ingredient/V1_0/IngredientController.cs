@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace RecipeApp.CoreApi.Features.Instruction
+namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
 {
     /// <summary>
-    /// Instruction Api Controller
+    /// Ingredient Api Controller
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/Instruction")]
+    [Route("api/v{version:apiVersion}/Ingredient", Name = "Ingredient")]
     [ApiController]
-    public class InstructionV1_0Controller : ControllerBase
+    public class IngredientController : ControllerBase
     {
         /// <summary>
         /// Initial comments...

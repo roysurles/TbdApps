@@ -9,7 +9,7 @@ namespace RecipeApp.Shared.Features.Introduction
         {
             return new
             {
-                Id = introductionDto.Id,
+                introductionDto.Id,
                 introductionDto.Title,
                 introductionDto.Comment,
                 CreatedById = introductionDto.CreatedById = createdById,

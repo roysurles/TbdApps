@@ -14,9 +14,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 
-using RecipeApp.CoreApi.Features.Ingredient;
-using RecipeApp.CoreApi.Features.Instruction;
-using RecipeApp.CoreApi.Features.Introduction;
+using RecipeApp.CoreApi.Features.Ingredient.V1_0;
+using RecipeApp.CoreApi.Features.Instruction.V1_0;
+using RecipeApp.CoreApi.Features.Introduction.V1_0;
 using RecipeApp.Shared.Handlers;
 
 using Tbd.Shared.ApiResult;
@@ -84,12 +84,12 @@ namespace RecipeApp.CoreApi
             var defaultConnectionString = Configuration.GetConnectionString("Default");
             SqlMapper.AddTypeHandler(new SqlGuidTypeHandler());
 
-            services.AddScoped<IIntroductionRepository>(_ => new IntroductionRepository(defaultConnectionString));
-            services.AddScoped<IIntroductionService, IntroductionService>();
+            services.AddScoped<IIntroductionV1_0Repository>(_ => new IntroductionV1_0Repository(defaultConnectionString));
+            services.AddScoped<IIntroductionV1_0Service, IntroductionV1_0Service>();
 
-            services.AddScoped<IIngredientRepository>(_ => new IngredientRepository(defaultConnectionString));
+            services.AddScoped<IIngredientV1_0Repository>(_ => new IngredientV1_0Repository(defaultConnectionString));
 
-            services.AddScoped<IInstructionRepository>(_ => new InstructionRepository(defaultConnectionString));
+            services.AddScoped<IInstructionV1_0Repository>(_ => new InstructionV1_0Repository(defaultConnectionString));
 
             // Impose global model state validation to reduce boilerplate code
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);

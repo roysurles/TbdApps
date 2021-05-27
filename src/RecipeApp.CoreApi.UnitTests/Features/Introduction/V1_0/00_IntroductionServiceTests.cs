@@ -4,17 +4,17 @@ using Microsoft.Extensions.Logging;
 
 using Moq;
 
-using RecipeApp.CoreApi.Features.Introduction;
+using RecipeApp.CoreApi.Features.Introduction.V1_0;
 
-namespace RecipeApp.CoreApi.UnitTests.Features.Introduction
+namespace RecipeApp.CoreApi.UnitTests.Features.Introduction.V1_0
 {
     public partial class IntroductionServiceTests
     {
         protected readonly ServiceProvider _serviceProvider;
         protected readonly Mock<IHttpContextAccessor> _httpContextAccessorMock;
-        protected readonly ILogger<IntroductionService> _introductionServiceLogger;
-        protected readonly Mock<IIntroductionRepository> _introductionRepositoryMock;
-        protected readonly IIntroductionService _introductionService;
+        protected readonly ILogger<IntroductionV1_0Service> _introductionServiceLogger;
+        protected readonly Mock<IIntroductionV1_0Repository> _introductionRepositoryMock;
+        protected readonly IIntroductionV1_0Service _introductionService;
 
         public IntroductionServiceTests(ServiceProvider serviceProvider)
         {
@@ -25,11 +25,11 @@ namespace RecipeApp.CoreApi.UnitTests.Features.Introduction
             //_httpContextAccessorMock.Setup(x => x.HttpContext).Returns(new DefaultHttpContext());
             //_httpContextAccessorMock.Setup(x => x.HttpContext.RequestServices).Returns(_serviceProvider);
 
-            _introductionServiceLogger = new LoggerFactory().CreateLogger<IntroductionService>();
+            _introductionServiceLogger = new LoggerFactory().CreateLogger<IntroductionV1_0Service>();
 
-            _introductionRepositoryMock = new Mock<IIntroductionRepository>();
+            _introductionRepositoryMock = new Mock<IIntroductionV1_0Repository>();
 
-            _introductionService = new IntroductionService(_serviceProvider
+            _introductionService = new IntroductionV1_0Service(_serviceProvider
                 , _introductionServiceLogger
                 , _introductionRepositoryMock.Object);
         }

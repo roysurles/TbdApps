@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace RecipeApp.CoreApi.Features.Introduction
+namespace RecipeApp.CoreApi.Features.Introduction.V1_1
 {
     /// <summary>
     /// Introduction Api Controller
@@ -10,7 +10,7 @@ namespace RecipeApp.CoreApi.Features.Introduction
     [ApiVersion("1.1")]
     [Route("api/v{version:apiVersion}/Introduction")]
     [ApiController]
-    public class IntroductionV1_1Controller : ControllerBase
+    public class IntroductionController : ControllerBase
     {
         /// <summary>
         /// Initial comments...

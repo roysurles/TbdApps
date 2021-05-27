@@ -12,7 +12,7 @@ using RecipeApp.Shared.Features.Introduction;
 using Tbd.Shared.ApiResult;
 using Tbd.WebApi.Shared.Controllers;
 
-namespace RecipeApp.CoreApi.Features.Introduction
+namespace RecipeApp.CoreApi.Features.Introduction.V1_0
 {
     /// <summary>
     /// Introduction Api Controller
@@ -21,11 +21,11 @@ namespace RecipeApp.CoreApi.Features.Introduction
     [Route("api/v{version:apiVersion}/Introduction")]
     [ApiController]
     [AllowAnonymous]
-    public class IntroductionV1_0Controller : BaseApiController
+    public class IntroductionController : BaseApiController
     {
-        protected readonly IIntroductionService _introductionService;
+        protected readonly IIntroductionV1_0Service _introductionService;
 
-        public IntroductionV1_0Controller(IIntroductionService introductionService) =>
+        public IntroductionController(IIntroductionV1_0Service introductionService) =>
             _introductionService = introductionService;
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace RecipeApp.CoreApi.Features.Introduction
         /// There is no error if the Id does not exist.
         /// </summary>
         /// <param name="id">Desired Introduction Id</param>
-        /// <returns>IApiResultModel of  of int</returns>
+        /// <returns>IApiResultModel of int</returns>
         /// <response code="200">OK - returns IApiResultModel of int</response>
         /// <response code="400">BadRequest - missing Id</response>
         [HttpDelete("{id}")]
