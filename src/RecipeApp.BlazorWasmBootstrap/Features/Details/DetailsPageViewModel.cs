@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -16,6 +17,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
     {
         protected readonly IIntroductionV1_0ApiClient _introductionV1_0ApiClient;
         protected readonly ILogger<DetailsPageViewModel> _logger;
+        protected Guid _introductionId;
 
         public DetailsPageViewModel(IIntroductionV1_0ApiClient introductionV1_0ApiClient
             , ILogger<DetailsPageViewModel> logger)
@@ -27,12 +29,18 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
         public IntroductionDto Introduction { get; protected set; } =
             new IntroductionDto();
 
-        public async Task<IDetailsPageViewModel> InitializeAsync(Guid intoductionId)
+        public async Task<IDetailsPageViewModel> InitializeAsync(string introductionId)
         {
-            _logger.LogInformation($"{nameof(DetailsPageViewModel)}({intoductionId})");
+            _logger.LogInformation($"{nameof(DetailsPageViewModel)}({introductionId})");
+
+            if (string.IsNullOrWhiteSpace(introductionId) || Guid.TryParse(introductionId, out Guid parsedGuid).Equals(false))
+            {
+                AddInformationMessage("The Id for this page is incorrect.  Please navigate to the Home page and try again.", $"{nameof(DetailsPageViewModel)}.{nameof(InitializeAsync)}", (int)HttpStatusCode.BadRequest);
+                return this;
+            }
 
             // TODO:  make api call to get Introduction
-            Introduction = Guid.Empty == intoductionId
+            Introduction = Equals(Guid.Empty, _introductionId)
                 ? new IntroductionDto()
                 : new IntroductionDto();
 
@@ -65,7 +73,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
     {
         public IntroductionDto Introduction { get; }
 
-        Task<IDetailsPageViewModel> InitializeAsync(Guid intoductionId);
+        Task<IDetailsPageViewModel> InitializeAsync(string introductionId);
 
         Task<IDetailsPageViewModel> SaveIntroductionAsync();
     }
