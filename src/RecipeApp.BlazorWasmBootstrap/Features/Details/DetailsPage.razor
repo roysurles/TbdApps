@@ -81,7 +81,11 @@ else
                             <thead>
                                 <tr>
                                     <th scope="col">
-                                        <button type="button" class="btn btn-primary btn-sm" title="Add Ingredient" disabled="@(DetailsPageViewModel.Introduction.IsNew)">
+                                        <button type="button"
+                                                class="btn btn-primary btn-sm"
+                                                title="Add Ingredient"
+                                                disabled="@(DetailsPageViewModel.Introduction.IsNew)"
+                                                @onclick="@AddIngredient">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </th>
@@ -92,10 +96,33 @@ else
                             <tbody>
                                 @foreach (var item in DetailsPageViewModel.Ingredients)
                                 {
-                                    <i class="fas fa-trash-alt"></i>
+
                                     <tr>
-                                        <td>@(item.Measurement)</td>
-                                        <td>@(item.Description)</td>
+                                        <td>
+                                            <button type="button"
+                                                    class="btn btn-primary btn-sm"
+                                                    title="Delete Ingredient"
+                                                    disabled="@(item.IsNew)"
+                                                    @onclick="@DeleteIngredientAsync">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                            <button type="button"
+                                                    class="btn btn-primary btn-sm ml-2"
+                                                    title="Save Ingredient"
+                                                    @onclick="@SaveIngredientAsync">
+                                                <i class="fas fa-save"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <input type="text"
+                                                   class="form-control-sm w-100"
+                                                   @bind-value="@(item.Measurement)">
+                                        </td>
+                                        <td>
+                                            <input type="text"
+                                                   class="form-control-sm w-100"
+                                                   @bind-value="@(item.Description)">
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
@@ -128,8 +155,10 @@ else
                             <tbody>
                                 @foreach (var item in DetailsPageViewModel.Instructions)
                                 {
-                                    <i class="fas fa-trash-alt"></i>
                                     <tr>
+                                        <td>
+                                            <i class="fas fa-trash-alt"></i>
+                                        </td>
                                         <td>@(item.Description)</td>
                                     </tr>
                                 }
@@ -218,6 +247,26 @@ else
         }
     }
 
+    protected void AddIngredient()
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(AddIngredient)}()");
+
+            DetailsPageViewModel.IsBusy = true;
+
+            DetailsPageViewModel.AddIngredient();
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(DetailsPageViewModel.ApiResultMessages, ex, PageName);
+        }
+        finally
+        {
+            DetailsPageViewModel.IsBusy = false;
+        }
+    }
+
     protected async Task SaveIngredientAsync()
     {
         try
@@ -247,6 +296,26 @@ else
             DetailsPageViewModel.IsBusy = true;
 
             //await DetailsPageViewModel.DeleteIngredientAsync();
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(DetailsPageViewModel.ApiResultMessages, ex, PageName);
+        }
+        finally
+        {
+            DetailsPageViewModel.IsBusy = false;
+        }
+    }
+
+    protected async Task AddInstructionAsync()
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(AddInstructionAsync)}()");
+
+            DetailsPageViewModel.IsBusy = true;
+
+            //await DetailsPageViewModel.AddIngredientAsync();
         }
         catch (Exception ex)
         {

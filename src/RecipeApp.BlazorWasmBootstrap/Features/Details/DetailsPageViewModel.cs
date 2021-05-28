@@ -128,6 +128,17 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
             return SetIntroductionToNewDto();
         }
 
+        public IDetailsPageViewModel AddIngredient()
+        {
+            _logger.LogInformation($"{nameof(AddIngredient)}()");
+
+            ClearApiResultMessages();
+
+            Ingredients.Add(new IngredientDto());
+
+            return this;
+        }
+
         protected IDetailsPageViewModel SetIntroductionToNewDto()
         {
             Introduction = new IntroductionDto();
@@ -150,5 +161,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
         Task<IDetailsPageViewModel> SaveIntroductionAsync();
 
         Task<IDetailsPageViewModel> DeleteIntroductionAsync();
+
+        IDetailsPageViewModel AddIngredient();
     }
 }
