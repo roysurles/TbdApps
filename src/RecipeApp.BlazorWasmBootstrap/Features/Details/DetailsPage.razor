@@ -218,6 +218,12 @@ else
         }
     }
 
+    protected override async Task OnParametersSetAsync()
+    {
+        base.OnParametersSet();
+        await OnInitializedAsync();
+    }
+
     protected async Task SaveIntroductionAsync()
     {
         try
