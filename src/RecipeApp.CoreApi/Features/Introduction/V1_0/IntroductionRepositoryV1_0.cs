@@ -13,9 +13,9 @@ using Tbd.WebApi.Shared.Repositories;
 
 namespace RecipeApp.CoreApi.Features.Introduction.V1_0
 {
-    internal class IntroductionV1_0Repository : BaseRepository, IIntroductionV1_0Repository
+    internal class IntroductionRepositoryV1_0 : BaseRepository, IIntroductionRepositoryV1_0
     {
-        public IntroductionV1_0Repository(string connectionString) : base(connectionString) { }
+        public IntroductionRepositoryV1_0(string connectionString) : base(connectionString) { }
 
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public async Task<(PaginationMetaDataModel PaginationMetaData, IEnumerable<IntroductionSearchResultDto> Data)> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto)
@@ -102,7 +102,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         }
     }
 
-    public interface IIntroductionV1_0Repository
+    public interface IIntroductionRepositoryV1_0
     {
         Task<(PaginationMetaDataModel PaginationMetaData, IEnumerable<IntroductionSearchResultDto> Data)> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto);
 

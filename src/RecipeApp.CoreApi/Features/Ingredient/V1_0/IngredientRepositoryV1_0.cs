@@ -6,82 +6,82 @@ using System.Threading.Tasks;
 
 using Dapper;
 
-using RecipeApp.Shared.Features.Instruction;
+using RecipeApp.Shared.Features.Ingredient;
 
 using Tbd.WebApi.Shared.Repositories;
 
-namespace RecipeApp.CoreApi.Features.Instruction.V1_0
+namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
 {
-    internal class InstructionV1_0Repository : BaseRepository, IInstructionV1_0Repository
+    internal class IngredientRepositoryV1_0 : BaseRepository, IIngredientRepositoryV1_0
     {
-        public InstructionV1_0Repository(string connectionString) : base(connectionString) { }
+        public IngredientRepositoryV1_0(string connectionString) : base(connectionString) { }
 
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
-        public async Task<InstructionDto> SelectAsync(Guid id)
+        public async Task<IngredientDto> SelectAsync(Guid id)
         {
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);
-            return await connection.QuerySingleOrDefaultAsync<InstructionDto>("InstructionSelect"
-                   , new { id }
-                   , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+            return await connection.QuerySingleOrDefaultAsync<IngredientDto>("IngredientSelect"
+                , new { id }
+                , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
         }
 
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
-        public async Task<IEnumerable<InstructionDto>> SelectAllForIntroductionIdAsync(Guid introductionId)
+        public async Task<IEnumerable<IngredientDto>> SelectAllForIntroductionIdAsync(Guid introductionId)
         {
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);
-            return await connection.QueryAsync<InstructionDto>("InstructionSelectAllForIntroductionId"
+            return await connection.QueryAsync<IngredientDto>("IngredientSelectAllForIntroductionId"
                 , new { introductionId }
                 , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
         }
 
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
-        public async Task<InstructionDto> InsertAsync(InstructionDto instructionDto, string createdById)
+        public async Task<IngredientDto> InsertAsync(IngredientDto ingredientDto, string createdById)
         {
             var id = Guid.NewGuid();
             var createdOnUtc = DateTime.UtcNow;
 
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);
 
-            await connection.ExecuteAsync("InstructionInsert"
-                , instructionDto.ToInsertParameters(id, createdById, createdOnUtc)
+            await connection.ExecuteAsync("IngredientInsert"
+                , ingredientDto.ToInsertParameters(id, createdById, createdOnUtc)
                 , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
 
-            return instructionDto;
+            return ingredientDto;
         }
 
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
-        public async Task<InstructionDto> UpdateAsync(InstructionDto instructionDto, string updatedById)
+        public async Task<IngredientDto> UpdateAsync(IngredientDto ingredientDto, string updatedById)
         {
             var updatedOnUtc = DateTime.UtcNow;
 
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);
 
-            await connection.ExecuteAsync("InstructionUpdate"
-                , instructionDto.ToUpdateParameters(updatedById, updatedOnUtc)
+            await connection.ExecuteAsync("IngredientUpdate"
+                , ingredientDto.ToUpdateParameters(updatedById, updatedOnUtc)
                 , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
 
-            return instructionDto;
+            return ingredientDto;
         }
 
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public async Task<int> DeleteAsync(Guid id)
         {
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);
-            return await connection.ExecuteScalarAsync<int>("InstructionDelete"
+            return await connection.ExecuteScalarAsync<int>("IngredientDelete"
                 , new { id }
                 , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
         }
     }
 
-    public interface IInstructionV1_0Repository
+    public interface IIngredientRepositoryV1_0
     {
-        Task<InstructionDto> SelectAsync(Guid id);
+        Task<IngredientDto> SelectAsync(Guid id);
 
-        Task<IEnumerable<InstructionDto>> SelectAllForIntroductionIdAsync(Guid introductionId);
+        Task<IEnumerable<IngredientDto>> SelectAllForIntroductionIdAsync(Guid introductionId);
 
-        Task<InstructionDto> InsertAsync(InstructionDto instructionDto, string createdById);
+        Task<IngredientDto> InsertAsync(IngredientDto ingredientDto, string createdById);
 
-        Task<InstructionDto> UpdateAsync(InstructionDto instructionDto, string updatedById);
+        Task<IngredientDto> UpdateAsync(IngredientDto ingredientDto, string updatedById);
 
         Task<int> DeleteAsync(Guid id);
     }

@@ -22,9 +22,9 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
     [AllowAnonymous]
     public class IntroductionController : BaseApiController
     {
-        protected readonly IIntroductionV1_0Service _introductionService;
+        protected readonly IIntroductionServiceV1_0 _introductionService;
 
-        public IntroductionController(IIntroductionV1_0Service introductionService) =>
+        public IntroductionController(IIntroductionServiceV1_0 introductionService) =>
             _introductionService = introductionService;
 
         /// <summary>

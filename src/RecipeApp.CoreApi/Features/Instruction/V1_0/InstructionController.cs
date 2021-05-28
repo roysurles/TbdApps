@@ -22,9 +22,9 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
     [AllowAnonymous]
     public class InstructionController : BaseApiController
     {
-        protected readonly IInstructionV1_0Service _instructionService;
+        protected readonly IInstructionServiceV1_0 _instructionService;
 
-        public InstructionController(IInstructionV1_0Service instructionService) =>
+        public InstructionController(IInstructionServiceV1_0 instructionService) =>
             _instructionService = instructionService;
 
         /// <summary>

@@ -81,17 +81,17 @@ namespace RecipeApp.CoreApi
 
             services.AddTransient(typeof(IApiResultModel<>), typeof(ApiResultModel<>));
 
-            var defaultConnectionString = Configuration.GetConnectionString("Default2");
+            var defaultConnectionString = Configuration.GetConnectionString("Default");
             SqlMapper.AddTypeHandler(new SqlGuidTypeHandler());
 
-            services.AddScoped<IIntroductionV1_0Repository>(_ => new IntroductionV1_0Repository(defaultConnectionString));
-            services.AddScoped<IIntroductionV1_0Service, IntroductionV1_0Service>();
+            services.AddScoped<IIntroductionRepositoryV1_0>(_ => new IntroductionRepositoryV1_0(defaultConnectionString));
+            services.AddScoped<IIntroductionServiceV1_0, IntroductionServiceV1_0>();
 
-            services.AddScoped<IIngredientV1_0Repository>(_ => new IngredientV1_0Repository(defaultConnectionString));
-            services.AddScoped<IIngredientV1_0Service, IngredientV1_0Service>();
+            services.AddScoped<IIngredientRepositoryV1_0>(_ => new IngredientRepositoryV1_0(defaultConnectionString));
+            services.AddScoped<IIngredientServiceV1_0, IngredientServiceV1_0>();
 
-            services.AddScoped<IInstructionV1_0Repository>(_ => new InstructionV1_0Repository(defaultConnectionString));
-            services.AddScoped<IInstructionV1_0Service, InstructionV1_0Service>();
+            services.AddScoped<IInstructionRepositoryV1_0>(_ => new InstructionRepositoryV1_0(defaultConnectionString));
+            services.AddScoped<IInstructionServiceV1_0, InstructionServiceV1_0>();
 
             // Impose global model state validation to reduce boilerplate code
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);

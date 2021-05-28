@@ -13,14 +13,14 @@ using Tbd.WebApi.Shared.Services;
 
 namespace RecipeApp.CoreApi.Features.Introduction.V1_0
 {
-    public class IntroductionV1_0Service : BaseService, IIntroductionV1_0Service
+    public class IntroductionServiceV1_0 : BaseService, IIntroductionServiceV1_0
     {
-        protected readonly ILogger<IntroductionV1_0Service> _logger;
-        protected readonly IIntroductionV1_0Repository _introductionRepository;
+        protected readonly ILogger<IntroductionServiceV1_0> _logger;
+        protected readonly IIntroductionRepositoryV1_0 _introductionRepository;
 
-        public IntroductionV1_0Service(IServiceProvider serviceProvider
-            , ILogger<IntroductionV1_0Service> logger
-            , IIntroductionV1_0Repository introductionRepository) : base(serviceProvider)
+        public IntroductionServiceV1_0(IServiceProvider serviceProvider
+            , ILogger<IntroductionServiceV1_0> logger
+            , IIntroductionRepositoryV1_0 introductionRepository) : base(serviceProvider)
         {
             _logger = logger;
             _introductionRepository = introductionRepository;
@@ -46,10 +46,10 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
 
             return id == Guid.Empty
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Id is required.", $"{nameof(IntroductionV1_0Service)}.{nameof(SelectAsync)}", HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Id is required.", $"{nameof(IntroductionServiceV1_0)}.{nameof(SelectAsync)}", HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _introductionRepository.SelectAsync(id).ConfigureAwait(false))
-                    .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: $"{nameof(IntroductionV1_0Service)}.{nameof(SelectAsync)}");
+                    .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: $"{nameof(IntroductionServiceV1_0)}.{nameof(SelectAsync)}");
         }
 
         public async Task<IApiResultModel<IntroductionDto>> InsertAsync(IntroductionDto introductionDto, string createdById)
@@ -73,7 +73,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
             if (introductionDto.Id == Guid.Empty)
             {
                 return apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Id is required.", $"{nameof(IntroductionV1_0Service)}.{nameof(UpdateAsync)}", HttpStatusCode.BadRequest);
+                    .AddErrorMessage("Id is required.", $"{nameof(IntroductionServiceV1_0)}.{nameof(UpdateAsync)}", HttpStatusCode.BadRequest);
             }
 
             return introductionDto.TryValidateObject(apiResult.Messages)
@@ -90,13 +90,13 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
 
             return id == Guid.Empty
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Id is required.", $"{nameof(IntroductionV1_0Service)}.{nameof(DeleteAsync)}", HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Id is required.", $"{nameof(IntroductionServiceV1_0)}.{nameof(DeleteAsync)}", HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _introductionRepository.DeleteAsync(id).ConfigureAwait(false));
         }
     }
 
-    public interface IIntroductionV1_0Service
+    public interface IIntroductionServiceV1_0
     {
         Task<IApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto);
 

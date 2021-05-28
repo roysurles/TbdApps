@@ -22,9 +22,9 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
     [AllowAnonymous]
     public class IngredientController : BaseApiController
     {
-        protected readonly IIngredientV1_0Service _ingredientService;
+        protected readonly IIngredientServiceV1_0 _ingredientService;
 
-        public IngredientController(IIngredientV1_0Service ingredientService) =>
+        public IngredientController(IIngredientServiceV1_0 ingredientService) =>
             _ingredientService = ingredientService;
 
         /// <summary>

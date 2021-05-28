@@ -13,14 +13,14 @@ using Tbd.WebApi.Shared.Services;
 
 namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
 {
-    public class IngredientV1_0Service : BaseService, IIngredientV1_0Service
+    public class IngredientServiceV1_0 : BaseService, IIngredientServiceV1_0
     {
-        protected readonly ILogger<IngredientV1_0Service> _logger;
-        protected readonly IIngredientV1_0Repository _ingredientRepository;
+        protected readonly ILogger<IngredientServiceV1_0> _logger;
+        protected readonly IIngredientRepositoryV1_0 _ingredientRepository;
 
-        public IngredientV1_0Service(IServiceProvider serviceProvider
-            , ILogger<IngredientV1_0Service> logger
-            , IIngredientV1_0Repository ingredientRepository) : base(serviceProvider)
+        public IngredientServiceV1_0(IServiceProvider serviceProvider
+            , ILogger<IngredientServiceV1_0> logger
+            , IIngredientRepositoryV1_0 ingredientRepository) : base(serviceProvider)
         {
             _logger = logger;
             _ingredientRepository = ingredientRepository;
@@ -34,10 +34,10 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
 
             return id == Guid.Empty
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Id is required.", $"{nameof(IngredientV1_0Service)}.{nameof(SelectAsync)}", HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Id is required.", $"{nameof(IngredientServiceV1_0)}.{nameof(SelectAsync)}", HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _ingredientRepository.SelectAsync(id).ConfigureAwait(false))
-                    .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: $"{nameof(IngredientV1_0Service)}.{nameof(SelectAsync)}");
+                    .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: $"{nameof(IngredientServiceV1_0)}.{nameof(SelectAsync)}");
         }
 
         public async Task<IApiResultModel<IEnumerable<IngredientDto>>> SelectAllForIntroductionIdAsync(Guid introductionId)
@@ -48,10 +48,10 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
 
             return introductionId == Guid.Empty
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Id is required.", $"{nameof(IngredientV1_0Service)}.{nameof(SelectAsync)}", HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Id is required.", $"{nameof(IngredientServiceV1_0)}.{nameof(SelectAsync)}", HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _ingredientRepository.SelectAllForIntroductionIdAsync(introductionId).ConfigureAwait(false))
-                    .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: $"{nameof(IngredientV1_0Service)}.{nameof(SelectAsync)}");
+                    .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: $"{nameof(IngredientServiceV1_0)}.{nameof(SelectAsync)}");
         }
 
         public async Task<IApiResultModel<IngredientDto>> InsertAsync(IngredientDto ingredientDto, string createdById)
@@ -75,7 +75,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
             if (ingredientDto.Id == Guid.Empty)
             {
                 return apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Id is required.", $"{nameof(IngredientV1_0Service)}.{nameof(UpdateAsync)}", HttpStatusCode.BadRequest);
+                    .AddErrorMessage("Id is required.", $"{nameof(IngredientServiceV1_0)}.{nameof(UpdateAsync)}", HttpStatusCode.BadRequest);
             }
 
             return ingredientDto.TryValidateObject(apiResult.Messages)
@@ -92,13 +92,13 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
 
             return id == Guid.Empty
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Id is required.", $"{nameof(IngredientV1_0Service)}.{nameof(DeleteAsync)}", HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Id is required.", $"{nameof(IngredientServiceV1_0)}.{nameof(DeleteAsync)}", HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _ingredientRepository.DeleteAsync(id).ConfigureAwait(false));
         }
     }
 
-    public interface IIngredientV1_0Service
+    public interface IIngredientServiceV1_0
     {
         Task<IApiResultModel<IngredientDto>> SelectAsync(Guid id);
 

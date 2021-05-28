@@ -13,14 +13,14 @@ using Tbd.WebApi.Shared.Services;
 
 namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 {
-    public class InstructionV1_0Service : BaseService, IInstructionV1_0Service
+    public class InstructionServiceV1_0 : BaseService, IInstructionServiceV1_0
     {
-        protected readonly ILogger<InstructionV1_0Service> _logger;
-        protected readonly IInstructionV1_0Repository _instructionRepository;
+        protected readonly ILogger<InstructionServiceV1_0> _logger;
+        protected readonly IInstructionRepositoryV1_0 _instructionRepository;
 
-        public InstructionV1_0Service(IServiceProvider serviceProvider
-            , ILogger<InstructionV1_0Service> logger
-            , IInstructionV1_0Repository instructionRepository) : base(serviceProvider)
+        public InstructionServiceV1_0(IServiceProvider serviceProvider
+            , ILogger<InstructionServiceV1_0> logger
+            , IInstructionRepositoryV1_0 instructionRepository) : base(serviceProvider)
         {
             _logger = logger;
             _instructionRepository = instructionRepository;
@@ -34,10 +34,10 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
             return id == Guid.Empty
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Id is required.", $"{nameof(InstructionV1_0Service)}.{nameof(SelectAsync)}", HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAsync)}", HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _instructionRepository.SelectAsync(id).ConfigureAwait(false))
-                    .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: $"{nameof(InstructionV1_0Service)}.{nameof(SelectAsync)}");
+                    .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAsync)}");
         }
 
         public async Task<IApiResultModel<IEnumerable<InstructionDto>>> SelectAllForIntroductionIdAsync(Guid introductionId)
@@ -48,10 +48,10 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
             return introductionId == Guid.Empty
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Id is required.", $"{nameof(InstructionV1_0Service)}.{nameof(SelectAsync)}", HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAsync)}", HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _instructionRepository.SelectAllForIntroductionIdAsync(introductionId).ConfigureAwait(false))
-                    .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: $"{nameof(InstructionV1_0Service)}.{nameof(SelectAsync)}");
+                    .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAsync)}");
         }
 
         public async Task<IApiResultModel<InstructionDto>> InsertAsync(InstructionDto instructionDto, string createdById)
@@ -75,7 +75,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
             if (instructionDto.Id == Guid.Empty)
             {
                 return apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Id is required.", $"{nameof(InstructionV1_0Service)}.{nameof(UpdateAsync)}", HttpStatusCode.BadRequest);
+                    .AddErrorMessage("Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(UpdateAsync)}", HttpStatusCode.BadRequest);
             }
 
             return instructionDto.TryValidateObject(apiResult.Messages)
@@ -92,13 +92,13 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
             return id == Guid.Empty
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Id is required.", $"{nameof(InstructionV1_0Service)}.{nameof(DeleteAsync)}", HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(DeleteAsync)}", HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _instructionRepository.DeleteAsync(id).ConfigureAwait(false));
         }
     }
 
-    public interface IInstructionV1_0Service
+    public interface IInstructionServiceV1_0
     {
         Task<IApiResultModel<InstructionDto>> SelectAsync(Guid id);
 
