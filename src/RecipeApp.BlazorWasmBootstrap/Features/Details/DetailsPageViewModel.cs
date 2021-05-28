@@ -141,7 +141,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
 
         public async Task<IDetailsPageViewModel> SaveIngredientAsync(IngredientDto ingredientDto)
         {
-            _logger.LogInformation($"{nameof(SaveIngredientAsync)}()");
+            _logger.LogInformation($"{nameof(SaveIngredientAsync)}({nameof(ingredientDto)})");
 
             ClearApiResultMessages();
 
@@ -160,6 +160,25 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
             {
                 Ingredients[index] = saveIngredientTask.Result.Data;
                 AddInformationMessage("Ingredient saved successfully!", $"{nameof(DetailsPageViewModel)}.{nameof(SaveIntroductionAsync)}", 200);
+            }
+
+            return this;
+        }
+
+        public async Task<IDetailsPageViewModel> DeleteIngredientAsync(IngredientDto ingredientDto)
+        {
+            _logger.LogInformation($"{nameof(DeleteIngredientAsync)}({nameof(ingredientDto)})");
+
+            ClearApiResultMessages();
+
+            var index = Ingredients.IndexOf(ingredientDto);
+
+            var response = await RefitExStaticMethods.TryInvokeApiAsync(() => _ingredientV1_0ApiClient.DeleteAsync(ingredientDto.Id), ApiResultMessages);
+
+            if (response.IsSuccessHttpStatusCode)
+            {
+                Ingredients.RemoveAt(index);
+                AddInformationMessage("Ingredient deleted successfully!", $"{nameof(DetailsPageViewModel)}.{nameof(SaveIntroductionAsync)}", 200);
             }
 
             return this;
@@ -191,5 +210,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
         IDetailsPageViewModel AddIngredient();
 
         Task<IDetailsPageViewModel> SaveIngredientAsync(IngredientDto ingredientDto);
+
+        Task<IDetailsPageViewModel> DeleteIngredientAsync(IngredientDto ingredientDto);
     }
 }
