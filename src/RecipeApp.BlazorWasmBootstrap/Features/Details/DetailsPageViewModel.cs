@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using RecipeApp.BlazorWasmBootstrap.Features.Ingredient;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.ApiClients;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
 using RecipeApp.Shared.Features.Ingredient;
@@ -20,18 +21,18 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
     public class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
     {
         protected readonly IIntroductionV1_0ApiClient _introductionV1_0ApiClient;
-        protected readonly IIngredientV1_0ApiClient _ingredientV1_0ApiClient;
+        protected readonly IIngredientApiClientV1_0 _ingredientApiClientV1_0;
         protected readonly IInstructionV1_0ApiClient _instructionV1_0ApiClient;
         protected readonly ILogger<DetailsPageViewModel> _logger;
         protected Guid _introductionId = Guid.Empty;
 
         public DetailsPageViewModel(IIntroductionV1_0ApiClient introductionV1_0ApiClient
-            , IIngredientV1_0ApiClient ingredientV1_0ApiClient
+            , IIngredientApiClientV1_0 ingredientApiClientV1_0
             , IInstructionV1_0ApiClient instructionV1_0ApiClient
             , ILogger<DetailsPageViewModel> logger)
         {
             _introductionV1_0ApiClient = introductionV1_0ApiClient;
-            _ingredientV1_0ApiClient = ingredientV1_0ApiClient;
+            _ingredientApiClientV1_0 = ingredientApiClientV1_0;
             _instructionV1_0ApiClient = instructionV1_0ApiClient;
             _logger = logger;
         }
@@ -70,7 +71,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
             var getIntroductionTask = RefitExStaticMethods.TryInvokeApiAsync(
                 () => _introductionV1_0ApiClient.GetAsync(_introductionId), ApiResultMessages);
             var getIngredientsTask = RefitExStaticMethods.TryInvokeApiAsync(
-                () => _ingredientV1_0ApiClient.GetAllForIntroductionIdAsync(_introductionId), ApiResultMessages);
+                () => _ingredientApiClientV1_0.GetAllForIntroductionIdAsync(_introductionId), ApiResultMessages);
             var getInstructionsTask = RefitExStaticMethods.TryInvokeApiAsync(
                 () => _instructionV1_0ApiClient.GetAllForIntroductionIdAsync(_introductionId), ApiResultMessages);
 
@@ -151,8 +152,8 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
             var index = Ingredients.IndexOf(ingredientDto);
 
             var saveIngredientTask = ingredientDto.IsNew
-                ? RefitExStaticMethods.TryInvokeApiAsync(() => _ingredientV1_0ApiClient.InsertAsync(ingredientDto), ApiResultMessages)
-                : RefitExStaticMethods.TryInvokeApiAsync(() => _ingredientV1_0ApiClient.UpdateAsync(ingredientDto), ApiResultMessages);
+                ? RefitExStaticMethods.TryInvokeApiAsync(() => _ingredientApiClientV1_0.InsertAsync(ingredientDto), ApiResultMessages)
+                : RefitExStaticMethods.TryInvokeApiAsync(() => _ingredientApiClientV1_0.UpdateAsync(ingredientDto), ApiResultMessages);
 
             await saveIngredientTask;
             // TODO:  need snackbar or stacking alerts
@@ -173,7 +174,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
 
             var index = Ingredients.IndexOf(ingredientDto);
 
-            var response = await RefitExStaticMethods.TryInvokeApiAsync(() => _ingredientV1_0ApiClient.DeleteAsync(ingredientDto.Id), ApiResultMessages);
+            var response = await RefitExStaticMethods.TryInvokeApiAsync(() => _ingredientApiClientV1_0.DeleteAsync(ingredientDto.Id), ApiResultMessages);
 
             if (response.IsSuccessHttpStatusCode)
             {

@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.CoreApi.UnitTests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.BlazorWasmBootstrap", "src\RecipeApp.BlazorWasmBootstrap\RecipeApp.BlazorWasmBootstrap.csproj", "{A6E5590A-0271-4E1F-AC6B-D09EA44E5A5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tbd.RefitEx", "src\Tbd.RefitEx\Tbd.RefitEx.csproj", "{3E6FC532-0525-4442-A82E-5D325E5C292D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tbd.RefitEx", "src\Tbd.RefitEx\Tbd.RefitEx.csproj", "{3E6FC532-0525-4442-A82E-5D325E5C292D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

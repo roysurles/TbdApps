@@ -8,9 +8,9 @@ using Refit;
 
 using Tbd.Shared.ApiResult;
 
-namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.ApiClients
+namespace RecipeApp.BlazorWasmBootstrap.Features.Ingredient
 {
-    public interface IIngredientV1_0ApiClient
+    public interface IIngredientApiClientV1_0
     {
         [Get("/api/v1.0/Ingredient/{id}")]
         Task<ApiResultModel<IngredientDto>> GetAsync(Guid id);
