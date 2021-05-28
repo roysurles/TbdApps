@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using RecipeApp.Shared.Extensions;
@@ -50,5 +52,33 @@ namespace Tbd.WebApi.Shared.Controllers
 
             return objectResult;
         }
+
+        /// <summary>
+        /// Get ClaimTypes.NameIdentifier claim.  Returns null if it does not exist.
+        /// </summary>
+        protected virtual Claim GetNameIdentifierClaim =>
+            User.FindFirst(ClaimTypes.NameIdentifier);
+
+        /// <summary>
+        /// Get ClaimTypes.NameIdentifier claim value.  Returns null if it does not exist.
+        /// </summary>
+        protected virtual string GetNameIdentifierClaimValue =>
+            GetNameIdentifierClaim?.Value;
+
+        /// <summary>
+        /// Get desired claim.  Returns null if the claim does not exist.
+        /// </summary>
+        /// <param name="claim"></param>
+        /// <returns></returns>
+        protected virtual Claim GetClaim(string claim) =>
+            User.FindFirst(claim);
+
+        /// <summary>
+        /// Get desired claim value.  Returns null if the claim does not exist.
+        /// </summary>
+        /// <param name="claim"></param>
+        /// <returns></returns>
+        protected virtual string GetClaimValue(string claim) =>
+            GetClaim(claim)?.Value;
     }
 }

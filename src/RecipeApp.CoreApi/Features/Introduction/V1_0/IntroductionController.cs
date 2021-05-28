@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
@@ -64,11 +63,8 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         [HttpPost()]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IApiResultModel<IntroductionDto>>> PostAsync([FromBody] IntroductionDto introductionDto)
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            return CreateActionResult(await _introductionService.InsertAsync(introductionDto, userId).ConfigureAwait(false));
-        }
+        public async Task<ActionResult<IApiResultModel<IntroductionDto>>> PostAsync([FromBody] IntroductionDto introductionDto) =>
+            CreateActionResult(await _introductionService.InsertAsync(introductionDto, GetNameIdentifierClaimValue).ConfigureAwait(false));
 
         /// <summary>
         /// Update Introduction
@@ -80,11 +76,8 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         [HttpPut()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IApiResultModel<IntroductionDto>>> PutAsync([FromBody] IntroductionDto introductionDto)
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            return CreateActionResult(await _introductionService.UpdateAsync(introductionDto, userId).ConfigureAwait(false));
-        }
+        public async Task<ActionResult<IApiResultModel<IntroductionDto>>> PutAsync([FromBody] IntroductionDto introductionDto) =>
+            CreateActionResult(await _introductionService.UpdateAsync(introductionDto, GetNameIdentifierClaimValue).ConfigureAwait(false));
 
         /// <summary>
         /// Delete Introduction record for the desired Introduction Id.
