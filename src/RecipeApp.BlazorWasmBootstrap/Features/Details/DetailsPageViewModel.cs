@@ -134,7 +134,33 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
 
             ClearApiResultMessages();
 
-            Ingredients.Add(new IngredientDto());
+            Ingredients.Add(new IngredientDto { IntroductionId = Introduction.Id });
+
+            return this;
+        }
+
+        public async Task<IDetailsPageViewModel> SaveIngredientAsync(IngredientDto ingredientDto)
+        {
+            _logger.LogInformation($"{nameof(SaveIngredientAsync)}()");
+
+            ClearApiResultMessages();
+
+            if (ingredientDto.TryValidateObject(ApiResultMessages).Equals(false))
+                return this;
+
+            var index = Ingredients.IndexOf(ingredientDto);
+
+            var saveIngredientTask = ingredientDto.IsNew
+                ? RefitExStaticMethods.TryInvokeApiAsync(() => _ingredientV1_0ApiClient.InsertAsync(ingredientDto), ApiResultMessages)
+                : RefitExStaticMethods.TryInvokeApiAsync(() => _ingredientV1_0ApiClient.UpdateAsync(ingredientDto), ApiResultMessages);
+
+            await saveIngredientTask;
+            // TODO:  need snackbar or stacking alerts
+            if (saveIngredientTask.Result.IsSuccessHttpStatusCode)
+            {
+                Ingredients[index] = saveIngredientTask.Result.Data;
+                AddInformationMessage("Ingredient saved successfully!", $"{nameof(DetailsPageViewModel)}.{nameof(SaveIntroductionAsync)}", 200);
+            }
 
             return this;
         }
@@ -163,5 +189,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
         Task<IDetailsPageViewModel> DeleteIntroductionAsync();
 
         IDetailsPageViewModel AddIngredient();
+
+        Task<IDetailsPageViewModel> SaveIngredientAsync(IngredientDto ingredientDto);
     }
 }
