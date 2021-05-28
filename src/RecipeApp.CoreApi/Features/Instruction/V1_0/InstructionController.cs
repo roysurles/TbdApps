@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/Instruction")]
     [ApiController]
+    [AllowAnonymous]
     public class InstructionController : BaseApiController
     {
         protected readonly IInstructionV1_0Service _instructionService;
@@ -94,6 +96,5 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IApiResultModel<int>>> DeleteAsync(Guid id) =>
             CreateActionResult(await _instructionService.DeleteAsync(id).ConfigureAwait(false));
-
     }
 }

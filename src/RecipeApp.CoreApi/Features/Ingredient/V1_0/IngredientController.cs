@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/Ingredient", Name = "Ingredient")]
     [ApiController]
+    [AllowAnonymous]
     public class IngredientController : BaseApiController
     {
         protected readonly IIngredientV1_0Service _ingredientService;

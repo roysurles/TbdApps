@@ -88,8 +88,10 @@ namespace RecipeApp.CoreApi
             services.AddScoped<IIntroductionV1_0Service, IntroductionV1_0Service>();
 
             services.AddScoped<IIngredientV1_0Repository>(_ => new IngredientV1_0Repository(defaultConnectionString));
+            services.AddScoped<IIngredientV1_0Service, IngredientV1_0Service>();
 
             services.AddScoped<IInstructionV1_0Repository>(_ => new InstructionV1_0Repository(defaultConnectionString));
+            services.AddScoped<IInstructionV1_0Service, InstructionV1_0Service>();
 
             // Impose global model state validation to reduce boilerplate code
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);

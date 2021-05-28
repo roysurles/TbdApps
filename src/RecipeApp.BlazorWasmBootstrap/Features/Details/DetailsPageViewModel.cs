@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.ObjectModel;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -7,6 +8,8 @@ using Microsoft.Extensions.Logging;
 
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.ApiClients;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
+using RecipeApp.Shared.Features.Ingredient;
+using RecipeApp.Shared.Features.Instruction;
 using RecipeApp.Shared.Features.Introduction;
 
 using Tbd.RefitEx;
@@ -17,13 +20,19 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
     public class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
     {
         protected readonly IIntroductionV1_0ApiClient _introductionV1_0ApiClient;
+        protected readonly IIngredientV1_0ApiClient _ingredientV1_0ApiClient;
+        protected readonly IInstructionV1_0ApiClient _instructionV1_0ApiClient;
         protected readonly ILogger<DetailsPageViewModel> _logger;
         protected Guid _introductionId = Guid.Empty;
 
         public DetailsPageViewModel(IIntroductionV1_0ApiClient introductionV1_0ApiClient
+            , IIngredientV1_0ApiClient ingredientV1_0ApiClient
+            , IInstructionV1_0ApiClient instructionV1_0ApiClient
             , ILogger<DetailsPageViewModel> logger)
         {
             _introductionV1_0ApiClient = introductionV1_0ApiClient;
+            _ingredientV1_0ApiClient = ingredientV1_0ApiClient;
+            _instructionV1_0ApiClient = instructionV1_0ApiClient;
             _logger = logger;
         }
 
@@ -31,6 +40,12 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
 
         public IntroductionDto Introduction { get; protected set; } =
             new IntroductionDto();
+
+        public ObservableCollection<IngredientDto> Ingredients { get; protected set; } =
+            new ObservableCollection<IngredientDto>();
+
+        public ObservableCollection<InstructionDto> Instructions { get; protected set; } =
+            new ObservableCollection<InstructionDto>();
 
         public async Task<IDetailsPageViewModel> InitializeAsync(string introductionId)
         {
@@ -54,9 +69,20 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
 
             var getIntroductionTask = RefitExStaticMethods.TryInvokeApiAsync(
                 () => _introductionV1_0ApiClient.GetAsync(_introductionId), ApiResultMessages);
+            var getIngredientsTask = RefitExStaticMethods.TryInvokeApiAsync(
+                () => _ingredientV1_0ApiClient.GetAllForIntroductionIdAsync(_introductionId), ApiResultMessages);
+            var getInstructionsTask = RefitExStaticMethods.TryInvokeApiAsync(
+                () => _instructionV1_0ApiClient.GetAllForIntroductionIdAsync(_introductionId), ApiResultMessages);
 
-            await Task.WhenAll(getIntroductionTask);
+            await Task.WhenAll(getIntroductionTask, getIngredientsTask, getInstructionsTask);
+
             Introduction = getIntroductionTask.Result.Data;
+
+            Ingredients.Clear();
+            Ingredients.AddRange(getIngredientsTask.Result.Data);
+
+            Instructions.Clear();
+            Instructions.AddRange(getInstructionsTask.Result.Data);
 
             return this;
         }
@@ -114,6 +140,10 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
         bool IsValidIntroductionIdParameter { get; }
 
         IntroductionDto Introduction { get; }
+
+        ObservableCollection<IngredientDto> Ingredients { get; }
+
+        ObservableCollection<InstructionDto> Instructions { get; }
 
         Task<IDetailsPageViewModel> InitializeAsync(string introductionId);
 
