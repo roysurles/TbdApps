@@ -21,7 +21,7 @@ else
 
     <div class="row mb-3">
         <div class="accordion" id="accordionPanelsStayOpenExample">
-            <div class="accordion-item">
+            <div class="accordion-item" title="@(DetailsPageViewModel.Introduction.Title)">
                 <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
                         <h3>Introduction</h3>
@@ -90,15 +90,14 @@ else
                                 </tr>
                             </thead>
                             <tbody>
-                                @*@foreach (var item in IntroductionSearchViewModel.IntroductionSearchResult.Data)
-                                    {
+                                @foreach (var item in DetailsPageViewModel.Ingredients)
+                                {
                                     <i class="fas fa-trash-alt"></i>
-                                        <tr title="@(item.Comment)">
-                                            <td>@(item.Title)</td>
-                                            <td>@(item.IngredientsCount)</td>
-                                            <td>@(item.InstructionsCount)</td>
-                                        </tr>
-                                    }*@
+                                    <tr>
+                                        <td>@(item.Measurement)</td>
+                                        <td>@(item.Description)</td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -127,15 +126,13 @@ else
                                 </tr>
                             </thead>
                             <tbody>
-                                @*@foreach (var item in IntroductionSearchViewModel.IntroductionSearchResult.Data)
-                                    {
+                                @foreach (var item in DetailsPageViewModel.Instructions)
+                                {
                                     <i class="fas fa-trash-alt"></i>
-                                        <tr title="@(item.Comment)">
-                                            <td>@(item.Title)</td>
-                                            <td>@(item.IngredientsCount)</td>
-                                            <td>@(item.InstructionsCount)</td>
-                                        </tr>
-                                    }*@
+                                    <tr>
+                                        <td>@(item.Description)</td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -210,6 +207,86 @@ else
 
             DetailsPageViewModel.IsBusy = true;
             await DetailsPageViewModel.DeleteIntroductionAsync();
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(DetailsPageViewModel.ApiResultMessages, ex, PageName);
+        }
+        finally
+        {
+            DetailsPageViewModel.IsBusy = false;
+        }
+    }
+
+    protected async Task SaveIngredientAsync()
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(SaveIntroductionAsync)}()");
+
+            DetailsPageViewModel.IsBusy = true;
+
+            //await DetailsPageViewModel.SaveIngredientAsync();
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(DetailsPageViewModel.ApiResultMessages, ex, PageName);
+        }
+        finally
+        {
+            DetailsPageViewModel.IsBusy = false;
+        }
+    }
+
+    protected async Task DeleteIngredientAsync()
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(DeleteIngredientAsync)}()");
+
+            DetailsPageViewModel.IsBusy = true;
+
+            //await DetailsPageViewModel.DeleteIngredientAsync();
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(DetailsPageViewModel.ApiResultMessages, ex, PageName);
+        }
+        finally
+        {
+            DetailsPageViewModel.IsBusy = false;
+        }
+    }
+
+    protected async Task SaveInstructionAsync()
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(SaveInstructionAsync)}()");
+
+            DetailsPageViewModel.IsBusy = true;
+
+            //await DetailsPageViewModel.SaveInstructionAsync();
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(DetailsPageViewModel.ApiResultMessages, ex, PageName);
+        }
+        finally
+        {
+            DetailsPageViewModel.IsBusy = false;
+        }
+    }
+
+    protected async Task DeleteInstructionAsync()
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(DeleteInstructionAsync)}()");
+
+            DetailsPageViewModel.IsBusy = true;
+
+            //await DetailsPageViewModel.DeleteInstructionAsync();
         }
         catch (Exception ex)
         {
