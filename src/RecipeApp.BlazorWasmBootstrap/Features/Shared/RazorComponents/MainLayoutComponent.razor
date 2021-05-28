@@ -30,10 +30,15 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                            Home
+                        </NavLink>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/Details">New Recipe</a>
+                        @*TODO:  this does not fire resetting details page*@
+                        <NavLink class="nav-link" href="Details">
+                            New Recipe
+                        </NavLink>
                     </li>
                 </ul>
                 @if (SessionViewModel.HostEnvironment.IsProduction().Equals(false))
