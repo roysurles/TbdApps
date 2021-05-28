@@ -1,6 +1,8 @@
 ﻿@inject ISessionViewModel SessionViewModel
 @inject ILogger<IngredientTableEditComponent> Logger
 
+<ApiResultMessagesComponent ApiResultMessages="@IngredientViewModel.ApiResultMessages" />
+
 @if (IngredientViewModel is not null)
 {
     <table class="table table-striped table-hover">
@@ -57,7 +59,11 @@
 
 @code {
 
+    [Parameter]
     public IIngredientViewModel IngredientViewModel { get; set; }
+
+    [Parameter]
+    public EventCallback OnStateHasChanged { get; set; }
 
     protected string ComponentName = "IngredientTableEditComponent";
 
@@ -77,6 +83,7 @@
         finally
         {
             IngredientViewModel.IsBusy = false;
+            OnStateHasChanged.InvokeAsync();
         }
     }
 
@@ -96,6 +103,7 @@
         finally
         {
             IngredientViewModel.IsBusy = false;
+            await OnStateHasChanged.InvokeAsync();
         }
     }
 
@@ -120,6 +128,7 @@
         finally
         {
             IngredientViewModel.IsBusy = false;
+            await OnStateHasChanged.InvokeAsync();
         }
     }
 
