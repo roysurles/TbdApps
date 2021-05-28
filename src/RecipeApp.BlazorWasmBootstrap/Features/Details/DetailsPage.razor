@@ -145,7 +145,11 @@ else
                             <thead>
                                 <tr>
                                     <th scope="col">
-                                        <button type="button" class="btn btn-primary btn-sm" title="Add Instruction" disabled="@(DetailsPageViewModel.Introduction.IsNew)">
+                                        <button type="button"
+                                                class="btn btn-primary btn-sm"
+                                                title="Add Instruction"
+                                                disabled="@(DetailsPageViewModel.Introduction.IsNew)"
+                                                @onclick="@AddInstruction">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </th>
@@ -157,9 +161,25 @@ else
                                 {
                                     <tr>
                                         <td>
-                                            <i class="fas fa-trash-alt"></i>
+                                            <button type="button"
+                                                    class="btn btn-primary btn-sm ml-2"
+                                                    title="Save Instruction"
+                                                    @onclick="@(() => SaveInstructionAsync(item))">
+                                                <i class="fas fa-save"></i>
+                                            </button>
+                                            <button type="button"
+                                                    class="btn btn-primary btn-sm"
+                                                    title="Delete Instruction"
+                                                    disabled="@(item.IsNew)"
+                                                    @onclick="@(() => DeleteInstructionAsync(item))">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
                                         </td>
-                                        <td>@(item.Description)</td>
+                                        <td>
+                                            <input type="text"
+                                                   class="form-control-sm w-100"
+                                                   @bind-value="@(item.Description)">
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
@@ -254,7 +274,6 @@ else
             Logger.LogInformation($"{nameof(AddIngredient)}()");
 
             DetailsPageViewModel.IsBusy = true;
-
             DetailsPageViewModel.AddIngredient();
         }
         catch (Exception ex)
@@ -274,7 +293,6 @@ else
             Logger.LogInformation($"{nameof(SaveIntroductionAsync)}({nameof(ingredientDto)})");
 
             DetailsPageViewModel.IsBusy = true;
-
             await DetailsPageViewModel.SaveIngredientAsync(ingredientDto);
         }
         catch (Exception ex)
@@ -299,7 +317,6 @@ else
                 return;
 
             DetailsPageViewModel.IsBusy = true;
-
             await DetailsPageViewModel.DeleteIngredientAsync(ingredientDto);
         }
         catch (Exception ex)
@@ -312,15 +329,14 @@ else
         }
     }
 
-    protected async Task AddInstructionAsync()
+    protected void AddInstruction()
     {
         try
         {
-            Logger.LogInformation($"{nameof(AddInstructionAsync)}()");
+            Logger.LogInformation($"{nameof(AddInstruction)}()");
 
             DetailsPageViewModel.IsBusy = true;
-
-            //await DetailsPageViewModel.AddIngredientAsync();
+            DetailsPageViewModel.AddInstruction();
         }
         catch (Exception ex)
         {
@@ -332,15 +348,14 @@ else
         }
     }
 
-    protected async Task SaveInstructionAsync()
+    protected async Task SaveInstructionAsync(InstructionDto instructionDto)
     {
         try
         {
-            Logger.LogInformation($"{nameof(SaveInstructionAsync)}()");
+            Logger.LogInformation($"{nameof(SaveInstructionAsync)}({nameof(instructionDto)})");
 
             DetailsPageViewModel.IsBusy = true;
-
-            //await DetailsPageViewModel.SaveInstructionAsync();
+            await DetailsPageViewModel.SaveInstructionAsync(instructionDto);
         }
         catch (Exception ex)
         {
@@ -352,15 +367,19 @@ else
         }
     }
 
-    protected async Task DeleteInstructionAsync()
+    protected async Task DeleteInstructionAsync(InstructionDto instructionDto)
     {
         try
         {
-            Logger.LogInformation($"{nameof(DeleteInstructionAsync)}()");
+            Logger.LogInformation($"{nameof(DeleteInstructionAsync)}({nameof(instructionDto)})");
+
+            DetailsPageViewModel.ClearApiResultMessages();
+
+            if (await SessionViewModel.JSRuntime.ConfirmAsync($"Are you sure you want to delete this instruction?") == false)
+                return;
 
             DetailsPageViewModel.IsBusy = true;
-
-            //await DetailsPageViewModel.DeleteInstructionAsync();
+            await DetailsPageViewModel.DeleteInstructionAsync(instructionDto);
         }
         catch (Exception ex)
         {

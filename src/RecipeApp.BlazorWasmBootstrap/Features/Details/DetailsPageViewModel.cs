@@ -184,6 +184,63 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
             return this;
         }
 
+        public IDetailsPageViewModel AddInstruction()
+        {
+            _logger.LogInformation($"{nameof(AddIngredient)}()");
+
+            ClearApiResultMessages();
+
+            Instructions.Add(new InstructionDto { IntroductionId = Introduction.Id });
+
+            return this;
+        }
+
+        public async Task<IDetailsPageViewModel> SaveInstructionAsync(InstructionDto instructionDto)
+        {
+            _logger.LogInformation($"{nameof(SaveInstructionAsync)}({nameof(instructionDto)})");
+
+            ClearApiResultMessages();
+
+            if (instructionDto.TryValidateObject(ApiResultMessages).Equals(false))
+                return this;
+
+            var index = Instructions.IndexOf(instructionDto);
+
+            var saveInstructionTask = instructionDto.IsNew
+                ? RefitExStaticMethods.TryInvokeApiAsync(() => _instructionV1_0ApiClient.InsertAsync(instructionDto), ApiResultMessages)
+                : RefitExStaticMethods.TryInvokeApiAsync(() => _instructionV1_0ApiClient.UpdateAsync(instructionDto), ApiResultMessages);
+
+            await saveInstructionTask;
+
+            // TODO:  need snackbar or stacking alerts
+            if (saveInstructionTask.Result.IsSuccessHttpStatusCode)
+            {
+                Instructions[index] = saveInstructionTask.Result.Data;
+                AddInformationMessage("Instruction saved successfully!", $"{nameof(DetailsPageViewModel)}.{nameof(SaveIntroductionAsync)}", 200);
+            }
+
+            return this;
+        }
+
+        public async Task<IDetailsPageViewModel> DeleteInstructionAsync(InstructionDto instructionDto)
+        {
+            _logger.LogInformation($"{nameof(DeleteInstructionAsync)}({nameof(instructionDto)})");
+
+            ClearApiResultMessages();
+
+            var index = Instructions.IndexOf(instructionDto);
+
+            var response = await RefitExStaticMethods.TryInvokeApiAsync(() => _instructionV1_0ApiClient.DeleteAsync(instructionDto.Id), ApiResultMessages);
+
+            if (response.IsSuccessHttpStatusCode)
+            {
+                Instructions.RemoveAt(index);
+                AddInformationMessage("Instruction deleted successfully!", $"{nameof(DetailsPageViewModel)}.{nameof(SaveIntroductionAsync)}", 200);
+            }
+
+            return this;
+        }
+
         protected IDetailsPageViewModel SetIntroductionToNewDto()
         {
             Introduction = new IntroductionDto();
@@ -212,5 +269,11 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
         Task<IDetailsPageViewModel> SaveIngredientAsync(IngredientDto ingredientDto);
 
         Task<IDetailsPageViewModel> DeleteIngredientAsync(IngredientDto ingredientDto);
+
+        IDetailsPageViewModel AddInstruction();
+
+        Task<IDetailsPageViewModel> SaveInstructionAsync(InstructionDto instructionDto);
+
+        Task<IDetailsPageViewModel> DeleteInstructionAsync(InstructionDto instructionDto);
     }
 }
