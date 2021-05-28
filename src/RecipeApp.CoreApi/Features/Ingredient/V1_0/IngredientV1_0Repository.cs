@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
@@ -19,8 +20,17 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
         public async Task<IngredientDto> SelectAsync(Guid id)
         {
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);
-            return await connection.QueryFirstOrDefaultAsync<IngredientDto>("IngredientSelect"
+            return await connection.QuerySingleOrDefaultAsync<IngredientDto>("IngredientSelect"
                 , new { id }
+                , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+        }
+
+        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
+        public async Task<IEnumerable<IngredientDto>> SelectAllForIntroductionIdAsync(Guid introductionId)
+        {
+            using var connection = await CreateConnectionAsync().ConfigureAwait(false);
+            return await connection.QueryAsync<IngredientDto>("IngredientSelectAllForIntroductionId"
+                , new { introductionId }
                 , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
         }
 
@@ -66,6 +76,8 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
     public interface IIngredientV1_0Repository
     {
         Task<IngredientDto> SelectAsync(Guid id);
+
+        Task<IEnumerable<IngredientDto>> SelectAllForIntroductionIdAsync(Guid introductionId);
 
         Task<IngredientDto> InsertAsync(IngredientDto ingredientDto, string createdById);
 

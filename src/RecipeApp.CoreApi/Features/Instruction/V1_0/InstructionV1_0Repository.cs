@@ -19,7 +19,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
         public async Task<InstructionDto> SelectAsync(Guid id)
         {
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);
-            return await connection.QueryFirstOrDefaultAsync<InstructionDto>("InstructionSelect"
+            return await connection.QuerySingleOrDefaultAsync<InstructionDto>("InstructionSelect"
                    , new { id }
                    , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
         }

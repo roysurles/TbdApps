@@ -54,7 +54,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
 
         public async Task<IApiResultModel<IntroductionDto>> InsertAsync(IntroductionDto introductionDto, string createdById)
         {
-            _logger.LogInformation($"{nameof(InsertAsync)}(IntroductionDto, {createdById})");
+            _logger.LogInformation($"{nameof(InsertAsync)}({nameof(introductionDto)}, {createdById})");
 
             var apiResult = CreateApiResultModel<IntroductionDto>();
 
@@ -66,7 +66,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
 
         public async Task<IApiResultModel<IntroductionDto>> UpdateAsync(IntroductionDto introductionDto, string updatedById)
         {
-            _logger.LogInformation($"{nameof(UpdateAsync)}(IntroductionDto, {updatedById})");
+            _logger.LogInformation($"{nameof(UpdateAsync)}({nameof(introductionDto)}, {updatedById})");
 
             var apiResult = CreateApiResultModel<IntroductionDto>();
 
