@@ -10,7 +10,7 @@ using Tbd.Shared.ApiResult;
 
 namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.ApiClients
 {
-    public interface IIntroductionV1_0ApiClient
+    public interface IIntroductionApiClientV1_0
     {
         [Post("/api/v1.0/Introduction/search")]
         Task<ApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync([Body] IntroductionSearchRequestDto introductionSearchRequestDto);

@@ -15,13 +15,13 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
 {
     public class IntroductionSearchViewModel : BaseViewModel, IIntroductionSearchViewModel
     {
-        protected readonly IIntroductionV1_0ApiClient _introductionV1_0ApiClient;
+        protected readonly IIntroductionApiClientV1_0 _introductionpiClientV1_0;
         protected readonly ILogger<IntroductionSearchViewModel> _logger;
 
-        public IntroductionSearchViewModel(IIntroductionV1_0ApiClient introductionV1_0ApiClient
+        public IntroductionSearchViewModel(IIntroductionApiClientV1_0 introductionpiClientV1_0
             , ILogger<IntroductionSearchViewModel> logger)
         {
-            _introductionV1_0ApiClient = introductionV1_0ApiClient;
+            _introductionpiClientV1_0 = introductionpiClientV1_0;
             _logger = logger;
         }
 
@@ -54,7 +54,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
 
             IntroductionSearchRequestDto.SetPagination(pageNumber, pageSize);
             IntroductionSearchResult = await RefitExStaticMethods.TryInvokeApiAsync(
-                () => _introductionV1_0ApiClient.SearchAsync(IntroductionSearchRequestDto), ApiResultMessages);
+                () => _introductionpiClientV1_0.SearchAsync(IntroductionSearchRequestDto), ApiResultMessages);
 
             HasSearched = true;
         }

@@ -19,18 +19,18 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
 {
     public class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
     {
-        protected readonly IIntroductionV1_0ApiClient _introductionV1_0ApiClient;
+        protected readonly IIntroductionApiClientV1_0 _introductionpiClientV1_0;
         protected readonly IIngredientApiClientV1_0 _ingredientApiClientV1_0;
         protected readonly IInstructionV1_0ApiClient _instructionV1_0ApiClient;
         protected readonly ILogger<DetailsPageViewModel> _logger;
         protected Guid _introductionId = Guid.Empty;
 
-        public DetailsPageViewModel(IIntroductionV1_0ApiClient introductionV1_0ApiClient
+        public DetailsPageViewModel(IIntroductionApiClientV1_0 introductionpiClientV1_0
             , IIngredientViewModel ingredientViewModel
             , IInstructionV1_0ApiClient instructionV1_0ApiClient
             , ILogger<DetailsPageViewModel> logger)
         {
-            _introductionV1_0ApiClient = introductionV1_0ApiClient;
+            _introductionpiClientV1_0 = introductionpiClientV1_0;
             IngredientViewModel = ingredientViewModel;
             _instructionV1_0ApiClient = instructionV1_0ApiClient;
             _logger = logger;
@@ -67,7 +67,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
                 return SetIntroductionToNewDto();
 
             var getIntroductionTask = RefitExStaticMethods.TryInvokeApiAsync(
-                () => _introductionV1_0ApiClient.GetAsync(_introductionId), ApiResultMessages);
+                () => _introductionpiClientV1_0.GetAsync(_introductionId), ApiResultMessages);
 
             var initializeIngredientViewModelTask = IngredientViewModel.InitializeAsync(_introductionId);
 
@@ -94,8 +94,8 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
                 return this;
 
             var saveIntroductionTask = Introduction.IsNew
-                ? RefitExStaticMethods.TryInvokeApiAsync(() => _introductionV1_0ApiClient.InsertAsync(Introduction), ApiResultMessages)
-                : RefitExStaticMethods.TryInvokeApiAsync(() => _introductionV1_0ApiClient.UpdateAsync(Introduction), ApiResultMessages);
+                ? RefitExStaticMethods.TryInvokeApiAsync(() => _introductionpiClientV1_0.InsertAsync(Introduction), ApiResultMessages)
+                : RefitExStaticMethods.TryInvokeApiAsync(() => _introductionpiClientV1_0.UpdateAsync(Introduction), ApiResultMessages);
 
             await saveIntroductionTask;
             // TODO:  need snackbar or stacking alerts
@@ -118,7 +118,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
                 return this;
             }
 
-            var apiResult = await RefitExStaticMethods.TryInvokeApiAsync(() => _introductionV1_0ApiClient.DeleteAsync(Introduction.Id), ApiResultMessages);
+            var apiResult = await RefitExStaticMethods.TryInvokeApiAsync(() => _introductionpiClientV1_0.DeleteAsync(Introduction.Id), ApiResultMessages);
             if (apiResult.IsSuccessHttpStatusCode)
                 AddInformationMessage("Introduction deleted successfully!", $"{nameof(DetailsPageViewModel)}.{nameof(DeleteIntroductionAsync)}", 200);
 

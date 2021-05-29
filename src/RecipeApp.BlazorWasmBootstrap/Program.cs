@@ -40,7 +40,7 @@ namespace RecipeApp.BlazorWasmBootstrap
             builder.Services.AddScoped<CustomMessageHandler>();
             builder.Services.AddTransient(typeof(IApiResultModel<>), typeof(ApiResultModel<>));
 
-            builder.Services.AddRefitClient<IIntroductionV1_0ApiClient>()
+            builder.Services.AddRefitClient<IIntroductionApiClientV1_0>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))
                 .AddHttpMessageHandler<CustomMessageHandler>();
 
