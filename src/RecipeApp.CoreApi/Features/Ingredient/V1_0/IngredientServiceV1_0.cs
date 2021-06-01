@@ -48,7 +48,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
 
             return introductionId == Guid.Empty
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Id is required.", $"{nameof(IngredientServiceV1_0)}.{nameof(SelectAsync)}", HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Introduction Id is required.", $"{nameof(IngredientServiceV1_0)}.{nameof(SelectAllForIntroductionIdAsync)}", HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _ingredientRepository.SelectAllForIntroductionIdAsync(introductionId).ConfigureAwait(false))
                     .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: $"{nameof(IngredientServiceV1_0)}.{nameof(SelectAsync)}");
@@ -59,6 +59,12 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
             _logger.LogInformation($"{nameof(InsertAsync)}({nameof(ingredientDto)}, {createdById})");
 
             var apiResult = CreateApiResultModel<IngredientDto>();
+
+            if (ingredientDto.IntroductionId == Guid.Empty)
+            {
+                return apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Introduction Id is required.", $"{nameof(IngredientServiceV1_0)}.{nameof(InsertAsync)}", HttpStatusCode.BadRequest);
+            }
 
             return ingredientDto.TryValidateObject(apiResult.Messages)
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.Created)
@@ -71,6 +77,12 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
             _logger.LogInformation($"{nameof(UpdateAsync)}({nameof(ingredientDto)}, {updatedById})");
 
             var apiResult = CreateApiResultModel<IngredientDto>();
+
+            if (ingredientDto.IntroductionId == Guid.Empty)
+            {
+                return apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Introduction Id is required.", $"{nameof(IngredientServiceV1_0)}.{nameof(UpdateAsync)}", HttpStatusCode.BadRequest);
+            }
 
             if (ingredientDto.Id == Guid.Empty)
             {

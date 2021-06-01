@@ -48,7 +48,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
             return introductionId == Guid.Empty
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAsync)}", HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Introduction Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAllForIntroductionIdAsync)}", HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _instructionRepository.SelectAllForIntroductionIdAsync(introductionId).ConfigureAwait(false))
                     .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAsync)}");
@@ -63,7 +63,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
             if (instructionDto.IntroductionId == Guid.Empty)
             {
                 return apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Introduction Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(UpdateAsync)}", HttpStatusCode.BadRequest);
+                    .AddErrorMessage("Introduction Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(InsertAsync)}", HttpStatusCode.BadRequest);
             }
 
             return instructionDto.TryValidateObject(apiResult.Messages)
