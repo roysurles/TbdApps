@@ -96,11 +96,13 @@ else
 
     protected string PageName = nameof(IndexPage);
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         IntroductionSearchViewModel.StateHasChangedEvent += IntroductionSearchViewModel_StateHasChangedEvent;
+        if (IntroductionSearchViewModel.HasSearched)
+            await SearchAsync(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber, IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageSize);
 
-        base.OnInitialized();
+        await base.OnInitializedAsync();
     }
 
     protected void IntroductionSearchViewModel_StateHasChangedEvent(object sender, EventArgs e) =>
