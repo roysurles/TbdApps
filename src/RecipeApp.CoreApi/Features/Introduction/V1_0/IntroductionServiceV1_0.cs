@@ -28,7 +28,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
 
         public async Task<IApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto)
         {
-            _logger.LogInformation($"{nameof(SelectAsync)}({nameof(introductionSearchRequestDto)})");
+            _logger.LogInformation($"{nameof(SearchAsync)}({nameof(introductionSearchRequestDto)})");
 
             var (PaginationMetaData, Data) = await _introductionRepository.SearchAsync(introductionSearchRequestDto).ConfigureAwait(false);
 
