@@ -51,7 +51,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
                     .AddErrorMessage("Introduction Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAllForIntroductionIdAsync)}", HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _instructionRepository.SelectAllForIntroductionIdAsync(introductionId).ConfigureAwait(false))
-                    .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAsync)}");
+                    .VerifyDataHasCount(ApiResultMessageModelTypeEnumeration.Information, source: $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAllForIntroductionIdAsync)}");
         }
 
         public async Task<IApiResultModel<InstructionDto>> InsertAsync(InstructionDto instructionDto, string createdById)

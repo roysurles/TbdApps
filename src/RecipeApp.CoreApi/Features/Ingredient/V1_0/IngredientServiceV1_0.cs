@@ -51,7 +51,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
                     .AddErrorMessage("Introduction Id is required.", $"{nameof(IngredientServiceV1_0)}.{nameof(SelectAllForIntroductionIdAsync)}", HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _ingredientRepository.SelectAllForIntroductionIdAsync(introductionId).ConfigureAwait(false))
-                    .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: $"{nameof(IngredientServiceV1_0)}.{nameof(SelectAsync)}");
+                    .VerifyDataHasCount(ApiResultMessageModelTypeEnumeration.Information, source: $"{nameof(IngredientServiceV1_0)}.{nameof(SelectAllForIntroductionIdAsync)}");
         }
 
         public async Task<IApiResultModel<IngredientDto>> InsertAsync(IngredientDto ingredientDto, string createdById)

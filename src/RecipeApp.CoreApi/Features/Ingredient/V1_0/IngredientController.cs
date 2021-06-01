@@ -55,7 +55,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IApiResultModel<IEnumerable<IngredientDto>>>> GetAllForIntroductionIdAsync(Guid introductionId) =>
-            CreateActionResult(await _ingredientService.SelectAllForIntroductionIdAsync(introductionId).ConfigureAwait(false));
+            CreateActionResult(await _ingredientService.SelectAllForIntroductionIdAsync(introductionId).ConfigureAwait(false), false);
 
         /// <summary>
         /// Insert new Ingredient.

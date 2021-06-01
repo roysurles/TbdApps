@@ -29,7 +29,7 @@ namespace RecipeApp.CoreApi.UnitTests.Features.Instruction.V1_0
             var instructionDto = new InstructionDto { Id = instructionId, IntroductionId = introductionId, Description = description };
 
             _instructionRepositoryMock
-                .Setup(x => x.InsertAsync(It.IsAny<InstructionDto>(), It.IsAny<string>()))
+                .Setup(x => x.UpdateAsync(It.IsAny<InstructionDto>(), It.IsAny<string>()))
                 .ReturnsAsync(instructionDto);
 
             // Act

@@ -55,7 +55,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IApiResultModel<IEnumerable<InstructionDto>>>> GetAllForIntroductionIdAsync(Guid introductionId) =>
-            CreateActionResult(await _instructionService.SelectAllForIntroductionIdAsync(introductionId).ConfigureAwait(false));
+            CreateActionResult(await _instructionService.SelectAllForIntroductionIdAsync(introductionId).ConfigureAwait(false), false);
 
         /// <summary>
         /// Insert new Instruction.
