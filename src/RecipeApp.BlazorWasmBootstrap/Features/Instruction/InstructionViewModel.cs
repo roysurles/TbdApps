@@ -17,6 +17,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Instruction
     {
         protected readonly IInstructionApiClientV1_0 _instructionApiClientV1_0;
         protected readonly ILogger<InstructionViewModel> _logger;
+        protected Guid _introductionId = Guid.Empty;
 
         public InstructionViewModel(IInstructionApiClientV1_0 instructionApiClientV1_0
             , ILogger<InstructionViewModel> logger)
@@ -25,10 +26,8 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Instruction
             _logger = logger;
         }
 
-        public Guid IntroductionId { get; protected set; }
-
         public bool IsIntroductionNew =>
-            Equals(Guid.Empty, IntroductionId);
+            Equals(Guid.Empty, _introductionId);
 
         public ObservableCollection<InstructionDto> Instructions { get; protected set; } =
             new ObservableCollection<InstructionDto>();
@@ -37,12 +36,16 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Instruction
         {
             _logger.LogInformation($"{nameof(InstructionViewModel)}({introductionId})");
 
-            IntroductionId = introductionId;
+            ApiResultMessages.Clear();
+            Instructions.Clear();
+            _introductionId = introductionId;
+
+            if (Equals(Guid.Empty, _introductionId))
+                return this;
 
             var response = await RefitExStaticMethods.TryInvokeApiAsync(
-                () => _instructionApiClientV1_0.GetAllForIntroductionIdAsync(IntroductionId), ApiResultMessages);
+                () => _instructionApiClientV1_0.GetAllForIntroductionIdAsync(introductionId), ApiResultMessages);
 
-            Instructions.Clear();
             Instructions.AddRange(response.Data);
 
             return this;
@@ -54,7 +57,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Instruction
 
             ClearApiResultMessages();
 
-            Instructions.Add(new InstructionDto { IntroductionId = IntroductionId });
+            Instructions.Add(new InstructionDto { IntroductionId = _introductionId });
 
             return this;
         }
@@ -108,8 +111,6 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Instruction
 
     public interface IInstructionViewModel : IBaseViewModel
     {
-        Guid IntroductionId { get; }
-
         bool IsIntroductionNew { get; }
 
         ObservableCollection<InstructionDto> Instructions { get; }

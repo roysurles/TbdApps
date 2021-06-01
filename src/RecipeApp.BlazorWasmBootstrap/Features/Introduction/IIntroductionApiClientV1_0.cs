@@ -8,7 +8,7 @@ using Refit;
 
 using Tbd.Shared.ApiResult;
 
-namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.ApiClients
+namespace RecipeApp.BlazorWasmBootstrap.Features.Introduction
 {
     public interface IIntroductionApiClientV1_0
     {

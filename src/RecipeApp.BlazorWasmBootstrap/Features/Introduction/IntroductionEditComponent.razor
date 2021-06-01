@@ -1,0 +1,111 @@
+﻿@inject ISessionViewModel SessionViewModel
+@inject ILogger<IntroductionEditComponent> Logger
+
+@if (IntroductionViewModel is not null)
+{
+    <div class="row">
+        <ApiResultMessagesComponent ApiResultMessages="@IntroductionViewModel.ApiResultMessages" />
+    </div>
+    <div class="row">
+        <div class="form-floating mb-3">
+            <input type="text"
+                   class="form-control"
+                   id="IntroductionTitleInput"
+                   placeholder="Title"
+                   @bind-value="@(IntroductionViewModel.Introduction.Title)">
+            <label for="IntroductionTitleInput">Title</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text"
+                   class="form-control"
+                   id="IntroductionCommentsInput"
+                   placeholder="Comments"
+                   @bind-value="@(IntroductionViewModel.Introduction.Comment)">
+            <label for="IntroductionCommentsInput">Comments</label>
+        </div>
+        <div>
+            <button type="button"
+                    class="btn btn-primary btn-sm"
+                    title="Save Introduction"
+                    @onclick="@SaveIntroductionAsync">
+                <i class="fas fa-save"></i>
+                Save Introduction
+            </button>
+            <button type="button"
+                    class="btn btn-primary btn-sm ml-3"
+                    title="Delete Introduction and associated Ingredients & Instructions"
+                    @onclick="@DeleteIntroductionAsync"
+                    disabled="@(IntroductionViewModel.Introduction.IsNew)">
+                <i class="fas fa-trash-alt"></i>
+                Delete Introduction
+            </button>
+        </div>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public IIntroductionViewModel IntroductionViewModel { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnIntroductionSaved { get; set; }
+
+    [Parameter]
+    public EventCallback OnIntroductionDeleted { get; set; }
+
+    protected string ComponentName = "IntroductionTableEditComponent";
+
+    protected async Task SaveIntroductionAsync()
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(SaveIntroductionAsync)}()");
+
+            IntroductionViewModel.IsBusy = true;
+            var wasNew = IntroductionViewModel.Introduction.IsNew;
+            await IntroductionViewModel.SaveIntroductionAsync();
+            await OnIntroductionSaved.InvokeAsync(wasNew);
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(IntroductionViewModel.ApiResultMessages, ex, ComponentName);
+        }
+        finally
+        {
+            IntroductionViewModel.IsBusy = false;
+        }
+    }
+
+    protected async Task DeleteIntroductionAsync()
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(DeleteIntroductionAsync)}()");
+
+            // TODO:  need snackbar or stacked alerts
+            if (IntroductionViewModel.Introduction.IsNew)
+            {
+                IntroductionViewModel.AddInformationMessage("There is nothing to Delete!", $"{ComponentName}.{nameof(DeleteIntroductionAsync)}");
+                await SessionViewModel.JSRuntime.AlertAsync("There is nothing to delete!");
+                return;
+            }
+
+            if (await SessionViewModel.JSRuntime.ConfirmAsync($"Are you sure you want to delete '{IntroductionViewModel.Introduction.Title}'?") == false)
+                return;
+
+            IntroductionViewModel.IsBusy = true;
+            await IntroductionViewModel.DeleteIntroductionAsync();
+            await OnIntroductionDeleted.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(IntroductionViewModel.ApiResultMessages, ex, ComponentName);
+        }
+        finally
+        {
+            IntroductionViewModel.IsBusy = false;
+        }
+    }
+
+}

@@ -21,7 +21,7 @@ else
 
     <div class="row mb-3">
         <div class="accordion" id="accordionPanelsStayOpenExample">
-            <div class="accordion-item" title="@(DetailsPageViewModel.Introduction.Title)">
+            <div class="accordion-item" title="@(DetailsPageViewModel.IntroductionViewModel.Introduction.Title)">
                 <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
                         <span style="font-size:larger"><strong>Introduction</strong></span>
@@ -29,40 +29,9 @@ else
                 </h2>
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                     <div class="accordion-body">
-                        <div class="form-floating mb-3">
-                            <input type="text"
-                                   class="form-control"
-                                   id="IntroductionTitleInput"
-                                   placeholder="Title"
-                                   @bind-value="@(DetailsPageViewModel.Introduction.Title)">
-                            <label for="IntroductionTitleInput">Title</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text"
-                                   class="form-control"
-                                   id="IntroductionCommentsInput"
-                                   placeholder="Comments"
-                                   @bind-value="@(DetailsPageViewModel.Introduction.Comment)">
-                            <label for="IntroductionCommentsInput">Comments</label>
-                        </div>
-                        <div>
-                            <button type="button"
-                                    class="btn btn-primary btn-sm"
-                                    title="Save Introduction"
-                                    @onclick="@SaveIntroductionAsync"
-                                    disabled="@(DetailsPageViewModel.IsValidIntroductionIdParameter.Equals(false))">
-                                <i class="fas fa-save"></i>
-                                Save Introduction
-                            </button>
-                            <button type="button"
-                                    class="btn btn-primary btn-sm ml-3"
-                                    title="Delete Introduction and associated Ingredients & Instructions"
-                                    @onclick="@DeleteIntroductionAsync"
-                                    disabled="@(DetailsPageViewModel.Introduction?.IsNew)">
-                                <i class="fas fa-trash-alt"></i>
-                                Delete Introduction
-                            </button>
-                        </div>
+                        <IntroductionEditComponent IntroductionViewModel="@(DetailsPageViewModel.IntroductionViewModel)"
+                                                   OnIntroductionSaved="@OnIntroductionSavedAsync"
+                                                   OnIntroductionDeleted="@OnIntroductionDeletedAsync" />
                     </div>
                 </div>
             </div>
@@ -116,7 +85,7 @@ else
             Logger.LogInformation($"{nameof(OnInitializedAsync)}({IntoductionId})");
 
             DetailsPageViewModel.IsLoading = true;
-            await DetailsPageViewModel.InitializeAsync(IntoductionId);
+            await DetailsPageViewModel.InitializeAsync(IntoductionId.ToGuid());
         }
         catch (Exception ex)
         {
@@ -135,14 +104,18 @@ else
         await OnInitializedAsync();
     }
 
-    protected async Task SaveIntroductionAsync()
+    protected async Task OnIntroductionSavedAsync(bool wasNew)
     {
         try
         {
-            Logger.LogInformation($"{nameof(SaveIntroductionAsync)}()");
+            Logger.LogInformation($"{nameof(OnIntroductionSavedAsync)}({wasNew})");
 
             DetailsPageViewModel.IsBusy = true;
-            await DetailsPageViewModel.SaveIntroductionAsync();
+            if (wasNew)
+            {
+                IntoductionId = DetailsPageViewModel.IntroductionViewModel.Introduction.Id.ToString();
+                await DetailsPageViewModel.InitializeIngredientsAndInstructionsAsync(DetailsPageViewModel.IntroductionViewModel.Introduction.Id);
+            }
         }
         catch (Exception ex)
         {
@@ -154,25 +127,15 @@ else
         }
     }
 
-    protected async Task DeleteIntroductionAsync()
+    protected async Task OnIntroductionDeletedAsync()
     {
         try
         {
-            Logger.LogInformation($"{nameof(DeleteIntroductionAsync)}()");
-
-            // TODO:  need snackbar or stacked alerts
-            if (DetailsPageViewModel.Introduction.IsNew)
-            {
-                DetailsPageViewModel.AddInformationMessage("There is nothing to Delete!", $"{nameof(DetailsPageViewModel)}.{nameof(DeleteIntroductionAsync)}");
-                await SessionViewModel.JSRuntime.AlertAsync("There is nothing to delete!");
-                return;
-            }
-
-            if (await SessionViewModel.JSRuntime.ConfirmAsync($"Are you sure you want to delete '{DetailsPageViewModel.Introduction?.Title}'?") == false)
-                return;
+            Logger.LogInformation($"{nameof(OnIntroductionDeletedAsync)}()");
 
             DetailsPageViewModel.IsBusy = true;
-            await DetailsPageViewModel.DeleteIntroductionAsync();
+            IntoductionId = null;
+            await DetailsPageViewModel.InitializeIngredientsAndInstructionsAsync(Guid.Empty);
         }
         catch (Exception ex)
         {

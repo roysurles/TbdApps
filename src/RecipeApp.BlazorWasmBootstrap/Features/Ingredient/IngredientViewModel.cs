@@ -17,6 +17,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Ingredient
     {
         protected readonly IIngredientApiClientV1_0 _ingredientApiClientV1_0;
         protected readonly ILogger<IngredientViewModel> _logger;
+        protected Guid _introductionId = Guid.Empty;
 
         public IngredientViewModel(IIngredientApiClientV1_0 ingredientApiClientV1_0
             , ILogger<IngredientViewModel> logger)
@@ -25,10 +26,8 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Ingredient
             _logger = logger;
         }
 
-        public Guid IntroductionId { get; protected set; }
-
         public bool IsIntroductionNew =>
-            Equals(Guid.Empty, IntroductionId);
+            Equals(Guid.Empty, _introductionId);
 
         public ObservableCollection<IngredientDto> Ingredients { get; protected set; } =
             new ObservableCollection<IngredientDto>();
@@ -37,12 +36,16 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Ingredient
         {
             _logger.LogInformation($"{nameof(IngredientViewModel)}({introductionId})");
 
-            IntroductionId = introductionId;
+            ApiResultMessages.Clear();
+            Ingredients.Clear();
+            _introductionId = introductionId;
+
+            if (Equals(Guid.Empty, _introductionId))
+                return this;
 
             var response = await RefitExStaticMethods.TryInvokeApiAsync(
-                () => _ingredientApiClientV1_0.GetAllForIntroductionIdAsync(IntroductionId), ApiResultMessages);
+                () => _ingredientApiClientV1_0.GetAllForIntroductionIdAsync(introductionId), ApiResultMessages);
 
-            Ingredients.Clear();
             Ingredients.AddRange(response.Data);
 
             return this;
@@ -54,7 +57,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Ingredient
 
             ClearApiResultMessages();
 
-            Ingredients.Add(new IngredientDto { IntroductionId = IntroductionId });
+            Ingredients.Add(new IngredientDto { IntroductionId = _introductionId });
 
             return this;
         }
@@ -108,8 +111,6 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Ingredient
 
     public interface IIngredientViewModel : IBaseViewModel
     {
-        Guid IntroductionId { get; }
-
         bool IsIntroductionNew { get; }
 
         ObservableCollection<IngredientDto> Ingredients { get; }

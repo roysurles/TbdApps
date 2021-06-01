@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RecipeApp.BlazorWasmBootstrap.Features.Details;
 using RecipeApp.BlazorWasmBootstrap.Features.Ingredient;
 using RecipeApp.BlazorWasmBootstrap.Features.Instruction;
-using RecipeApp.BlazorWasmBootstrap.Features.Shared.ApiClients;
+using RecipeApp.BlazorWasmBootstrap.Features.Introduction;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.MessageHandlers;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Session;
@@ -44,16 +44,17 @@ namespace RecipeApp.BlazorWasmBootstrap
             builder.Services.AddRefitClient<IIntroductionApiClientV1_0>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))
                 .AddHttpMessageHandler<CustomMessageHandler>();
+            builder.Services.AddTransient<IIntroductionViewModel, IntroductionViewModel>();
 
             builder.Services.AddRefitClient<IIngredientApiClientV1_0>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))
                 .AddHttpMessageHandler<CustomMessageHandler>();
-            builder.Services.AddSingleton<IIngredientViewModel, IngredientViewModel>();
+            builder.Services.AddTransient<IIngredientViewModel, IngredientViewModel>();
 
             builder.Services.AddRefitClient<IInstructionApiClientV1_0>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))
                 .AddHttpMessageHandler<CustomMessageHandler>();
-            builder.Services.AddSingleton<IInstructionViewModel, InstructionViewModel>();
+            builder.Services.AddTransient<IInstructionViewModel, InstructionViewModel>();
 
             builder.Services.AddSingleton<IIntroductionSearchViewModel, IntroductionSearchViewModel>();
 
