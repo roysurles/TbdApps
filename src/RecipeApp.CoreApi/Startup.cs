@@ -81,7 +81,7 @@ namespace RecipeApp.CoreApi
 
             services.AddTransient(typeof(IApiResultModel<>), typeof(ApiResultModel<>));
 
-            var defaultConnectionString = Configuration.GetConnectionString("Default");
+            var defaultConnectionString = Configuration.GetConnectionString("Default2");
             SqlMapper.AddTypeHandler(new SqlGuidTypeHandler());
 
             services.AddScoped<IIntroductionRepositoryV1_0>(_ => new IntroductionRepositoryV1_0(defaultConnectionString));

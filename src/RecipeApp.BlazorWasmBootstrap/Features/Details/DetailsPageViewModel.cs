@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 using RecipeApp.BlazorWasmBootstrap.Features.Ingredient;
+using RecipeApp.BlazorWasmBootstrap.Features.Instruction;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.ApiClients;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
 using RecipeApp.Shared.Features.Instruction;
@@ -20,19 +21,17 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
     public class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
     {
         protected readonly IIntroductionApiClientV1_0 _introductionpiClientV1_0;
-        protected readonly IIngredientApiClientV1_0 _ingredientApiClientV1_0;
-        protected readonly IInstructionV1_0ApiClient _instructionV1_0ApiClient;
         protected readonly ILogger<DetailsPageViewModel> _logger;
         protected Guid _introductionId = Guid.Empty;
 
         public DetailsPageViewModel(IIntroductionApiClientV1_0 introductionpiClientV1_0
             , IIngredientViewModel ingredientViewModel
-            , IInstructionV1_0ApiClient instructionV1_0ApiClient
+            , IInstructionViewModel instructionViewModel
             , ILogger<DetailsPageViewModel> logger)
         {
             _introductionpiClientV1_0 = introductionpiClientV1_0;
             IngredientViewModel = ingredientViewModel;
-            _instructionV1_0ApiClient = instructionV1_0ApiClient;
+            InstructionViewModel = instructionViewModel;
             _logger = logger;
         }
 
@@ -42,6 +41,8 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
             new IntroductionDto();
 
         public IIngredientViewModel IngredientViewModel { get; }
+
+        public IInstructionViewModel InstructionViewModel { get; }
 
         public ObservableCollection<InstructionDto> Instructions { get; protected set; } =
             new ObservableCollection<InstructionDto>();
@@ -70,16 +71,11 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
                 () => _introductionpiClientV1_0.GetAsync(_introductionId), ApiResultMessages);
 
             var initializeIngredientViewModelTask = IngredientViewModel.InitializeAsync(_introductionId);
+            var initializeInstructionViewModelTask = InstructionViewModel.InitializeAsync(_introductionId);
 
-            var getInstructionsTask = RefitExStaticMethods.TryInvokeApiAsync(
-                () => _instructionV1_0ApiClient.GetAllForIntroductionIdAsync(_introductionId), ApiResultMessages);
-
-            await Task.WhenAll(getIntroductionTask, initializeIngredientViewModelTask, getInstructionsTask);
+            await Task.WhenAll(getIntroductionTask, initializeIngredientViewModelTask, initializeInstructionViewModelTask);
 
             Introduction = getIntroductionTask.Result.Data;
-
-            Instructions.Clear();
-            Instructions.AddRange(getInstructionsTask.Result.Data);
 
             return this;
         }
@@ -125,63 +121,6 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
             return SetIntroductionToNewDto();
         }
 
-        public IDetailsPageViewModel AddInstruction()
-        {
-            _logger.LogInformation($"{nameof(AddInstruction)}()");
-
-            ClearApiResultMessages();
-
-            Instructions.Add(new InstructionDto { IntroductionId = Introduction.Id });
-
-            return this;
-        }
-
-        public async Task<IDetailsPageViewModel> SaveInstructionAsync(InstructionDto instructionDto)
-        {
-            _logger.LogInformation($"{nameof(SaveInstructionAsync)}({nameof(instructionDto)})");
-
-            ClearApiResultMessages();
-
-            if (instructionDto.TryValidateObject(ApiResultMessages).Equals(false))
-                return this;
-
-            var index = Instructions.IndexOf(instructionDto);
-
-            var saveInstructionTask = instructionDto.IsNew
-                ? RefitExStaticMethods.TryInvokeApiAsync(() => _instructionV1_0ApiClient.InsertAsync(instructionDto), ApiResultMessages)
-                : RefitExStaticMethods.TryInvokeApiAsync(() => _instructionV1_0ApiClient.UpdateAsync(instructionDto), ApiResultMessages);
-
-            await saveInstructionTask;
-
-            // TODO:  need snackbar or stacking alerts
-            if (saveInstructionTask.Result.IsSuccessHttpStatusCode)
-            {
-                Instructions[index] = saveInstructionTask.Result.Data;
-                AddInformationMessage("Instruction saved successfully!", $"{nameof(DetailsPageViewModel)}.{nameof(SaveIntroductionAsync)}", 200);
-            }
-
-            return this;
-        }
-
-        public async Task<IDetailsPageViewModel> DeleteInstructionAsync(InstructionDto instructionDto)
-        {
-            _logger.LogInformation($"{nameof(DeleteInstructionAsync)}({nameof(instructionDto)})");
-
-            ClearApiResultMessages();
-
-            var index = Instructions.IndexOf(instructionDto);
-
-            var response = await RefitExStaticMethods.TryInvokeApiAsync(() => _instructionV1_0ApiClient.DeleteAsync(instructionDto.Id), ApiResultMessages);
-
-            if (response.IsSuccessHttpStatusCode)
-            {
-                Instructions.RemoveAt(index);
-                AddInformationMessage("Instruction deleted successfully!", $"{nameof(DetailsPageViewModel)}.{nameof(SaveIntroductionAsync)}", 200);
-            }
-
-            return this;
-        }
-
         protected IDetailsPageViewModel SetIntroductionToNewDto()
         {
             Introduction = new IntroductionDto();
@@ -197,18 +136,12 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Details
 
         IIngredientViewModel IngredientViewModel { get; }
 
-        ObservableCollection<InstructionDto> Instructions { get; }
+        IInstructionViewModel InstructionViewModel { get; }
 
         Task<IDetailsPageViewModel> InitializeAsync(string introductionId);
 
         Task<IDetailsPageViewModel> SaveIntroductionAsync();
 
         Task<IDetailsPageViewModel> DeleteIntroductionAsync();
-
-        IDetailsPageViewModel AddInstruction();
-
-        Task<IDetailsPageViewModel> SaveInstructionAsync(InstructionDto instructionDto);
-
-        Task<IDetailsPageViewModel> DeleteInstructionAsync(InstructionDto instructionDto);
     }
 }

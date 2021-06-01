@@ -1,5 +1,4 @@
 ﻿
-
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -81,7 +80,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Instruction
             if (saveIngredientTask.Result.IsSuccessHttpStatusCode)
             {
                 Instructions[index] = saveIngredientTask.Result.Data;
-                AddInformationMessage("Ingredient saved successfully!", $"{nameof(InstructionViewModel)}.{nameof(SaveInstructionAsync)}", 200);
+                AddInformationMessage("Instruction saved successfully!", $"{nameof(InstructionViewModel)}.{nameof(SaveInstructionAsync)}", 200);
             }
 
             return this;
@@ -100,7 +99,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Instruction
             if (response.IsSuccessHttpStatusCode)
             {
                 Instructions.RemoveAt(index);
-                AddInformationMessage("Ingredient deleted successfully!", $"{nameof(InstructionViewModel)}.{nameof(DeleteInstructionAsync)}", 200);
+                AddInformationMessage("Instruction deleted successfully!", $"{nameof(InstructionViewModel)}.{nameof(DeleteInstructionAsync)}", 200);
             }
 
             return this;
