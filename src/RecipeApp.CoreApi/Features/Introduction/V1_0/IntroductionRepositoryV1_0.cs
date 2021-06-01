@@ -35,18 +35,6 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
             return (CreatePaginationMetaDataModel(introductionSearchRequestDto.PageNumber
                 , introductionSearchRequestDto.PageSize
                 , totalItemCount), data);
-
-            //const int totalItemCount = 200;
-            //var data = new List<IntroductionSearchResultDto>()
-            //{
-            //    new IntroductionSearchResultDto{ Id = Guid.NewGuid(), Title = "Title1", Comment = "Comment1", IngredientsCount = 3, InstructionsCount = 4 },
-            //    new IntroductionSearchResultDto{ Id = Guid.NewGuid(), Title = "Title2", Comment = "Comment2", IngredientsCount = 7, InstructionsCount = 5 },
-            //    new IntroductionSearchResultDto{ Id = Guid.NewGuid(), Title = "Title3", Comment = "Comment3", IngredientsCount = 9, InstructionsCount = 10 }
-            //};
-
-            //return (CreatePaginationMetaDataModel(introductionSearchRequestDto.PageNumber
-            //    , introductionSearchRequestDto.PageSize
-            //    , totalItemCount), data);
         }
 
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
