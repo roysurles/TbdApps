@@ -15,7 +15,8 @@ namespace RecipeApp.CoreApi.UnitTests.Features.Instruction.V1_0
     public partial class InstructionServiceTests
     {
         [Theory(DisplayName = "InstructionServiceTests.Update")]
-        [InlineData("00000000-0000-0000-0000-000000000000", "eb95c593-69b2-4483-8fc3-4f74726a317e", null, HttpStatusCode.BadRequest, new string[] { "Introduction Id is required." })]
+        [InlineData("00000000-0000-0000-0000-000000000000", "00000000-0000-0000-0000-000000000000", null, HttpStatusCode.BadRequest, new string[] { "Introduction Id is required." })]
+        [InlineData("eb95c593-69b2-4483-8fc3-4f74726a317e", "00000000-0000-0000-0000-000000000000", null, HttpStatusCode.BadRequest, new string[] { "Id is required." })]
         [InlineData("eb95c593-69b2-4483-8fc3-4f74726a317e", "eb95c593-69b2-4483-8fc3-4f74726a317e", null, HttpStatusCode.BadRequest, new string[] { "The Description field is required." })]
         [InlineData("eb95c593-69b2-4483-8fc3-4f74726a317e", "eb95c593-69b2-4483-8fc3-4f74726a317e", "", HttpStatusCode.BadRequest, new string[] { "The Description field is required." })]
         [InlineData("eb95c593-69b2-4483-8fc3-4f74726a317e", "eb95c593-69b2-4483-8fc3-4f74726a317e", "Description", HttpStatusCode.OK, new string[] { })]
