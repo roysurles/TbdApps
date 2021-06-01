@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -7,15 +6,15 @@ using FluentAssertions;
 
 using Moq;
 
-using RecipeApp.Shared.Features.Introduction;
+using RecipeApp.Shared.Features.Instruction;
 
 using Xunit;
 
-namespace RecipeApp.CoreApi.UnitTests.Features.Introduction.V1_0
+namespace RecipeApp.CoreApi.UnitTests.Features.Instruction.V1_0
 {
-    public partial class IntroductionServiceTests
+    public partial class InstructionServiceTests
     {
-        [Theory(DisplayName = "IntroductionServiceTests.Select")]
+        [Theory(DisplayName = "InstructionServiceTests.Select")]
         [InlineData("00000000-0000-0000-0000-000000000000", HttpStatusCode.BadRequest, new string[] { "Id is required." })]
         [InlineData("eb95c593-69b2-4483-8fc3-4f74726a317e", HttpStatusCode.NotFound, new string[] { "No data found." })]
         [InlineData("eb95c593-69b2-4483-8fc3-4f74726a317e", HttpStatusCode.OK, new string[] { })]
@@ -24,16 +23,16 @@ namespace RecipeApp.CoreApi.UnitTests.Features.Introduction.V1_0
             , string[] expectedMessages)
         {
             // Arrange
-            var returnIntroductionDto = Equals(expectedHttpStatusCode, HttpStatusCode.OK)
-                ? new IntroductionDto()
+            var returnInstructionDto = Equals(expectedHttpStatusCode, HttpStatusCode.OK)
+                ? new InstructionDto()
                 : null;
 
-            _introductionRepositoryMock
+            _instructionRepositoryMock
                 .Setup(x => x.SelectAsync(It.IsAny<Guid>()))
-                .ReturnsAsync(returnIntroductionDto);
+                .ReturnsAsync(returnInstructionDto);
 
             // Act
-            var actualApiResult = await _introductionService.SelectAsync(id).ConfigureAwait(false);
+            var actualApiResult = await _instructionService.SelectAsync(id).ConfigureAwait(false);
 
             // Assert
             actualApiResult.HttpStatusCode.Should().Be(expectedHttpStatusCode);
