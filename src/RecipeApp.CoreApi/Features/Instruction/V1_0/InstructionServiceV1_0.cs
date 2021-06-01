@@ -60,6 +60,12 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
             var apiResult = CreateApiResultModel<InstructionDto>();
 
+            if (instructionDto.IntroductionId == Guid.Empty)
+            {
+                return apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Introduction Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(UpdateAsync)}", HttpStatusCode.BadRequest);
+            }
+
             return instructionDto.TryValidateObject(apiResult.Messages)
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.Created)
                     .SetData(await _instructionRepository.InsertAsync(instructionDto, createdById).ConfigureAwait(false))
@@ -71,6 +77,12 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
             _logger.LogInformation($"{nameof(UpdateAsync)}({nameof(instructionDto)}, {updatedById})");
 
             var apiResult = CreateApiResultModel<InstructionDto>();
+
+            if (instructionDto.IntroductionId == Guid.Empty)
+            {
+                return apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Introduction Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(UpdateAsync)}", HttpStatusCode.BadRequest);
+            }
 
             if (instructionDto.Id == Guid.Empty)
             {
