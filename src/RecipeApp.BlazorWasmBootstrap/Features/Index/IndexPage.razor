@@ -51,32 +51,9 @@ else
         @if (IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageCount > 1)
         {
             <div class="row">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item @(IntroductionSearchViewModel.IntroductionSearchResult.Meta.HasPreviousPage.Equals(false).RenderDisabled())">
-                            <a class="page-link" href="#" @onclick="@(_ => SearchAsync(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber - 1))">
-                                Previous
-                            </a>
-                        </li>
-                        @for (int i = 0; i < Math.Min(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageCount, 10); i++)
-                        {
-                            var pageNumber = i + 1;
-                            var active = pageNumber.Equals(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber)
-                                ? "active"
-                                : "";
-                            <li class="page-item @active">
-                                <a class="page-link" href="#" @onclick="@(_ => SearchAsync(pageNumber))">
-                                    @(pageNumber)
-                                </a>
-                            </li>
-                        }
-                        <li class="page-item @(IntroductionSearchViewModel.IntroductionSearchResult.Meta.HasNextPage.Equals(false).RenderDisabled())">
-                            <a class="page-link" href="#" @onclick="@(_ => SearchAsync(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber + 1))">
-                                Next
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                <PaginationComponent PageCount="@(Math.Min(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageCount, 10))"
+                                     PageNumber="@(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber)"
+                                     PageNumberClicked="@((int pageNumber) => SearchAsync(pageNumber))" />
             </div>
         }
     }

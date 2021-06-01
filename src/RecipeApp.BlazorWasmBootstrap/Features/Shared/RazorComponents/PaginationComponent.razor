@@ -1,0 +1,38 @@
+﻿<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item @(PageNumber.Equals(1).RenderDisabled())">
+            <a class="page-link" href="#" @onclick="@(_ => PageNumberClicked.InvokeAsync(PageNumber - 1))">
+                Previous
+            </a>
+        </li>
+        @for (int pageNumber = 1; pageNumber <= PageCount; pageNumber++)
+        {
+            var active = pageNumber.Equals(PageNumber)
+                ? "active"
+                : "";
+            <li class="page-item @active">
+                <a class="page-link" href="#" @onclick="@(_ => PageNumberClicked.InvokeAsync(pageNumber))">
+                    @(pageNumber)
+                </a>
+            </li>
+        }
+        <li class="page-item @(PageNumber.Equals(PageCount).RenderDisabled())">
+            <a class="page-link" href="#" @onclick="@(_ => PageNumberClicked.InvokeAsync(PageNumber + 1))">
+                Next
+            </a>
+        </li>
+    </ul>
+</nav>
+
+@code {
+
+    [Parameter]
+    public int PageCount { get; set; }
+
+    [Parameter]
+    public int PageNumber { get; set; }
+
+    [Parameter]
+    public EventCallback<int> PageNumberClicked { get; set; }
+
+}
