@@ -32,20 +32,15 @@ else
                         var itemId = item.Id.ToString();
                         var detailLink = $"/Details/{itemId}";
                         <tr title="@(item.Comment)">
-                            <td>
-                                <span>
+                            <td nowrap>
+                                <span class="w-100">
                                     <a class="nav-link active"
                                        aria-current="page"
                                        href="@detailLink">
                                         @item.Title
                                     </a>
-                                    <span>
-                                        <span class="badge bg-info text-dark">Ingredients: @(item.IngredientsCount)</span>
-                                    </span>
-                                    <span>
-
-                                        <span class="badge bg-info text-dark">Instructions: @(item.InstructionsCount)</span>
-                                    </span>
+                                    <span class="badge bg-info text-dark">Ingredients: @(item.IngredientsCount)</span>
+                                    <span class="badge bg-info text-dark">Instructions: @(item.InstructionsCount)</span>
                                 </span>
                             </td>
                         </tr>
