@@ -46,12 +46,14 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
             var apiResult = CreateApiResultModel<IEnumerable<InstructionDto>>();
 
-            return introductionId == Guid.Empty
+            return Equals(introductionId, Guid.Empty)
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
                     .AddErrorMessage("Introduction Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAllForIntroductionIdAsync)}", HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _instructionRepository.SelectAllForIntroductionIdAsync(introductionId).ConfigureAwait(false))
-                    .VerifyDataHasCount(ApiResultMessageModelTypeEnumeration.Information, source: $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAllForIntroductionIdAsync)}");
+                    .VerifyDataHasCount(ApiResultMessageModelTypeEnumeration.Information
+                        , source: $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAllForIntroductionIdAsync)}"
+                        , setHttpStatusCode: false);
         }
 
         public async Task<IApiResultModel<InstructionDto>> InsertAsync(InstructionDto instructionDto, string createdById)
