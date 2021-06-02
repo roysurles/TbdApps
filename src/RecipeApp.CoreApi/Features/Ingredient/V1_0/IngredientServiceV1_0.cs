@@ -46,12 +46,14 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
 
             var apiResult = CreateApiResultModel<IEnumerable<IngredientDto>>();
 
-            return introductionId == Guid.Empty
+            return Equals(introductionId, Guid.Empty)
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
                     .AddErrorMessage("Introduction Id is required.", $"{nameof(IngredientServiceV1_0)}.{nameof(SelectAllForIntroductionIdAsync)}", HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _ingredientRepository.SelectAllForIntroductionIdAsync(introductionId).ConfigureAwait(false))
-                    .VerifyDataHasCount(ApiResultMessageModelTypeEnumeration.Information, source: $"{nameof(IngredientServiceV1_0)}.{nameof(SelectAllForIntroductionIdAsync)}");
+                    .VerifyDataHasCount(ApiResultMessageModelTypeEnumeration.Information
+                        , source: $"{nameof(IngredientServiceV1_0)}.{nameof(SelectAllForIntroductionIdAsync)}"
+                        , setHttpStatusCode: false);
         }
 
         public async Task<IApiResultModel<IngredientDto>> InsertAsync(IngredientDto ingredientDto, string createdById)
