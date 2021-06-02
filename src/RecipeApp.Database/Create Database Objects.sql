@@ -1,15 +1,14 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [Recipe]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  Database [Recipe]    Script Date: 6/1/2021 7:02:53 PM ******/
 CREATE DATABASE [Recipe]
  CONTAINMENT = NONE
  ON  PRIMARY
-( NAME = N'Recipe', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\Recipe.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+( NAME = N'Recipe', FILENAME = N'C:\Users\Roy\Recipe.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
  LOG ON
-( NAME = N'Recipe_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\Recipe_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
- WITH CATALOG_COLLATION = DATABASE_DEFAULT
+( NAME = N'Recipe_log', FILENAME = N'C:\Users\Roy\Recipe_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
 GO
-ALTER DATABASE [Recipe] SET COMPATIBILITY_LEVEL = 150
+ALTER DATABASE [Recipe] SET COMPATIBILITY_LEVEL = 130
 GO
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
 begin
@@ -74,13 +73,21 @@ ALTER DATABASE [Recipe] SET TARGET_RECOVERY_TIME = 60 SECONDS
 GO
 ALTER DATABASE [Recipe] SET DELAYED_DURABILITY = DISABLED
 GO
-ALTER DATABASE [Recipe] SET ACCELERATED_DATABASE_RECOVERY = OFF
-GO
 ALTER DATABASE [Recipe] SET QUERY_STORE = OFF
 GO
 USE [Recipe]
 GO
-/****** Object:  Table [dbo].[ApiLog]    Script Date: 5/28/2021 9:57:51 AM ******/
+ALTER DATABASE SCOPED CONFIGURATION SET LEGACY_CARDINALITY_ESTIMATION = OFF;
+GO
+ALTER DATABASE SCOPED CONFIGURATION SET MAXDOP = 0;
+GO
+ALTER DATABASE SCOPED CONFIGURATION SET PARAMETER_SNIFFING = ON;
+GO
+ALTER DATABASE SCOPED CONFIGURATION SET QUERY_OPTIMIZER_HOTFIXES = OFF;
+GO
+USE [Recipe]
+GO
+/****** Object:  Table [dbo].[ApiLog]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -107,10 +114,10 @@ CREATE TABLE [dbo].[ApiLog](
  CONSTRAINT [PK_ApiLog] PRIMARY KEY CLUSTERED
 (
     [Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Ingredient]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  Table [dbo].[Ingredient]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -127,10 +134,10 @@ CREATE TABLE [dbo].[Ingredient](
  CONSTRAINT [PK_Ingredient] PRIMARY KEY CLUSTERED
 (
     [Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Instruction]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  Table [dbo].[Instruction]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -146,10 +153,10 @@ CREATE TABLE [dbo].[Instruction](
  CONSTRAINT [PK_Instruction] PRIMARY KEY CLUSTERED
 (
     [Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Introduction]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  Table [dbo].[Introduction]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -165,16 +172,14 @@ CREATE TABLE [dbo].[Introduction](
  CONSTRAINT [PK_Introduction] PRIMARY KEY CLUSTERED
 (
     [Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Instruction] ADD  CONSTRAINT [DF_Instruction_UpdatedOn]  DEFAULT (getdate()) FOR [UpdatedOnUtc]
 GO
 ALTER TABLE [dbo].[Introduction] ADD  CONSTRAINT [DF_Introduction_Id]  DEFAULT (newid()) FOR [Id]
 GO
-ALTER TABLE [dbo].[Introduction] ADD  CONSTRAINT [DF_Introduction_UpdatedOn]  DEFAULT (getdate()) FOR [UpdatedOnUtc]
-GO
-/****** Object:  StoredProcedure [dbo].[IngredientDelete]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  StoredProcedure [dbo].[IngredientDelete]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -191,7 +196,7 @@ AS
         WHERE  Id = @Id;
     END;
 GO
-/****** Object:  StoredProcedure [dbo].[IngredientInsert]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  StoredProcedure [dbo].[IngredientInsert]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -228,7 +233,7 @@ AS
 
     END;
 GO
-/****** Object:  StoredProcedure [dbo].[IngredientSelect]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  StoredProcedure [dbo].[IngredientSelect]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -254,7 +259,7 @@ AS
         WHERE  Id = @Id;
     END;
 GO
-/****** Object:  StoredProcedure [dbo].[IngredientSelectAllForIntroductionId]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  StoredProcedure [dbo].[IngredientSelectAllForIntroductionId]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -264,7 +269,6 @@ GO
 -- Create date: 28-May-2021
 -- Description:	Initial Creation
 -- =============================================
-
 CREATE PROCEDURE [dbo].[IngredientSelectAllForIntroductionId] @IntroductionId UNIQUEIDENTIFIER
 AS
     BEGIN
@@ -280,7 +284,7 @@ AS
         WHERE  IntroductionId = @IntroductionId;
     END;
 GO
-/****** Object:  StoredProcedure [dbo].[IngredientUpdate]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  StoredProcedure [dbo].[IngredientUpdate]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -306,7 +310,7 @@ AS
         WHERE  Id = @Id;
     END;
 GO
-/****** Object:  StoredProcedure [dbo].[InstructionDelete]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  StoredProcedure [dbo].[InstructionDelete]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -323,7 +327,7 @@ AS
         WHERE  Id = @Id;
     END;
 GO
-/****** Object:  StoredProcedure [dbo].[InstructionInsert]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  StoredProcedure [dbo].[InstructionInsert]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -356,7 +360,7 @@ AS
         );
     END;
 GO
-/****** Object:  StoredProcedure [dbo].[InstructionSelect]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  StoredProcedure [dbo].[InstructionSelect]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -381,7 +385,7 @@ AS
         WHERE  Id = @Id;
     END;
 GO
-/****** Object:  StoredProcedure [dbo].[InstructionSelectAllForIntroductionId]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  StoredProcedure [dbo].[InstructionSelectAllForIntroductionId]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -391,8 +395,7 @@ GO
 -- Create date: 28-May-2021
 -- Description:	Initial Creation
 -- =============================================
-
-create PROCEDURE [dbo].[InstructionSelectAllForIntroductionId] @IntroductionId UNIQUEIDENTIFIER
+CREATE PROCEDURE [dbo].[InstructionSelectAllForIntroductionId] @IntroductionId UNIQUEIDENTIFIER
 AS
     BEGIN
         SELECT Id
@@ -406,7 +409,7 @@ AS
         WHERE  IntroductionId = @IntroductionId;
     END;
 GO
-/****** Object:  StoredProcedure [dbo].[InstructionUpdate]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  StoredProcedure [dbo].[InstructionUpdate]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -430,7 +433,7 @@ AS
         WHERE  Id = @Id;
     END;
 GO
-/****** Object:  StoredProcedure [dbo].[IntroductionDelete]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  StoredProcedure [dbo].[IntroductionDelete]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -453,7 +456,7 @@ AS
         WHERE  Id = @Id;
     END;
 GO
-/****** Object:  StoredProcedure [dbo].[IntroductionInsert]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  StoredProcedure [dbo].[IntroductionInsert]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -463,13 +466,19 @@ GO
 -- Create date: 23-Apr-2021
 -- Description:	Initial Creation
 -- =============================================
-CREATE PROCEDURE [dbo].[IntroductionInsert] @Id      UNIQUEIDENTIFIER,
-                                       @Title   NVARCHAR(50),
-                                       @Comment NVARCHAR(255),
-                                       @CreatedById NVARCHAR(255),
-                                       @CreatedOnUtc DateTime
+CREATE PROCEDURE [dbo].[IntroductionInsert] @Id           UNIQUEIDENTIFIER,
+                                       @Title        NVARCHAR(50),
+                                       @Comment      NVARCHAR(255),
+                                       @CreatedById  NVARCHAR(255),
+                                       @CreatedOnUtc DATETIME
 AS
     BEGIN
+        IF @Id IS NULL
+            SET @Id = NEWID();
+        IF @Id = '00000000-0000-0000-0000-000000000000'
+            SET @Id = NEWID();
+        IF @CreatedOnUtc IS NULL
+            SET @CreatedOnUtc = GETUTCDATE();
         INSERT INTO dbo.Introduction
         (Id
         ,Title
@@ -486,7 +495,7 @@ AS
         );
     END;
 GO
-/****** Object:  StoredProcedure [dbo].[IntroductionSearch]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  StoredProcedure [dbo].[IntroductionSearch]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -509,24 +518,28 @@ AS
                AND Title LIKE '%' + @SearchText + '%'
                OR @SearchText IS NOT NULL
                AND Comment LIKE '%' + @SearchText + '%';
-        SELECT Id
-              ,Title
-              ,Comment
-              ,CreatedById
-              ,CreatedOnUtc
-              ,UpdatedById
-              ,UpdatedOnUtc
-        FROM   dbo.Introduction
-        WHERE  @SearchText IS NULL
-               OR @SearchText IS NOT NULL
-               AND Title LIKE '%' + @SearchText + '%'
-               OR @SearchText IS NOT NULL
-               AND Comment LIKE '%' + @SearchText + '%'
-        ORDER BY Title
-        OFFSET @Offset ROWS FETCH NEXT @Fetch ROWS ONLY;
+
+        SELECT    IntroductionResult.Id
+                 ,IntroductionResult.Title
+                 ,IntroductionResult.Comment
+                 ,IngredientsCount = ( SELECT COUNT(*) FROM dbo.Ingredient WHERE IntroductionId = IntroductionResult.Id )
+                 ,InstructionsCount = ( SELECT COUNT(*) FROM dbo.Instruction WHERE IntroductionId = IntroductionResult.Id )
+        FROM (
+                SELECT    Id
+                         ,Title
+                         ,Comment
+                FROM dbo.Introduction
+                WHERE @SearchText IS NULL
+                      OR @SearchText IS NOT NULL
+                      AND Title LIKE '%' + @SearchText + '%'
+                      OR @SearchText IS NOT NULL
+                      AND Comment LIKE '%' + @SearchText + '%'
+                ORDER BY Title
+                OFFSET @Offset ROWS FETCH NEXT @Fetch ROWS ONLY
+             ) IntroductionResult
     END;
 GO
-/****** Object:  StoredProcedure [dbo].[IntroductionSelect]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  StoredProcedure [dbo].[IntroductionSelect]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -551,7 +564,7 @@ AS
         WHERE  Id = @Id;
     END;
 GO
-/****** Object:  StoredProcedure [dbo].[IntroductionUpdate]    Script Date: 5/28/2021 9:57:51 AM ******/
+/****** Object:  StoredProcedure [dbo].[IntroductionUpdate]    Script Date: 6/1/2021 7:02:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -561,14 +574,15 @@ GO
 -- Create date: 23-Apr-2021
 -- Description:	Initial Creation
 -- =============================================
-CREATE PROCEDURE [dbo].[IntroductionUpdate] @Id      UNIQUEIDENTIFIER,
-                                        @Title   NVARCHAR(50),
-                                        @Comment NVARCHAR(255),
-                                        @UpdatedById NVARCHAR(255),
-                                        @UpdatedOnUtc DateTime
+CREATE PROCEDURE [dbo].[IntroductionUpdate] @Id           UNIQUEIDENTIFIER,
+                                       @Title        NVARCHAR(50),
+                                       @Comment      NVARCHAR(255),
+                                       @UpdatedById  NVARCHAR(255),
+                                       @UpdatedOnUtc DATETIME
 AS
     BEGIN
-        SET NOCOUNT ON;
+        IF @UpdatedOnUtc IS NULL
+            SET @UpdatedOnUtc = GETUTCDATE();
         UPDATE dbo.Introduction
           SET
               Title = @Title,
