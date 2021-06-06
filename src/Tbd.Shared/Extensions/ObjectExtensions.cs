@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace Tbd.Shared.Extensions
 {
@@ -16,6 +17,12 @@ namespace Tbd.Shared.Extensions
                 : string.IsNullOrWhiteSpace(obj?.ToString())
                     ? "[EMPTY STRING]"
                     : obj?.ToString();
+        }
+
+        public static string GetName(this object obj, [CallerMemberName] string callerMemberName = null)
+        {
+            var objName = obj.GetType().Name;
+            return $"{objName}.{callerMemberName}";
         }
     }
 }

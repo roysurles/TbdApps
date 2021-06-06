@@ -44,6 +44,12 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
         {
             _logger.LogInformation($"{nameof(SelectAllForIntroductionIdAsync)}({introductionId})");
 
+            var stopWatch = System.Diagnostics.Stopwatch.StartNew();
+            var str = this.GetClassNameAndMethodName();
+            stopWatch.Stop();
+
+            var elapsed = stopWatch.ElapsedMilliseconds;
+
             var apiResult = CreateApiResultModel<IEnumerable<InstructionDto>>();
 
             return Equals(introductionId, Guid.Empty)
