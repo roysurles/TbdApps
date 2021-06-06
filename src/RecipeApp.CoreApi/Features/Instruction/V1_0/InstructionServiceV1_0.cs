@@ -45,7 +45,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
             _logger.LogInformation($"{nameof(SelectAllForIntroductionIdAsync)}({introductionId})");
 
             var stopWatch = System.Diagnostics.Stopwatch.StartNew();
-            var str = this.GetClassNameAndMethodName();
+            var str = this.GetObjectAndMemberName();
             stopWatch.Stop();
 
             var elapsed = stopWatch.ElapsedMilliseconds;

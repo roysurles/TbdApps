@@ -19,7 +19,7 @@ namespace Tbd.Shared.Extensions
                     : obj?.ToString();
         }
 
-        public static string GetName(this object obj, [CallerMemberName] string callerMemberName = null)
+        public static string GetObjectAndMemberName(this object obj, [CallerMemberName] string callerMemberName = null)
         {
             var objName = obj.GetType().Name;
             return $"{objName}.{callerMemberName}";
