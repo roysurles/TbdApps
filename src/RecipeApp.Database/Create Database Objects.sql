@@ -507,10 +507,13 @@ GO
 -- =============================================
 
 CREATE PROCEDURE [dbo].[IntroductionSearch] @SearchText NVARCHAR(50),
-                                       @Offset     INT,
-                                       @Fetch      INT
+                                            @Offset     INT,
+                                            @Fetch      INT
 AS
     BEGIN
+        IF RTRIM(@SearchText) = ''
+            SET @SearchText = NULL
+
         SELECT COUNT(Id) AS TotalItemCount
         FROM   dbo.Introduction
         WHERE  @SearchText IS NULL
