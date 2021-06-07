@@ -40,10 +40,11 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
         public void OnStateHasChanged() =>
             StateHasChangedEvent?.Invoke(this, EventArgs.Empty);
 
-        public void SetBusyFlag(bool isBusy)
+        public Task SetBusyFlag(bool isBusy)
         {
             IsBusy = isBusy;
             OnStateHasChanged();
+            return Task.CompletedTask;
         }
 
         public async Task SearchAsync(int pageNumber = 1, int pageSize = 10)
@@ -72,7 +73,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
 
         void OnStateHasChanged();
 
-        void SetBusyFlag(bool isBusy);
+        Task SetBusyFlag(bool isBusy);
 
         Task SearchAsync(int pageNumber = 1, int pageSize = 10);
     }

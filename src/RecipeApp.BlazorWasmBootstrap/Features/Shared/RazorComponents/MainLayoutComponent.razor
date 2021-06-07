@@ -3,6 +3,7 @@
 @inject ISessionViewModel SessionViewModel
 @inject IIntroductionSearchViewModel IntroductionSearchViewModel
 @inject ILogger<MainLayoutComponent> Logger
+@inject Invoker Invoker
 @*<div class="page">
         <div class="sidebar">
             <NavMenuComponent />
@@ -54,10 +55,22 @@
                            @bind-value="@(IntroductionSearchViewModel.IntroductionSearchRequestDto.SearchText)">
                     <button class="btn btn-outline-success"
                             type="button"
-                            @onclick="@SearchAsync"
+                            @onclick="@(() => Invoker.TryInvokeAsync(() => IntroductionSearchViewModel.SetBusyFlag(true)
+                                        , () =>  IntroductionSearchViewModel.SearchAsync(1, 10)
+                                        , () => IntroductionSearchViewModel.SetBusyFlag(false)
+                                        , Logger
+                                        , ComponentName
+                                        , "SearchButtonClicked"
+                                        , null))"
                             disabled="@(IntroductionSearchViewModel.IsBusy)">
                         Search
                     </button>
+                    @*<button class="btn btn-outline-success"
+                                type="button"
+                                @onclick="@SearchAsync"
+                                disabled="@(IntroductionSearchViewModel.IsBusy)">
+                            Search
+                        </button>*@
                 </form>
             </div>
         </div>

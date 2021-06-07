@@ -4,6 +4,7 @@
 @inject ISessionViewModel SessionViewModel
 @inject IIntroductionSearchViewModel IntroductionSearchViewModel
 @inject ILogger<IndexPage> Logger
+@inject Invoker Invoker
 
 <div class="row mb-3">
     <ApiResultMessagesComponent ApiResultMessages="@IntroductionSearchViewModel.ApiResultMessages" />
@@ -57,7 +58,16 @@ else
             <div class="row">
                 <PaginationComponent PageCount="@(Math.Min(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageCount, 10))"
                                      PageNumber="@(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber)"
-                                     PageNumberClicked="@((int pageNumber) => SearchAsync(pageNumber))" />
+                                     PageNumberClicked="@((int pageNumber) => Invoker.TryInvokeAsync(() => IntroductionSearchViewModel.SetBusyFlag(true) 
+                                                          , () =>  IntroductionSearchViewModel.SearchAsync(pageNumber, 10)
+                                                          , () => IntroductionSearchViewModel.SetBusyFlag(false)
+                                                          , Logger
+                                                          , PageName
+                                                          , "PageNumberClicked"
+                                                          , null))" />
+                @*<PaginationComponent PageCount="@(Math.Min(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageCount, 10))"
+                    PageNumber="@(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber)"
+                    PageNumberClicked="@((int pageNumber) => SearchAsync(pageNumber))" />*@
             </div>
         }
     }
