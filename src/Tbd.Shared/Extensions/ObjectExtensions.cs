@@ -19,6 +19,14 @@ namespace Tbd.Shared.Extensions
                     : obj?.ToString();
         }
 
+        /// <summary>
+        /// This method is ~28 nanoseconds more than $"{nameof(object)}.{nameof(member)}"
+        /// 1 millisecond = 1,000,000 nanoseconds
+        /// 1 second = 1,000 milliseconds
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="callerMemberName"></param>
+        /// <returns></returns>
         public static string GetObjectAndMemberName(this object obj, [CallerMemberName] string callerMemberName = null)
         {
             var objName = obj.GetType().Name;

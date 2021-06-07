@@ -17,6 +17,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
     {
         protected readonly ILogger<InstructionServiceV1_0> _logger;
         protected readonly IInstructionRepositoryV1_0 _instructionRepository;
+        protected readonly string _className = nameof(InstructionServiceV1_0);
 
         public InstructionServiceV1_0(IServiceProvider serviceProvider
             , ILogger<InstructionServiceV1_0> logger
@@ -28,50 +29,45 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
         public async Task<IApiResultModel<InstructionDto>> SelectAsync(Guid id)
         {
-            _logger.LogInformation($"{nameof(SelectAsync)}({id})");
+            var memberName = $"{_className}.{nameof(SelectAsync)}";
+            _logger.LogInformation($"{memberName}({id})");
 
             var apiResult = CreateApiResultModel<InstructionDto>();
 
             return id == Guid.Empty
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAsync)}", HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Id is required.", memberName, HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _instructionRepository.SelectAsync(id).ConfigureAwait(false))
-                    .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAsync)}");
+                    .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: memberName);
         }
 
         public async Task<IApiResultModel<IEnumerable<InstructionDto>>> SelectAllForIntroductionIdAsync(Guid introductionId)
         {
-            _logger.LogInformation($"{nameof(SelectAllForIntroductionIdAsync)}({introductionId})");
-
-            var stopWatch = System.Diagnostics.Stopwatch.StartNew();
-            var str = this.GetObjectAndMemberName();
-            stopWatch.Stop();
-
-            var elapsed = stopWatch.ElapsedMilliseconds;
+            var memberName = $"{_className}.{nameof(SelectAllForIntroductionIdAsync)}";
+            _logger.LogInformation($"{memberName}({introductionId})");
 
             var apiResult = CreateApiResultModel<IEnumerable<InstructionDto>>();
 
             return Equals(introductionId, Guid.Empty)
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Introduction Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAllForIntroductionIdAsync)}", HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Introduction Id is required.", memberName, HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _instructionRepository.SelectAllForIntroductionIdAsync(introductionId).ConfigureAwait(false))
-                    .VerifyDataHasCount(ApiResultMessageModelTypeEnumeration.Information
-                        , source: $"{nameof(InstructionServiceV1_0)}.{nameof(SelectAllForIntroductionIdAsync)}"
-                        , setHttpStatusCode: false);
+                    .VerifyDataHasCount(ApiResultMessageModelTypeEnumeration.Information, source: memberName, setHttpStatusCode: false);
         }
 
         public async Task<IApiResultModel<InstructionDto>> InsertAsync(InstructionDto instructionDto, string createdById)
         {
-            _logger.LogInformation($"{nameof(InsertAsync)}({nameof(instructionDto)}, {createdById})");
+            var memberName = $"{_className}.{nameof(InsertAsync)}";
+            _logger.LogInformation($"{memberName}({nameof(instructionDto)}, {createdById})");
 
             var apiResult = CreateApiResultModel<InstructionDto>();
 
             if (instructionDto.IntroductionId == Guid.Empty)
             {
                 return apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Introduction Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(InsertAsync)}", HttpStatusCode.BadRequest);
+                    .AddErrorMessage("Introduction Id is required.", memberName, HttpStatusCode.BadRequest);
             }
 
             return instructionDto.TryValidateObject(apiResult.Messages)
@@ -82,20 +78,21 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
         public async Task<IApiResultModel<InstructionDto>> UpdateAsync(InstructionDto instructionDto, string updatedById)
         {
-            _logger.LogInformation($"{nameof(UpdateAsync)}({nameof(instructionDto)}, {updatedById})");
+            var memberName = $"{_className}.{nameof(UpdateAsync)}";
+            _logger.LogInformation($"{memberName}({nameof(instructionDto)}, {updatedById})");
 
             var apiResult = CreateApiResultModel<InstructionDto>();
 
             if (instructionDto.IntroductionId == Guid.Empty)
             {
                 return apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Introduction Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(UpdateAsync)}", HttpStatusCode.BadRequest);
+                    .AddErrorMessage("Introduction Id is required.", memberName, HttpStatusCode.BadRequest);
             }
 
             if (instructionDto.Id == Guid.Empty)
             {
                 return apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(UpdateAsync)}", HttpStatusCode.BadRequest);
+                    .AddErrorMessage("Id is required.", memberName, HttpStatusCode.BadRequest);
             }
 
             return instructionDto.TryValidateObject(apiResult.Messages)
@@ -106,13 +103,14 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
         public async Task<IApiResultModel<int>> DeleteAsync(Guid id)
         {
-            _logger.LogInformation($"{nameof(DeleteAsync)}({id})");
+            var memberName = $"{_className}.{nameof(DeleteAsync)}";
+            _logger.LogInformation($"{memberName}({id})");
 
             var apiResult = CreateApiResultModel<int>();
 
             return id == Guid.Empty
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
-                    .AddErrorMessage("Id is required.", $"{nameof(InstructionServiceV1_0)}.{nameof(DeleteAsync)}", HttpStatusCode.BadRequest)
+                    .AddErrorMessage("Id is required.", memberName, HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _instructionRepository.DeleteAsync(id).ConfigureAwait(false));
         }
