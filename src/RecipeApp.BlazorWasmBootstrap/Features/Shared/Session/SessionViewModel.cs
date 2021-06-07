@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.JSInterop;
 
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
 
@@ -19,11 +18,10 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Session
     {
         protected readonly ILogger<SessionViewModel> _logger;
 
-        public SessionViewModel(NavigationManager navigationManager, IJSRuntime jsRuntime
+        public SessionViewModel(NavigationManager navigationManager
             , IWebAssemblyHostEnvironment hostEnvironment, ILogger<SessionViewModel> logger)
         {
             NavigationManager = navigationManager;
-            JSRuntime = jsRuntime;
             HostEnvironment = hostEnvironment;
             _logger = logger;
             navigationManager.LocationChanged += (sender, e) =>
@@ -38,8 +36,6 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Session
         public event EventHandler StateHasChangedEvent;
 
         public NavigationManager NavigationManager { get; protected set; }
-
-        public IJSRuntime JSRuntime { get; protected set; }
 
         public IWebAssemblyHostEnvironment HostEnvironment { get; protected set; }
 
@@ -102,8 +98,6 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Session
         event EventHandler StateHasChangedEvent;
 
         NavigationManager NavigationManager { get; }
-
-        IJSRuntime JSRuntime { get; }
 
         IWebAssemblyHostEnvironment HostEnvironment { get; }
 
