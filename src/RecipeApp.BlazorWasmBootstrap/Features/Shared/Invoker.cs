@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-
-using Microsoft.Extensions.Logging;
 
 namespace RecipeApp.BlazorWasmBootstrap.Features.Shared
 {
@@ -11,19 +7,15 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared
     {
         public async Task TryInvokeAsync(Func<Task> initialFunc
             , Func<Task> mainFunc
-            , Func<Task> finalFunc
-            , ILogger logger
-            , string callerClass
-            , [CallerMemberName] string callerMemberName = null
-            , params KeyValuePair<string, string>[] additionalData)
+            , Func<Task> finalFunc)
         {
             try
             {
-                logger.LogInformation($"{callerClass}.{callerMemberName}");
+                if (initialFunc is not null)
+                    await initialFunc.Invoke();
 
-                await initialFunc.Invoke();
-
-                await mainFunc.Invoke();
+                if (mainFunc is not null)
+                    await mainFunc.Invoke();
             }
             catch (Exception ex)
             {
@@ -31,7 +23,8 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared
             }
             finally
             {
-                await finalFunc.Invoke();
+                if (finalFunc is not null)
+                    await finalFunc.Invoke();
             }
         }
     }

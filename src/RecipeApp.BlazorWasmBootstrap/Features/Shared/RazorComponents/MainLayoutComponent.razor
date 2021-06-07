@@ -57,11 +57,7 @@
                             type="button"
                             @onclick="@(() => Invoker.TryInvokeAsync(() => IntroductionSearchViewModel.SetBusyFlag(true)
                                         , () =>  IntroductionSearchViewModel.SearchAsync(1, 10)
-                                        , () => IntroductionSearchViewModel.SetBusyFlag(false)
-                                        , Logger
-                                        , ComponentName
-                                        , "SearchButtonClicked"
-                                        , null))"
+                                        , () => IntroductionSearchViewModel.SetBusyFlag(false)))"
                             disabled="@(IntroductionSearchViewModel.IsBusy)">
                         Search
                     </button>
