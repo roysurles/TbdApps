@@ -52,8 +52,11 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Session
             OnStateHasChanged();
         }
 
-        public void HandleException(List<IApiResultMessageModel> apiResultMessages, Exception ex, string source
-            , [CallerMemberName] string callerMemberName = null, params KeyValuePair<string, string>[] additionalData)
+        public ISessionViewModel HandleException(Exception ex
+            , List<IApiResultMessageModel> apiResultMessages = null
+            , string callerComponentName = null
+            , [CallerMemberName] string callerMemberName = null
+            , params KeyValuePair<string, string>[] additionalData)
         {
             const string NewLineHtml = "<br />";
 
@@ -74,22 +77,24 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Session
                 ? $"{NewLineHtml}Additional Data: {NewLineHtml}{string.Join(NewLineHtml, dictionary.Select(x => $"{x.Key} = {x.Value}"))}"
                 : string.Empty;
 
-            var combinedSource = $"{source}.{callerMemberName}";
+            var fullSourceName = $"{callerComponentName}.{callerMemberName}";
 
             var message = HostEnvironment.IsProduction()
                 ? "Oops, we encountered an unhandled exception!  Please try again in a few minutes."
-                : $"{combinedSource} encountered exception: {ex}{NewLineHtml}StackTrace: {ex.StackTrace}{dictionaryAsString}".Replace(Environment.NewLine, NewLineHtml);
+                : $"{fullSourceName} encountered exception: {ex}{NewLineHtml}StackTrace: {ex.StackTrace}{dictionaryAsString}".Replace(Environment.NewLine, NewLineHtml);
 
             if (HostEnvironment.IsProduction().Equals(false))
-                _logger.LogError(ex, $"{combinedSource}{NewLineHtml}{message}".Replace(NewLineHtml, Environment.NewLine));
+                _logger.LogError(ex, $"{fullSourceName}{NewLineHtml}{message}".Replace(NewLineHtml, Environment.NewLine));
 
             apiResultMessages?.Add(new ApiResultMessageModel
             {
                 MessageType = ApiResultMessageModelTypeEnumeration.UnhandledException,
                 Code = 600,
-                Source = combinedSource,
+                Source = fullSourceName,
                 Message = message
             });
+
+            return this;
         }
     }
 
@@ -107,7 +112,10 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Session
 
         void NewTraceId();
 
-        void HandleException(List<IApiResultMessageModel> apiResultMessages, Exception ex, string source
-            , [CallerMemberName] string callerMemberName = null, params KeyValuePair<string, string>[] additionalData);
+        ISessionViewModel HandleException(Exception ex
+            , List<IApiResultMessageModel> apiResultMessages = null
+            , string callerComponentName = null
+            , [CallerMemberName] string callerMemberName = null
+            , params KeyValuePair<string, string>[] additionalData);
     }
 }

@@ -58,7 +58,7 @@ else
             <div class="row">
                 <PaginationComponent PageCount="@(Math.Min(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageCount, 10))"
                                      PageNumber="@(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber)"
-                                     PageNumberClicked="@((int pageNumber) => Invoker.TryInvokeAsync(() => IntroductionSearchViewModel.SetBusyFlag(true) 
+                                     PageNumberClicked="@((int pageNumber) => Invoker.TryInvokeAsync(() => IntroductionSearchViewModel.SetBusyFlag(true)
                                                           , () =>  IntroductionSearchViewModel.SearchAsync(pageNumber, 10)
                                                           , () => IntroductionSearchViewModel.SetBusyFlag(false)
                                                           , Logger
@@ -110,7 +110,7 @@ else
         }
         catch (Exception ex)
         {
-            SessionViewModel.HandleException(IntroductionSearchViewModel.ApiResultMessages, ex, PageName);
+            SessionViewModel.HandleException(ex, IntroductionSearchViewModel.ApiResultMessages, PageName);
         }
         finally
         {

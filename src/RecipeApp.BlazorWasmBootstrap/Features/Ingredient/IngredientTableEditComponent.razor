@@ -1,4 +1,5 @@
 ﻿@inject ISessionViewModel SessionViewModel
+@inject IJSRuntime JSRuntime
 @inject ILogger<IngredientTableEditComponent> Logger
 
 
@@ -70,7 +71,7 @@
     [Parameter]
     public EventCallback OnStateHasChanged { get; set; }
 
-    protected string ComponentName = "IngredientTableEditComponent";
+    protected string ComponentName = nameof(IngredientTableEditComponent);
 
     protected void AddIngredient()
     {
@@ -83,7 +84,7 @@
         }
         catch (Exception ex)
         {
-            SessionViewModel.HandleException(IngredientViewModel.ApiResultMessages, ex, ComponentName);
+            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
         }
         finally
         {
@@ -103,7 +104,7 @@
         }
         catch (Exception ex)
         {
-            SessionViewModel.HandleException(IngredientViewModel.ApiResultMessages, ex, ComponentName);
+            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
         }
         finally
         {
@@ -120,7 +121,7 @@
 
             IngredientViewModel.ClearApiResultMessages();
 
-            if (await SessionViewModel.JSRuntime.ConfirmAsync($"Are you sure you want to delete this ingredient?") == false)
+            if (await JSRuntime.ConfirmAsync($"Are you sure you want to delete this ingredient?") == false)
                 return;
 
             IngredientViewModel.IsBusy = true;
@@ -128,7 +129,7 @@
         }
         catch (Exception ex)
         {
-            SessionViewModel.HandleException(IngredientViewModel.ApiResultMessages, ex, ComponentName);
+            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
         }
         finally
         {
