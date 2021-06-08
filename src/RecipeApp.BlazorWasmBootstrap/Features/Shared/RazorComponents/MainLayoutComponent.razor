@@ -5,6 +5,7 @@
 @inject ILogger<MainLayoutComponent> Logger
 @inject Invoker Invoker
 @inject Invoker2 Invoker2
+@inject Invoker3 Invoker3
 @*<div class="page">
         <div class="sidebar">
             <NavMenuComponent />
@@ -56,16 +57,32 @@
                            @bind-value="@(IntroductionSearchViewModel.IntroductionSearchRequestDto.SearchText)">
                     <button class="btn btn-outline-success"
                             type="button"
-                            @onclick="@(() => Invoker2.TryInvokeAsync(new Action(() => {
-                                                    Logger.LogWarning(nameof(SearchAsync));
-                                                    SessionViewModel.NavigationManager.NavigateTo("/");
-                                                    IntroductionSearchViewModel.SetBusyFlag(true);
-                                            })
-                                        , new Func<Task>(() => IntroductionSearchViewModel.SearchAsync(1, 10))
-                                        , new Action(() => IntroductionSearchViewModel.SetBusyFlag(false))))"
+                            @onclick="@(() => Invoker3
+                                        .AddInitializerDelegate(() => {
+                                            Logger.LogWarning(nameof(SearchAsync));
+                                            SessionViewModel.NavigationManager.NavigateTo("/");
+                                            IntroductionSearchViewModel.SetBusyFlag(true);
+                                        })
+                                        .AddMainDelegate(async () => {
+                                            await IntroductionSearchViewModel.SearchAsync(1, 10);
+                                        })
+                                        .AddFinallyDelegate(() => IntroductionSearchViewModel.SetBusyFlag(false))
+                                        .TryInvokeAsync())"
                             disabled="@(IntroductionSearchViewModel.IsBusy)">
                         Search
                     </button>
+                    @*<button class="btn btn-outline-success"
+                                type="button"
+                                @onclick="@(() => Invoker2.TryInvokeAsync(new Action(() => {
+                                                        Logger.LogWarning(nameof(SearchAsync));
+                                                        SessionViewModel.NavigationManager.NavigateTo("/");
+                                                        IntroductionSearchViewModel.SetBusyFlag(true);
+                                                })
+                                            , new Func<Task>(() => IntroductionSearchViewModel.SearchAsync(1, 10))
+                                            , new Action(() => IntroductionSearchViewModel.SetBusyFlag(false))))"
+                                disabled="@(IntroductionSearchViewModel.IsBusy)">
+                            Search
+                        </button>*@
                     @*<button class="btn btn-outline-success"
                                 type="button"
                                 @onclick="@(() => Invoker.TryInvokeAsync(() => IntroductionSearchViewModel.SetBusyFlag(true)

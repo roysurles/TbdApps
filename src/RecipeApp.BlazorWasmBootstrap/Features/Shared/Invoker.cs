@@ -98,4 +98,96 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared
             }
         }
     }
+
+    public class Invoker3
+    {
+        protected MulticastDelegate _initializerDelegate;
+        protected MulticastDelegate _mainDelegate;
+        protected MulticastDelegate _finallyDelegate;
+
+        public Invoker3 AddInitializerDelegate(Action action)
+        {
+            _initializerDelegate = action;
+            return this;
+        }
+
+        public Invoker3 AddInitializerDelegate(Func<Task> func)
+        {
+            _initializerDelegate = func;
+            return this;
+        }
+
+        public Invoker3 AddMainDelegate(Action action)
+        {
+            _mainDelegate = action;
+            return this;
+        }
+
+        public Invoker3 AddMainDelegate(Func<Task> func)
+        {
+            _mainDelegate = func;
+            return this;
+        }
+
+        public Invoker3 AddFinallyDelegate(Action action)
+        {
+            _finallyDelegate = action;
+            return this;
+        }
+
+        public Invoker3 AddFinallyDelegate(Func<Task> func)
+        {
+            _finallyDelegate = func;
+            return this;
+        }
+
+        public async Task TryInvokeAsync()
+        {
+            try
+            {
+                await InvokeAsync(_initializerDelegate);
+                await InvokeAsync(_mainDelegate);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                await InvokeAsync(_finallyDelegate);
+
+                _initializerDelegate = null;
+                _mainDelegate = null;
+                _finallyDelegate = null;
+            }
+        }
+
+        protected Task InvokeAsync(MulticastDelegate @delegate)
+        {
+            switch (@delegate)
+            {
+                case null:
+                    return Task.CompletedTask;
+
+                case Action action:
+                    action.Invoke();
+                    return Task.CompletedTask;
+
+                case Func<Task> func:
+                    return func.Invoke();
+
+                default:
+                    {
+                        try
+                        {
+                            return @delegate.DynamicInvoke() as Task ?? Task.CompletedTask;
+                        }
+                        catch (TargetInvocationException e)
+                        {
+                            return Task.FromException(e.InnerException!);
+                        }
+                    }
+            }
+        }
+    }
 }
