@@ -11,7 +11,6 @@ using RecipeApp.BlazorWasmBootstrap.Features.Details;
 using RecipeApp.BlazorWasmBootstrap.Features.Ingredient;
 using RecipeApp.BlazorWasmBootstrap.Features.Instruction;
 using RecipeApp.BlazorWasmBootstrap.Features.Introduction;
-using RecipeApp.BlazorWasmBootstrap.Features.Shared;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.MessageHandlers;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Session;
@@ -41,10 +40,6 @@ namespace RecipeApp.BlazorWasmBootstrap
             builder.Services.AddSingleton<ISessionViewModel, SessionViewModel>();
             builder.Services.AddScoped<CustomMessageHandler>();
             builder.Services.AddTransient(typeof(IApiResultModel<>), typeof(ApiResultModel<>));
-            builder.Services.AddTransient<Invoker>();
-            builder.Services.AddTransient<Invoker2>();
-            builder.Services.AddTransient<Invoker3>();
-            builder.Services.AddTransient<Invoker4>();
 
             builder.Services.AddRefitClient<IIntroductionApiClientV1_0>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))

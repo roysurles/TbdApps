@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -96,6 +98,82 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Session
 
             return this;
         }
+
+        public Task TryInvokeAsync(Action @try, Action @finally
+            , List<IApiResultMessageModel> apiResultMessages = null
+            , string callerComponentName = null
+            , [CallerMemberName] string callerMemberName = null
+            , params KeyValuePair<string, string>[] additionalData) =>
+            TryInvokeInternalAsync(@try, @finally);
+
+        public Task TryInvokeAsync(Func<Task> @try, Action @finally
+            , List<IApiResultMessageModel> apiResultMessages = null
+            , string callerComponentName = null
+            , [CallerMemberName] string callerMemberName = null
+            , params KeyValuePair<string, string>[] additionalData) =>
+            TryInvokeInternalAsync(@try, @finally);
+
+        public Task TryInvokeAsync(Action @try, Func<Task> @finally
+            , List<IApiResultMessageModel> apiResultMessages = null
+            , string callerComponentName = null
+            , [CallerMemberName] string callerMemberName = null
+            , params KeyValuePair<string, string>[] additionalData) =>
+            TryInvokeInternalAsync(@try, @finally);
+
+        public Task TryInvokeAsync(Func<Task> @try, Func<Task> @finally
+            , List<IApiResultMessageModel> apiResultMessages = null
+            , string callerComponentName = null
+            , [CallerMemberName] string callerMemberName = null
+            , params KeyValuePair<string, string>[] additionalData) =>
+            TryInvokeInternalAsync(@try, @finally);
+
+        protected async Task TryInvokeInternalAsync(MulticastDelegate @try, MulticastDelegate @finally
+            , List<IApiResultMessageModel> apiResultMessages = null
+            , string callerComponentName = null
+            , [CallerMemberName] string callerMemberName = null
+            , params KeyValuePair<string, string>[] additionalData)
+        {
+            try
+            {
+                await InvokeAsync(@try);
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, apiResultMessages, callerComponentName, callerMemberName, additionalData);
+            }
+            finally
+            {
+                await InvokeAsync(@finally);
+            }
+        }
+
+        protected Task InvokeAsync(MulticastDelegate @delegate)
+        {
+            switch (@delegate)
+            {
+                case null:
+                    return Task.CompletedTask;
+
+                case Action action:
+                    action.Invoke();
+                    return Task.CompletedTask;
+
+                case Func<Task> func:
+                    return func.Invoke();
+
+                default:
+                    {
+                        try
+                        {
+                            return @delegate.DynamicInvoke() as Task ?? Task.CompletedTask;
+                        }
+                        catch (TargetInvocationException e)
+                        {
+                            return Task.FromException(e.InnerException!);
+                        }
+                    }
+            }
+        }
     }
 
     public interface ISessionViewModel : IBaseViewModel
@@ -111,6 +189,30 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Session
         Guid TraceId { get; }
 
         void NewTraceId();
+
+        Task TryInvokeAsync(Action @try, Action @finally
+            , List<IApiResultMessageModel> apiResultMessages = null
+            , string callerComponentName = null
+            , [CallerMemberName] string callerMemberName = null
+            , params KeyValuePair<string, string>[] additionalData);
+
+        Task TryInvokeAsync(Func<Task> @try, Action @finally
+            , List<IApiResultMessageModel> apiResultMessages = null
+            , string callerComponentName = null
+            , [CallerMemberName] string callerMemberName = null
+            , params KeyValuePair<string, string>[] additionalData);
+
+        Task TryInvokeAsync(Action @try, Func<Task> @finally
+            , List<IApiResultMessageModel> apiResultMessages = null
+            , string callerComponentName = null
+            , [CallerMemberName] string callerMemberName = null
+            , params KeyValuePair<string, string>[] additionalData);
+
+        Task TryInvokeAsync(Func<Task> @try, Func<Task> @finally
+            , List<IApiResultMessageModel> apiResultMessages = null
+            , string callerComponentName = null
+            , [CallerMemberName] string callerMemberName = null
+            , params KeyValuePair<string, string>[] additionalData);
 
         ISessionViewModel HandleException(Exception ex
             , List<IApiResultMessageModel> apiResultMessages = null
