@@ -190,4 +190,63 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared
             }
         }
     }
+
+    public class Invoker4
+    {
+        public Task TryInvokeAsync(Action @try, Action @finally) =>
+            TryInvokeInternalAsync(@try, @finally);
+
+        public Task TryInvokeAsync(Func<Task> @try, Action @finally) =>
+            TryInvokeInternalAsync(@try, @finally);
+
+        public Task TryInvokeAsync(Action @try, Func<Task> @finally) =>
+            TryInvokeInternalAsync(@try, @finally);
+
+        public Task TryInvokeAsync(Func<Task> @try, Func<Task> @finally) =>
+            TryInvokeInternalAsync(@try, @finally);
+
+        protected async Task TryInvokeInternalAsync(MulticastDelegate @try, MulticastDelegate @finally)
+        {
+            try
+            {
+                await InvokeAsync(@try);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                await InvokeAsync(@finally);
+            }
+        }
+
+        protected Task InvokeAsync(MulticastDelegate @delegate)
+        {
+            switch (@delegate)
+            {
+                case null:
+                    return Task.CompletedTask;
+
+                case Action action:
+                    action.Invoke();
+                    return Task.CompletedTask;
+
+                case Func<Task> func:
+                    return func.Invoke();
+
+                default:
+                    {
+                        try
+                        {
+                            return @delegate.DynamicInvoke() as Task ?? Task.CompletedTask;
+                        }
+                        catch (TargetInvocationException e)
+                        {
+                            return Task.FromException(e.InnerException!);
+                        }
+                    }
+            }
+        }
+    }
 }
