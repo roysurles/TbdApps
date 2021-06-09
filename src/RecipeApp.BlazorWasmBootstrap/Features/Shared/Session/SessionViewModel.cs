@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -147,7 +148,8 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Session
             }
         }
 
-        protected Task InvokeAsync(MulticastDelegate @delegate)
+        [SuppressMessage("Usage", "RCS1229:Use async/await when necessary.", Justification = "<Pending>")]
+        protected static Task InvokeAsync(MulticastDelegate @delegate)
         {
             switch (@delegate)
             {
