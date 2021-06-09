@@ -7,7 +7,12 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    "sourceMap": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/toast.min.js",
+    "inputFiles": [
+      "wwwroot/js/toast.js"
+    ]
   }
 ]

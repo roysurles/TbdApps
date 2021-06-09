@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using Microsoft.JSInterop;
 
+using RecipeApp.BlazorWasmBootstrap.Features.Shared.Enums;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
 
 namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Extensions
@@ -17,7 +18,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Extensions
         public static ValueTask<bool> ConfirmAsync(this IJSRuntime jsRuntime, string text) =>
             jsRuntime.InvokeAsync<bool>("confirm", text);
 
-        public static ValueTask SetFocus(this IJSRuntime jsRuntime, string elementId) =>
+        public static ValueTask SetFocusAsync(this IJSRuntime jsRuntime, string elementId) =>
             jsRuntime.InvokeVoidAsync("siteModule.setFocus", elementId);
 
         public static async ValueTask DownloadFileAsync(this IJSRuntime jsRuntime, byte[] data, string mimeType, string fileName)
@@ -42,5 +43,11 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Extensions
             }
             return fileDetails;
         }
+
+        public static ValueTask SnackAsync(this IJSRuntime jsRuntime, ToastType toastType, string content, int delay = 3000) =>
+            jsRuntime.InvokeVoidAsync("$.snack", toastType.ToString(), content, delay);
+
+        public static ValueTask ToastAsync(this IJSRuntime jsRuntime, ToastModel toastModel) =>
+            jsRuntime.InvokeVoidAsync("$.toast", toastModel);
     }
 }

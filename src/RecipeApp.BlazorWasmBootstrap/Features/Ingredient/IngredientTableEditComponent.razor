@@ -101,6 +101,7 @@
 
             IngredientViewModel.IsBusy = true;
             await IngredientViewModel.SaveIngredientAsync(ingredientDto);
+            await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Ingredient", "Saved successfully!"));
         }
         catch (Exception ex)
         {
@@ -126,6 +127,7 @@
 
             IngredientViewModel.IsBusy = true;
             await IngredientViewModel.DeleteIngredientAsync(ingredientDto);
+            await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Ingredient", "Deleted successfully!"));
         }
         catch (Exception ex)
         {

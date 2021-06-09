@@ -3,140 +3,144 @@
 @inject ISessionViewModel SessionViewModel
 @inject IIntroductionSearchViewModel IntroductionSearchViewModel
 @inject ILogger<MainLayoutComponent> Logger
-    @*<div class="page">
-            <div class="sidebar">
-                <NavMenuComponent />
+@inject IJSRuntime JSRuntime
+@*<div class="page">
+        <div class="sidebar">
+            <NavMenuComponent />
+        </div>
+
+        <div class="main">
+            <div class="top-row px-4">
+                <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
             </div>
 
-            <div class="main">
-                <div class="top-row px-4">
-                    <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-                </div>
-
-                <div class="content px-4">
-                    @Body
-                </div>
+            <div class="content px-4">
+                @Body
             </div>
-        </div>*@
+        </div>
+    </div>*@
 
-    <header>
-        <!-- Fixed navbar -->
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Recipe App</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                        <li class="nav-item">
-                            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                                Home
-                            </NavLink>
-                        </li>
-                        <li class="nav-item">
-                            <NavLink class="nav-link" href="Details">
-                                New Recipe
-                            </NavLink>
-                        </li>
-                    </ul>
-                    @if (SessionViewModel.HostEnvironment.IsProduction().Equals(false))
-                    {
-                        <form class="d-flex">
-                            <SessionComponent />
-                        </form>
-                    }
+<header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Recipe App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                            Home
+                        </NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="Details">
+                            New Recipe
+                        </NavLink>
+                    </li>
+                </ul>
+                @if (SessionViewModel.HostEnvironment.IsProduction().Equals(false))
+                {
                     <form class="d-flex">
-                        <input class="form-control me-2"
-                               type="search"
-                               placeholder="Search"
-                               aria-label="Search"
-                               @bind-value="@(IntroductionSearchViewModel.IntroductionSearchRequestDto.SearchText)">
-                        @*<button class="btn btn-outline-success"
-                                    type="button"
-                                    @onclick="@(() => SessionViewModel.TryInvokeAsync(
-                                                    async () => {
-                                                        Logger.LogWarning("SearchButtonClicked");
-                                                        SessionViewModel.NavigationManager.NavigateTo("/");
-                                                        IntroductionSearchViewModel.SetBusyFlag(true);
-                                                        await IntroductionSearchViewModel.SearchAsync(1, 10);
-                                                    }
-                                                    , () => IntroductionSearchViewModel.SetBusyFlag(false)
-                                                    , IntroductionSearchViewModel.ApiResultMessages, ComponentName, "SearchButtonClicked"))"
-                                    disabled="@(IntroductionSearchViewModel.IsBusy)">
-                                Search
-                            </button>*@
-                        @*<button class="btn btn-outline-success"
-                                    type="button"
-                                    @onclick="@SearchAsync"
-                                    disabled="@(IntroductionSearchViewModel.IsBusy)">
-                                Search
-                            </button>*@
-                        <button class="btn btn-outline-success"
+                        <SessionComponent />
+                    </form>
+                }
+                <form class="d-flex">
+                    <input class="form-control me-2"
+                           type="search"
+                           placeholder="Search"
+                           aria-label="Search"
+                           @bind-value="@(IntroductionSearchViewModel.IntroductionSearchRequestDto.SearchText)">
+                    @*<button class="btn btn-outline-success"
                                 type="button"
-                                @onclick="@SearchAsyncViaDelegates"
+                                @onclick="@(() => SessionViewModel.TryInvokeAsync(
+                                                async () => {
+                                                    Logger.LogWarning("SearchButtonClicked");
+                                                    SessionViewModel.NavigationManager.NavigateTo("/");
+                                                    IntroductionSearchViewModel.SetBusyFlag(true);
+                                                    await IntroductionSearchViewModel.SearchAsync(1, 10);
+                                                    await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Search Results", $"Found {IntroductionSearchViewModel.IntroductionSearchResult.Meta.TotalItemCount} result(s)"));
+                                                }
+                                                , () => IntroductionSearchViewModel.SetBusyFlag(false)
+                                                , IntroductionSearchViewModel.ApiResultMessages, ComponentName, "SearchButtonClicked"))"
                                 disabled="@(IntroductionSearchViewModel.IsBusy)">
                             Search
-                        </button>
-                    </form>
-                </div>
+                        </button>*@
+                    @*<button class="btn btn-outline-success"
+                                type="button"
+                                @onclick="@SearchAsync"
+                                disabled="@(IntroductionSearchViewModel.IsBusy)">
+                            Search
+                        </button>*@
+                    <button class="btn btn-outline-success"
+                            type="button"
+                            @onclick="@SearchAsyncViaDelegates"
+                            disabled="@(IntroductionSearchViewModel.IsBusy)">
+                        Search
+                    </button>
+                </form>
             </div>
-        </nav>
-    </header>
-
-    <!-- Begin page content -->
-    <main class="flex-shrink-0">
-        <div class="container" style="min-height: 85vh">
-            <div class="row" style="margin-top: 60px;"></div>
-            @Body
         </div>
-    </main>
+    </nav>
+</header>
 
-    @*<footer class="footer mt-auto py-3 bg-light" style="bottom:0; width:100%">*@
-    <footer class="footer mt-auto py-3 bg-light">
-        <div class="container">
-            <span class="text-muted">Place sticky footer content here.</span>
-        </div>
-    </footer>
+<!-- Begin page content -->
+<main class="flex-shrink-0">
+    <div class="container" style="min-height: 85vh">
+        <div class="row" style="margin-top: 60px;"></div>
+        @Body
+    </div>
+</main>
 
-    @code {
+@*<footer class="footer mt-auto py-3 bg-light" style="bottom:0; width:100%">*@
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <span class="text-muted">Place sticky footer content here.</span>
+    </div>
+</footer>
 
-        protected string ComponentName = nameof(MainLayoutComponent);
+@code {
 
-        protected async Task SearchAsync()
+    protected string ComponentName = nameof(MainLayoutComponent);
+
+    protected async Task SearchAsync()
+    {
+        try
         {
-            try
-            {
-                Logger.LogInformation(nameof(SearchAsync));
+            Logger.LogInformation(nameof(SearchAsync));
 
-                IntroductionSearchViewModel.SetBusyFlag(true);
-                SessionViewModel.NavigationManager.NavigateTo("/");
-                await IntroductionSearchViewModel.SearchAsync();
-            }
-            catch (Exception ex)
-            {
-                SessionViewModel.HandleException(ex, IntroductionSearchViewModel.ApiResultMessages, ComponentName);
-            }
-            finally
-            {
-                IntroductionSearchViewModel.SetBusyFlag(false);
-            }
+            IntroductionSearchViewModel.SetBusyFlag(true);
+            SessionViewModel.NavigationManager.NavigateTo("/");
+            await IntroductionSearchViewModel.SearchAsync();
+            await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Search Results", $"Found {IntroductionSearchViewModel.IntroductionSearchResult.Meta.TotalItemCount} result(s)"));
         }
-
-        protected async Task SearchAsyncViaDelegates()
+        catch (Exception ex)
         {
-            const string methodName = nameof(SearchAsyncViaDelegates);
-
-            await SessionViewModel.TryInvokeAsync(
-                async () =>
-                {
-                    Logger.LogWarning(methodName);
-                    SessionViewModel.NavigationManager.NavigateTo("/");
-                    IntroductionSearchViewModel.SetBusyFlag(true);
-                    await IntroductionSearchViewModel.SearchAsync(1, 10);
-                }
-                , () => IntroductionSearchViewModel.SetBusyFlag(false)
-                , IntroductionSearchViewModel.ApiResultMessages, ComponentName, methodName);
+            SessionViewModel.HandleException(ex, IntroductionSearchViewModel.ApiResultMessages, ComponentName);
         }
-
+        finally
+        {
+            IntroductionSearchViewModel.SetBusyFlag(false);
+        }
     }
+
+    protected async Task SearchAsyncViaDelegates()
+    {
+        const string methodName = nameof(SearchAsyncViaDelegates);
+
+        await SessionViewModel.TryInvokeAsync(
+            async () =>
+            {
+                Logger.LogWarning(methodName);
+                SessionViewModel.NavigationManager.NavigateTo("/");
+                IntroductionSearchViewModel.SetBusyFlag(true);
+                await IntroductionSearchViewModel.SearchAsync(1, 10);
+                await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Search Results", $"Found {IntroductionSearchViewModel.IntroductionSearchResult.Meta.TotalItemCount} result(s)"));
+            }
+            , () => IntroductionSearchViewModel.SetBusyFlag(false)
+            , IntroductionSearchViewModel.ApiResultMessages, ComponentName, methodName);
+    }
+
+}

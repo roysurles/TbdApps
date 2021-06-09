@@ -71,6 +71,7 @@
             var wasNew = IntroductionViewModel.Introduction.IsNew;
             await IntroductionViewModel.SaveIntroductionAsync();
             await OnIntroductionSaved.InvokeAsync(wasNew);
+            await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Introduction", "Saved successfully!"));
         }
         catch (Exception ex)
         {
@@ -88,7 +89,6 @@
         {
             Logger.LogInformation($"{nameof(DeleteIntroductionAsync)}()");
 
-            // TODO:  need snackbar or stacked alerts
             if (IntroductionViewModel.Introduction.IsNew)
             {
                 IntroductionViewModel.AddInformationMessage("There is nothing to Delete!", $"{ComponentName}.{nameof(DeleteIntroductionAsync)}");
@@ -102,6 +102,7 @@
             IntroductionViewModel.IsBusy = true;
             await IntroductionViewModel.DeleteIntroductionAsync();
             await OnIntroductionDeleted.InvokeAsync();
+            await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Introduction", "Deleted successfully!"));
         }
         catch (Exception ex)
         {

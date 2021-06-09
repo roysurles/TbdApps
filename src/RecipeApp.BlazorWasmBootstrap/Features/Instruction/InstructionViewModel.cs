@@ -79,12 +79,8 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Instruction
 
             await saveIngredientTask;
 
-            // TODO:  need snackbar or stacking alerts
             if (saveIngredientTask.Result.IsSuccessHttpStatusCode)
-            {
                 Instructions[index] = saveIngredientTask.Result.Data;
-                AddInformationMessage("Instruction saved successfully!", $"{nameof(InstructionViewModel)}.{nameof(SaveInstructionAsync)}", 200);
-            }
 
             return this;
         }
@@ -100,10 +96,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Instruction
             var response = await RefitExStaticMethods.TryInvokeApiAsync(() => _instructionApiClientV1_0.DeleteAsync(instructionDto.Id), ApiResultMessages);
 
             if (response.IsSuccessHttpStatusCode)
-            {
                 Instructions.RemoveAt(index);
-                AddInformationMessage("Instruction deleted successfully!", $"{nameof(InstructionViewModel)}.{nameof(DeleteInstructionAsync)}", 200);
-            }
 
             return this;
         }

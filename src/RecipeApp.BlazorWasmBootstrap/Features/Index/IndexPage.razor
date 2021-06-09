@@ -4,6 +4,7 @@
 @inject ISessionViewModel SessionViewModel
 @inject IIntroductionSearchViewModel IntroductionSearchViewModel
 @inject ILogger<IndexPage> Logger
+@inject IJSRuntime JSRuntime
 
 <div class="row mb-3">
     <ApiResultMessagesComponent ApiResultMessages="@IntroductionSearchViewModel.ApiResultMessages" />

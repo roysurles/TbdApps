@@ -57,9 +57,6 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Introduction
                 : RefitExStaticMethods.TryInvokeApiAsync(() => _introductionApiClientV1_0.UpdateAsync(Introduction), ApiResultMessages);
 
             await saveIntroductionTask;
-            // TODO:  need snackbar or stacking alerts
-            if (saveIntroductionTask.Result.IsSuccessHttpStatusCode)
-                AddInformationMessage("Introduction saved successfully!", $"{nameof(IntroductionViewModel)}.{nameof(SaveIntroductionAsync)}", 200);
             Introduction = saveIntroductionTask.Result.Data;
 
             return this;
