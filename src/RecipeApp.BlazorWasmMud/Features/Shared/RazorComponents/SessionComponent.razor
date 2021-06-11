@@ -6,9 +6,10 @@
     <MudText Class="mt-6 mr-3">@(SessionViewModel.HostEnvironment.Environment)</MudText>
     <MudText Class="mt-6 mr-3">Trace Id:</MudText>
     <MudTextField ReadOnly="true"
-                  Class="mr-3 mb-4"
-                  Style="width: 310px; color: white;"
+                  Class="mr-3 my-2"
+                  Style="width: 330px; color: white;"
                   DisableUnderLine="true"
+                  Variant="Variant.Outlined"
                   UserAttributes="@TraceIdUserAttributes"
                   Value="@(SessionViewModel.TraceId.ToString())">
     </MudTextField>

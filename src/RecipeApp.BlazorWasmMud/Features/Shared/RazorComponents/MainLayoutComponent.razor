@@ -1,7 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
-
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -21,6 +20,17 @@
         </MudText>
         <MudAppBarSpacer />
         <SessionComponent />
+        <MudAutocomplete T="string"
+                         Variant="Variant.Outlined"
+                         Class="mr-2 mb-1"
+                         Style="color: white;"
+                         DisableUnderLine="true"
+                         InputType="InputType.Text">
+        </MudAutocomplete>
+        <MudButton Variant="Variant.Outlined"
+                   Color="Color.Secondary">
+            Search
+        </MudButton>
         <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
     </MudAppBar>
     <MudMainContent>
@@ -29,4 +39,3 @@
         </MudContainer>
     </MudMainContent>
 </MudLayout>
-
