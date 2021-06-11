@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-using RecipeApp.BlazorWasmBootstrap.Features.Introduction;
 using RecipeApp.Shared.Features.Introduction;
 using RecipeApp.Shared.Models;
 
@@ -46,6 +46,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
             OnStateHasChanged();
         }
 
+        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
         public async Task SearchAsync(int pageNumber = 1, int pageSize = 10)
         {
             _logger.LogInformation($"{nameof(SearchAsync)}({pageNumber}, {pageSize})");

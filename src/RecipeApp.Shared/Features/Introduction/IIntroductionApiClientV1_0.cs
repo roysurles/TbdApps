@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using RecipeApp.Shared.Features.Introduction;
-
 using Refit;
 
 using Tbd.Shared.ApiResult;
 
-namespace RecipeApp.BlazorWasmBootstrap.Features.Introduction
+namespace RecipeApp.Shared.Features.Introduction
 {
     public interface IIntroductionApiClientV1_0
     {

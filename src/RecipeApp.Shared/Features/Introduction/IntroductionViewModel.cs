@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-using RecipeApp.Shared.Features.Introduction;
 using RecipeApp.Shared.Models;
 
 using Tbd.RefitEx;
 using Tbd.Shared.Extensions;
 
-namespace RecipeApp.BlazorWasmBootstrap.Features.Introduction
+namespace RecipeApp.Shared.Features.Introduction
 {
     public class IntroductionViewModel : BaseViewModel, IIntroductionViewModel
     {
@@ -26,6 +26,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Introduction
         public IntroductionDto Introduction { get; protected set; } =
             new IntroductionDto();
 
+        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
         public async Task<IIntroductionViewModel> InitializeAsync(Guid introductionId)
         {
             _logger.LogInformation($"{nameof(IntroductionViewModel)}({introductionId})");
@@ -43,6 +44,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Introduction
             return this;
         }
 
+        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
         public async Task<IIntroductionViewModel> SaveIntroductionAsync()
         {
             _logger.LogInformation($"{nameof(SaveIntroductionAsync)}()");
@@ -62,6 +64,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Introduction
             return this;
         }
 
+        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
         public async Task<IIntroductionViewModel> DeleteIntroductionAsync()
         {
             _logger.LogInformation($"{nameof(DeleteIntroductionAsync)}()");

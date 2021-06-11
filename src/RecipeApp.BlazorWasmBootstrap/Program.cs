@@ -12,6 +12,7 @@ using RecipeApp.BlazorWasmBootstrap.Features.Ingredient;
 using RecipeApp.BlazorWasmBootstrap.Features.Instruction;
 using RecipeApp.BlazorWasmBootstrap.Features.Introduction;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch;
+using RecipeApp.Shared.Features.Introduction;
 using RecipeApp.Shared.Features.Session;
 using RecipeApp.Shared.MessageHandlers;
 using RecipeApp.Shared.Models;

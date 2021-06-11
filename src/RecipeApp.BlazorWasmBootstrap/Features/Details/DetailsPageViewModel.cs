@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 using RecipeApp.BlazorWasmBootstrap.Features.Ingredient;
 using RecipeApp.BlazorWasmBootstrap.Features.Instruction;
-using RecipeApp.BlazorWasmBootstrap.Features.Introduction;
+using RecipeApp.Shared.Features.Introduction;
 using RecipeApp.Shared.Models;
 
 namespace RecipeApp.BlazorWasmBootstrap.Features.Details
