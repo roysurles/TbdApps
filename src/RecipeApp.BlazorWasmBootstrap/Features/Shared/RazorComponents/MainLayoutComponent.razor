@@ -53,6 +53,12 @@
                            placeholder="Search"
                            aria-label="Search"
                            @bind-value="@(IntroductionSearchViewModel.IntroductionSearchRequestDto.SearchText)">
+                    <button class="btn btn-outline-success"
+                            type="button"
+                            @onclick="@SearchAsync"
+                            disabled="@(IntroductionSearchViewModel.IsBusy)">
+                        Search
+                    </button>
                     @*<button class="btn btn-outline-success"
                                 type="button"
                                 @onclick="@(() => SessionViewModel.TryInvokeAsync(
@@ -70,16 +76,10 @@
                         </button>*@
                     @*<button class="btn btn-outline-success"
                                 type="button"
-                                @onclick="@SearchAsync"
+                                @onclick="@SearchAsyncViaDelegates"
                                 disabled="@(IntroductionSearchViewModel.IsBusy)">
                             Search
                         </button>*@
-                    <button class="btn btn-outline-success"
-                            type="button"
-                            @onclick="@SearchAsyncViaDelegates"
-                            disabled="@(IntroductionSearchViewModel.IsBusy)">
-                        Search
-                    </button>
                 </form>
             </div>
         </div>

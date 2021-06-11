@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
+
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -19,6 +20,7 @@
             New Recipe
         </MudText>
         <MudAppBarSpacer />
+        <SessionComponent />
         <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
     </MudAppBar>
     <MudMainContent>
@@ -27,3 +29,4 @@
         </MudContainer>
     </MudMainContent>
 </MudLayout>
+

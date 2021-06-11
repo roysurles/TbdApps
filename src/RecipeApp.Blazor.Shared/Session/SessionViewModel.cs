@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -11,11 +10,11 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Logging;
 
-using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
+using RecipeApp.Blazor.Shared.Models;
 
 using Tbd.Shared.ApiResult;
 
-namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Session
+namespace RecipeApp.Blazor.Shared.Session
 {
     public class SessionViewModel : BaseViewModel, ISessionViewModel
     {

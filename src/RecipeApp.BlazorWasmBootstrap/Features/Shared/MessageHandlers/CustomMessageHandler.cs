@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using RecipeApp.BlazorWasmBootstrap.Features.Shared.Session;
+using RecipeApp.Blazor.Shared.Session;
 
 namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.MessageHandlers
 {

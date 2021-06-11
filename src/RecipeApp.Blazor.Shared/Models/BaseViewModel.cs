@@ -2,7 +2,7 @@
 
 using Tbd.Shared.ApiResult;
 
-namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Models
+namespace RecipeApp.Blazor.Shared.Models
 {
     public class BaseViewModel : IBaseViewModel
     {

@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using RecipeApp.Blazor.Shared.Session;
 using RecipeApp.BlazorWasmBootstrap.Features.Details;
 using RecipeApp.BlazorWasmBootstrap.Features.Ingredient;
 using RecipeApp.BlazorWasmBootstrap.Features.Instruction;
 using RecipeApp.BlazorWasmBootstrap.Features.Introduction;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.MessageHandlers;
-using RecipeApp.BlazorWasmBootstrap.Features.Shared.Session;
 using RecipeApp.Shared.Features;
 
 using Refit;

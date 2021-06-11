@@ -3,15 +3,19 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using MudBlazor.Services;
+
+using RecipeApp.Blazor.Shared.Session;
+using RecipeApp.Shared.Features;
 
 namespace RecipeApp.BlazorWasmMud
 {
     public static class Program
     {
-        public static async Task Main(string[] args)
+        public static Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
@@ -20,7 +24,13 @@ namespace RecipeApp.BlazorWasmMud
 
             builder.Services.AddMudServices();
 
-            await builder.Build().RunAsync();
+            var apiUrlsOptionsModel = new ApiUrlsOptionsModel();
+            builder.Configuration.GetSection("ApiUrls").Bind(apiUrlsOptionsModel);
+            builder.Services.AddSingleton(_ => apiUrlsOptionsModel);
+
+            builder.Services.AddSingleton<ISessionViewModel, SessionViewModel>();
+
+            return builder.Build().RunAsync();
         }
     }
 }

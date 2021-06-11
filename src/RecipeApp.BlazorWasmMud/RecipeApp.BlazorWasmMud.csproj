@@ -15,4 +15,9 @@
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RecipeApp.Blazor.Shared\RecipeApp.Blazor.Shared.csproj" />
+    <ProjectReference Include="..\RecipeApp.Shared\RecipeApp.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using RecipeApp.Blazor.Shared.Models;
 using RecipeApp.BlazorWasmBootstrap.Features.Introduction;
-using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
 using RecipeApp.Shared.Features.Introduction;
 
 using Tbd.RefitEx;

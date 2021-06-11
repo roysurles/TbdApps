@@ -1,0 +1,31 @@
+﻿@inject ISessionViewModel SessionViewModel
+
+    <div class="d-inline-flex align-content-end align-items-end">
+        <MudText Class="mt-6 mr-3">Environment:</MudText>
+        <MudText Class="mt-6 mr-3">@(SessionViewModel.HostEnvironment.Environment)</MudText>
+        <MudText Class="mt-6 mr-3">Trace Id:</MudText>
+        <MudTextField ReadOnly="true"
+                      Class="mr-3 mb-4"
+                      Style="width: 310px; color: white;"
+                      DisableUnderLine="true"
+                      UserAttributes="@TraceIdUserAttributes"
+                      Value="@(SessionViewModel.TraceId.ToString())">
+        </MudTextField>
+        <MudIconButton Icon="@Icons.Material.Filled.FileCopy"
+                       Title="Copy to Clipboard"
+                       Color="Color.Inherit"
+                       Class="mr-3">
+        </MudIconButton>
+        <MudIconButton Icon="@Icons.Material.Filled.InsertDriveFile"
+                       Title="Generate new Id"
+                       Color="Color.Inherit"
+                       Class="mr-3"
+                       OnClick="@(_ => SessionViewModel.NewTraceId())">
+        </MudIconButton>
+    </div>
+
+    @code {
+
+        Dictionary<string, object> TraceIdUserAttributes = new Dictionary<string, object> { { "Id", "TraceIdTextBox" } };
+
+    }
