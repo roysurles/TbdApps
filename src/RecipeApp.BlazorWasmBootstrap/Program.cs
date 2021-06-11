@@ -10,8 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using RecipeApp.BlazorWasmBootstrap.Features.Details;
 using RecipeApp.BlazorWasmBootstrap.Features.Ingredient;
 using RecipeApp.BlazorWasmBootstrap.Features.Instruction;
-using RecipeApp.BlazorWasmBootstrap.Features.Introduction;
-using RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch;
 using RecipeApp.Shared.Features.Introduction;
 using RecipeApp.Shared.Features.Session;
 using RecipeApp.Shared.MessageHandlers;
@@ -46,6 +44,7 @@ namespace RecipeApp.BlazorWasmBootstrap
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))
                 .AddHttpMessageHandler<CustomMessageHandler>();
             builder.Services.AddTransient<IIntroductionViewModel, IntroductionViewModel>();
+            builder.Services.AddSingleton<IIntroductionSearchViewModel, IntroductionSearchViewModel>();
 
             builder.Services.AddRefitClient<IIngredientApiClientV1_0>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))
@@ -56,8 +55,6 @@ namespace RecipeApp.BlazorWasmBootstrap
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))
                 .AddHttpMessageHandler<CustomMessageHandler>();
             builder.Services.AddTransient<IInstructionViewModel, InstructionViewModel>();
-
-            builder.Services.AddSingleton<IIntroductionSearchViewModel, IntroductionSearchViewModel>();
 
             builder.Services.AddTransient<IDetailsPageViewModel, DetailsPageViewModel>();
 

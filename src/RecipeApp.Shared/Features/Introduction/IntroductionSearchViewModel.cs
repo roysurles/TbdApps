@@ -5,13 +5,12 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-using RecipeApp.Shared.Features.Introduction;
 using RecipeApp.Shared.Models;
 
 using Tbd.RefitEx;
 using Tbd.Shared.ApiResult;
 
-namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.IntroductionSearch
+namespace RecipeApp.Shared.Features.Introduction
 {
     public class IntroductionSearchViewModel : BaseViewModel, IIntroductionSearchViewModel
     {

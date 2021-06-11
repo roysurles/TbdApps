@@ -1,5 +1,8 @@
 ﻿@inherits LayoutComponentBase
-@inject NavigationManager NavigationManager
+@inject ISessionViewModel SessionViewModel
+@inject IIntroductionSearchViewModel IntroductionSearchViewModel
+@inject ILogger<MainLayoutComponent> Logger
+@inject ISnackbar Snackbar
 
 <MudThemeProvider />
 <MudDialogProvider />
@@ -10,12 +13,12 @@
         <MudText Typo="Typo.h5" Class="ml-3">Recipe App</MudText>
         <MudText Class="ml-3 mud-link mud-link-underline-hover"
                  Style="cursor: pointer"
-                 @onclick="@(_ => NavigationManager.NavigateTo("/"))">
+                 @onclick="@(_ => SessionViewModel.NavigationManager.NavigateTo("/"))">
             Home
         </MudText>
         <MudText Class="ml-3 mud-link mud-link-underline-hover"
                  Style="cursor: pointer"
-                 @onclick="@(_ => NavigationManager.NavigateTo("/Details"))">
+                 @onclick="@(_ => SessionViewModel.NavigationManager.NavigateTo("/Details"))">
             New Recipe
         </MudText>
         <MudAppBarSpacer />
@@ -29,7 +32,9 @@
                          InputType="InputType.Text">
         </MudAutocomplete>
         <MudButton Variant="Variant.Outlined"
-                   Color="Color.Secondary">
+                   Color="Color.Secondary"
+                   Disabled="@(IntroductionSearchViewModel.IsBusy)"
+                   OnClick="@SearchAsync">
             Search
         </MudButton>
         <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
@@ -40,3 +45,30 @@
         </MudContainer>
     </MudMainContent>
 </MudLayout>
+
+@code {
+
+    protected string ComponentName = nameof(MainLayoutComponent);
+
+    protected async Task SearchAsync()
+    {
+        try
+        {
+            Logger.LogInformation(nameof(SearchAsync));
+
+            IntroductionSearchViewModel.SetBusyFlag(true);
+            SessionViewModel.NavigationManager.NavigateTo("/");
+            await IntroductionSearchViewModel.SearchAsync();
+            using var snack = Snackbar.Add($"Found {IntroductionSearchViewModel.IntroductionSearchResult.Meta.TotalItemCount} result(s)", Severity.Info);
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, IntroductionSearchViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            IntroductionSearchViewModel.SetBusyFlag(false);
+        }
+    }
+
+}
