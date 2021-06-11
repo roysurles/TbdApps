@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.JSInterop;
 
 using RecipeApp.Blazor.Shared.Models;
-using RecipeApp.BlazorWasmBootstrap.Features.Shared.Enums;
-using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
 
-namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Extensions
+namespace RecipeApp.BlazorWasmMud.Features.Shared.Extensions
 {
     public static class JsRuntimeExtensions
     {
@@ -21,6 +19,9 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Extensions
 
         public static ValueTask SetFocusAsync(this IJSRuntime jsRuntime, string elementId) =>
             jsRuntime.InvokeVoidAsync("siteModule.setFocus", elementId);
+
+        public static ValueTask CopyToClipboard(this IJSRuntime jsRuntime, string elementId) =>
+            jsRuntime.InvokeVoidAsync("siteModule.copyToClipboard", elementId);
 
         public static async ValueTask DownloadFileAsync(this IJSRuntime jsRuntime, byte[] data, string mimeType, string fileName)
         {
@@ -44,11 +45,5 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Extensions
             }
             return fileDetails;
         }
-
-        public static ValueTask SnackAsync(this IJSRuntime jsRuntime, ToastType toastType, string content, int delay = 3000) =>
-            jsRuntime.InvokeVoidAsync("$.snack", toastType.ToString(), content, delay);
-
-        public static ValueTask ToastAsync(this IJSRuntime jsRuntime, ToastModel toastModel) =>
-            jsRuntime.InvokeVoidAsync("$.toast", toastModel);
     }
 }
