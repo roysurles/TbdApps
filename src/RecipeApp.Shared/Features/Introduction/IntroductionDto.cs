@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using RecipeApp.Shared.Features.Dto;
+using RecipeApp.Shared.Models;
 
 namespace RecipeApp.Shared.Features.Introduction
 {

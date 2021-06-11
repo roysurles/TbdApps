@@ -1,4 +1,4 @@
-﻿namespace RecipeApp.Shared.Features
+﻿namespace RecipeApp.Shared.Models
 {
     public class ApiUrlsOptionsModel
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RecipeApp.Shared.Features.Dto
+namespace RecipeApp.Shared.Models
 {
     public abstract class BaseDto
     {
