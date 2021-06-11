@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using RecipeApp.Blazor.Shared.Session;
 
-namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.MessageHandlers
+namespace RecipeApp.Blazor.Shared.MessageHandlers
 {
     public class CustomMessageHandler : DelegatingHandler
     {
