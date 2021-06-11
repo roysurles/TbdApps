@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using Microsoft.JSInterop;
 
-using RecipeApp.Blazor.Shared.Models;
+using RecipeApp.Shared.Models;
 
 namespace RecipeApp.BlazorWasmMud.Features.Shared.Extensions
 {

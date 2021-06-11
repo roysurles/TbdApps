@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Components;
 
-namespace RecipeApp.Blazor.Shared.Extensions
+namespace RecipeApp.Shared.Extensions
 {
     public static class HtmlExtensions
     {

@@ -11,11 +11,6 @@
 @using Microsoft.Extensions.Logging;
 @using Microsoft.JSInterop;
 
-@using RecipeApp.Blazor.Shared;
-@using RecipeApp.Blazor.Shared.Extensions;
-@using RecipeApp.Blazor.Shared.Models;
-@using RecipeApp.Blazor.Shared.Session;
-
 @using RecipeApp.BlazorWasmBootstrap;
 @using RecipeApp.BlazorWasmBootstrap.Features;
 @using RecipeApp.BlazorWasmBootstrap.Features.Details;
@@ -30,10 +25,13 @@
 @using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
 @using RecipeApp.BlazorWasmBootstrap.Features.Shared.RazorComponents;
 
+@using RecipeApp.Shared.Extensions;
+@using RecipeApp.Shared.Models;
 @using RecipeApp.Shared.Features.Dto;
 @using RecipeApp.Shared.Features.Ingredient;
 @using RecipeApp.Shared.Features.Instruction;
 @using RecipeApp.Shared.Features.Introduction;
+@using RecipeApp.Shared.Features.Session;
 
 @using Tbd.Shared.ApiResult;
 @using Tbd.Shared.Extensions;

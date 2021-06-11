@@ -1,22 +1,24 @@
-﻿@using System.Net.Http
-@using System.Net.Http.Json
+﻿@using System.Net.Http;
+@using System.Net.Http.Json;
 
-@using Microsoft.AspNetCore.Components.Forms
-@using Microsoft.AspNetCore.Components.Routing
-@using Microsoft.AspNetCore.Components.Web
-@using Microsoft.AspNetCore.Components.Web.Virtualization
-@using Microsoft.AspNetCore.Components.WebAssembly.Http
-@using Microsoft.JSInterop
+@using Microsoft.AspNetCore.Components.Forms;
+@using Microsoft.AspNetCore.Components.Routing;
+@using Microsoft.AspNetCore.Components.Web;
+@using Microsoft.AspNetCore.Components.Web.Virtualization;
+@using Microsoft.AspNetCore.Components.WebAssembly.Http;
+@using Microsoft.JSInterop;
 
-@using MudBlazor
+@using MudBlazor;
 
-@using RecipeApp.Blazor.Shared;
-@using RecipeApp.Blazor.Shared.Extensions;
-@using RecipeApp.Blazor.Shared.Models
-@using RecipeApp.Blazor.Shared.Session
+@using RecipeApp.BlazorWasmMud;
+@using RecipeApp.BlazorWasmMud.Features;
+@using RecipeApp.BlazorWasmMud.Features.Shared.Extensions;
+@using RecipeApp.BlazorWasmMud.Features.Shared.RazorComponents;
 
-@using RecipeApp.BlazorWasmMud
-@using RecipeApp.BlazorWasmMud.Features
-@using RecipeApp.BlazorWasmMud.Features.Shared.Extensions
-@using RecipeApp.BlazorWasmMud.Features.Shared.RazorComponents
-
+@using RecipeApp.Shared.Extensions;
+@using RecipeApp.Shared.Models;
+@using RecipeApp.Shared.Features.Dto;
+@using RecipeApp.Shared.Features.Ingredient;
+@using RecipeApp.Shared.Features.Instruction;
+@using RecipeApp.Shared.Features.Introduction;
+@using RecipeApp.Shared.Features.Session;

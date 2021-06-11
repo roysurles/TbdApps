@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-using RecipeApp.Blazor.Shared.Models;
 using RecipeApp.BlazorWasmBootstrap.Features.Ingredient;
 using RecipeApp.BlazorWasmBootstrap.Features.Instruction;
 using RecipeApp.BlazorWasmBootstrap.Features.Introduction;
+using RecipeApp.Shared.Models;
 
 namespace RecipeApp.BlazorWasmBootstrap.Features.Details
 {

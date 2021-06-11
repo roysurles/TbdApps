@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RecipeApp.Blazor.Shared\RecipeApp.Blazor.Shared.csproj" />
     <ProjectReference Include="..\RecipeApp.Shared\RecipeApp.Shared.csproj" />
   </ItemGroup>
 

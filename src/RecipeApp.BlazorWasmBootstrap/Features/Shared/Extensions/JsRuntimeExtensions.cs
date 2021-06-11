@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 using Microsoft.JSInterop;
 
-using RecipeApp.Blazor.Shared.Models;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Enums;
 using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
+using RecipeApp.Shared.Models;
 
 namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Extensions
 {

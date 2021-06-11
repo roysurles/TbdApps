@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using RecipeApp.Blazor.Shared.Session;
+using RecipeApp.Shared.Features.Session;
 
-namespace RecipeApp.Blazor.Shared.MessageHandlers
+namespace RecipeApp.Shared.MessageHandlers
 {
     public class CustomMessageHandler : DelegatingHandler
     {

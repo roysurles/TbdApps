@@ -8,8 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using MudBlazor.Services;
 
-using RecipeApp.Blazor.Shared.Session;
 using RecipeApp.Shared.Features;
+using RecipeApp.Shared.Features.Session;
 
 namespace RecipeApp.BlazorWasmMud
 {
