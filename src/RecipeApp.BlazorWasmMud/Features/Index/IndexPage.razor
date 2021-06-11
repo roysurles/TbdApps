@@ -1,8 +1,64 @@
 ﻿
 @page "/"
+@inject ISessionViewModel SessionViewModel
+@inject IIntroductionSearchViewModel IntroductionSearchViewModel
+@inject ILogger<IndexPage> Logger
+@inject ISnackbar Snackbar
+@*@if (IntroductionSearchViewModel.IsBusy)
+    {
+        <div class="row text-center text-primary">
+            <h3>Searching... please wait</h3>
+        </div>
+    }
+    else
+    {
+        @if (IntroductionSearchViewModel.HasSearched)
+        {
+        }
+        else
+        {
+            <div class="row text-center mb-3">
+                <h3>Welcome to the Recipe App</h3>
+                <p>Input a search term and click Search</p>
+            </div>
+        }
+    }*@
 
-<h3>IndexPage</h3>
 
 @code {
+
+    protected string PageName = nameof(IndexPage);
+
+    /*
+    @*<MudTable Items="@(IntroductionSearchViewModel.IntroductionSearchResult.Data)"
+                  Hover="true"
+                  Bordered="true"
+                  Striped="true">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Recipe(s)</MudText>
+                <MudToolBarSpacer />
+                <MudTextField T="string"
+                              Placeholder="Filter"
+                              Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Search"
+                              IconSize="Size.Medium"
+                              Class="mt-0">
+                </MudTextField>
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh>Title</MudTh>
+                <MudTh>Ingredients</MudTh>
+                <MudTh>Instructions</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Title">@context.Title</MudTd>
+                <MudTd DataLabel="Ingredients">@context.IngredientsCount</MudTd>
+                <MudTd DataLabel="Instructions">@context.InstructionsCount</MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>*@
+    */
 
 }
