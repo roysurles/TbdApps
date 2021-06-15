@@ -4,7 +4,7 @@ namespace RecipeApp.Shared.Models
 {
     public abstract class BaseApiClient
     {
-        public BaseApiClient(HttpClient httpClient) =>
+        protected BaseApiClient(HttpClient httpClient) =>
             HttpClient = httpClient;
 
         protected HttpClient HttpClient { get; }

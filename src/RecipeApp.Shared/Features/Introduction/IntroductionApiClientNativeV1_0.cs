@@ -39,6 +39,7 @@ namespace RecipeApp.Shared.Features.Introduction
             , CancellationToken cancellationToken = default) =>
             HttpClient.GetFromJsonAsync<ApiResultModel<IntroductionDto>>($"/api/v1.0/Introduction/{id}", jsonSerializerOptions, cancellationToken);
 
+        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
         public async Task<ApiResultModel<IntroductionDto>> InsertAsync(IntroductionDto introductionDto
             , JsonSerializerOptions jsonSerializerOptions = null
             , JsonSerializerOptions jsonDeSerializerOptions = null
