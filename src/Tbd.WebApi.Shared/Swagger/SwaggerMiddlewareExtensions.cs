@@ -10,9 +10,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-using Tbd.WebApi.Shared.Swagger;
-
-namespace Tbd.WebApi.Shared.Extensions
+namespace Tbd.WebApi.Shared.Swagger
 {
     public static class SwaggerMiddlewareExtensions
     {

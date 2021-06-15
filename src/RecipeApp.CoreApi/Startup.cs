@@ -23,6 +23,8 @@ using Tbd.Shared.ApiLog;
 using Tbd.Shared.ApiResult;
 using Tbd.WebApi.Shared.Extensions;
 using Tbd.WebApi.Shared.Filters;
+using Tbd.WebApi.Shared.Swagger;
+
 namespace RecipeApp.CoreApi
 {
     /// <summary>
