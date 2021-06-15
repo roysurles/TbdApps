@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -28,6 +29,8 @@ namespace RecipeApp.BlazorWasmMud
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
+            var defaultJsonDeSerializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
             builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             builder.Services.AddMudServices(config =>
@@ -47,9 +50,12 @@ namespace RecipeApp.BlazorWasmMud
             builder.Services.AddRefitClient<IIntroductionApiClientV1_0>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))
                 .AddHttpMessageHandler<CustomMessageHandler>();
-            builder.Services.AddHttpClient<IntroductionApiClientNativeV1_0>(client =>
+
+            builder.Services.AddHttpClient<IIntroductionApiClientNativeV1_0>(client =>
                 client.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))
-                .AddHttpMessageHandler<CustomMessageHandler>();
+                .AddHttpMessageHandler<CustomMessageHandler>()
+                .AddTypedClient<IIntroductionApiClientNativeV1_0>(client => new IntroductionApiClientNativeV1_0(client, "/api/v1.0/Introduction", defaultJsonDeSerializerOptions: defaultJsonDeSerializerOptions));
+
             builder.Services.AddTransient<IIntroductionViewModel, IntroductionViewModel>();
             builder.Services.AddSingleton<IIntroductionSearchViewModel, IntroductionSearchViewModel>();
 

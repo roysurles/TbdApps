@@ -9,15 +9,23 @@ namespace RecipeApp.Shared.Models
 {
     public abstract class BaseApiClient
     {
-        protected BaseApiClient(HttpClient httpClient, string controllerPath)
+        protected BaseApiClient(HttpClient httpClient, string controllerPath
+            , JsonSerializerOptions defaultJsonSerializerOptions = null
+            , JsonSerializerOptions defaultJsonDeSerializerOptions = null)
         {
             HttpClient = httpClient;
             ControllerPath = controllerPath;
+            DefaultJsonSerializerOptions = defaultJsonSerializerOptions;
+            DefaultJsonDeSerializerOptions = defaultJsonDeSerializerOptions;
         }
 
         protected HttpClient HttpClient { get; }
 
         protected string ControllerPath { get; }
+
+        protected JsonSerializerOptions DefaultJsonSerializerOptions { get; }
+
+        protected JsonSerializerOptions DefaultJsonDeSerializerOptions { get; }
 
         [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
         protected async Task<TResult> PostAsJsonExAsync<TResult, TRequest>(string requestUri
@@ -28,12 +36,12 @@ namespace RecipeApp.Shared.Models
         {
             using var response = await HttpClient.PostAsJsonAsync(requestUri
                 , value
-                , jsonSerializerOptions
+                , jsonSerializerOptions ?? DefaultJsonSerializerOptions
                 , cancellationToken);
 
             return JsonSerializer.Deserialize<TResult>(
                 await response.Content.ReadAsStringAsync(cancellationToken)
-                , jsonDeSerializerOptions);
+                , jsonDeSerializerOptions ?? DefaultJsonDeSerializerOptions);
         }
 
         [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
@@ -45,12 +53,12 @@ namespace RecipeApp.Shared.Models
         {
             using var response = await HttpClient.PutAsJsonAsync(requestUri
                 , value
-                , jsonSerializerOptions
+                , jsonSerializerOptions ?? DefaultJsonSerializerOptions
                 , cancellationToken);
 
             return JsonSerializer.Deserialize<TResult>(
                 await response.Content.ReadAsStringAsync(cancellationToken)
-                , jsonDeSerializerOptions);
+                , jsonDeSerializerOptions ?? DefaultJsonDeSerializerOptions);
         }
 
         [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
@@ -60,12 +68,12 @@ namespace RecipeApp.Shared.Models
             , JsonSerializerOptions jsonDeSerializerOptions = null
             , CancellationToken cancellationToken = default)
         {
-            using var content = new StringContent(JsonSerializer.Serialize(value, jsonSerializerOptions));
+            using var content = new StringContent(JsonSerializer.Serialize(value, jsonSerializerOptions ?? DefaultJsonSerializerOptions));
             using var response = await HttpClient.PatchAsync(requestUri, content, cancellationToken);
 
             return JsonSerializer.Deserialize<TResult>(
                 await response.Content.ReadAsStringAsync(cancellationToken)
-                , jsonDeSerializerOptions);
+                , jsonDeSerializerOptions ?? DefaultJsonDeSerializerOptions);
         }
 
         [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
@@ -79,7 +87,7 @@ namespace RecipeApp.Shared.Models
             using var request = new HttpRequestMessage(HttpMethod.Delete, requestUri);
             if (value is not null)
             {
-                using var content = new StringContent(JsonSerializer.Serialize(value, jsonSerializerOptions));
+                using var content = new StringContent(JsonSerializer.Serialize(value, jsonSerializerOptions ?? DefaultJsonSerializerOptions));
                 request.Content = content;
             }
 
@@ -87,7 +95,7 @@ namespace RecipeApp.Shared.Models
 
             return JsonSerializer.Deserialize<TResult>(
                 await response.Content.ReadAsStringAsync(cancellationToken)
-                , jsonDeSerializerOptions);
+                , jsonDeSerializerOptions ?? DefaultJsonDeSerializerOptions);
         }
     }
 }

@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 
 using RecipeApp.Shared.Models;
 
-using Tbd.RefitEx;
 using Tbd.Shared.ApiResult;
 
 namespace RecipeApp.Shared.Features.Introduction
@@ -15,12 +14,15 @@ namespace RecipeApp.Shared.Features.Introduction
     public class IntroductionSearchViewModel : BaseViewModel, IIntroductionSearchViewModel
     {
         protected readonly IIntroductionApiClientV1_0 _introductionpiClientV1_0;
+        protected readonly IIntroductionApiClientNativeV1_0 _introductionApiClientNativeV1_0;
         protected readonly ILogger<IntroductionSearchViewModel> _logger;
 
         public IntroductionSearchViewModel(IIntroductionApiClientV1_0 introductionpiClientV1_0
+            , IIntroductionApiClientNativeV1_0 introductionApiClientNativeV1_0
             , ILogger<IntroductionSearchViewModel> logger)
         {
             _introductionpiClientV1_0 = introductionpiClientV1_0;
+            _introductionApiClientNativeV1_0 = introductionApiClientNativeV1_0;
             _logger = logger;
         }
 
@@ -53,8 +55,13 @@ namespace RecipeApp.Shared.Features.Introduction
             ClearApiResultMessages();
 
             IntroductionSearchRequestDto.SetPagination(pageNumber, pageSize);
-            IntroductionSearchResult = await RefitExStaticMethods.TryInvokeApiAsync(
-                () => _introductionpiClientV1_0.SearchAsync(IntroductionSearchRequestDto), ApiResultMessages);
+
+            // NOTE:  example of using native c# typed api client
+            IntroductionSearchResult = await _introductionApiClientNativeV1_0.SearchAsync(IntroductionSearchRequestDto);
+
+            // NOTE:  example of using refit api client
+            //IntroductionSearchResult = await RefitExStaticMethods.TryInvokeApiAsync(
+            //    () => _introductionpiClientV1_0.SearchAsync(IntroductionSearchRequestDto), ApiResultMessages);
 
             HasSearched = true;
         }

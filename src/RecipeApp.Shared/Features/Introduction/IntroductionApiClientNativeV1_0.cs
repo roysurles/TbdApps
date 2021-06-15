@@ -13,9 +13,12 @@ using Tbd.Shared.ApiResult;
 
 namespace RecipeApp.Shared.Features.Introduction
 {
-    public class IntroductionApiClientNativeV1_0 : BaseApiClient // TODO, IIntroductionApiClientV1_0
+    public class IntroductionApiClientNativeV1_0 : BaseApiClient, IIntroductionApiClientNativeV1_0
     {
-        public IntroductionApiClientNativeV1_0(HttpClient httpClient, string controllerPath) : base(httpClient, controllerPath) { }
+        public IntroductionApiClientNativeV1_0(HttpClient httpClient, string controllerPath
+            , JsonSerializerOptions defaultJsonSerializerOptions = null
+            , JsonSerializerOptions defaultJsonDeSerializerOptions = null)
+            : base(httpClient, controllerPath, defaultJsonSerializerOptions, defaultJsonDeSerializerOptions) { }
 
         public Task<ApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync(
             IntroductionSearchRequestDto introductionSearchRequestDto
@@ -78,5 +81,33 @@ namespace RecipeApp.Shared.Features.Introduction
                 , jsonDeSerializerOptions
                 , cancellationToken);
         }
+    }
+
+    public interface IIntroductionApiClientNativeV1_0
+    {
+        Task<ApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync(
+            IntroductionSearchRequestDto introductionSearchRequestDto
+            , JsonSerializerOptions jsonSerializerOptions = null
+            , JsonSerializerOptions jsonDeSerializerOptions = null
+            , CancellationToken cancellationToken = default);
+
+        Task<ApiResultModel<IntroductionDto>> GetAsync(Guid id
+            , JsonSerializerOptions jsonSerializerOptions = null
+            , CancellationToken cancellationToken = default);
+
+        Task<ApiResultModel<IntroductionDto>> InsertAsync(IntroductionDto introductionDto
+            , JsonSerializerOptions jsonSerializerOptions = null
+            , JsonSerializerOptions jsonDeSerializerOptions = null
+            , CancellationToken cancellationToken = default);
+
+        Task<ApiResultModel<IntroductionDto>> UpdateAsync(IntroductionDto introductionDto
+            , JsonSerializerOptions jsonSerializerOptions = null
+            , JsonSerializerOptions jsonDeSerializerOptions = null
+            , CancellationToken cancellationToken = default);
+
+        Task<ApiResultModel<int>> DeleteAsync(Guid id
+            , JsonSerializerOptions jsonSerializerOptions = null
+            , JsonSerializerOptions jsonDeSerializerOptions = null
+            , CancellationToken cancellationToken = default);
     }
 }
