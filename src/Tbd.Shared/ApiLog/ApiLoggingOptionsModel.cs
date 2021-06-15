@@ -1,4 +1,4 @@
-﻿namespace Tbd.Shared.Options
+﻿namespace Tbd.Shared.ApiLog
 {
     public class ApiLoggingOptionsModel
     {

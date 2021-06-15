@@ -3,7 +3,7 @@ using System;
 
 using Microsoft.AspNetCore.Builder;
 
-using Tbd.Shared.Options;
+using Tbd.Shared.ApiLog;
 using Tbd.WebApi.Shared.Middleware;
 
 namespace Tbd.WebApi.Shared.Extensions

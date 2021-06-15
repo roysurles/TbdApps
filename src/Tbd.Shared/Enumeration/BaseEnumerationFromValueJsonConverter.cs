@@ -2,9 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using Tbd.Shared.Enumeration;
-
-namespace Tbd.Shared.JsonConverters
+namespace Tbd.Shared.Enumeration
 {
     public class BaseEnumerationFromValueJsonConverter<TEnumeration> : JsonConverter<TEnumeration> where TEnumeration : BaseEnumeration, new()
     {

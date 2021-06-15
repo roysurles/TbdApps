@@ -10,7 +10,6 @@ using Microsoft.Extensions.Options;
 
 using Tbd.Shared.ApiLog;
 using Tbd.Shared.Extensions;
-using Tbd.Shared.Options;
 using Tbd.WebApi.Shared.Extensions;
 using Tbd.WebApi.Shared.Repositories;
 
