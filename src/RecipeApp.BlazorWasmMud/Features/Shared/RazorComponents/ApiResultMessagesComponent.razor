@@ -1,11 +1,13 @@
 ﻿@if (Informations.Any())
 {
-    <div class="text-success">
+    <div class="mud-alert mud-alert-text-info">
         <h3>Information</h3>
+    </div>
+    <div class="mud-alert mud-alert-text-info">
         <ul>
             @foreach (var information in Informations)
             {
-                <li>@($"{information.Code} : {information.Message}".ToMarkupString())</li>
+                <li>@($"&#8226;&nbsp;&nbsp;{information.Code} : {information.Message}".ToMarkupString())</li>
             }
         </ul>
     </div>
@@ -13,12 +15,14 @@
 
 @if (Warnings.Any())
 {
-    <div class="text-warning">
+    <div class="mud-alert mud-alert-text-warning">
         <h3>Warnings</h3>
+    </div>
+    <div class="mud-alert mud-alert-text-warning">
         <ul>
             @foreach (var warning in Warnings)
             {
-                <li>@($"{warning.Code} : {warning.Message}".ToMarkupString())</li>
+                <li>@($"&#8226;&nbsp;&nbsp;{warning.Code} : {warning.Message}".ToMarkupString())</li>
             }
         </ul>
     </div>
@@ -26,12 +30,14 @@
 
 @if (Errors.Any())
 {
-    <div class="text-danger">
+    <div class="mud-alert mud-alert-text-error">
         <h3>Errors</h3>
+    </div>
+    <div class="mud-alert mud-alert-text-error">
         <ul>
             @foreach (var error in Errors)
             {
-                <li>@($"{error.Code} : {error.Message}".ToMarkupString())</li>
+                <li>@($"&#8226;&nbsp;&nbsp;{error.Code} : {error.Message}".ToMarkupString())</li>
             }
         </ul>
     </div>
@@ -39,12 +45,14 @@
 
 @if (UnhandledExceptions.Any())
 {
-    <div class="text-danger">
+    <div class="mud-alert mud-alert-text-error">
         <h3>Unhandled Exceptions</h3>
+    </div>
+    <div class="mud-alert mud-alert-text-error">
         <ul>
             @foreach (var unhandledException in UnhandledExceptions)
             {
-                <li>@($"{unhandledException.Code} : {unhandledException.Message}".ToMarkupString())</li>
+                <li>@($"&#8226;&nbsp;&nbsp;{unhandledException.Code} : {unhandledException.Message}".ToMarkupString())</li>
             }
         </ul>
     </div>

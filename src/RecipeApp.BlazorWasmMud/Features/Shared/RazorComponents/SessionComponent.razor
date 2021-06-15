@@ -2,11 +2,11 @@
 @inject IJSRuntime JSRuntime
 
 <div class="d-inline-flex align-content-end align-items-end">
-    <MudText Class="mt-6 mr-3">Environment:</MudText>
+    <MudText Class="mt-6 mr-1">Environment:</MudText>
     <MudText Class="mt-6 mr-3">@(SessionViewModel.HostEnvironment.Environment)</MudText>
-    <MudText Class="mt-6 mr-3">Trace Id:</MudText>
+    <MudText Class="mt-6 mr-1">Trace Id:</MudText>
     <MudTextField ReadOnly="true"
-                  Class="mr-3 my-2"
+                  Class="mr-1 my-2"
                   Style="width: 330px; color: white;"
                   DisableUnderLine="true"
                   Variant="Variant.Outlined"
@@ -16,13 +16,13 @@
     <MudIconButton Icon="@Icons.Material.Filled.FileCopy"
                    Title="Copy to Clipboard"
                    Color="Color.Inherit"
-                   Class="mr-3"
+                   Class="mr-1"
                    OnClick="@(_ => JSRuntime.CopyToClipboard("TraceIdTextBox"))">
     </MudIconButton>
     <MudIconButton Icon="@Icons.Material.Filled.InsertDriveFile"
                    Title="Generate new Id"
                    Color="Color.Inherit"
-                   Class="mr-3"
+                   Class="mr-1"
                    OnClick="@(_ => SessionViewModel.NewTraceId())">
     </MudIconButton>
 </div>
