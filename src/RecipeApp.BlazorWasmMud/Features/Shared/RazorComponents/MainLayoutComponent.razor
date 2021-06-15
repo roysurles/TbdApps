@@ -59,7 +59,9 @@
             IntroductionSearchViewModel.SetBusyFlag(true);
             SessionViewModel.NavigationManager.NavigateTo("/");
             await IntroductionSearchViewModel.SearchAsync();
-            using var snack = Snackbar.Add($"Found {IntroductionSearchViewModel.IntroductionSearchResult.Meta.TotalItemCount} result(s)", Severity.Info);
+            using var snack = Snackbar.Add($"Found {IntroductionSearchViewModel.IntroductionSearchResult.Meta.TotalItemCount} result(s)"
+                , Severity.Info
+                , (options) => options.RequireInteraction = false);
         }
         catch (Exception ex)
         {
