@@ -13,7 +13,7 @@ using Tbd.Shared.Extensions;
 using Tbd.WebApi.Shared.Extensions;
 using Tbd.WebApi.Shared.Repositories;
 
-namespace Tbd.WebApi.Shared.Middleware
+namespace Tbd.WebApi.Shared.ApiLogging
 {
     public class ApiLoggingMiddleware
     {

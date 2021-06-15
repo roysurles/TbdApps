@@ -7,7 +7,7 @@ using Microsoft.Extensions.Primitives;
 
 using Tbd.Shared.Options;
 
-namespace Tbd.WebApi.Shared.Middleware
+namespace Tbd.WebApi.Shared.CorrelationId
 {
     /// <summary>
     /// Middleware which attempts to reads / creates a Correlation ID that can then be used in logs and

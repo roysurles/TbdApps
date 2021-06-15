@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
 
 using Tbd.Shared.Options;
-using Tbd.WebApi.Shared.Middleware;
 
-namespace Tbd.WebApi.Shared.Extensions
+namespace Tbd.WebApi.Shared.CorrelationId
 {
     /// <summary>
     /// CorrelationId Extensions

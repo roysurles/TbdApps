@@ -21,6 +21,8 @@ using RecipeApp.Shared.Handlers;
 
 using Tbd.Shared.ApiLog;
 using Tbd.Shared.ApiResult;
+using Tbd.WebApi.Shared.ApiLogging;
+using Tbd.WebApi.Shared.CorrelationId;
 using Tbd.WebApi.Shared.Extensions;
 using Tbd.WebApi.Shared.Filters;
 using Tbd.WebApi.Shared.Swagger;

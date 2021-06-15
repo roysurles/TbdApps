@@ -4,9 +4,8 @@ using System;
 using Microsoft.AspNetCore.Builder;
 
 using Tbd.Shared.ApiLog;
-using Tbd.WebApi.Shared.Middleware;
 
-namespace Tbd.WebApi.Shared.Extensions
+namespace Tbd.WebApi.Shared.ApiLogging
 {
     public static class ApiLoggingMiddlewareExtensions
     {
