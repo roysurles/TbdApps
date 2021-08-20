@@ -17,14 +17,14 @@ namespace RecipeApp.CoreApi.UnitTests.Features.Ingredient.V1_0
     {
         [Theory(DisplayName = "IngredientServiceTests.SelectAllForIntroductionIdAsync")]
         [InlineData("00000000-0000-0000-0000-000000000000", HttpStatusCode.BadRequest, new string[] { "Introduction Id is required." })]
-        [InlineData("eb95c593-69b2-4483-8fc3-4f74726a317e", HttpStatusCode.NotFound, new string[] { "No data found." })]
+        [InlineData("eb95c593-69b2-4483-8fc3-4f74726a317e", HttpStatusCode.OK, new string[] { "No data found." })]
         [InlineData("eb95c593-69b2-4483-8fc3-4f74726a317e", HttpStatusCode.OK, new string[] { })]
         public async Task SelectAllForIntroductionIdAsync_Should_Return_Correct_StatusCode(Guid id
             , HttpStatusCode expectedHttpStatusCode
             , string[] expectedMessages)
         {
             // Arrange
-            var returnInstructionDto = Equals(expectedHttpStatusCode, HttpStatusCode.OK)
+            var returnInstructionDto = Equals(expectedHttpStatusCode, HttpStatusCode.OK) && expectedMessages.Length.Equals(0)
                 ? new List<IngredientDto> { new IngredientDto() }
                 : new List<IngredientDto>();
 
