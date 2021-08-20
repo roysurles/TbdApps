@@ -19,6 +19,42 @@ else
 {
     @if (IntroductionSearchViewModel.HasSearched)
     {
+        <MudTable Items="@(IntroductionSearchViewModel.IntroductionSearchResult.Data)"
+                  Hover="true"
+                  Bordered="true"
+                  Striped="true">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Recipe(s)</MudText>
+                <MudToolBarSpacer />
+                <MudTextField T="string"
+                              Placeholder="Filter"
+                              Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Search"
+                              IconSize="Size.Medium"
+                              Class="mt-0">
+                </MudTextField>
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh Style="text-align: center">Title</MudTh>
+                <MudTh Style="text-align: center; width: 10%">Ingredients</MudTh>
+                <MudTh Style="text-align: center; width: 10%">Instructions</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Title">
+                    <a class="nav-link"
+                       aria-current="page"
+                       href="@($"/Details/{@context.Id.ToString()}")">
+                        @context.Title
+                    </a>
+                </MudTd>
+                @*<MudTd DataLabel="Title">@context.Title</MudTd>*@
+                <MudTd DataLabel="Ingredients" Style="text-align: right">@context.IngredientsCount</MudTd>
+                <MudTd DataLabel="Instructions" Style="text-align: right">@context.InstructionsCount</MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
     }
     else
     {
