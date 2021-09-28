@@ -81,8 +81,9 @@ else
     protected override async Task OnInitializedAsync()
     {
         IntroductionSearchViewModel.StateHasChangedEvent += IntroductionSearchViewModel_StateHasChangedEvent;
-        if (IntroductionSearchViewModel.HasSearched)
-            await SearchAsync(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber, IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageSize);
+        // The following does not make sense...should only search when clicking on Search button
+        //if (IntroductionSearchViewModel.HasSearched)
+        //    await SearchAsync(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber, IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageSize);
 
         await base.OnInitializedAsync();
     }
@@ -98,6 +99,9 @@ else
 
             IntroductionSearchViewModel.SetBusyFlag(true);
             await IntroductionSearchViewModel.SearchAsync(pageNumber, pageSize);
+            // When not on home page and click Search, the toast is fired twice:
+            // -- once here
+            // -- once from MainLayout
             //await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Search Results", $"Found {IntroductionSearchViewModel.IntroductionSearchResult.Meta.TotalItemCount} result(s)"));
         }
         catch (Exception ex)
