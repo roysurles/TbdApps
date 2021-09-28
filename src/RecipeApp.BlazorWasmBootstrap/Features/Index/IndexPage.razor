@@ -76,7 +76,7 @@ else
     public void Dispose() =>
         IntroductionSearchViewModel.StateHasChangedEvent -= IntroductionSearchViewModel_StateHasChangedEvent;
 
-    protected string PageName = nameof(IndexPage);
+    //protected string PageName = nameof(IndexPage);
 
     protected override async Task OnInitializedAsync()
     {
@@ -98,10 +98,11 @@ else
 
             IntroductionSearchViewModel.SetBusyFlag(true);
             await IntroductionSearchViewModel.SearchAsync(pageNumber, pageSize);
+            //await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Search Results", $"Found {IntroductionSearchViewModel.IntroductionSearchResult.Meta.TotalItemCount} result(s)"));
         }
         catch (Exception ex)
         {
-            SessionViewModel.HandleException(ex, IntroductionSearchViewModel.ApiResultMessages, PageName);
+            SessionViewModel.HandleException(ex, IntroductionSearchViewModel.ApiResultMessages, this.ComponentName());
         }
         finally
         {

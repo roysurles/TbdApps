@@ -103,7 +103,7 @@
 
 @code {
 
-    protected string ComponentName = nameof(MainLayoutComponent);
+    //protected string ComponentName = nameof(MainLayoutComponent);
 
     protected async Task SearchAsync()
     {
@@ -118,7 +118,7 @@
         }
         catch (Exception ex)
         {
-            SessionViewModel.HandleException(ex, IntroductionSearchViewModel.ApiResultMessages, ComponentName);
+            SessionViewModel.HandleException(ex, IntroductionSearchViewModel.ApiResultMessages, this.ComponentName());
         }
         finally
         {
@@ -140,7 +140,7 @@
                 await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Search Results", $"Found {IntroductionSearchViewModel.IntroductionSearchResult.Meta.TotalItemCount} result(s)"));
             }
             , () => IntroductionSearchViewModel.SetBusyFlag(false)
-            , IntroductionSearchViewModel.ApiResultMessages, ComponentName, methodName);
+            , IntroductionSearchViewModel.ApiResultMessages, this.ComponentName(), methodName);
     }
 
 }

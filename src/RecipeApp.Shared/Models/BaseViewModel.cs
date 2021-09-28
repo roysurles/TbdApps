@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Components;
 
 using Tbd.Shared.ApiResult;
 
@@ -11,6 +16,58 @@ namespace RecipeApp.Shared.Models
         public bool IsBusy { get; set; }
 
         public List<IApiResultMessageModel> ApiResultMessages { get; set; } = new List<IApiResultMessageModel>();
+
+        public IBaseViewModel SetIsLoadingFlag(bool isLoading, Action workerItem)
+        {
+            IsLoading = isLoading;
+            workerItem.Invoke();
+
+            return this;
+        }
+
+        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "Used by GUI")]
+        public async Task<IBaseViewModel> SetIsLoadingFlagAsync(bool isLoading, EventCallback eventCallback)
+        {
+            IsLoading = isLoading;
+            await eventCallback.InvokeAsync();
+
+            return this;
+        }
+
+        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "Used by GUI")]
+        public async Task<IBaseViewModel> SetIsLoadingFlagAsync<T>(bool isLoading, EventCallback<T> eventCallback, T arg)
+        {
+            IsLoading = isLoading;
+            await eventCallback.InvokeAsync(arg);
+
+            return this;
+        }
+
+        public IBaseViewModel SetIsBusyFlag(bool isBusy, Action workerItem)
+        {
+            IsBusy = isBusy;
+            workerItem.Invoke();
+
+            return this;
+        }
+
+        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "Used by GUI")]
+        public async Task<IBaseViewModel> SetIsBusyFlagAsync(bool isBusy, EventCallback eventCallback)
+        {
+            IsBusy = isBusy;
+            await eventCallback.InvokeAsync();
+
+            return this;
+        }
+
+        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "Used by GUI")]
+        public async Task<IBaseViewModel> SetIsBusyFlagAsync<T>(bool isBusy, EventCallback<T> eventCallback, T arg)
+        {
+            IsBusy = isBusy;
+            await eventCallback.InvokeAsync(arg);
+
+            return this;
+        }
 
         public IBaseViewModel ClearApiResultMessages()
         {
@@ -53,6 +110,18 @@ namespace RecipeApp.Shared.Models
         bool IsBusy { get; set; }
 
         List<IApiResultMessageModel> ApiResultMessages { get; set; }
+
+        IBaseViewModel SetIsLoadingFlag(bool isLoading, Action workerItem);
+
+        Task<IBaseViewModel> SetIsLoadingFlagAsync(bool isLoading, EventCallback eventCallback);
+
+        Task<IBaseViewModel> SetIsLoadingFlagAsync<T>(bool isLoading, EventCallback<T> eventCallback, T arg);
+
+        IBaseViewModel SetIsBusyFlag(bool isBusy, Action workerItem);
+
+        Task<IBaseViewModel> SetIsBusyFlagAsync(bool isBusy, EventCallback eventCallback);
+
+        Task<IBaseViewModel> SetIsBusyFlagAsync<T>(bool isBusy, EventCallback<T> eventCallback, T arg);
 
         IBaseViewModel ClearApiResultMessages();
 
