@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
@@ -31,17 +32,19 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         /// Search Introductions based on criteria.
         /// </summary>
         /// <param name="introductionSearchRequestDto">Search criteria</param>
+        /// <param name="cancellationToken">CancellationToken in case client cancels this method</param>
         /// <returns>IApiResultModel of IEnumerable of IntroductionSearchResultDto.</returns>
         /// <response code="200">OK - returns IApiResultModel of IEnumerable of IntroductionSearchResultDto.</response>
         [HttpPost("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IApiResultModel<IEnumerable<IntroductionSearchResultDto>>>> SearchAsync([FromBody] IntroductionSearchRequestDto introductionSearchRequestDto) =>
-            CreateActionResult(await _introductionService.SearchAsync(introductionSearchRequestDto).ConfigureAwait(false), false);
+        public async Task<ActionResult<IApiResultModel<IEnumerable<IntroductionSearchResultDto>>>> SearchAsync([FromBody] IntroductionSearchRequestDto introductionSearchRequestDto, CancellationToken cancellationToken) =>
+            CreateActionResult(await _introductionService.SearchAsync(introductionSearchRequestDto, cancellationToken).ConfigureAwait(false), false);
 
         /// <summary>
         /// Get IntroductionDto for the desired Introduction Id.
         /// </summary>
         /// <param name="id">Desired Introduction Id</param>
+        /// <param name="cancellationToken">CancellationToken in case client cancels this method</param>
         /// <returns>IApiResultModel of IntroductionDto</returns>
         /// <response code="200">OK - returns IApiResultModel of IntroductionDto</response>
         /// <response code="400">BadRequest - missing Id</response>
@@ -50,8 +53,8 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IApiResultModel<IntroductionDto>>> GetAsync(Guid id) =>
-            CreateActionResult(await _introductionService.SelectAsync(id).ConfigureAwait(false));
+        public async Task<ActionResult<IApiResultModel<IntroductionDto>>> GetAsync(Guid id, CancellationToken cancellationToken) =>
+            CreateActionResult(await _introductionService.SelectAsync(id, cancellationToken).ConfigureAwait(false));
 
         /// <summary>
         /// Insert new Introduction.
@@ -63,8 +66,8 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         [HttpPost()]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IApiResultModel<IntroductionDto>>> PostAsync([FromBody] IntroductionDto introductionDto) =>
-            CreateActionResult(await _introductionService.InsertAsync(introductionDto, GetNameIdentifierClaimValue).ConfigureAwait(false));
+        public async Task<ActionResult<IApiResultModel<IntroductionDto>>> PostAsync([FromBody] IntroductionDto introductionDto, CancellationToken cancellationToken) =>
+            CreateActionResult(await _introductionService.InsertAsync(introductionDto, GetNameIdentifierClaimValue, cancellationToken).ConfigureAwait(false));
 
         /// <summary>
         /// Update Introduction
@@ -76,8 +79,8 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         [HttpPut()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IApiResultModel<IntroductionDto>>> PutAsync([FromBody] IntroductionDto introductionDto) =>
-            CreateActionResult(await _introductionService.UpdateAsync(introductionDto, GetNameIdentifierClaimValue).ConfigureAwait(false));
+        public async Task<ActionResult<IApiResultModel<IntroductionDto>>> PutAsync([FromBody] IntroductionDto introductionDto, CancellationToken cancellationToken) =>
+            CreateActionResult(await _introductionService.UpdateAsync(introductionDto, GetNameIdentifierClaimValue, cancellationToken).ConfigureAwait(false));
 
         /// <summary>
         /// Delete Introduction record for the desired Introduction Id.
@@ -90,7 +93,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IApiResultModel<int>>> DeleteAsync(Guid id) =>
-            CreateActionResult(await _introductionService.DeleteAsync(id).ConfigureAwait(false));
+        public async Task<ActionResult<IApiResultModel<int>>> DeleteAsync(Guid id, CancellationToken cancellationToken) =>
+            CreateActionResult(await _introductionService.DeleteAsync(id, cancellationToken).ConfigureAwait(false));
     }
 }

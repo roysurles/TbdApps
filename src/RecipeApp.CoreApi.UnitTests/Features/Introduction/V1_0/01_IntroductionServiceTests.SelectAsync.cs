@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 using FluentAssertions;
@@ -29,11 +30,11 @@ namespace RecipeApp.CoreApi.UnitTests.Features.Introduction.V1_0
                 : null;
 
             _introductionRepositoryMock
-                .Setup(x => x.SelectAsync(It.IsAny<Guid>()))
+                .Setup(x => x.SelectAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(returnIntroductionDto);
 
             // Act
-            var actualApiResult = await _introductionService.SelectAsync(id).ConfigureAwait(false);
+            var actualApiResult = await _introductionService.SelectAsync(id, new CancellationToken()).ConfigureAwait(false);
 
             // Assert
             actualApiResult.HttpStatusCode.Should().Be(expectedHttpStatusCode);

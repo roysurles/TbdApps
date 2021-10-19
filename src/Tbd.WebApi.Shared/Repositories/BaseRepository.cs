@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Tbd.Shared.Pagination;
@@ -27,6 +28,15 @@ namespace Tbd.WebApi.Shared.Repositories
             var sqlConnection = new SqlConnection(_connectionString);
             if (open)
                 await sqlConnection.OpenAsync().ConfigureAwait(false);
+
+            return sqlConnection;
+        }
+
+        public async Task<IDbConnection> CreateConnectionAsync(CancellationToken cancellationToken, bool open = true)
+        {
+            var sqlConnection = new SqlConnection(_connectionString);
+            if (open)
+                await sqlConnection.OpenAsync(cancellationToken).ConfigureAwait(false);
 
             return sqlConnection;
         }

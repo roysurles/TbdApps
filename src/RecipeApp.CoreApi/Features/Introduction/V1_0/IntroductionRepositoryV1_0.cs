@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Dapper;
@@ -18,17 +19,20 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         public IntroductionRepositoryV1_0(string connectionString) : base(connectionString) { }
 
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
-        public async Task<(PaginationMetaDataModel PaginationMetaData, IEnumerable<IntroductionSearchResultDto> Data)> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto)
+        public async Task<(PaginationMetaDataModel PaginationMetaData, IEnumerable<IntroductionSearchResultDto> Data)> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto
+            , CancellationToken cancellationToken)
         {
-            using var connection = await CreateConnectionAsync().ConfigureAwait(false);
-            using var gridReader = await connection.QueryMultipleAsync("IntroductionSearch"
+            var commandDefinition = new CommandDefinition("IntroductionSearch"
                 , new
                 {
                     introductionSearchRequestDto.SearchText,
                     introductionSearchRequestDto.Offset,
                     introductionSearchRequestDto.Fetch
                 }
-                , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+                , commandType: CommandType.StoredProcedure
+                , cancellationToken: cancellationToken);
+            using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
+            using var gridReader = await connection.QueryMultipleAsync(commandDefinition).ConfigureAwait(false);
             var totalItemCount = await gridReader.ReadSingleAsync<int>().ConfigureAwait(false);
             var data = await gridReader.ReadAsync<IntroductionSearchResultDto>().ConfigureAwait(false);
 
@@ -38,51 +42,55 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         }
 
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
-        public async Task<IntroductionDto> SelectAsync(Guid id)
+        public async Task<IntroductionDto> SelectAsync(Guid id, CancellationToken cancellationToken)
         {
-            using var connection = await CreateConnectionAsync().ConfigureAwait(false);
-            return await connection.QuerySingleOrDefaultAsync<IntroductionDto>("IntroductionSelect"
+            var commandDefinition = new CommandDefinition("IntroductionSelect"
                         , new { id }
-                        , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+                        , commandType: CommandType.StoredProcedure
+                        , cancellationToken: cancellationToken);
+            using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
+            return await connection.QuerySingleOrDefaultAsync<IntroductionDto>(commandDefinition).ConfigureAwait(false);
         }
 
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
-        public async Task<IntroductionDto> InsertAsync(IntroductionDto introductionDto, string createdById)
+        public async Task<IntroductionDto> InsertAsync(IntroductionDto introductionDto, string createdById, CancellationToken cancellationToken)
         {
             if (introductionDto.Id == Guid.Empty)
                 introductionDto.Id = Guid.NewGuid();
 
-            using var connection = await CreateConnectionAsync().ConfigureAwait(false);
-
-            await connection.ExecuteAsync("IntroductionInsert"
-                , introductionDto.ToInsertParameters(createdById, DateTime.UtcNow)
-                , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
-
-            return introductionDto;
-        }
-
-        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
-        public async Task<IntroductionDto> UpdateAsync(IntroductionDto introductionDto, string updatedById)
-        {
-            using var connection = await CreateConnectionAsync().ConfigureAwait(false);
-
-            await connection.ExecuteAsync("IntroductionUpdate"
-                , introductionDto.ToUpdateParameters(updatedById, DateTime.UtcNow)
-                , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+            var commandDefinition = new CommandDefinition("IntroductionInsert"
+                        , introductionDto.ToInsertParameters(createdById, DateTime.UtcNow)
+                        , commandType: CommandType.StoredProcedure
+                        , cancellationToken: cancellationToken);
+            using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
+            await connection.ExecuteAsync(commandDefinition).ConfigureAwait(false);
 
             return introductionDto;
         }
 
         [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
-        public async Task<int> DeleteAsync(Guid id)
+        public async Task<IntroductionDto> UpdateAsync(IntroductionDto introductionDto, string updatedById, CancellationToken cancellationToken)
         {
-            using var connection = await CreateConnectionAsync().ConfigureAwait(false);
+            var commandDefinition = new CommandDefinition("IntroductionUpdate"
+                        , introductionDto.ToUpdateParameters(updatedById, DateTime.UtcNow)
+                        , commandType: CommandType.StoredProcedure
+                        , cancellationToken: cancellationToken);
+            using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
+            await connection.ExecuteAsync(commandDefinition).ConfigureAwait(false);
+
+            return introductionDto;
+        }
+
+        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
+        public async Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var commandDefinition = new CommandDefinition("IntroductionDelete"
+                        , new { id }
+                        , commandType: CommandType.StoredProcedure
+                        , cancellationToken: cancellationToken);
+            using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
             using var transaction = connection.BeginTransaction();
-
-            var result = await connection.ExecuteScalarAsync<int>("IntroductionDelete"
-                , new { id }
-                , transaction
-                , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+            var result = await connection.ExecuteScalarAsync<int>(commandDefinition).ConfigureAwait(false);
 
             transaction.Commit();
 
@@ -92,14 +100,14 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
 
     public interface IIntroductionRepositoryV1_0
     {
-        Task<(PaginationMetaDataModel PaginationMetaData, IEnumerable<IntroductionSearchResultDto> Data)> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto);
+        Task<(PaginationMetaDataModel PaginationMetaData, IEnumerable<IntroductionSearchResultDto> Data)> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto, CancellationToken cancellationToken);
 
-        Task<IntroductionDto> SelectAsync(Guid id);
+        Task<IntroductionDto> SelectAsync(Guid id, CancellationToken cancellationToken);
 
-        Task<IntroductionDto> InsertAsync(IntroductionDto introductionDto, string createdById);
+        Task<IntroductionDto> InsertAsync(IntroductionDto introductionDto, string createdById, CancellationToken cancellationToken);
 
-        Task<IntroductionDto> UpdateAsync(IntroductionDto introductionDto, string updatedById);
+        Task<IntroductionDto> UpdateAsync(IntroductionDto introductionDto, string updatedById, CancellationToken cancellationToken);
 
-        Task<int> DeleteAsync(Guid id);
+        Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken);
     }
 }

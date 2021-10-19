@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -27,12 +28,13 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
             _introductionRepository = introductionRepository;
         }
 
-        public async Task<IApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto)
+        public async Task<IApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto
+            , CancellationToken cancellationToken)
         {
             var memberName = $"{_className}.{nameof(SearchAsync)}";
             _logger.LogInformation($"{memberName}({nameof(introductionSearchRequestDto)})");
 
-            var (PaginationMetaData, Data) = await _introductionRepository.SearchAsync(introductionSearchRequestDto).ConfigureAwait(false);
+            var (PaginationMetaData, Data) = await _introductionRepository.SearchAsync(introductionSearchRequestDto, cancellationToken).ConfigureAwait(false);
 
             return CreateApiResultModel<IEnumerable<IntroductionSearchResultDto>>()
                 .SetMeta(PaginationMetaData)
@@ -40,7 +42,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
                 .VerifyDataHasCount(ApiResultMessageModelTypeEnumeration.Information, setHttpStatusCode: false);
         }
 
-        public async Task<IApiResultModel<IntroductionDto>> SelectAsync(Guid id)
+        public async Task<IApiResultModel<IntroductionDto>> SelectAsync(Guid id, CancellationToken cancellationToken)
         {
             var memberName = $"{_className}.{nameof(SelectAsync)}";
             _logger.LogInformation($"{memberName}({id})");
@@ -51,11 +53,11 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
                     .AddErrorMessage("Id is required.", memberName, HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
-                    .SetData(await _introductionRepository.SelectAsync(id).ConfigureAwait(false))
+                    .SetData(await _introductionRepository.SelectAsync(id, cancellationToken).ConfigureAwait(false))
                     .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: memberName);
         }
 
-        public async Task<IApiResultModel<IntroductionDto>> InsertAsync(IntroductionDto introductionDto, string createdById)
+        public async Task<IApiResultModel<IntroductionDto>> InsertAsync(IntroductionDto introductionDto, string createdById, CancellationToken cancellationToken)
         {
             var memberName = $"{_className}.{nameof(InsertAsync)}";
             _logger.LogInformation($"{memberName}({nameof(introductionDto)}, {createdById})");
@@ -64,11 +66,11 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
 
             return introductionDto.TryValidateObject(apiResult.Messages)
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.Created)
-                    .SetData(await _introductionRepository.InsertAsync(introductionDto, createdById).ConfigureAwait(false))
+                    .SetData(await _introductionRepository.InsertAsync(introductionDto, createdById, cancellationToken).ConfigureAwait(false))
                 : apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest);
         }
 
-        public async Task<IApiResultModel<IntroductionDto>> UpdateAsync(IntroductionDto introductionDto, string updatedById)
+        public async Task<IApiResultModel<IntroductionDto>> UpdateAsync(IntroductionDto introductionDto, string updatedById, CancellationToken cancellationToken)
         {
             var memberName = $"{_className}.{nameof(UpdateAsync)}";
             _logger.LogInformation($"{memberName}({nameof(introductionDto)}, {updatedById})");
@@ -83,11 +85,11 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
 
             return introductionDto.TryValidateObject(apiResult.Messages)
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.OK)
-                    .SetData(await _introductionRepository.UpdateAsync(introductionDto, updatedById).ConfigureAwait(false))
+                    .SetData(await _introductionRepository.UpdateAsync(introductionDto, updatedById, cancellationToken).ConfigureAwait(false))
                 : apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest);
         }
 
-        public async Task<IApiResultModel<int>> DeleteAsync(Guid id)
+        public async Task<IApiResultModel<int>> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var memberName = $"{_className}.{nameof(DeleteAsync)}";
             _logger.LogInformation($"{memberName}({id})");
@@ -98,20 +100,20 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
                     .AddErrorMessage("Id is required.", memberName, HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
-                    .SetData(await _introductionRepository.DeleteAsync(id).ConfigureAwait(false));
+                    .SetData(await _introductionRepository.DeleteAsync(id, cancellationToken).ConfigureAwait(false));
         }
     }
 
     public interface IIntroductionServiceV1_0
     {
-        Task<IApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto);
+        Task<IApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto, CancellationToken cancellationToken);
 
-        Task<IApiResultModel<IntroductionDto>> SelectAsync(Guid id);
+        Task<IApiResultModel<IntroductionDto>> SelectAsync(Guid id, CancellationToken cancellationToken);
 
-        Task<IApiResultModel<IntroductionDto>> InsertAsync(IntroductionDto introductionDto, string createdById);
+        Task<IApiResultModel<IntroductionDto>> InsertAsync(IntroductionDto introductionDto, string createdById, CancellationToken cancellationToken);
 
-        Task<IApiResultModel<IntroductionDto>> UpdateAsync(IntroductionDto introductionDto, string updatedById);
+        Task<IApiResultModel<IntroductionDto>> UpdateAsync(IntroductionDto introductionDto, string updatedById, CancellationToken cancellationToken);
 
-        Task<IApiResultModel<int>> DeleteAsync(Guid id);
+        Task<IApiResultModel<int>> DeleteAsync(Guid id, CancellationToken cancellationToken);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -35,6 +36,9 @@ namespace Tbd.WebApi.Shared.Extensions
                     if (exception is null)
                         return;
 
+                    if (exception is TaskCanceledException)       // Handle if needed
+                        return;
+
                     var httpStatusCode = HttpStatusCode.InternalServerError;
 
                     // Map specific exception to specific HttpStatusCode
@@ -44,7 +48,7 @@ namespace Tbd.WebApi.Shared.Extensions
                     var apiResult = context.GetRequiredService<IApiResultModel<object>>()
                         .SetHttpStatusCode(httpStatusCode);
 
-                    // Redact exception data for Prodcution
+                    // Redact exception data for Production
                     if (hostEnvironment.IsProduction())
                         apiResult.AddMessage(exception, "We apologize, but an error occurred while processing this request.", context.Request.Path, httpStatusCode);
                     else
