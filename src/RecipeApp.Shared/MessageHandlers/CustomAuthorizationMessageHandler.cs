@@ -9,6 +9,9 @@ using RecipeApp.Shared.Features.Session;
 
 namespace RecipeApp.Shared.MessageHandlers
 {
+    /// <summary>
+    /// https://docs.microsoft.com/en-us/aspnet/core/blazor/security/webassembly/additional-scenarios?view=aspnetcore-5.0
+    /// </summary>
     public class CustomAuthorizationMessageHandler : AuthorizationMessageHandler
     {
         protected readonly ISessionViewModel _sessionViewModel;
