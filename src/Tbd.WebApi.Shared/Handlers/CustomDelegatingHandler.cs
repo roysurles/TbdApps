@@ -9,6 +9,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Tbd.WebApi.Shared.Handlers
 {
+    /// <summary>
+    /// https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-web-api-call-api-call-api?tabs=aspnetcore
+    /// </summary>
     public class CustomDelegatingHandler : DelegatingHandler
     {
         protected readonly IHttpContextAccessor _httpContextAccessor;
