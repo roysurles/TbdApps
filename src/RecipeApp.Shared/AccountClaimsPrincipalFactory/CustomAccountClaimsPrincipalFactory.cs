@@ -11,6 +11,9 @@ using Microsoft.Extensions.Logging;
 
 namespace RecipeApp.Shared.AccountClaimsPrincipalFactory
 {
+    /// <summary>
+    /// https://medium.com/@marcodesanctis2/role-based-security-with-blazor-and-identity-server-4-aba12da70049
+    /// </summary>
     public class CustomAccountClaimsPrincipalFactory : AccountClaimsPrincipalFactory<RemoteUserAccount>
     {
         protected readonly ILogger<CustomAccountClaimsPrincipalFactory> _logger;
