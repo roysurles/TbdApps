@@ -36,7 +36,7 @@ namespace Tbd.WebApi.Shared.Extensions
                     if (exception is null)
                         return;
 
-                    if (exception is TaskCanceledException)       // Handle if needed
+                    if (exception is TaskCanceledException || exception is OperationCanceledException)       // Handle if needed
                         return;
 
                     var httpStatusCode = HttpStatusCode.InternalServerError;
