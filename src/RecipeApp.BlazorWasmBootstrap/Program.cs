@@ -30,10 +30,38 @@ namespace RecipeApp.BlazorWasmBootstrap
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
-
+            //if (!builder.HostEnvironment.IsProduction())
+            //    IdentityModelEventSource.ShowPII = true;      // For debugging Identity related exceptions...
             var defaultJsonDeSerializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-            builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            //builder.Services.AddOidcAuthentication(options =>
+            //{
+            //    options.ProviderOptions.Authority = "https://login.domain.com/";
+            //    options.ProviderOptions.ClientId = "ClientId";
+            //    options.ProviderOptions.ResponseType = "code";
+            //    options.ProviderOptions.DefaultScopes.Add("openid");
+            //    options.ProviderOptions.DefaultScopes.Add("profile");
+            //    options.ProviderOptions.DefaultScopes.Add("Api1.read");
+            //    options.ProviderOptions.DefaultScopes.Add("Api2.read");
+
+            //    options.ProviderOptions.PostLogoutRedirectUri = "/";
+            //    options.UserOptions.RoleClaim = "role";
+            //})
+            //.AddAccountClaimsPrincipalFactory<CustomAccountClaimsPrincipalFactory>();
+
+            var httpClient = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
+            builder.Services.AddScoped(_ => httpClient);
+
+            var appSettingsJsonFile = builder.HostEnvironment.IsProduction()
+                ? "appsettings.json"
+                : builder.HostEnvironment.IsStaging()
+                    ? "appsettings.staging.json"
+                    : builder.HostEnvironment.IsDevelopment()
+                        ? "appsettings.development.json"
+                        : throw new ArgumentOutOfRangeException("HostEnvironment", $"Unknown HostEnvironment: {builder.HostEnvironment.Environment}");
+            using var response = await httpClient.GetAsync(appSettingsJsonFile);
+            using var stream = await response.Content.ReadAsStreamAsync();
+            builder.Configuration.AddJsonStream(stream);
 
             var apiUrlsOptionsModel = new ApiUrlsOptionsModel();
             builder.Configuration.GetSection("ApiUrls").Bind(apiUrlsOptionsModel);

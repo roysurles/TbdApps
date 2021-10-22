@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 using RecipeApp.Shared.Features.Session;
+using RecipeApp.Shared.Models;
 
 namespace RecipeApp.Shared.MessageHandlers
 {
@@ -14,12 +15,15 @@ namespace RecipeApp.Shared.MessageHandlers
     /// </summary>
     public class CustomAuthorizationMessageHandler : AuthorizationMessageHandler
     {
+        protected readonly ApiUrlsOptionsModel _apiUrlsOptionsModel;
         protected readonly ISessionViewModel _sessionViewModel;
 
         public CustomAuthorizationMessageHandler(IAccessTokenProvider accessTokenProvider
             , NavigationManager navigationManager
+            , ApiUrlsOptionsModel apiUrlsOptionsModel
             , ISessionViewModel sessionViewModel) : base(accessTokenProvider, navigationManager)
         {
+            _apiUrlsOptionsModel = apiUrlsOptionsModel;
             _sessionViewModel = sessionViewModel;
             _ = ConfigureHandler(authorizedUrls: new[] { "https://domain.Api1.net", "https://domain.Api2.net" },
                                  scopes: new[] { "openid", "profile", "Api1.read", "Api2.read" });
