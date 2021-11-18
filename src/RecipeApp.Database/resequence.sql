@@ -4,8 +4,8 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 -- =============================================
--- Author:      <macharya>
--- Create Date: <5/24/2021>
+-- Author:      
+-- Create Date: 
 -- Description:
 /*
 Algorithm
