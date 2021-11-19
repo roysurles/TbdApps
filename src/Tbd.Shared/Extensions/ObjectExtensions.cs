@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Tbd.Shared.Extensions
@@ -7,7 +6,7 @@ namespace Tbd.Shared.Extensions
     public static class ObjectExtensions
     {
         public static object IsNullToDbNull(this object obj) =>
-            obj is null ? DBNull.Value : obj;
+            obj ?? DBNull.Value;
 
         public static string ToActualValueAsString(this object obj)
         {

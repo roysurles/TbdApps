@@ -90,7 +90,7 @@ namespace Tbd.Shared.Enumeration
             left is null || left.CompareTo(right) <= 0;
 
         public static bool operator >(BaseEnumeration left, BaseEnumeration right) =>
-            left is not null && left.CompareTo(right) > 0;
+            left?.CompareTo(right) > 0;
 
         public static bool operator >=(BaseEnumeration left, BaseEnumeration right) =>
             left is null ? right is null : left.CompareTo(right) >= 0;
