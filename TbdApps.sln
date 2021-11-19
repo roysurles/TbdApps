@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31313.79
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.31911.260
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{41E46D78-F67C-4A7B-B06B-DAE473C8351B}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tbd.RefitEx", "src\Tbd.RefitEx\Tbd.RefitEx.csproj", "{3E6FC532-0525-4442-A82E-5D325E5C292D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.BlazorWasmMud", "src\RecipeApp.BlazorWasmMud\RecipeApp.BlazorWasmMud.csproj", "{34E6F8E1-D4E6-4FD4-948B-D91269D3791A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApp.BlazorWasmBootstrap.UnitTests", "src\RecipeApp.BlazorWasmBootstrap.UnitTests\RecipeApp.BlazorWasmBootstrap.UnitTests.csproj", "{721B0BB6-3BDD-4BDD-8DFC-31BE9B45D373}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{34E6F8E1-D4E6-4FD4-948B-D91269D3791A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34E6F8E1-D4E6-4FD4-948B-D91269D3791A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34E6F8E1-D4E6-4FD4-948B-D91269D3791A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{721B0BB6-3BDD-4BDD-8DFC-31BE9B45D373}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{721B0BB6-3BDD-4BDD-8DFC-31BE9B45D373}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{721B0BB6-3BDD-4BDD-8DFC-31BE9B45D373}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{721B0BB6-3BDD-4BDD-8DFC-31BE9B45D373}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +91,7 @@ Global
 		{A6E5590A-0271-4E1F-AC6B-D09EA44E5A5C} = {3DD50C30-A1BB-4CF5-B7EB-2199704B1514}
 		{3E6FC532-0525-4442-A82E-5D325E5C292D} = {F93E9ECC-2DF7-4B48-A65D-1477D7586D86}
 		{34E6F8E1-D4E6-4FD4-948B-D91269D3791A} = {3DD50C30-A1BB-4CF5-B7EB-2199704B1514}
+		{721B0BB6-3BDD-4BDD-8DFC-31BE9B45D373} = {3DD50C30-A1BB-4CF5-B7EB-2199704B1514}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8042CBFD-132D-47AD-8FB4-00DBADAAA74D}
