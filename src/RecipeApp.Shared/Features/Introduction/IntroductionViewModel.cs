@@ -26,7 +26,6 @@ namespace RecipeApp.Shared.Features.Introduction
         public IntroductionDto Introduction { get; protected set; } =
             new IntroductionDto();
 
-        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
         public async Task<IIntroductionViewModel> InitializeAsync(Guid introductionId)
         {
             _logger.LogInformation($"{nameof(IntroductionViewModel)}({introductionId})");
@@ -44,7 +43,6 @@ namespace RecipeApp.Shared.Features.Introduction
             return this;
         }
 
-        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
         public async Task<IIntroductionViewModel> SaveIntroductionAsync()
         {
             _logger.LogInformation($"{nameof(SaveIntroductionAsync)}()");
@@ -64,7 +62,6 @@ namespace RecipeApp.Shared.Features.Introduction
             return this;
         }
 
-        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
         public async Task<IIntroductionViewModel> DeleteIntroductionAsync()
         {
             _logger.LogInformation($"{nameof(DeleteIntroductionAsync)}()");

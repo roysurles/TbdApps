@@ -15,7 +15,6 @@ namespace Tbd.WebApi.Shared.Repositories
     {
         protected ApiLogRepository(string connectionString) : base(connectionString) { }
 
-        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public static async Task<int> InsertApiLogDtoAsync(ApiLogDto apiLogDto, ILogger<ApiLogRepository> logger, string connectionString)
         {
             var affectedRows = 0;

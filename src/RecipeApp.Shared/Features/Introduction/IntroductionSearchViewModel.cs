@@ -47,7 +47,6 @@ namespace RecipeApp.Shared.Features.Introduction
             OnStateHasChanged();
         }
 
-        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
         public async Task SearchAsync(int pageNumber = 1, int pageSize = 10)
         {
             _logger.LogInformation($"{nameof(SearchAsync)}({pageNumber}, {pageSize})");

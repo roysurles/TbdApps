@@ -11,7 +11,6 @@ namespace Tbd.RefitEx
 {
     public static class RefitExStaticMethods
     {
-        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
         public static async Task<ApiResultModel<TResult>> TryInvokeApiAsync<TResult>(Func<Task<ApiResultModel<TResult>>> func
             , List<IApiResultMessageModel> apiResultMessages = null
             , TResult onExceptionDefaultData = default, bool onExceptionCreateNewDataIfNullDefault = true)

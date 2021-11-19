@@ -27,7 +27,6 @@ namespace RecipeApp.Shared.Models
 
         protected JsonSerializerOptions DefaultJsonDeSerializerOptions { get; }
 
-        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
         protected async Task<TResult> PostAsJsonExAsync<TResult, TRequest>(string requestUri
             , TRequest value
             , JsonSerializerOptions jsonSerializerOptions = null
@@ -44,7 +43,6 @@ namespace RecipeApp.Shared.Models
                 , jsonDeSerializerOptions ?? DefaultJsonDeSerializerOptions);
         }
 
-        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
         protected async Task<TResult> PutAsJsonExAsync<TResult, TRequest>(string requestUri
             , TRequest value
             , JsonSerializerOptions jsonSerializerOptions = null
@@ -61,7 +59,6 @@ namespace RecipeApp.Shared.Models
                 , jsonDeSerializerOptions ?? DefaultJsonDeSerializerOptions);
         }
 
-        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
         protected async Task<TResult> PatchAsJsonExAsync<TResult, TRequest>(string requestUri
             , TRequest value
             , JsonSerializerOptions jsonSerializerOptions = null
@@ -76,8 +73,6 @@ namespace RecipeApp.Shared.Models
                 , jsonDeSerializerOptions ?? DefaultJsonDeSerializerOptions);
         }
 
-        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
-        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         protected async Task<TResult> DeleteAsJsonExAsync<TResult, TRequest>(string requestUri
             , TRequest value
             , JsonSerializerOptions jsonSerializerOptions = null

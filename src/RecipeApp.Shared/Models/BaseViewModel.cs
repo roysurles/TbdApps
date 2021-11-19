@@ -25,7 +25,6 @@ namespace RecipeApp.Shared.Models
             return this;
         }
 
-        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "Used by GUI")]
         public async Task<IBaseViewModel> SetIsLoadingFlagAsync(bool isLoading, EventCallback eventCallback)
         {
             IsLoading = isLoading;
@@ -34,7 +33,6 @@ namespace RecipeApp.Shared.Models
             return this;
         }
 
-        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "Used by GUI")]
         public async Task<IBaseViewModel> SetIsLoadingFlagAsync<T>(bool isLoading, EventCallback<T> eventCallback, T arg)
         {
             IsLoading = isLoading;
@@ -51,7 +49,6 @@ namespace RecipeApp.Shared.Models
             return this;
         }
 
-        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "Used by GUI")]
         public async Task<IBaseViewModel> SetIsBusyFlagAsync(bool isBusy, EventCallback eventCallback)
         {
             IsBusy = isBusy;
@@ -60,7 +57,6 @@ namespace RecipeApp.Shared.Models
             return this;
         }
 
-        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "Used by GUI")]
         public async Task<IBaseViewModel> SetIsBusyFlagAsync<T>(bool isBusy, EventCallback<T> eventCallback, T arg)
         {
             IsBusy = isBusy;

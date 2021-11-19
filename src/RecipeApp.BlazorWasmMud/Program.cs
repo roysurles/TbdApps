@@ -23,7 +23,6 @@ namespace RecipeApp.BlazorWasmMud
 {
     public static class Program
     {
-        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public static Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);

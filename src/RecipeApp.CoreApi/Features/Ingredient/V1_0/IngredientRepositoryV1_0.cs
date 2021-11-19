@@ -16,7 +16,6 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
     {
         public IngredientRepositoryV1_0(string connectionString) : base(connectionString) { }
 
-        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public async Task<IngredientDto> SelectAsync(Guid id)
         {
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);
@@ -25,7 +24,6 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
                 , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
         }
 
-        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public async Task<IEnumerable<IngredientDto>> SelectAllForIntroductionIdAsync(Guid introductionId)
         {
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);
@@ -34,7 +32,6 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
                 , commandType: CommandType.StoredProcedure).ConfigureAwait(false);
         }
 
-        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public async Task<IngredientDto> InsertAsync(IngredientDto ingredientDto, string createdById)
         {
             var id = Guid.NewGuid();
@@ -49,7 +46,6 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
             return ingredientDto;
         }
 
-        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public async Task<IngredientDto> UpdateAsync(IngredientDto ingredientDto, string updatedById)
         {
             var updatedOnUtc = DateTime.UtcNow;
@@ -63,7 +59,6 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
             return ingredientDto;
         }
 
-        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public async Task<int> DeleteAsync(Guid id)
         {
             using var connection = await CreateConnectionAsync().ConfigureAwait(false);

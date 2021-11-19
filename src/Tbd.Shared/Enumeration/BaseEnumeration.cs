@@ -84,13 +84,13 @@ namespace Tbd.Shared.Enumeration
             !(left == right);
 
         public static bool operator <(BaseEnumeration left, BaseEnumeration right) =>
-            left is null ? right is object : left.CompareTo(right) < 0;
+            left is null ? right is not null : left.CompareTo(right) < 0;
 
         public static bool operator <=(BaseEnumeration left, BaseEnumeration right) =>
             left is null || left.CompareTo(right) <= 0;
 
         public static bool operator >(BaseEnumeration left, BaseEnumeration right) =>
-            left is object && left.CompareTo(right) > 0;
+            left is not null && left.CompareTo(right) > 0;
 
         public static bool operator >=(BaseEnumeration left, BaseEnumeration right) =>
             left is null ? right is null : left.CompareTo(right) >= 0;

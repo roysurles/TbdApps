@@ -14,7 +14,6 @@ namespace RecipeApp.CoreApi
         /// Main entry point
         /// </summary>
         /// <param name="args"></param>
-        [SuppressMessage("Wrong Usage", "DF0001:Marks undisposed anonymous objects from method invocations.", Justification = "<Pending>")]
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();

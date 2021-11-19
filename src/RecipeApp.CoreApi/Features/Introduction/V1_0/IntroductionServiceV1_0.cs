@@ -93,6 +93,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         {
             var memberName = $"{_className}.{nameof(DeleteAsync)}";
             _logger.LogInformation($"{memberName}({id})");
+            //_logger.LogInformation("{memberName}({id})", memberName, id);
 
             var apiResult = CreateApiResultModel<int>();
 

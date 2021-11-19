@@ -127,7 +127,6 @@ namespace RecipeApp.Shared.Features.Session
             , params KeyValuePair<string, string>[] additionalData) =>
             TryInvokeInternalAsync(@try, @finally);
 
-        [SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
         protected async Task TryInvokeInternalAsync(MulticastDelegate @try, MulticastDelegate @finally
             , List<IApiResultMessageModel> apiResultMessages = null
             , string callerComponentName = null
@@ -148,7 +147,6 @@ namespace RecipeApp.Shared.Features.Session
             }
         }
 
-        [SuppressMessage("Usage", "RCS1229:Use async/await when necessary.", Justification = "<Pending>")]
         protected static Task InvokeAsync(MulticastDelegate @delegate)
         {
             switch (@delegate)

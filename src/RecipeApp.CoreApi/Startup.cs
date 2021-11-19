@@ -62,7 +62,6 @@ namespace RecipeApp.CoreApi
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
         /// <param name="services"></param>
-        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ApiLoggingOptionsModel>(Configuration.GetSection("ApiLogging"));

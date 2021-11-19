@@ -18,7 +18,6 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
     {
         public IntroductionRepositoryV1_0(string connectionString) : base(connectionString) { }
 
-        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public async Task<(PaginationMetaDataModel PaginationMetaData, IEnumerable<IntroductionSearchResultDto> Data)> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto
             , CancellationToken cancellationToken)
         {
@@ -41,7 +40,6 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
                 , totalItemCount), data);
         }
 
-        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public async Task<IntroductionDto> SelectAsync(Guid id, CancellationToken cancellationToken)
         {
             var commandDefinition = new CommandDefinition("IntroductionSelect"
@@ -52,7 +50,6 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
             return await connection.QuerySingleOrDefaultAsync<IntroductionDto>(commandDefinition).ConfigureAwait(false);
         }
 
-        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public async Task<IntroductionDto> InsertAsync(IntroductionDto introductionDto, string createdById, CancellationToken cancellationToken)
         {
             if (introductionDto.Id == Guid.Empty)
@@ -68,7 +65,6 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
             return introductionDto;
         }
 
-        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public async Task<IntroductionDto> UpdateAsync(IntroductionDto introductionDto, string updatedById, CancellationToken cancellationToken)
         {
             var commandDefinition = new CommandDefinition("IntroductionUpdate"
@@ -81,7 +77,6 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
             return introductionDto;
         }
 
-        [SuppressMessage("Usage", "SecurityIntelliSenseCS:MS Security rules violation", Justification = "<Pending>")]
         public async Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var commandDefinition = new CommandDefinition("IntroductionDelete"

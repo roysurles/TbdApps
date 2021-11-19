@@ -55,11 +55,11 @@ namespace RecipeApp.Shared.AccountClaimsPrincipalFactory
                     }
                 }
 
-                _logger.LogInformation("var accessTokenResult = await TokenProvider.RequestAccessToken();");
+                //_logger.LogInformation("var accessTokenResult = await TokenProvider.RequestAccessToken();");
                 var accessTokenResult = await TokenProvider.RequestAccessToken();
-                _logger.LogInformation("accessTokenResult.TryGetToken(out AccessToken accessToken);");
+                //_logger.LogInformation("accessTokenResult.TryGetToken(out AccessToken accessToken);");
                 accessTokenResult.TryGetToken(out AccessToken accessToken);
-                _logger.LogInformation($"var jwtSecurityToken = new JwtSecurityTokenHandler().ReadJwtToken({accessToken?.Value});");
+                //_logger.LogInformation($"var jwtSecurityToken = new JwtSecurityTokenHandler().ReadJwtToken({accessToken?.Value});");
                 if (string.IsNullOrWhiteSpace(accessToken?.Value))
                     return user;
                 try
