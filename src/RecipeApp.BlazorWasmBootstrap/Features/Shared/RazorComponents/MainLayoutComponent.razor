@@ -135,7 +135,8 @@
             async () =>
             {
                 Logger.LogWarning(methodName);
-                SessionViewModel.NavigationManager.NavigateTo("/");
+                await Task.Run(() => SessionViewModel.NavigationManager.NavigateTo("/"));
+                //SessionViewModel.NavigationManager.NavigateTo("/");
                 IntroductionSearchViewModel.SetBusyFlag(true);
                 await IntroductionSearchViewModel.SearchAsync(1, 10);
                 await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Search Results", $"Found {IntroductionSearchViewModel.IntroductionSearchResult.Meta.TotalItemCount} result(s)"));
