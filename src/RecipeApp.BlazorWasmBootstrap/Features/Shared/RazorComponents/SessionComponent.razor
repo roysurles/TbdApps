@@ -33,17 +33,17 @@
 
 @code {
 
-    //public void Dispose() =>
-    //    SessionViewModel.StateHasChangedEvent -= SessionViewModel_StateHasChangedEvent;
+    public void Dispose() =>
+        SessionViewModel.StateHasChangedEvent -= SessionViewModel_StateHasChangedEvent;
 
-    //protected override void OnInitialized()
-    //{
-    //    SessionViewModel.StateHasChangedEvent += SessionViewModel_StateHasChangedEvent;
+    protected override void OnInitialized()
+    {
+        SessionViewModel.StateHasChangedEvent += SessionViewModel_StateHasChangedEvent;
 
-    //    base.OnInitialized();
-    //}
+        base.OnInitialized();
+    }
 
-    //protected void SessionViewModel_StateHasChangedEvent(object sender, EventArgs e) =>
-    //    StateHasChanged();
+    protected void SessionViewModel_StateHasChangedEvent(object sender, EventArgs e) =>
+        StateHasChanged();
 
 }
