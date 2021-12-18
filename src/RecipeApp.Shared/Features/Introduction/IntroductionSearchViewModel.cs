@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 using RecipeApp.Shared.Models;
 
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+using Tbd.RefitEx;
 using Tbd.Shared.ApiResult;
 
 namespace RecipeApp.Shared.Features.Introduction
@@ -56,11 +56,11 @@ namespace RecipeApp.Shared.Features.Introduction
             IntroductionSearchRequestDto.SetPagination(pageNumber, pageSize);
 
             // NOTE:  example of using native c# typed api client
-            IntroductionSearchResult = await _introductionApiClientNativeV1_0.SearchAsync(IntroductionSearchRequestDto);
+            //IntroductionSearchResult = await _introductionApiClientNativeV1_0.SearchAsync(IntroductionSearchRequestDto);
 
             // NOTE:  example of using refit api client
-            //IntroductionSearchResult = await RefitExStaticMethods.TryInvokeApiAsync(
-            //    () => _introductionpiClientV1_0.SearchAsync(IntroductionSearchRequestDto), ApiResultMessages);
+            IntroductionSearchResult = await RefitExStaticMethods.TryInvokeApiAsync(
+                () => _introductionpiClientV1_0.SearchAsync(IntroductionSearchRequestDto), ApiResultMessages);
 
             HasSearched = true;
         }

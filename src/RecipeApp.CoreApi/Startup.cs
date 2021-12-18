@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Reflection;
-
 using Dapper;
 
 using Microsoft.AspNetCore.Builder;
@@ -18,6 +12,11 @@ using RecipeApp.CoreApi.Features.Ingredient.V1_0;
 using RecipeApp.CoreApi.Features.Instruction.V1_0;
 using RecipeApp.CoreApi.Features.Introduction.V1_0;
 using RecipeApp.Shared.Handlers;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 using Tbd.Shared.ApiLog;
 using Tbd.Shared.ApiResult;
@@ -126,13 +125,13 @@ namespace RecipeApp.CoreApi
 
             app.UseHttpsRedirection();
 
-            app.UseSwaggerEx("RecipeApp CoreApi", _swaggerDocumentVersions);   // Custom Swagger
+            app.UseSwaggerEx("RecipeApp CoreApi", _swaggerDocumentVersions);    // Custom Swagger
 
-            app.UseApiLoggingEx();                                                  // Custom ApiLogging:  this must be after app.UseSwaggerEx to avoid logging swagger
+            app.UseCorrelationIdEx();                                           // Custom CorrelationId:  this must be before app.UseApiLoggingEx() to change HttpContext.TraceIdentifier
 
-            app.UseCorrelationIdEx();                                               // Custom CorrelationId
+            app.UseApiLoggingEx();                                              // Custom ApiLogging:  this must be after app.UseSwaggerEx to avoid logging swagger
 
-            app.UseExceptionHandlerEx(env, false);                   // Custom ExceptionHandler  this must be after app.UseApiLoggingEx to set HttpStatusCode and write out ApiResultModel
+            app.UseExceptionHandlerEx(env, false);                              // Custom ExceptionHandler:  this must be after app.UseApiLoggingEx to set HttpStatusCode and write out ApiResultModel
 
             app.UseAuthorization();
 
