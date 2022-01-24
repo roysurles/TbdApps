@@ -1,12 +1,13 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
-
-using FluentAssertions;
+﻿using FluentAssertions;
 
 using Moq;
 
 using RecipeApp.Shared.Features.Instruction;
+
+using System;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Xunit;
 
@@ -28,11 +29,11 @@ namespace RecipeApp.CoreApi.UnitTests.Features.Instruction.V1_0
             var instructionDto = new InstructionDto { IntroductionId = introductionId, Description = description };
 
             _instructionRepositoryMock
-                .Setup(x => x.InsertAsync(It.IsAny<InstructionDto>(), It.IsAny<string>()))
+                .Setup(x => x.InsertAsync(It.IsAny<InstructionDto>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(instructionDto);
 
             // Act
-            var actualApiResult = await _instructionService.InsertAsync(instructionDto, null).ConfigureAwait(false);
+            var actualApiResult = await _instructionService.InsertAsync(instructionDto, null, new CancellationToken()).ConfigureAwait(false);
 
             // Assert
             actualApiResult.HttpStatusCode.Should().Be(expectedHttpStatusCode);

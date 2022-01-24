@@ -1,10 +1,11 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
-
-using FluentAssertions;
+﻿using FluentAssertions;
 
 using Moq;
+
+using System;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Xunit;
 
@@ -21,11 +22,11 @@ namespace RecipeApp.CoreApi.UnitTests.Features.Instruction.V1_0
         {
             // Arrange
             _instructionRepositoryMock
-                .Setup(x => x.DeleteAsync(It.IsAny<Guid>()))
+                .Setup(x => x.DeleteAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(1);
 
             // Act
-            var actualApiResult = await _instructionService.DeleteAsync(id).ConfigureAwait(false);
+            var actualApiResult = await _instructionService.DeleteAsync(id, new CancellationToken()).ConfigureAwait(false);
 
             // Assert
             actualApiResult.HttpStatusCode.Should().Be(expectedHttpStatusCode);

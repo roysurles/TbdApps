@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using RecipeApp.Shared.Features.Introduction;
+
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Tbd.Shared.ApiResult;
 using Tbd.WebApi.Shared.Controllers;
@@ -60,6 +60,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         /// Insert new Introduction.
         /// </summary>
         /// <param name="introductionDto">Desired Introduction data.</param>
+        /// <param name="cancellationToken">CancellationToken in case client cancels this method</param>
         /// <returns>IApiResultModel of IntroductionDto</returns>
         /// <response code="201">Created - returns IApiResultModel of IntroductionDto</response>
         /// <response code="400">BadRequest - Invalid request; See messages.</response>
@@ -73,6 +74,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         /// Update Introduction
         /// </summary>
         /// <param name="introductionDto">Desired Introduction data.</param>
+        /// <param name="cancellationToken">CancellationToken in case client cancels this method</param>
         /// <returns>IApiResultModel of IntroductionDto</returns>
         /// <response code="200">OK - returns IApiResultModel of IntroductionDto</response>
         /// <response code="400">BadRequest - Invalid request; See messages.</response>
@@ -87,6 +89,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         /// There is no error if the Id does not exist.
         /// </summary>
         /// <param name="id">Desired Introduction Id</param>
+        /// <param name="cancellationToken">CancellationToken in case client cancels this method</param>
         /// <returns>IApiResultModel of int</returns>
         /// <response code="200">OK - returns IApiResultModel of int</response>
         /// <response code="400">BadRequest - missing Id</response>

@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
-
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 using RecipeApp.Shared.Features.Instruction;
+
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Tbd.Shared.ApiResult;
 using Tbd.Shared.Extensions;
@@ -27,7 +28,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
             _instructionRepository = instructionRepository;
         }
 
-        public async Task<IApiResultModel<InstructionDto>> SelectAsync(Guid id)
+        public async Task<IApiResultModel<InstructionDto>> SelectAsync(Guid id, CancellationToken cancellationToken)
         {
             var memberName = $"{_className}.{nameof(SelectAsync)}";
             _logger.LogInformation($"{memberName}({id})");
@@ -38,11 +39,11 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
                     .AddErrorMessage("Id is required.", memberName, HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
-                    .SetData(await _instructionRepository.SelectAsync(id).ConfigureAwait(false))
+                    .SetData(await _instructionRepository.SelectAsync(id, cancellationToken).ConfigureAwait(false))
                     .VerifyDataIsNotNull(ApiResultMessageModelTypeEnumeration.Error, source: memberName);
         }
 
-        public async Task<IApiResultModel<IEnumerable<InstructionDto>>> SelectAllForIntroductionIdAsync(Guid introductionId)
+        public async Task<IApiResultModel<IEnumerable<InstructionDto>>> SelectAllForIntroductionIdAsync(Guid introductionId, CancellationToken cancellationToken)
         {
             var memberName = $"{_className}.{nameof(SelectAllForIntroductionIdAsync)}";
             _logger.LogInformation($"{memberName}({introductionId})");
@@ -53,11 +54,11 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
                     .AddErrorMessage("Introduction Id is required.", memberName, HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
-                    .SetData(await _instructionRepository.SelectAllForIntroductionIdAsync(introductionId).ConfigureAwait(false))
+                    .SetData(await _instructionRepository.SelectAllForIntroductionIdAsync(introductionId, cancellationToken).ConfigureAwait(false))
                     .VerifyDataHasCount(ApiResultMessageModelTypeEnumeration.Information, source: memberName, setHttpStatusCode: false);
         }
 
-        public async Task<IApiResultModel<InstructionDto>> InsertAsync(InstructionDto instructionDto, string createdById)
+        public async Task<IApiResultModel<InstructionDto>> InsertAsync(InstructionDto instructionDto, string createdById, CancellationToken cancellationToken)
         {
             var memberName = $"{_className}.{nameof(InsertAsync)}";
             _logger.LogInformation($"{memberName}({nameof(instructionDto)}, {createdById})");
@@ -72,11 +73,11 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
             return instructionDto.TryValidateObject(apiResult.Messages)
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.Created)
-                    .SetData(await _instructionRepository.InsertAsync(instructionDto, createdById).ConfigureAwait(false))
+                    .SetData(await _instructionRepository.InsertAsync(instructionDto, createdById, cancellationToken).ConfigureAwait(false))
                 : apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest);
         }
 
-        public async Task<IApiResultModel<InstructionDto>> UpdateAsync(InstructionDto instructionDto, string updatedById)
+        public async Task<IApiResultModel<InstructionDto>> UpdateAsync(InstructionDto instructionDto, string updatedById, CancellationToken cancellationToken)
         {
             var memberName = $"{_className}.{nameof(UpdateAsync)}";
             _logger.LogInformation($"{memberName}({nameof(instructionDto)}, {updatedById})");
@@ -97,11 +98,11 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
             return instructionDto.TryValidateObject(apiResult.Messages)
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.OK)
-                    .SetData(await _instructionRepository.UpdateAsync(instructionDto, updatedById).ConfigureAwait(false))
+                    .SetData(await _instructionRepository.UpdateAsync(instructionDto, updatedById, cancellationToken).ConfigureAwait(false))
                 : apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest);
         }
 
-        public async Task<IApiResultModel<int>> DeleteAsync(Guid id)
+        public async Task<IApiResultModel<int>> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var memberName = $"{_className}.{nameof(DeleteAsync)}";
             _logger.LogInformation($"{memberName}({id})");
@@ -112,20 +113,20 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest)
                     .AddErrorMessage("Id is required.", memberName, HttpStatusCode.BadRequest)
                 : apiResult.SetHttpStatusCode(HttpStatusCode.OK)
-                    .SetData(await _instructionRepository.DeleteAsync(id).ConfigureAwait(false));
+                    .SetData(await _instructionRepository.DeleteAsync(id, cancellationToken).ConfigureAwait(false));
         }
     }
 
     public interface IInstructionServiceV1_0
     {
-        Task<IApiResultModel<InstructionDto>> SelectAsync(Guid id);
+        Task<IApiResultModel<InstructionDto>> SelectAsync(Guid id, CancellationToken cancellationToken);
 
-        Task<IApiResultModel<IEnumerable<InstructionDto>>> SelectAllForIntroductionIdAsync(Guid introductionId);
+        Task<IApiResultModel<IEnumerable<InstructionDto>>> SelectAllForIntroductionIdAsync(Guid introductionId, CancellationToken cancellationToken);
 
-        Task<IApiResultModel<InstructionDto>> InsertAsync(InstructionDto instructionDto, string createdById);
+        Task<IApiResultModel<InstructionDto>> InsertAsync(InstructionDto instructionDto, string createdById, CancellationToken cancellationToken);
 
-        Task<IApiResultModel<InstructionDto>> UpdateAsync(InstructionDto instructionDto, string updatedById);
+        Task<IApiResultModel<InstructionDto>> UpdateAsync(InstructionDto instructionDto, string updatedById, CancellationToken cancellationToken);
 
-        Task<IApiResultModel<int>> DeleteAsync(Guid id);
+        Task<IApiResultModel<int>> DeleteAsync(Guid id, CancellationToken cancellationToken);
     }
 }
