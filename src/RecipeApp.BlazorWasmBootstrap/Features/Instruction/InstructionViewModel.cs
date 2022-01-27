@@ -1,12 +1,12 @@
 ﻿
-using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-
 using Microsoft.Extensions.Logging;
 
 using RecipeApp.Shared.Features.Instruction;
 using RecipeApp.Shared.Models;
+
+using System;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 using Tbd.RefitEx;
 using Tbd.Shared.Extensions;
@@ -73,14 +73,14 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Instruction
 
             var index = Instructions.IndexOf(instructionDto);
 
-            var saveIngredientTask = instructionDto.IsNew
+            var saveInstructionTask = instructionDto.IsNew
                 ? RefitExStaticMethods.TryInvokeApiAsync(() => _instructionApiClientV1_0.InsertAsync(instructionDto), ApiResultMessages)
                 : RefitExStaticMethods.TryInvokeApiAsync(() => _instructionApiClientV1_0.UpdateAsync(instructionDto), ApiResultMessages);
 
-            await saveIngredientTask;
+            await saveInstructionTask;
 
-            if (saveIngredientTask.Result.IsSuccessHttpStatusCode)
-                Instructions[index] = saveIngredientTask.Result.Data;
+            if (saveInstructionTask.Result.IsSuccessHttpStatusCode)
+                Instructions[index] = saveInstructionTask.Result.Data;
 
             return this;
         }
