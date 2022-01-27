@@ -1,25 +1,42 @@
 ﻿using Bunit;
 
+using Microsoft.Extensions.Logging;
+
+using Moq;
+
+using RecipeApp.BlazorWasmBootstrap.Features.Introduction;
+using RecipeApp.BlazorWasmBootstrap.UnitTests.Shared.Extensions;
+using RecipeApp.Shared.Features.Introduction;
+
+using Xunit;
+using Xunit.Abstractions;
+
 namespace RecipeApp.BlazorWasmBootstrap.UnitTests.Features.Introduction
 {
     public class IntroductionEditComponentTests : TestContext
     {
-        //[Fact]
-        //public void Test1()
-        //{
-        //    // Arrange
-        //    JSInterop.Mode = JSRuntimeMode.Loose;
-        //    var builder = WebAssemblyHostBuilder.CreateDefault();
+        protected readonly ITestOutputHelper _output;
+        public IntroductionEditComponentTests(ITestOutputHelper output) =>
+            _output = output;
 
-        //    Services.AddSingleton<IWebAssemblyHostEnvironment>(_ => builder.HostEnvironment);
-        //    Services.AddSingleton<ISessionViewModel, SessionViewModel>();
+        [Fact]
+        public void Should_Render()
+        {
+            // Arrange
+            JSInterop.Mode = JSRuntimeMode.Loose;
+            Services.AddDefaultServices();
 
-        //    var cut = RenderComponent<IntroductionEditComponent>();
+            var mockIntroductionApiClientV1_0 = new Mock<IIntroductionApiClientV1_0>();
+            var mockLogger = new Mock<ILogger<IntroductionViewModel>>();
 
-        //    // Act
+            // Act
+            var cut = RenderComponent<IntroductionEditComponent>(parameters =>
+                parameters.Add(p => p.IntroductionViewModel, new IntroductionViewModel(mockIntroductionApiClientV1_0.Object, mockLogger.Object)));
 
-        //    // Assert
-        //    var m = cut.Find("div");
-        //}
+            // Assert
+            var formHtml = cut.Find("form");
+
+            _output.WriteLine("*** Finished");
+        }
     }
 }
