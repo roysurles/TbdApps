@@ -32,7 +32,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
             //var InstructionDto = await dbContext.Instructions.SingleAsync(m => Equals(id, m.Id), cancellationToken);
 
             // 2) exec sproc
-            var instructionModel = await dbContext.Instructions.FromSqlInterpolated($"EXEC InstructionSelect {id}").SingleAsync(cancellationToken);
+            var instructionModel = await dbContext.Instructions.FromSqlInterpolated($"EXEC InstructionSelect {id}").SingleAsync(cancellationToken); // This causes exception -- see IntroductionEfRepositoryV1_0.SelectAsync for fix
 
             var instructionDto = new InstructionDto
             {

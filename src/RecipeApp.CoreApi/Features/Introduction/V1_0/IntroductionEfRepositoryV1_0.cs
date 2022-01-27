@@ -9,6 +9,7 @@ using RecipeApp.Shared.Features.Introduction;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -98,7 +99,11 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
             //var InstructionDto = await dbContext.Introductions.SingleAsync(m => Equals(id, m.Id), cancellationToken);
 
             // 2) exec sproc
-            var introductionModel = await dbContext.Introductions.FromSqlInterpolated($"EXEC IntroductionSelect {id}").SingleAsync(cancellationToken);
+            //var introductionModel = await dbContext.Introductions.FromSqlInterpolated($"EXEC IntroductionSelect {id}").SingleAsync(cancellationToken);  // This causes exception
+            var query = dbContext.Introductions.FromSqlInterpolated($"EXEC IntroductionSelect {id}");
+            var queryString = query.ToQueryString();
+            var data = await query.ToListAsync(cancellationToken);
+            var introductionModel = data.Single();
 
             var introductionDto = new IntroductionDto
             {
