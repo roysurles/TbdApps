@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Dapper;
+﻿using Dapper;
 
 using RecipeApp.Shared.Features.Introduction;
+
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Tbd.Shared.Pagination;
 using Tbd.WebApi.Shared.Repositories;
@@ -35,7 +34,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
             var totalItemCount = await gridReader.ReadSingleAsync<int>().ConfigureAwait(false);
             var data = await gridReader.ReadAsync<IntroductionSearchResultDto>().ConfigureAwait(false);
 
-            return (CreatePaginationMetaDataModel(introductionSearchRequestDto.PageNumber
+            return (new(introductionSearchRequestDto.PageNumber
                 , introductionSearchRequestDto.PageSize
                 , totalItemCount), data);
         }
@@ -91,18 +90,5 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
 
             return result;
         }
-    }
-
-    public interface IIntroductionRepositoryV1_0
-    {
-        Task<(PaginationMetaDataModel PaginationMetaData, IEnumerable<IntroductionSearchResultDto> Data)> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto, CancellationToken cancellationToken);
-
-        Task<IntroductionDto> SelectAsync(Guid id, CancellationToken cancellationToken);
-
-        Task<IntroductionDto> InsertAsync(IntroductionDto introductionDto, string createdById, CancellationToken cancellationToken);
-
-        Task<IntroductionDto> UpdateAsync(IntroductionDto introductionDto, string updatedById, CancellationToken cancellationToken);
-
-        Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken);
     }
 }

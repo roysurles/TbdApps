@@ -94,7 +94,8 @@ namespace RecipeApp.CoreApi
 
             SqlMapper.AddTypeHandler(new SqlGuidTypeHandler());
 
-            services.AddScoped<IIntroductionRepositoryV1_0>(_ => new IntroductionRepositoryV1_0(defaultConnectionString));
+            //services.AddScoped<IIntroductionRepositoryV1_0>(_ => new IntroductionRepositoryV1_0(defaultConnectionString));
+            services.AddScoped<IIntroductionRepositoryV1_0, IntroductionEfRepositoryV1_0>();
             services.AddScoped<IIntroductionServiceV1_0, IntroductionServiceV1_0>();
 
             //services.AddScoped<IIngredientRepositoryV1_0>(_ => new IngredientRepositoryV1_0(defaultConnectionString));

@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication.Internal;
+using Microsoft.Extensions.Logging;
+
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication.Internal;
-using Microsoft.Extensions.Logging;
 
 namespace RecipeApp.Shared.AccountClaimsPrincipalFactory
 {
@@ -82,4 +82,3 @@ namespace RecipeApp.Shared.AccountClaimsPrincipalFactory
         }
     }
 }
-
