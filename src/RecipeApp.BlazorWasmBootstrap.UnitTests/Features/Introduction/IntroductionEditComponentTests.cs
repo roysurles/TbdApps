@@ -16,6 +16,7 @@ namespace RecipeApp.BlazorWasmBootstrap.UnitTests.Features.Introduction
     public class IntroductionEditComponentTests : TestContext
     {
         protected readonly ITestOutputHelper _output;
+
         public IntroductionEditComponentTests(ITestOutputHelper output) =>
             _output = output;
 
