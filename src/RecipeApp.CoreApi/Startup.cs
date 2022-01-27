@@ -65,11 +65,12 @@ namespace RecipeApp.CoreApi
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            var defaultConnectionString = Configuration.GetConnectionString("Default");
             services.Configure<ApiLoggingOptionsModel>(Configuration.GetSection("ApiLogging"));
 
             services.AddDbContext<RecipeDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("Default"))
+                options.UseSqlServer(defaultConnectionString)
                     .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
             });
 
@@ -91,7 +92,6 @@ namespace RecipeApp.CoreApi
 
             services.AddTransient(typeof(IApiResultModel<>), typeof(ApiResultModel<>));
 
-            var defaultConnectionString = Configuration.GetConnectionString("Default");
             SqlMapper.AddTypeHandler(new SqlGuidTypeHandler());
 
             services.AddScoped<IIntroductionRepositoryV1_0>(_ => new IntroductionRepositoryV1_0(defaultConnectionString));
@@ -101,7 +101,8 @@ namespace RecipeApp.CoreApi
             services.AddScoped<IIngredientRepositoryV1_0, IngredientEfRepositoryV1_0>();
             services.AddScoped<IIngredientServiceV1_0, IngredientServiceV1_0>();
 
-            services.AddScoped<IInstructionRepositoryV1_0>(_ => new InstructionRepositoryV1_0(defaultConnectionString));
+            //services.AddScoped<IInstructionRepositoryV1_0>(_ => new InstructionRepositoryV1_0(defaultConnectionString));
+            services.AddScoped<IInstructionRepositoryV1_0, InstructionEfRepositoryV1_0>();
             services.AddScoped<IInstructionServiceV1_0, InstructionServiceV1_0>();
 
             // Impose global model state validation to reduce boilerplate code

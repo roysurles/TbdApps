@@ -9,5 +9,7 @@ namespace RecipeApp.Database.Ef.RecipeDb
         public RecipeDbContext(DbContextOptions<RecipeDbContext> options) : base(options) { }
 
         public DbSet<IngredientModel> Ingredients { get; set; }
+
+        public DbSet<InstructionModel> Instructions { get; set; }
     }
 }
