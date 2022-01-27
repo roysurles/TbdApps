@@ -3,6 +3,7 @@ using Dapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +12,7 @@ using Microsoft.IdentityModel.Logging;
 using RecipeApp.CoreApi.Features.Ingredient.V1_0;
 using RecipeApp.CoreApi.Features.Instruction.V1_0;
 using RecipeApp.CoreApi.Features.Introduction.V1_0;
+using RecipeApp.Database.Ef.RecipeDb;
 using RecipeApp.Shared.Handlers;
 
 using System;
@@ -65,6 +67,12 @@ namespace RecipeApp.CoreApi
         {
             services.Configure<ApiLoggingOptionsModel>(Configuration.GetSection("ApiLogging"));
 
+            services.AddDbContext<RecipeDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("Default"))
+                    .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
+            });
+
             services.AddCors(config =>
                 config.AddPolicy("AllowAll",
                     p => p.AllowAnyOrigin()
@@ -89,7 +97,8 @@ namespace RecipeApp.CoreApi
             services.AddScoped<IIntroductionRepositoryV1_0>(_ => new IntroductionRepositoryV1_0(defaultConnectionString));
             services.AddScoped<IIntroductionServiceV1_0, IntroductionServiceV1_0>();
 
-            services.AddScoped<IIngredientRepositoryV1_0>(_ => new IngredientRepositoryV1_0(defaultConnectionString));
+            //services.AddScoped<IIngredientRepositoryV1_0>(_ => new IngredientRepositoryV1_0(defaultConnectionString));
+            services.AddScoped<IIngredientRepositoryV1_0, IngredientEfRepositoryV1_0>();
             services.AddScoped<IIngredientServiceV1_0, IngredientServiceV1_0>();
 
             services.AddScoped<IInstructionRepositoryV1_0>(_ => new InstructionRepositoryV1_0(defaultConnectionString));
