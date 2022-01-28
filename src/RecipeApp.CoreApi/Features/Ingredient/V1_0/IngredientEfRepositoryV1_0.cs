@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
 {
-    public class IngredientEfRepositoryV1_0 : IIngredientRepositoryV1_0
+    internal class IngredientEfRepositoryV1_0 : IIngredientRepositoryV1_0
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ILogger<IngredientEfRepositoryV1_0> _logger;

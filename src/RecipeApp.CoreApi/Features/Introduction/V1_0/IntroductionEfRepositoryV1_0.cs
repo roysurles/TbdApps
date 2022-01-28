@@ -17,7 +17,7 @@ using Tbd.Shared.Pagination;
 
 namespace RecipeApp.CoreApi.Features.Introduction.V1_0
 {
-    public class IntroductionEfRepositoryV1_0 : IIntroductionRepositoryV1_0
+    internal class IntroductionEfRepositoryV1_0 : IIntroductionRepositoryV1_0
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ILogger<IntroductionEfRepositoryV1_0> _logger;

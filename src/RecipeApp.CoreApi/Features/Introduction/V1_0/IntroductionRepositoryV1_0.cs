@@ -20,6 +20,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         public async Task<(PaginationMetaDataModel PaginationMetaData, IEnumerable<IntroductionSearchResultDto> Data)> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto
             , CancellationToken cancellationToken)
         {
+            using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
             var commandDefinition = new CommandDefinition("IntroductionSearch"
                 , new
                 {
@@ -29,8 +30,9 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
                 }
                 , commandType: CommandType.StoredProcedure
                 , cancellationToken: cancellationToken);
-            using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
+            
             using var gridReader = await connection.QueryMultipleAsync(commandDefinition).ConfigureAwait(false);
+
             var totalItemCount = await gridReader.ReadSingleAsync<int>().ConfigureAwait(false);
             var data = await gridReader.ReadAsync<IntroductionSearchResultDto>().ConfigureAwait(false);
 

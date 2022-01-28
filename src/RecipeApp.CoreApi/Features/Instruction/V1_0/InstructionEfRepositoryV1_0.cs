@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 {
-    public class InstructionEfRepositoryV1_0 : IInstructionRepositoryV1_0
+    internal class InstructionEfRepositoryV1_0 : IInstructionRepositoryV1_0
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ILogger<InstructionEfRepositoryV1_0> _logger;
