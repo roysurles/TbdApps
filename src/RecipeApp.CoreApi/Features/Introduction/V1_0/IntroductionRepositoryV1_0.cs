@@ -78,12 +78,14 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
 
         public async Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var commandDefinition = new CommandDefinition("IntroductionDelete"
-                        , new { id }
-                        , commandType: CommandType.StoredProcedure
-                        , cancellationToken: cancellationToken);
             using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
             using var transaction = connection.BeginTransaction();
+            var commandDefinition = new CommandDefinition("IntroductionDelete"
+                        , new { id }
+                        , transaction: transaction
+                        , commandType: CommandType.StoredProcedure
+                        , cancellationToken: cancellationToken);
+
             var result = await connection.ExecuteScalarAsync<int>(commandDefinition).ConfigureAwait(false);
 
             transaction.Commit();

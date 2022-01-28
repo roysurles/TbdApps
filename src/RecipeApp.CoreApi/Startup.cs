@@ -66,6 +66,7 @@ namespace RecipeApp.CoreApi
         public void ConfigureServices(IServiceCollection services)
         {
             var defaultConnectionString = Configuration.GetConnectionString("Default");
+            var useDapperForDataAccess = Configuration.GetValue<bool>("UseDapperForDataAccess");
             services.Configure<ApiLoggingOptionsModel>(Configuration.GetSection("ApiLogging"));
 
             services.AddDbContext<RecipeDbContext>(options =>
@@ -94,16 +95,19 @@ namespace RecipeApp.CoreApi
 
             SqlMapper.AddTypeHandler(new SqlGuidTypeHandler());
 
-            //services.AddScoped<IIntroductionRepositoryV1_0>(_ => new IntroductionRepositoryV1_0(defaultConnectionString));
-            services.AddScoped<IIntroductionRepositoryV1_0, IntroductionEfRepositoryV1_0>();
+            _ = useDapperForDataAccess
+                ? services.AddScoped<IIntroductionRepositoryV1_0>(_ => new IntroductionRepositoryV1_0(defaultConnectionString))
+                : services.AddScoped<IIntroductionRepositoryV1_0, IntroductionEfRepositoryV1_0>();
             services.AddScoped<IIntroductionServiceV1_0, IntroductionServiceV1_0>();
 
-            //services.AddScoped<IIngredientRepositoryV1_0>(_ => new IngredientRepositoryV1_0(defaultConnectionString));
-            services.AddScoped<IIngredientRepositoryV1_0, IngredientEfRepositoryV1_0>();
+            _ = useDapperForDataAccess
+                ? services.AddScoped<IIngredientRepositoryV1_0>(_ => new IngredientRepositoryV1_0(defaultConnectionString))
+                : services.AddScoped<IIngredientRepositoryV1_0, IngredientEfRepositoryV1_0>();
             services.AddScoped<IIngredientServiceV1_0, IngredientServiceV1_0>();
 
-            //services.AddScoped<IInstructionRepositoryV1_0>(_ => new InstructionRepositoryV1_0(defaultConnectionString));
-            services.AddScoped<IInstructionRepositoryV1_0, InstructionEfRepositoryV1_0>();
+            _ = useDapperForDataAccess
+                ? services.AddScoped<IInstructionRepositoryV1_0>(_ => new InstructionRepositoryV1_0(defaultConnectionString))
+                : services.AddScoped<IInstructionRepositoryV1_0, InstructionEfRepositoryV1_0>();
             services.AddScoped<IInstructionServiceV1_0, InstructionServiceV1_0>();
 
             // Impose global model state validation to reduce boilerplate code
