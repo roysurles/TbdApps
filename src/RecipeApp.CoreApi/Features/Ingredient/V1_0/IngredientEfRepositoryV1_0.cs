@@ -26,7 +26,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
 
         public async Task<IngredientDto> SelectAsync(Guid id, CancellationToken cancellationToken)
         {
-            using var dbContext = _serviceProvider.GetRequiredService<RecipeDbContext>();
+            using var dbContext = CreateNewRecipeDbContext();
 
             // 1) query against table
             //var ingredientModel = await dbContext.Ingredients.SingleAsync(m => Equals(id, m.Id), cancellationToken);
@@ -51,7 +51,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
 
         public async Task<IEnumerable<IngredientDto>> SelectAllForIntroductionIdAsync(Guid introductionId, CancellationToken cancellationToken)
         {
-            using var dbContext = _serviceProvider.GetRequiredService<RecipeDbContext>();
+            using var dbContext = CreateNewRecipeDbContext();
 
             // 1) query against table
             //  var ingredientDtos = dbContext.Ingredients.Where(c => Equals(introductionId, c.IntroductionId))
@@ -76,7 +76,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
             ingredientDto.CreatedById = createdById;
             ingredientDto.CreatedOnUtc = DateTime.UtcNow;
 
-            using var dbContext = _serviceProvider.GetRequiredService<RecipeDbContext>();
+            using var dbContext = CreateNewRecipeDbContext();
 
             await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC IngredientInsert {ingredientDto.Id}, {ingredientDto.IntroductionId}, {ingredientDto.Measurement}, {ingredientDto.Description}, {ingredientDto.CreatedById}, {ingredientDto.CreatedOnUtc}", cancellationToken);
 
@@ -88,7 +88,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
             ingredientDto.UpdatedById = updatedById;
             ingredientDto.UpdatedOnUtc = DateTime.UtcNow;
 
-            using var dbContext = _serviceProvider.GetRequiredService<RecipeDbContext>();
+            using var dbContext = CreateNewRecipeDbContext();
 
             await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC IngredientUpdate {ingredientDto.Id}, {ingredientDto.Measurement}, {ingredientDto.Description}, {ingredientDto.UpdatedById}, {ingredientDto.UpdatedOnUtc}", cancellationToken);
 
@@ -97,9 +97,12 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
 
         public async Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            using var dbContext = _serviceProvider.GetRequiredService<RecipeDbContext>();
+            using var dbContext = CreateNewRecipeDbContext();
 
             return await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC IngredientDelete {id}", cancellationToken);
         }
+
+        protected RecipeDbContext CreateNewRecipeDbContext() =>
+            _serviceProvider.GetRequiredService<RecipeDbContext>();
     }
 }

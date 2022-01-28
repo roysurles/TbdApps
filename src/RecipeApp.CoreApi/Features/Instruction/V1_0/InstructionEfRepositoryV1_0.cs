@@ -26,7 +26,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
         public async Task<InstructionDto> SelectAsync(Guid id, CancellationToken cancellationToken)
         {
-            using var dbContext = _serviceProvider.GetRequiredService<RecipeDbContext>();
+            using var dbContext = CreateNewRecipeDbContext();
 
             // 1) query against table
             //var InstructionDto = await dbContext.Instructions.SingleAsync(m => Equals(id, m.Id), cancellationToken);
@@ -50,7 +50,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
         public async Task<IEnumerable<InstructionDto>> SelectAllForIntroductionIdAsync(Guid introductionId, CancellationToken cancellationToken)
         {
-            using var dbContext = _serviceProvider.GetRequiredService<RecipeDbContext>();
+            using var dbContext = CreateNewRecipeDbContext();
 
             // 1) query against table
             //  var instructionDtos = dbContext.Instructions.Where(c => Equals(introductionId, c.IntroductionId))
@@ -75,7 +75,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
             instructionDto.CreatedById = createdById;
             instructionDto.CreatedOnUtc = DateTime.UtcNow;
 
-            using var dbContext = _serviceProvider.GetRequiredService<RecipeDbContext>();
+            using var dbContext = CreateNewRecipeDbContext();
 
             await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC InstructionInsert {instructionDto.Id}, {instructionDto.IntroductionId}, {instructionDto.Description}, {instructionDto.CreatedById}, {instructionDto.CreatedOnUtc}", cancellationToken);
 
@@ -87,7 +87,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
             instructionDto.UpdatedById = updatedById;
             instructionDto.UpdatedOnUtc = DateTime.UtcNow;
 
-            using var dbContext = _serviceProvider.GetRequiredService<RecipeDbContext>();
+            using var dbContext = CreateNewRecipeDbContext();
 
             await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC InstructionUpdate {instructionDto.Id}, {instructionDto.Description}, {instructionDto.UpdatedById}, {instructionDto.UpdatedOnUtc}", cancellationToken);
 
@@ -96,9 +96,12 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
         public async Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            using var dbContext = _serviceProvider.GetRequiredService<RecipeDbContext>();
+            using var dbContext = CreateNewRecipeDbContext();
 
             return await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC InstructionDelete {id}", cancellationToken);
         }
+
+        protected RecipeDbContext CreateNewRecipeDbContext() =>
+            _serviceProvider.GetRequiredService<RecipeDbContext>();
     }
 }
