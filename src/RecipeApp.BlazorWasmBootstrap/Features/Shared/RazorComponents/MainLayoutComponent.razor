@@ -1,5 +1,6 @@
 ﻿
 @inherits LayoutComponentBase
+@implements IDisposable
 @inject ISessionViewModel SessionViewModel
 @inject IIntroductionSearchViewModel IntroductionSearchViewModel
 @inject ILogger<MainLayoutComponent> Logger
@@ -104,6 +105,19 @@
 @code {
 
     //protected string ComponentName = nameof(MainLayoutComponent);
+
+    public void Dispose() =>
+        IntroductionSearchViewModel.StateHasChangedEvent -= IntroductionSearchViewModel_StateHasChangedEvent;
+
+    protected override async Task OnInitializedAsync()
+    {
+        IntroductionSearchViewModel.StateHasChangedEvent += IntroductionSearchViewModel_StateHasChangedEvent;
+
+        await base.OnInitializedAsync();
+    }
+
+    protected void IntroductionSearchViewModel_StateHasChangedEvent(object sender, EventArgs e) =>
+        StateHasChanged();
 
     protected async Task SearchAsync()
     {
