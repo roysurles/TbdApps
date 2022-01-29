@@ -20,15 +20,47 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         public async Task<(PaginationMetaDataModel PaginationMetaData, IEnumerable<IntroductionSearchResultDto> Data)> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto
             , CancellationToken cancellationToken)
         {
+            // TODO:  if introductionSearchRequestDto not valid then throw
+            var sql = @"
+                IF RTRIM(@SearchText) = ''
+                    SET @SearchText = NULL
+
+                SELECT COUNT(Id) AS TotalItemCount
+                FROM   dbo.Introduction
+                WHERE  @SearchText IS NULL
+                       OR @SearchText IS NOT NULL
+                       AND Title LIKE '%' + @SearchText + '%'
+                       OR @SearchText IS NOT NULL
+                       AND Comment LIKE '%' + @SearchText + '%';
+
+                SELECT    IntroductionResult.Id
+                         ,IntroductionResult.Title
+                         ,IntroductionResult.Comment
+                         ,IngredientsCount = ( SELECT COUNT(*) FROM dbo.Ingredient WHERE IntroductionId = IntroductionResult.Id )
+                         ,InstructionsCount = ( SELECT COUNT(*) FROM dbo.Instruction WHERE IntroductionId = IntroductionResult.Id )
+                FROM (
+                        SELECT    Id
+                                 ,Title
+                                 ,Comment
+                        FROM dbo.Introduction
+                        WHERE @SearchText IS NULL
+                              OR @SearchText IS NOT NULL
+                              AND Title LIKE '%' + @SearchText + '%'
+                              OR @SearchText IS NOT NULL
+                              AND Comment LIKE '%' + @SearchText + '%'
+                        ORDER BY Title 
+                        OFFSET @Offset ROWS FETCH NEXT @Fetch ROWS ONLY
+                     ) IntroductionResult ";
+
             using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
-            var commandDefinition = new CommandDefinition("IntroductionSearch"
+            var commandDefinition = new CommandDefinition(sql
                 , new
                 {
                     introductionSearchRequestDto.SearchText,
                     introductionSearchRequestDto.Offset,
                     introductionSearchRequestDto.Fetch
                 }
-                , commandType: CommandType.StoredProcedure
+                , commandType: CommandType.Text
                 , cancellationToken: cancellationToken);
             
             using var gridReader = await connection.QueryMultipleAsync(commandDefinition).ConfigureAwait(false);
