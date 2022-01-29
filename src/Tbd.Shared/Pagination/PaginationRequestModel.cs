@@ -2,13 +2,18 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
+using Tbd.Shared.OrderBy;
+
 namespace Tbd.Shared.Pagination
 {
     /// <summary>
     /// Represents the parameters required for pagination.
     /// </summary>
-    public class PaginationRequestModel : IPaginationRequestModel
+    public class PaginationRequestModel<TDbDto> : IPaginationRequestModel<TDbDto> where TDbDto : class
     {
+        [MinLength(1, ErrorMessage = "OrderBy clause is required! Provide at least one OrderBy clause item.")]
+        public OrderByClauseList<TDbDto> OrderByClause { get; init; } = new();
+
         /// <summary>
         /// Desired Page Number of Total Pages.
         /// </summary>
@@ -23,18 +28,27 @@ namespace Tbd.Shared.Pagination
         [JsonPropertyName("pageSize")]
         public int PageSize { get; set; }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Derives the Offset for Sql. This is (PageNumber - 1) * PageSize
+        /// </summary>
         [JsonIgnore]
         [JsonPropertyName("offset")]
         public int Offset => (PageNumber - 1) * PageSize;
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Derives the Fetch for Sql.  This is the same as PageSize
+        /// </summary>
         [JsonIgnore]
         [JsonPropertyName("fetch")]
         public int Fetch => PageSize;
 
-        /// <inheritdoc/>
-        public IPaginationRequestModel SetPagination(int pageNumber, int pageSize)
+        /// <summary>
+        /// Fluent set PageNumber & PageSize
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns>PaginationRequestModel</returns>
+        public IPaginationRequestModel<TDbDto> SetPagination(int pageNumber, int pageSize)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;
@@ -46,8 +60,10 @@ namespace Tbd.Shared.Pagination
     /// <summary>
     /// Represents the parameters required for pagination.
     /// </summary>
-    public interface IPaginationRequestModel
+    public interface IPaginationRequestModel<TDbDto> where TDbDto : class
     {
+        OrderByClauseList<TDbDto> OrderByClause { get; init; }
+
         /// <summary>
         /// Desired Page Number of Total Pages.
         /// </summary>
@@ -76,6 +92,6 @@ namespace Tbd.Shared.Pagination
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns>IPaginationRequestModel</returns>
-        IPaginationRequestModel SetPagination(int pageNumber, int pageSize);
+        IPaginationRequestModel<TDbDto> SetPagination(int pageNumber, int pageSize);
     }
 }

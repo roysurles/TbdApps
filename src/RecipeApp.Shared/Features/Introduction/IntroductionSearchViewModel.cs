@@ -53,7 +53,11 @@ namespace RecipeApp.Shared.Features.Introduction
 
             ClearApiResultMessages();
 
-            IntroductionSearchRequestDto.SetPagination(pageNumber, pageSize);
+            IntroductionSearchRequestDto.OrderByClause.Clear();
+            IntroductionSearchRequestDto.SetPagination(pageNumber, pageSize)
+                .OrderByClause                    
+                    .AddOrderByAscending(p => p.Title)
+                    .AddOrderByDescending(p => p.InstructionsCount);
 
             // NOTE:  example of using native c# typed api client
             //IntroductionSearchResult = await _introductionApiClientNativeV1_0.SearchAsync(IntroductionSearchRequestDto);

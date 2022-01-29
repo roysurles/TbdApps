@@ -20,8 +20,11 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         public async Task<(PaginationMetaDataModel PaginationMetaData, IEnumerable<IntroductionSearchResultDto> Data)> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto
             , CancellationToken cancellationToken)
         {
-            // TODO:  if introductionSearchRequestDto not valid then throw
-            var sql = @"
+            var (IsValid, ErrorMessages) = introductionSearchRequestDto.OrderByClause.IsValid();
+            if (IsValid == false)
+                throw new InvalidOperationException(string.Join(", " ,ErrorMessages));
+
+            var sql = @$"
                 IF RTRIM(@SearchText) = ''
                     SET @SearchText = NULL
 
@@ -33,24 +36,19 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
                        OR @SearchText IS NOT NULL
                        AND Comment LIKE '%' + @SearchText + '%';
 
-                SELECT    IntroductionResult.Id
-                         ,IntroductionResult.Title
-                         ,IntroductionResult.Comment
-                         ,IngredientsCount = ( SELECT COUNT(*) FROM dbo.Ingredient WHERE IntroductionId = IntroductionResult.Id )
-                         ,InstructionsCount = ( SELECT COUNT(*) FROM dbo.Instruction WHERE IntroductionId = IntroductionResult.Id )
-                FROM (
-                        SELECT    Id
-                                 ,Title
-                                 ,Comment
-                        FROM dbo.Introduction
+                SELECT    Introduction.Id
+                         ,Introduction.Title
+                         ,Introduction.Comment
+                         ,IngredientsCount = ( SELECT COUNT(*) FROM dbo.Ingredient WHERE IntroductionId = Introduction.Id )
+                         ,InstructionsCount = ( SELECT COUNT(*) FROM dbo.Instruction WHERE IntroductionId = Introduction.Id )
+				FROM dbo.Introduction Introduction
                         WHERE @SearchText IS NULL
                               OR @SearchText IS NOT NULL
                               AND Title LIKE '%' + @SearchText + '%'
                               OR @SearchText IS NOT NULL
                               AND Comment LIKE '%' + @SearchText + '%'
-                        ORDER BY Title 
-                        OFFSET @Offset ROWS FETCH NEXT @Fetch ROWS ONLY
-                     ) IntroductionResult ";
+                {introductionSearchRequestDto.OrderByClause.ToSqlString()}
+                OFFSET @Offset ROWS FETCH NEXT @Fetch ROWS ONLY";
 
             using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
             var commandDefinition = new CommandDefinition(sql

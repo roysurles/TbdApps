@@ -132,7 +132,7 @@ namespace Tbd.Shared.ApiResult
         /// <param name="paginationRequestModel">IPaginationRequestModel</param>
         /// <param name="totalItemCount">Total item count.</param>
         /// <returns>IApiResultModel&lt;T&gt;</returns>
-        public IApiResultModel<T> SetMeta(IPaginationRequestModel paginationRequestModel, int totalItemCount)
+        public IApiResultModel<T> SetMeta<TDbDto>(IPaginationRequestModel<TDbDto> paginationRequestModel, int totalItemCount) where TDbDto : class
         {
             Meta = new PaginationMetaDataModel(paginationRequestModel.PageNumber, paginationRequestModel.PageSize, totalItemCount);
             return this;
@@ -399,7 +399,7 @@ namespace Tbd.Shared.ApiResult
         /// <param name="paginationRequestModel">IPaginationRequestModel</param>
         /// <param name="totalItemCount">Total item count.</param>
         /// <returns>IApiResultModel&lt;T&gt;</returns>
-        IApiResultModel<T> SetMeta(IPaginationRequestModel paginationRequestModel, int totalItemCount);
+        IApiResultModel<T> SetMeta<TDbDto>(IPaginationRequestModel<TDbDto> paginationRequestModel, int totalItemCount) where TDbDto : class;
         /// <summary>
         /// Fluent method to set the Meta property.
         /// </summary>
