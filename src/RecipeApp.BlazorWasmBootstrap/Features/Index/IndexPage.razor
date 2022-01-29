@@ -113,6 +113,7 @@ else
         finally
         {
             IntroductionSearchViewModel.SetBusyFlag(false);
+            IntroductionSearchViewModel_StateHasChangedEvent(this, new EventArgs());
         }
     }
 
