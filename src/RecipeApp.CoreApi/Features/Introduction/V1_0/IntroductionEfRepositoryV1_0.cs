@@ -30,12 +30,38 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
 
         public async Task<(PaginationMetaDataModel PaginationMetaData, IEnumerable<IntroductionSearchResultDto> Data)> SearchAsync(IntroductionSearchRequestDto introductionSearchRequestDto, CancellationToken cancellationToken)
         {
+            var sql = @$"
+                IF RTRIM(@SearchText) = ''
+                    SET @SearchText = NULL
+
+                SELECT COUNT(Id) AS TotalItemCount
+                FROM   dbo.Introduction
+                WHERE  @SearchText IS NULL
+                       OR @SearchText IS NOT NULL
+                       AND Title LIKE '%' + @SearchText + '%'
+                       OR @SearchText IS NOT NULL
+                       AND Comment LIKE '%' + @SearchText + '%';
+
+                SELECT    Introduction.Id
+                         ,Introduction.Title
+                         ,Introduction.Comment
+                         ,IngredientsCount = ( SELECT COUNT(*) FROM dbo.Ingredient WHERE IntroductionId = Introduction.Id )
+                         ,InstructionsCount = ( SELECT COUNT(*) FROM dbo.Instruction WHERE IntroductionId = Introduction.Id )
+				FROM dbo.Introduction Introduction
+                        WHERE @SearchText IS NULL
+                              OR @SearchText IS NOT NULL
+                              AND Title LIKE '%' + @SearchText + '%'
+                              OR @SearchText IS NOT NULL
+                              AND Comment LIKE '%' + @SearchText + '%'
+                {introductionSearchRequestDto.OrderByClause.ToSqlString()}
+                OFFSET @Offset ROWS FETCH NEXT @Fetch ROWS ONLY";
+
             using var dbContext = CreateNewRecipeDbContext();
             using var connection = dbContext.Database.GetDbConnection();
 
             using var command = connection.CreateCommand();
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "IntroductionSearch";
+            command.CommandType = CommandType.Text;
+            command.CommandText = sql;
 
             var parameters = new SqlParameter[] {
                 new SqlParameter() {
