@@ -23,9 +23,13 @@
             </a>
         </li>
     </ul>
+    <label class="">Page @PageNumber of @PageCount; Total Items: @TotalItemCount</label>
 </nav>
 
 @code {
+
+    [Parameter]
+    public int TotalItemCount { get; set; }
 
     [Parameter]
     public int PageCount { get; set; }

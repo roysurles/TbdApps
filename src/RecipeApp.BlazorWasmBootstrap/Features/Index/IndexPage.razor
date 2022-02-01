@@ -58,7 +58,8 @@ else
         @if (IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageCount > 1)
         {
             <div class="row">
-                <PaginationComponent PageCount="@(Math.Min(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageCount, 10))"
+                <PaginationComponent TotalItemCount="@IntroductionSearchViewModel.IntroductionSearchResult.Meta.TotalItemCount"
+                                     PageCount="@(Math.Min(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageCount, 10))"
                                      PageNumber="@(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber)"
                                      PageNumberClicked="@((int pageNumber) => SearchAsync(pageNumber))" />
             </div>
