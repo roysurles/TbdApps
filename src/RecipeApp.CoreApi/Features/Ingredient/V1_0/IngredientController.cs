@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+using RecipeApp.CoreApi.Features.Ingredient.Cqrs;
 using RecipeApp.Shared.Features.Ingredient;
 
 using System;
@@ -24,9 +27,13 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
     public class IngredientController : BaseApiController
     {
         protected readonly IIngredientServiceV1_0 _ingredientService;
+        protected readonly IMediator _mediator;
 
-        public IngredientController(IIngredientServiceV1_0 ingredientService) =>
+        public IngredientController(IIngredientServiceV1_0 ingredientService, IMediator mediator)
+        {
             _ingredientService = ingredientService;
+            _mediator = mediator;
+        }
 
         /// <summary>
         /// Get IngredientDto for the desired Ingredient Id.
@@ -42,7 +49,8 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IApiResultModel<IngredientDto>>> GetAsync(Guid id, CancellationToken cancellationToken) =>
-            CreateActionResult(await _ingredientService.SelectAsync(id, cancellationToken).ConfigureAwait(false));
+            CreateActionResult(await _mediator.Send(new GetIngredientByIdQuery { Id = id }, cancellationToken));
+        //CreateActionResult(await _ingredientService.SelectAsync(id, cancellationToken).ConfigureAwait(false));
 
         /// <summary>
         /// Get all IngredientDto for the desired Introduction Id.

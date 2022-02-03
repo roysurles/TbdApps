@@ -1,5 +1,7 @@
 using Dapper;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -109,6 +111,8 @@ namespace RecipeApp.CoreApi
                 ? services.AddScoped<IInstructionRepositoryV1_0>(_ => new InstructionRepositoryV1_0(defaultConnectionString))
                 : services.AddScoped<IInstructionRepositoryV1_0, InstructionEfRepositoryV1_0>();
             services.AddScoped<IInstructionServiceV1_0, InstructionServiceV1_0>();
+
+            services.AddMediatR(Assembly.GetExecutingAssembly());
 
             // Impose global model state validation to reduce boilerplate code
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);

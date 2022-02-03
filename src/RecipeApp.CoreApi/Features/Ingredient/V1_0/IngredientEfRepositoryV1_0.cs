@@ -32,7 +32,11 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
             //var ingredientModel = await dbContext.Ingredients.SingleAsync(m => Equals(id, m.Id), cancellationToken);
 
             // 2) exec sproc
-            var ingredientModel = await dbContext.Ingredients.FromSqlInterpolated($"EXEC IngredientSelect {id}").SingleAsync(cancellationToken); // This causes exception -- see IntroductionEfRepositoryV1_0.SelectAsync for fix
+            //var ingredientModel = await dbContext.Ingredients.FromSqlInterpolated($"EXEC IngredientSelect {id}").SingleAsync(cancellationToken); // This causes exception -- see IntroductionEfRepositoryV1_0.SelectAsync for fix
+            var query = dbContext.Ingredients.FromSqlInterpolated($"EXEC IngredientSelect {id}");
+            var queryString = query.ToQueryString();        // interrogate the generated sql
+            var data = await query.ToListAsync(cancellationToken);
+            var ingredientModel = data.Single();
 
             var ingredientDto = new IngredientDto
             {

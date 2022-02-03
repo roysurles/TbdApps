@@ -47,7 +47,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
                          ,Introduction.Comment
                          ,IngredientsCount = ( SELECT COUNT(*) FROM dbo.Ingredient WHERE IntroductionId = Introduction.Id )
                          ,InstructionsCount = ( SELECT COUNT(*) FROM dbo.Instruction WHERE IntroductionId = Introduction.Id )
-				FROM dbo.Introduction Introduction
+                FROM dbo.Introduction Introduction
                         WHERE @SearchText IS NULL
                               OR @SearchText IS NOT NULL
                               AND Title LIKE '%' + @SearchText + '%'
@@ -127,7 +127,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
             // 2) exec sproc
             //var introductionModel = await dbContext.Introductions.FromSqlInterpolated($"EXEC IntroductionSelect {id}").SingleAsync(cancellationToken);  // This causes exception
             var query = dbContext.Introductions.FromSqlInterpolated($"EXEC IntroductionSelect {id}");
-            var queryString = query.ToQueryString();
+            var queryString = query.ToQueryString();        // interrogate the generated sql
             var data = await query.ToListAsync(cancellationToken);
             var introductionModel = data.Single();
 
