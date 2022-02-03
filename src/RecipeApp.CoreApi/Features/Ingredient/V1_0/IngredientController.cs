@@ -66,7 +66,8 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IApiResultModel<IEnumerable<IngredientDto>>>> GetAllForIntroductionIdAsync(Guid introductionId, CancellationToken cancellationToken) =>
-            CreateActionResult(await _ingredientService.SelectAllForIntroductionIdAsync(introductionId, cancellationToken).ConfigureAwait(false), false);
+            CreateActionResult(await _mediator.Send(new GetIngredientsByIntroductionIdQuery { IntroductionId = introductionId }, cancellationToken), false);
+        //CreateActionResult(await _ingredientService.SelectAllForIntroductionIdAsync(introductionId, cancellationToken).ConfigureAwait(false), false);
 
         /// <summary>
         /// Insert new Ingredient.
