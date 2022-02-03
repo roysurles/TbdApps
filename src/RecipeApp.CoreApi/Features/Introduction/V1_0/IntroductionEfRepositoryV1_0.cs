@@ -105,7 +105,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
                 {
                     Id = reader.GetGuid("Id"),
                     Title = reader.GetString("Title"),
-                    Comment = reader.IsDBNull("Comment") ? null : reader.GetString("Comment"),
+                    Comment = await reader.IsDBNullAsync("Comment", cancellationToken) ? null : reader.GetString("Comment"),
                     IngredientsCount = reader.GetInt32("IngredientsCount"),
                     InstructionsCount = reader.GetInt32("InstructionsCount")
                 });
