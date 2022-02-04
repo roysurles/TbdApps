@@ -49,7 +49,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IApiResultModel<IngredientDto>>> GetAsync(Guid id, CancellationToken cancellationToken) =>
-            CreateActionResult(await _mediator.Send(new GetIngredientByIdQuery { Id = id }, cancellationToken));
+            CreateActionResult(await _mediator.Send(new GetIngredientByIdQuery { Id = id }, cancellationToken));        // TODO: Example of CQRS
         //CreateActionResult(await _ingredientService.SelectAsync(id, cancellationToken).ConfigureAwait(false));
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IApiResultModel<IEnumerable<IngredientDto>>>> GetAllForIntroductionIdAsync(Guid introductionId, CancellationToken cancellationToken) =>
-            CreateActionResult(await _mediator.Send(new GetIngredientsByIntroductionIdQuery { IntroductionId = introductionId }, cancellationToken), false);
+            CreateActionResult(await _mediator.Send(new GetIngredientsByIntroductionIdQuery { IntroductionId = introductionId }, cancellationToken), false);    // TODO: Example of CQRS
         //CreateActionResult(await _ingredientService.SelectAllForIntroductionIdAsync(introductionId, cancellationToken).ConfigureAwait(false), false);
 
         /// <summary>
