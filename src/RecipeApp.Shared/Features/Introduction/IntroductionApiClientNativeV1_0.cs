@@ -1,4 +1,6 @@
 ﻿
+using RecipeApp.Shared.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -6,8 +8,6 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-
-using RecipeApp.Shared.Models;
 
 using Tbd.Shared.ApiResult;
 
@@ -20,13 +20,13 @@ namespace RecipeApp.Shared.Features.Introduction
             , JsonSerializerOptions defaultJsonDeSerializerOptions = null)
             : base(httpClient, controllerPath, defaultJsonSerializerOptions, defaultJsonDeSerializerOptions) { }
 
-        public Task<ApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync(
+        public Task<ApiResultModel<List<IntroductionSearchResultDto>>> SearchAsync(
             IntroductionSearchRequestDto introductionSearchRequestDto
             , JsonSerializerOptions jsonSerializerOptions = null
             , JsonSerializerOptions jsonDeSerializerOptions = null
             , CancellationToken cancellationToken = default)
         {
-            return PostAsJsonExAsync<ApiResultModel<IEnumerable<IntroductionSearchResultDto>>, IntroductionSearchRequestDto>(
+            return PostAsJsonExAsync<ApiResultModel<List<IntroductionSearchResultDto>>, IntroductionSearchRequestDto>(
                 $"{ControllerPath}/search"
                 , introductionSearchRequestDto
                 , jsonSerializerOptions
@@ -85,7 +85,7 @@ namespace RecipeApp.Shared.Features.Introduction
 
     public interface IIntroductionApiClientNativeV1_0
     {
-        Task<ApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync(
+        Task<ApiResultModel<List<IntroductionSearchResultDto>>> SearchAsync(
             IntroductionSearchRequestDto introductionSearchRequestDto
             , JsonSerializerOptions jsonSerializerOptions = null
             , JsonSerializerOptions jsonDeSerializerOptions = null

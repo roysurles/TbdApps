@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Refit;
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
-using Refit;
 
 using Tbd.Shared.ApiResult;
 
@@ -11,7 +11,7 @@ namespace RecipeApp.Shared.Features.Introduction
     public interface IIntroductionApiClientV1_0
     {
         [Post("/api/v1.0/Introduction/search")]
-        Task<ApiResultModel<IEnumerable<IntroductionSearchResultDto>>> SearchAsync([Body] IntroductionSearchRequestDto introductionSearchRequestDto);
+        Task<ApiResultModel<List<IntroductionSearchResultDto>>> SearchAsync([Body] IntroductionSearchRequestDto introductionSearchRequestDto);
 
         [Get("/api/v1.0/Introduction/{id}")]
         Task<ApiResultModel<IntroductionDto>> GetAsync(Guid id);

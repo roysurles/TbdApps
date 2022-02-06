@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using RecipeApp.Shared.Features.Instruction;
+﻿using RecipeApp.Shared.Features.Instruction;
 
 using Refit;
+
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Tbd.Shared.ApiResult;
 
@@ -16,7 +16,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Instruction
         Task<ApiResultModel<InstructionDto>> GetAsync(Guid id);
 
         [Get("/api/v1.0/Instruction/AllForIntroductionId/{introductionId}")]
-        Task<ApiResultModel<IEnumerable<InstructionDto>>> GetAllForIntroductionIdAsync(Guid introductionId);
+        Task<ApiResultModel<List<InstructionDto>>> GetAllForIntroductionIdAsync(Guid introductionId);
 
         [Post("/api/v1.0/Instruction")]
         Task<ApiResultModel<InstructionDto>> InsertAsync([Body] InstructionDto instructionDto);

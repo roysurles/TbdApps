@@ -33,8 +33,8 @@ namespace RecipeApp.Shared.Features.Introduction
         public IntroductionSearchRequestDto IntroductionSearchRequestDto { get; } =
             new IntroductionSearchRequestDto { PageNumber = 1, PageSize = 10 };
 
-        public IApiResultModel<IEnumerable<IntroductionSearchResultDto>> IntroductionSearchResult { get; protected set; } =
-            new ApiResultModel<IEnumerable<IntroductionSearchResultDto>>()
+        public IApiResultModel<List<IntroductionSearchResultDto>> IntroductionSearchResult { get; protected set; } =
+            new ApiResultModel<List<IntroductionSearchResultDto>>()
             .SetMeta(1, 10, 0)
             .SetData(new List<IntroductionSearchResultDto>());
 
@@ -55,7 +55,7 @@ namespace RecipeApp.Shared.Features.Introduction
 
             IntroductionSearchRequestDto.OrderByClause.Clear();
             IntroductionSearchRequestDto.SetPagination(pageNumber, pageSize)
-                .OrderByClause                    
+                .OrderByClause
                     .AddOrderByAscending(p => p.Title)
                     .AddOrderByDescending(p => p.InstructionsCount);
 
@@ -78,7 +78,7 @@ namespace RecipeApp.Shared.Features.Introduction
 
         IntroductionSearchRequestDto IntroductionSearchRequestDto { get; }
 
-        IApiResultModel<IEnumerable<IntroductionSearchResultDto>> IntroductionSearchResult { get; }
+        IApiResultModel<List<IntroductionSearchResultDto>> IntroductionSearchResult { get; }
 
         void OnStateHasChanged();
 
