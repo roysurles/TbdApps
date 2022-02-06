@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using RecipeApp.CoreApi.Features.Ingredient.Cqrs;
 using RecipeApp.Shared.Features.Ingredient;
 
 using System;
@@ -49,8 +48,8 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IApiResultModel<IngredientDto>>> GetAsync(Guid id, CancellationToken cancellationToken) =>
-            CreateActionResult(await _mediator.Send(new GetIngredientByIdQuery { Id = id }, cancellationToken));        // TODO: Example of CQRS
-        //CreateActionResult(await _ingredientService.SelectAsync(id, cancellationToken).ConfigureAwait(false));
+            CreateActionResult(await _ingredientService.SelectAsync(id, cancellationToken).ConfigureAwait(false));
+        // CreateActionResult(await _mediator.Send(new GetIngredientByIdQuery { Id = id }, cancellationToken));        // TODO: Example of CQRS
 
         /// <summary>
         /// Get all IngredientDto for the desired Introduction Id.
@@ -66,8 +65,8 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IApiResultModel<IEnumerable<IngredientDto>>>> GetAllForIntroductionIdAsync(Guid introductionId, CancellationToken cancellationToken) =>
-            CreateActionResult(await _mediator.Send(new GetIngredientsByIntroductionIdQuery { IntroductionId = introductionId }, cancellationToken), false);    // TODO: Example of CQRS
-        //CreateActionResult(await _ingredientService.SelectAllForIntroductionIdAsync(introductionId, cancellationToken).ConfigureAwait(false), false);
+            CreateActionResult(await _ingredientService.SelectAllForIntroductionIdAsync(introductionId, cancellationToken).ConfigureAwait(false), false);
+        // CreateActionResult(await _mediator.Send(new GetIngredientsByIntroductionIdQuery { IntroductionId = introductionId }, cancellationToken), false);    // TODO: Look into exception; Example of CQRS
 
         /// <summary>
         /// Insert new Ingredient.

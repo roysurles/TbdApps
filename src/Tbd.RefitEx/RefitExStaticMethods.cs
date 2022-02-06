@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
+﻿using Refit;
 
-using Refit;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Tbd.Shared.ApiResult;
 
@@ -32,7 +31,7 @@ namespace Tbd.RefitEx
                     : onExceptionDefaultData;
                 result.SetData(data);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }

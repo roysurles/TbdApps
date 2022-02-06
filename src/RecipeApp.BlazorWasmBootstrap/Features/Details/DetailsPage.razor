@@ -5,7 +5,10 @@
 @inject ILogger<DetailsPage> Logger
 
 <PageTitle>RecipeApp - Details</PageTitle>
-<h3>Details</h3>
+<div class="row mb-3"></div>
+<div class="row "> @*mt-5*@
+    <h3>Details</h3>
+</div>
 
 @if (DetailsPageViewModel.IsLoading)
 {
@@ -101,6 +104,7 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
+        Logger.LogInformation($"{nameof(OnParametersSet)}({IntoductionId})");
         base.OnParametersSet();
         await OnInitializedAsync();
     }

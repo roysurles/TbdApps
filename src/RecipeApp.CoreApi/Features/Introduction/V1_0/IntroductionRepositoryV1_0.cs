@@ -22,7 +22,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         {
             var (IsValid, ErrorMessages) = introductionSearchRequestDto.OrderByClause.IsValid();
             if (IsValid == false)
-                throw new InvalidOperationException(string.Join(", " ,ErrorMessages));
+                throw new InvalidOperationException(string.Join(", ", ErrorMessages));
 
             var sql = @$"
                 IF RTRIM(@SearchText) = ''
@@ -41,7 +41,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
                          ,Introduction.Comment
                          ,IngredientsCount = ( SELECT COUNT(*) FROM dbo.Ingredient WHERE IntroductionId = Introduction.Id )
                          ,InstructionsCount = ( SELECT COUNT(*) FROM dbo.Instruction WHERE IntroductionId = Introduction.Id )
-				FROM dbo.Introduction Introduction
+                FROM dbo.Introduction Introduction
                         WHERE @SearchText IS NULL
                               OR @SearchText IS NOT NULL
                               AND Title LIKE '%' + @SearchText + '%'
@@ -60,7 +60,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
                 }
                 , commandType: CommandType.Text
                 , cancellationToken: cancellationToken);
-            
+
             using var gridReader = await connection.QueryMultipleAsync(commandDefinition).ConfigureAwait(false);
 
             var totalItemCount = await gridReader.ReadSingleAsync<int>().ConfigureAwait(false);

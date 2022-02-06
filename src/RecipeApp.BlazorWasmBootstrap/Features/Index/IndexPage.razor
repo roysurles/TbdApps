@@ -83,6 +83,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        Logger.LogInformation($"*** {nameof(Index)} *** --> {nameof(OnInitializedAsync)}");
+
         IntroductionSearchViewModel.StateHasChangedEvent += IntroductionSearchViewModel_StateHasChangedEvent;
         // The following does not make sense...should only search when clicking on Search button
         //if (IntroductionSearchViewModel.HasSearched)
@@ -90,6 +92,21 @@ else
 
         await base.OnInitializedAsync();
     }
+
+    protected override void OnParametersSet()
+    {
+        Logger.LogInformation($"*** {nameof(Index)} *** --> {nameof(OnParametersSet)}");
+
+        base.OnParametersSet();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Logger.LogInformation($"*** {nameof(Index)} *** --> {nameof(OnAfterRender)}");
+
+        base.OnAfterRender(firstRender);
+    }
+
 
     protected void IntroductionSearchViewModel_StateHasChangedEvent(object sender, EventArgs e) =>
         StateHasChanged();
