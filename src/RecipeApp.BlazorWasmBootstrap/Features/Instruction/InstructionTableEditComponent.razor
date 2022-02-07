@@ -94,6 +94,15 @@
 
             InstructionViewModel.IsBusy = true;
             await InstructionViewModel.SaveInstructionAsync(instructionDto);
+            var errorMessages = InstructionViewModel.ApiResultMessages.Where(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error);
+            if (errorMessages.Any())
+            {
+                foreach (var errorMessage in errorMessages)
+                    await JSRuntime.ToastAsync(new ToastModel(ToastType.error, "Instruction", errorMessage.Message));
+
+                return;
+            }
+
             await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Instruction", "Saved successfully!"));
         }
         catch (Exception ex)
@@ -120,6 +129,15 @@
 
             InstructionViewModel.IsBusy = true;
             await InstructionViewModel.DeleteInstructionAsync(instructionDto);
+            var errorMessages = InstructionViewModel.ApiResultMessages.Where(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error);
+            if (errorMessages.Any())
+            {
+                foreach (var errorMessage in errorMessages)
+                    await JSRuntime.ToastAsync(new ToastModel(ToastType.error, "Instruction", errorMessage.Message));
+
+                return;
+            }
+
             await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Instruction", "Deleted successfully!"));
         }
         catch (Exception ex)

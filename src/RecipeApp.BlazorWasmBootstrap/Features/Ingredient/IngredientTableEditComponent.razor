@@ -24,6 +24,7 @@
                     </th>
                     <th scope="col">Measurement</th>
                     <th scope="col">Description</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -55,6 +56,22 @@
                             <input type="text"
                                    class="form-control-sm w-100"
                                    @bind-value="@(item.Description)">
+                        </td>
+                        <td class="align-middle">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-secondary" title="Move Top">
+                                    <i class="fas fa-angle-double-up"></i>
+                                </button>
+                                <button type="button" class="btn btn-secondary" title="Move Up">
+                                    <i class="fas fa-angle-up"></i>
+                                </button>
+                                <button type="button" class="btn btn-secondary" title="Move Down">
+                                    <i class="fas fa-angle-down"></i>
+                                </button>
+                                <button type="button" class="btn btn-secondary" title="Move Bottom">
+                                    <i class="fas fa-angle-double-down"></i>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 }
@@ -101,6 +118,15 @@
 
             IngredientViewModel.IsBusy = true;
             await IngredientViewModel.SaveIngredientAsync(ingredientDto);
+            var errorMessages = IngredientViewModel.ApiResultMessages.Where(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error);
+            if (errorMessages.Any())
+            {
+                foreach (var errorMessage in errorMessages)
+                    await JSRuntime.ToastAsync(new ToastModel(ToastType.error, "Ingredient", errorMessage.Message));
+
+                return;
+            }
+
             await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Ingredient", "Saved successfully!"));
         }
         catch (Exception ex)
@@ -127,6 +153,15 @@
 
             IngredientViewModel.IsBusy = true;
             await IngredientViewModel.DeleteIngredientAsync(ingredientDto);
+            var errorMessages = IngredientViewModel.ApiResultMessages.Where(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error);
+            if (errorMessages.Any())
+            {
+                foreach (var errorMessage in errorMessages)
+                    await JSRuntime.ToastAsync(new ToastModel(ToastType.error, "Ingredient", errorMessage.Message));
+
+                return;
+            }
+
             await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Ingredient", "Deleted successfully!"));
         }
         catch (Exception ex)
