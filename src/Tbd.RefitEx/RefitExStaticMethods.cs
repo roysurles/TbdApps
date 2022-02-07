@@ -26,6 +26,14 @@ namespace Tbd.RefitEx
                 //  '{"error":{"code":"UnsupportedApiVersion","message":"The HTTP resource that matches the request URI 'https://localhost:44350/api/v1.0/Introduction' with API version '1.0' does not support HTTP method 'GET'.","innerError":null}}'
                 result = await apiException.GetContentAsAsync<ApiResultModel<TResult>>();
                 result.AddErrorMessage($"{apiException.Message}", apiException.Source, apiException.StatusCode);
+
+                /*
+                 *  Possibility for exception when TResult is IEnumerable<TDto>
+                        var dtoType = type.GenericTypeArguments[0].GetType();
+                        var listType = typeof(List<>).MakeGenericType(new[] { type });
+                        var newResult = Activator.CreateInstance(listType);
+                 */
+
                 var data = EqualityComparer<TResult>.Default.Equals(onExceptionDefaultData, default) && onExceptionCreateNewDataIfNullDefault
                     ? Activator.CreateInstance<TResult>()
                     : onExceptionDefaultData;
