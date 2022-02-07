@@ -4,6 +4,7 @@ using RecipeApp.Shared.Models;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Tbd.RefitEx;
@@ -38,8 +39,24 @@ namespace RecipeApp.Shared.Features.Introduction
             .SetMeta(1, 10, 0)
             .SetData(new List<IntroductionSearchResultDto>());
 
+        public string FilterText { get; set; }
+
+        public IApiResultModel<List<IntroductionSearchResultDto>> FilteredIntroductionSearchResult
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(FilterText))
+                    return IntroductionSearchResult;
+
+                var filteredData = IntroductionSearchResult.Data.Where(item => item.Title.Contains(FilterText, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                return new ApiResultModel<List<IntroductionSearchResultDto>>()
+                    .SetData(filteredData)
+                    .SetMeta(IntroductionSearchResult.Meta);
+            }
+        }
+
         public void OnStateHasChanged() =>
-            StateHasChangedEvent?.Invoke(this, EventArgs.Empty);
+                StateHasChangedEvent?.Invoke(this, EventArgs.Empty);
 
         public void SetBusyFlag(bool isBusy)
         {
@@ -79,6 +96,10 @@ namespace RecipeApp.Shared.Features.Introduction
         IntroductionSearchRequestDto IntroductionSearchRequestDto { get; }
 
         IApiResultModel<List<IntroductionSearchResultDto>> IntroductionSearchResult { get; }
+
+        string FilterText { get; set; }
+
+        IApiResultModel<List<IntroductionSearchResultDto>> FilteredIntroductionSearchResult { get; }
 
         void OnStateHasChanged();
 

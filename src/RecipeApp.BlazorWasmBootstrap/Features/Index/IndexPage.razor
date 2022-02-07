@@ -26,13 +26,25 @@ else
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th style="width:80%">Title</th>
+                        <th style="width:80%">
+                            <div class="d-inline-flex align-items-center">
+                                Title &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Filter &nbsp;&nbsp;
+                                <input type="text"
+                                       id="FilterInput"
+                                       title="Input only filters this page.  Search to get new result set."
+                                       class="form-control form-control-sm"
+                                       style="width:150px"
+                                       value="@IntroductionSearchViewModel.FilterText"
+                                       @oninput="(ChangeEventArgs changeEventArgs) => OnFilterInputChange(changeEventArgs)">
+                            </div>
+                        </th>
                         <th style="width:10%">Ingredients</th>
                         <th style="width:10%">Instructions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in IntroductionSearchViewModel.IntroductionSearchResult.Data)
+                    @foreach (var item in IntroductionSearchViewModel.FilteredIntroductionSearchResult.Data)
                     {
                         var itemId = item.Id.ToString();
                         var detailLink = $"/Details/{itemId}";
@@ -58,9 +70,9 @@ else
         @if (IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageCount > 1)
         {
             <div class="row">
-                <PaginationComponent TotalItemCount="@IntroductionSearchViewModel.IntroductionSearchResult.Meta.TotalItemCount"
-                                     PageCount="@(Math.Min(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageCount, 10))"
-                                     PageNumber="@(IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageNumber)"
+                <PaginationComponent TotalItemCount="@IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.TotalItemCount"
+                                     PageCount="@(Math.Min(IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.PageCount, 10))"
+                                     PageNumber="@(IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.PageNumber)"
                                      PageNumberClicked="@((int pageNumber) => SearchAsync(pageNumber))" />
             </div>
         }
@@ -134,4 +146,17 @@ else
         }
     }
 
+    protected void OnFilterInputChange(ChangeEventArgs changeEventArgs)
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(OnFilterInputChange)}({changeEventArgs.Value?.ToString()})");
+
+            IntroductionSearchViewModel.FilterText = changeEventArgs.Value?.ToString();
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, IntroductionSearchViewModel.ApiResultMessages, this.ComponentName());
+        }
+    }
 }
