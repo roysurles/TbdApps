@@ -1,30 +1,48 @@
-﻿<nav aria-label="Page navigation example">
-    <ul class="pagination">
-        <li class="page-item @(PageNumber.Equals(1).RenderDisabled())">
-            <a class="page-link" href="#" @onclick="@(_ => PageNumberClicked.InvokeAsync(PageNumber - 1))">
-                Previous
-            </a>
-        </li>
-        @for (int pageNumber = 1; pageNumber <= PageCount; pageNumber++)
-        {
-            var currentPageNumber = pageNumber;
-            var active = pageNumber.Equals(PageNumber)
-                ? "active"
-                : "";
-            <li class="page-item @active">
-                <a class="page-link" href="#" @onclick="@(_ => PageNumberClicked.InvokeAsync(currentPageNumber))">
-                    @(currentPageNumber)
-                </a>
-            </li>
-        }
-        <li class="page-item @(PageNumber.Equals(PageCount).RenderDisabled())">
-            <a class="page-link" href="#" @onclick="@(_ => PageNumberClicked.InvokeAsync(PageNumber + 1))">
-                Next
-            </a>
-        </li>
-    </ul>
-    <label class="">Page @PageNumber of @PageCount; Total Items: @TotalItemCount</label>
-</nav>
+﻿<div class="row">
+    <div class="col d-flex">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item @(PageNumber.Equals(1).RenderDisabled())">
+                    <a class="page-link" href="#" @onclick="@(_ => PageNumberClicked.InvokeAsync(1))">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                </li>
+                <li class="page-item @(PageNumber.Equals(1).RenderDisabled())">
+                    <a class="page-link" href="#" @onclick="@(_ => PageNumberClicked.InvokeAsync(PageNumber - 1))">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                </li>
+                @for (int pageNumber = 1; pageNumber <= PageCount; pageNumber++)
+                {
+                    var currentPageNumber = pageNumber;
+                    var active = pageNumber.Equals(PageNumber)
+                        ? "active"
+                        : "";
+                    <li class="page-item @active">
+                        <a class="page-link" href="#" @onclick="@(_ => PageNumberClicked.InvokeAsync(currentPageNumber))">
+                            @(currentPageNumber)
+                        </a>
+                    </li>
+                }
+                <li class="page-item @(PageNumber.Equals(PageCount).RenderDisabled())">
+                    <a class="page-link" href="#" @onclick="@(_ => PageNumberClicked.InvokeAsync(PageNumber + 1))">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+                <li class="page-item @(PageNumber.Equals(PageCount).RenderDisabled())">
+                    <a class="page-link" href="#" @onclick="@(_ => PageNumberClicked.InvokeAsync(PageCount))">
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
+                </li>
+                <li class="page-item disabled ml-5">
+                    <a class="page-link" href="#">
+                        Page @PageNumber of @PageCount; Total Items: @TotalItemCount
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
 
 @code {
 
