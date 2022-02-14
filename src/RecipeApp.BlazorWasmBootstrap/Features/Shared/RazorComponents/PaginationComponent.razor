@@ -3,12 +3,12 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item @(PageNumber.Equals(1).RenderDisabled())">
-                    <a class="page-link" href="#" @onclick="@(_ => PageNumberClicked.InvokeAsync(1))">
+                    <a class="page-link" href="javascript:void();" @onclick="@(_ => PageNumberClicked.InvokeAsync(1))">
                         <i class="fas fa-angle-double-left"></i>
                     </a>
                 </li>
                 <li class="page-item @(PageNumber.Equals(1).RenderDisabled())">
-                    <a class="page-link" href="#" @onclick="@(_ => PageNumberClicked.InvokeAsync(PageNumber - 1))">
+                    <a class="page-link" href="javascript:void();" @onclick="@(_ => PageNumberClicked.InvokeAsync(PageNumber - 1))">
                         <i class="fas fa-angle-left"></i>
                     </a>
                 </li>
@@ -19,23 +19,23 @@
                         ? "active"
                         : "";
                     <li class="page-item @active">
-                        <a class="page-link" href="#" @onclick="@(_ => PageNumberClicked.InvokeAsync(currentPageNumber))">
+                        <a class="page-link" href="javascript:void();" @onclick="@(_ => PageNumberClicked.InvokeAsync(currentPageNumber))">
                             @(currentPageNumber)
                         </a>
                     </li>
                 }
                 <li class="page-item @(PageNumber.Equals(PageCount).RenderDisabled())">
-                    <a class="page-link" href="#" @onclick="@(_ => PageNumberClicked.InvokeAsync(PageNumber + 1))">
+                    <a class="page-link" href="javascript:void();" @onclick="@(_ => PageNumberClicked.InvokeAsync(PageNumber + 1))">
                         <i class="fas fa-angle-right"></i>
                     </a>
                 </li>
                 <li class="page-item @(PageNumber.Equals(PageCount).RenderDisabled())">
-                    <a class="page-link" href="#" @onclick="@(_ => PageNumberClicked.InvokeAsync(PageCount))">
+                    <a class="page-link" href="javascript:void();" @onclick="@(_ => PageNumberClicked.InvokeAsync(PageCount))">
                         <i class="fas fa-angle-double-right"></i>
                     </a>
                 </li>
                 <li class="page-item disabled ml-5">
-                    <a class="page-link" href="#">
+                    <a class="page-link" href="javascript:void();">
                         Page @PageNumber of @PageCount; Total Items: @TotalItemCount
                     </a>
                 </li>
