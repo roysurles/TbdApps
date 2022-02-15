@@ -5,6 +5,7 @@ using RecipeApp.Shared.Features.Introduction;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -111,7 +112,7 @@ namespace RecipeApp.CoreApi.Features.Introduction.V1_0
         public async Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
-            using var transaction = connection.BeginTransaction();
+            using var transaction = await (connection as SqlConnection).BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
             var commandDefinition = new CommandDefinition("IntroductionDelete"
                         , new { id }
                         , transaction: transaction

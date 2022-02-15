@@ -1,12 +1,13 @@
 ﻿
-using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-
 using Microsoft.Extensions.Logging;
 
 using RecipeApp.Shared.Features.Ingredient;
 using RecipeApp.Shared.Models;
+
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 using Tbd.RefitEx;
 using Tbd.Shared.Extensions;
@@ -34,7 +35,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Ingredient
 
         public async Task<IIngredientViewModel> InitializeAsync(Guid introductionId)
         {
-            _logger.LogInformation($"{nameof(IngredientViewModel)}({introductionId})");
+            _logger.LogInformation("{IngredientViewModel}({introductionId})", nameof(IngredientViewModel), introductionId);
 
             ApiResultMessages.Clear();
             Ingredients.Clear();
@@ -46,25 +47,25 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Ingredient
             var response = await RefitExStaticMethods.TryInvokeApiAsync(
                 () => _ingredientApiClientV1_0.GetAllForIntroductionIdAsync(introductionId), ApiResultMessages);
 
-            Ingredients.AddRange(response.Data);
+            Ingredients.AddRange(response.Data.OrderBy(item => item.SortOrder));
 
             return this;
         }
 
         public IIngredientViewModel AddIngredient()
         {
-            _logger.LogInformation($"{nameof(AddIngredient)}()");
+            _logger.LogInformation("{AddIngredient}()", nameof(AddIngredient));
 
             ClearApiResultMessages();
 
-            Ingredients.Add(new IngredientDto { IntroductionId = _introductionId });
+            Ingredients.Add(new IngredientDto { IntroductionId = _introductionId, SortOrder = Ingredients.Count + 1 });
 
             return this;
         }
 
         public async Task<IIngredientViewModel> SaveIngredientAsync(IngredientDto ingredientDto)
         {
-            _logger.LogInformation($"{nameof(SaveIngredientAsync)}({nameof(ingredientDto)})");
+            _logger.LogInformation("{SaveIngredientAsync}({ingredientDto})", nameof(SaveIngredientAsync), nameof(ingredientDto));
 
             ClearApiResultMessages();
 
@@ -87,7 +88,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Ingredient
 
         public async Task<IIngredientViewModel> DeleteIngredientAsync(IngredientDto ingredientDto)
         {
-            _logger.LogInformation($"{nameof(DeleteIngredientAsync)}({nameof(ingredientDto)})");
+            _logger.LogInformation("{DeleteIngredientAsync}({ingredientDto})", nameof(DeleteIngredientAsync), nameof(ingredientDto));
 
             ClearApiResultMessages();
 
@@ -97,6 +98,102 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Ingredient
 
             if (response.IsSuccessHttpStatusCode)
                 Ingredients.RemoveAt(index);
+
+            return this;
+        }
+
+        public async Task<IIngredientViewModel> MoveIngredientFirstAsync(IngredientDto ingredientDto)
+        {
+            _logger.LogInformation("{MoveIngredientFirstAsync}({ingredientDto})", nameof(MoveIngredientFirstAsync), nameof(ingredientDto));
+
+            ClearApiResultMessages();
+
+            if (ingredientDto.IsNew)
+                return AddInformationMessage("Please save the ingredient before moving it.") as IIngredientViewModel;
+
+            if (ingredientDto.SortOrder.Equals(1))
+                return AddInformationMessage("This ingredient is already first.") as IIngredientViewModel;
+
+            if (ingredientDto.TryValidateObject(ApiResultMessages).Equals(false))
+                return this;
+
+            var currentIndex = Ingredients.IndexOf(ingredientDto);
+            Ingredients.Move(currentIndex, 0);
+
+            return await ResequenceIngredientsSortOrderAsync();
+        }
+
+        public async Task<IIngredientViewModel> MoveIngredientPreviousAsync(IngredientDto ingredientDto)
+        {
+            _logger.LogInformation("{MoveIngredientPreviousAsync}({ingredientDto})", nameof(MoveIngredientPreviousAsync), nameof(ingredientDto));
+
+            ClearApiResultMessages();
+
+            if (ingredientDto.IsNew)
+                return AddInformationMessage("Please save the ingredient before moving it.") as IIngredientViewModel;
+
+            if (ingredientDto.SortOrder.Equals(1))
+                return AddInformationMessage("This ingredient is already first.") as IIngredientViewModel;
+
+            if (ingredientDto.TryValidateObject(ApiResultMessages).Equals(false))
+                return this;
+
+            var currentIndex = Ingredients.IndexOf(ingredientDto);
+            Ingredients.Move(currentIndex, currentIndex - 1);
+
+            return await ResequenceIngredientsSortOrderAsync();
+        }
+
+        public async Task<IIngredientViewModel> MoveIngredientNextAsync(IngredientDto ingredientDto)
+        {
+            _logger.LogInformation("{MoveIngredientNextAsync}({ingredientDto})", nameof(MoveIngredientNextAsync), nameof(ingredientDto));
+
+            ClearApiResultMessages();
+
+            if (ingredientDto.IsNew)
+                return AddInformationMessage("Please save the ingredient before moving it.") as IIngredientViewModel;
+
+            if (ingredientDto.SortOrder.Equals(Ingredients.Count))
+                return AddInformationMessage("This ingredient is already last.") as IIngredientViewModel;
+
+            if (ingredientDto.TryValidateObject(ApiResultMessages).Equals(false))
+                return this;
+
+            var currentIndex = Ingredients.IndexOf(ingredientDto);
+            Ingredients.Move(currentIndex, Ingredients.Count - 1);
+
+            return await ResequenceIngredientsSortOrderAsync();
+        }
+
+        public async Task<IIngredientViewModel> MoveIngredientLastAsync(IngredientDto ingredientDto)
+        {
+            _logger.LogInformation("{MoveIngredientLastAsync}({ingredientDto})", nameof(MoveIngredientLastAsync), nameof(ingredientDto));
+
+            ClearApiResultMessages();
+
+            if (ingredientDto.IsNew)
+                return AddInformationMessage("Please save the ingredient before moving it.") as IIngredientViewModel;
+
+            if (ingredientDto.SortOrder.Equals(Ingredients.Count))
+                return AddInformationMessage("This ingredient is already last.") as IIngredientViewModel;
+
+            if (ingredientDto.TryValidateObject(ApiResultMessages).Equals(false))
+                return this;
+
+            var currentIndex = Ingredients.IndexOf(ingredientDto);
+            Ingredients.Move(currentIndex, Ingredients.Count - 1);
+
+            return await ResequenceIngredientsSortOrderAsync();
+        }
+
+        protected async Task<IIngredientViewModel> ResequenceIngredientsSortOrderAsync()
+        {
+            var index = 0;
+            foreach (var item in Ingredients)
+                item.SortOrder = ++index;
+
+            var ingredientsDto = new IngredientsDto { Ingredients = Ingredients.ToList() };
+            await RefitExStaticMethods.TryInvokeApiAsync(() => _ingredientApiClientV1_0.UpdateMultipleAsync(ingredientsDto), ApiResultMessages);
 
             return this;
         }
@@ -115,5 +212,13 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Ingredient
         Task<IIngredientViewModel> SaveIngredientAsync(IngredientDto ingredientDto);
 
         Task<IIngredientViewModel> DeleteIngredientAsync(IngredientDto ingredientDto);
+
+        Task<IIngredientViewModel> MoveIngredientFirstAsync(IngredientDto ingredientDto);
+
+        Task<IIngredientViewModel> MoveIngredientPreviousAsync(IngredientDto ingredientDto);
+
+        Task<IIngredientViewModel> MoveIngredientNextAsync(IngredientDto ingredientDto);
+
+        Task<IIngredientViewModel> MoveIngredientLastAsync(IngredientDto ingredientDto);
     }
 }

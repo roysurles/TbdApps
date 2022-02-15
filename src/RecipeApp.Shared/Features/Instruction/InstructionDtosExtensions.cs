@@ -11,6 +11,7 @@ namespace RecipeApp.Shared.Features.Instruction
             {
                 Id = instructionDto.Id = id,
                 instructionDto.IntroductionId,
+                instructionDto.SortOrder,
                 instructionDto.Description,
                 CreatedById = instructionDto.CreatedById = createdById,
                 createdOnUtc = instructionDto.CreatedOnUtc = createdOnUtc
@@ -23,6 +24,7 @@ namespace RecipeApp.Shared.Features.Instruction
             return new
             {
                 instructionDto.Id,
+                instructionDto.SortOrder,
                 instructionDto.Description,
                 updatedById = instructionDto.UpdatedById = updatedById,
                 UpdatedOnUtc = instructionDto.UpdatedOnUtc = updatedOnUtc

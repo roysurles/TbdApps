@@ -11,6 +11,7 @@ namespace RecipeApp.Shared.Features.Ingredient
             {
                 Id = ingredientDto.Id = id,
                 ingredientDto.IntroductionId,
+                ingredientDto.SortOrder,
                 ingredientDto.Measurement,
                 ingredientDto.Description,
                 CreatedById = ingredientDto.CreatedById = createdById,
@@ -24,6 +25,7 @@ namespace RecipeApp.Shared.Features.Ingredient
             return new
             {
                 ingredientDto.Id,
+                ingredientDto.SortOrder,
                 ingredientDto.Measurement,
                 ingredientDto.Description,
                 updatedById = ingredientDto.UpdatedById = updatedById,

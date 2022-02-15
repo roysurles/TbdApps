@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -7,6 +8,7 @@ using RecipeApp.Shared.Features.Ingredient;
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -97,6 +99,26 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
             await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC IngredientUpdate {ingredientDto.Id}, {ingredientDto.Measurement}, {ingredientDto.Description}, {ingredientDto.UpdatedById}, {ingredientDto.UpdatedOnUtc}", cancellationToken);
 
             return ingredientDto;
+        }
+
+        public async Task<int> UpdateMultipleAsync(IngredientsDto ingredientsDto, string updatedById, CancellationToken cancellationToken)
+        {
+            var result = 0;
+
+            if (ingredientsDto.Ingredients.Count == 0)
+                return result;
+
+            var updatedOnUtc = DateTime.UtcNow;
+
+            using var dbContext = CreateNewRecipeDbContext();
+            using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
+
+            foreach (var ingredientDto in ingredientsDto.Ingredients)
+                result += await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC IngredientUpdate {ingredientDto.Id}, {ingredientDto.Measurement}, {ingredientDto.Description}, {updatedById}, {updatedOnUtc}", cancellationToken);
+
+            transaction.Commit();
+
+            return result;
         }
 
         public async Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken)

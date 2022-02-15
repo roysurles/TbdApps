@@ -1,13 +1,15 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using RecipeApp.Shared.Models;
 
-using RecipeApp.Shared.Models;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace RecipeApp.Shared.Features.Ingredient
 {
     public class IngredientDto : BaseDto
     {
         public Guid IntroductionId { get; set; }
+
+        public int SortOrder { get; set; }
 
         [Required]
         [MaxLength(50, ErrorMessage = "Measurement cannot exceed 50 characters.")]

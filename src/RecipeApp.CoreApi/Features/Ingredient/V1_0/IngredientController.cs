@@ -97,6 +97,18 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
             CreateActionResult(await _ingredientService.UpdateAsync(ingredientDto, GetNameIdentifierClaimValue, cancellationToken).ConfigureAwait(false));
 
         /// <summary>
+        /// Update Ingredients.
+        /// </summary>
+        /// <param name="ingredientsDto">Desired list of Ingredient data.</param>
+        /// <param name="cancellationToken">CancellationToken in case client cancels this method</param>
+        /// <returns>IApiResultModel of int</returns>
+        /// <response code="200">OK - returns IApiResultModel of int</response>
+        [HttpPut("Multiple")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IApiResultModel<int>>> PutMultipleAsync([FromBody] IngredientsDto ingredientsDto, CancellationToken cancellationToken) =>
+            CreateActionResult(await _ingredientService.UpdateMultipleAsync(ingredientsDto, GetNameIdentifierClaimValue, cancellationToken).ConfigureAwait(false));
+
+        /// <summary>
         /// Delete Ingredient record for the desired Ingredient Id.
         /// There is no error if the Id does not exist.
         /// </summary>

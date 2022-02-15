@@ -5,6 +5,7 @@ using RecipeApp.Shared.Features.Ingredient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,7 +24,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
                 , commandType: CommandType.StoredProcedure
                 , cancellationToken: cancellationToken);
 
-            using var connection = await CreateConnectionAsync().ConfigureAwait(false);
+            using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
 
             return await connection.QuerySingleOrDefaultAsync<IngredientDto>(commandDefinition).ConfigureAwait(false);
         }
@@ -35,7 +36,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
                 , commandType: CommandType.StoredProcedure
                 , cancellationToken: cancellationToken);
 
-            using var connection = await CreateConnectionAsync().ConfigureAwait(false);
+            using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
 
             return await connection.QueryAsync<IngredientDto>(commandDefinition).ConfigureAwait(false);
         }
@@ -50,7 +51,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
                 , commandType: CommandType.StoredProcedure
                 , cancellationToken: cancellationToken);
 
-            using var connection = await CreateConnectionAsync().ConfigureAwait(false);
+            using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
 
             await connection.ExecuteAsync(commandDefinition).ConfigureAwait(false);
 
@@ -66,11 +67,39 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
                 , commandType: CommandType.StoredProcedure
                 , cancellationToken: cancellationToken);
 
-            using var connection = await CreateConnectionAsync().ConfigureAwait(false);
+            using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
 
             await connection.ExecuteAsync(commandDefinition).ConfigureAwait(false);
 
             return ingredientDto;
+        }
+
+        public async Task<int> UpdateMultipleAsync(IngredientsDto ingredientsDto, string updatedById, CancellationToken cancellationToken)
+        {
+            var result = 0;
+
+            if (ingredientsDto.Ingredients.Count == 0)
+                return result;
+
+            var updatedOnUtc = DateTime.UtcNow;
+
+            using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
+            using var transaction = await (connection as SqlConnection).BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
+
+            foreach (var ingredientDto in ingredientsDto.Ingredients)
+            {
+                var commandDefinition = new CommandDefinition("IngredientUpdate"
+                    , ingredientDto.ToUpdateParameters(updatedById, updatedOnUtc)
+                    , transaction: transaction
+                    , commandType: CommandType.StoredProcedure
+                    , cancellationToken: cancellationToken);
+
+                result += await connection.ExecuteAsync(commandDefinition).ConfigureAwait(false);
+            }
+
+            transaction.Commit();
+
+            return result;
         }
 
         public async Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken)

@@ -24,6 +24,9 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Ingredient
         [Put("/api/v1.0/Ingredient")]
         Task<ApiResultModel<IngredientDto>> UpdateAsync([Body] IngredientDto ingredientDto);
 
+        [Put("/api/v1.0/Ingredient/Multiple")]
+        Task<ApiResultModel<int>> UpdateMultipleAsync([Body] IngredientsDto ingredientsDto);
+
         [Delete("/api/v1.0/Ingredient/{id}")]
         Task<ApiResultModel<int>> DeleteAsync(Guid id);
     }

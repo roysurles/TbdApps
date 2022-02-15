@@ -80,7 +80,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
         public async Task<IApiResultModel<IngredientDto>> UpdateAsync(IngredientDto ingredientDto, string updatedById, CancellationToken cancellationToken)
         {
             var memberName = $"{_className}.{nameof(UpdateAsync)}";
-            _logger.LogInformation($"{memberName}, {updatedById})");
+            _logger.LogInformation("{memberName}(IngredientDto, {updatedById}, CancellationToken)", memberName, updatedById);
 
             var apiResult = CreateApiResultModel<IngredientDto>();
 
@@ -100,6 +100,18 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
                 ? apiResult.SetHttpStatusCode(HttpStatusCode.OK)
                     .SetData(await _ingredientRepository.UpdateAsync(ingredientDto, updatedById, cancellationToken).ConfigureAwait(false))
                 : apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest);
+        }
+
+        public async Task<IApiResultModel<int>> UpdateMultipleAsync(IngredientsDto ingredientsDto, string updatedById, CancellationToken cancellationToken)
+        {
+            var memberName = $"{_className}.{nameof(UpdateAsync)}";
+            _logger.LogInformation("{memberName}(IngredientDto, {updatedById}, CancellationToken)", memberName, updatedById);
+
+            var apiResult = CreateApiResultModel<int>().SetHttpStatusCode(HttpStatusCode.OK).SetData(0);
+
+            return ingredientsDto.Ingredients.Count == 0
+                ? apiResult
+                : apiResult.SetData(await _ingredientRepository.UpdateMultipleAsync(ingredientsDto, updatedById, cancellationToken));
         }
 
         public async Task<IApiResultModel<int>> DeleteAsync(Guid id, CancellationToken cancellationToken)
@@ -126,6 +138,8 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
         Task<IApiResultModel<IngredientDto>> InsertAsync(IngredientDto ingredientDto, string createdById, CancellationToken cancellationToken);
 
         Task<IApiResultModel<IngredientDto>> UpdateAsync(IngredientDto ingredientDto, string updatedById, CancellationToken cancellationToken);
+
+        Task<IApiResultModel<int>> UpdateMultipleAsync(IngredientsDto ingredientsDto, string updatedById, CancellationToken cancellationToken);
 
         Task<IApiResultModel<int>> DeleteAsync(Guid id, CancellationToken cancellationToken);
     }

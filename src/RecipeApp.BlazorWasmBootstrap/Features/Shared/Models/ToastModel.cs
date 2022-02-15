@@ -1,7 +1,9 @@
 ﻿
+using RecipeApp.BlazorWasmBootstrap.Features.Shared.Enums;
+
 using System.Text.Json.Serialization;
 
-using RecipeApp.BlazorWasmBootstrap.Features.Shared.Enums;
+using Tbd.Shared.ApiResult;
 
 namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Models
 {
@@ -12,6 +14,24 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Models
         public ToastModel(ToastType toastType, string title, string content, string subTitle = null, int delay = 3000)
         {
             ToastType = toastType;
+            Title = title;
+            Content = content;
+            SubTitle = subTitle;
+            Delay = delay;
+        }
+
+        public ToastModel(ApiResultMessageModelTypeEnumeration apiResultMessageModelType, string title, string content, string subTitle = null, int delay = 3000)
+        {
+            ToastType = ToastType.info;  // TODO:  default; probably need a better mapping
+            if (apiResultMessageModelType.Equals(ApiResultMessageModelTypeEnumeration.Information))
+                ToastType = ToastType.info;
+            if (apiResultMessageModelType.Equals(ApiResultMessageModelTypeEnumeration.Error))
+                ToastType = ToastType.error;
+            if (apiResultMessageModelType.Equals(ApiResultMessageModelTypeEnumeration.UnhandledException))
+                ToastType = ToastType.error;
+            if (apiResultMessageModelType.Equals(ApiResultMessageModelTypeEnumeration.Warning))
+                ToastType = ToastType.warning;
+
             Title = title;
             Content = content;
             SubTitle = subTitle;

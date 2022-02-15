@@ -17,6 +17,8 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
 
         Task<IngredientDto> UpdateAsync(IngredientDto ingredientDto, string updatedById, CancellationToken cancellationToken);
 
+        Task<int> UpdateMultipleAsync(IngredientsDto ingredientsDto, string updatedById, CancellationToken cancellationToken);
+
         Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken);
     }
 }

@@ -24,7 +24,8 @@
                     </th>
                     <th scope="col">Measurement</th>
                     <th scope="col">Description</th>
-                    <th></th>
+                    <th scope="col">Reposition</th>
+                    @*<th scope="col">SortOrder</th>*@
                 </tr>
             </thead>
             <tbody>
@@ -59,20 +60,41 @@
                         </td>
                         <td class="align-middle">
                             <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" class="btn btn-secondary" title="Move Top">
+                                <button type="button"
+                                        class="btn btn-secondary"
+                                        title="Move First"
+                                        disabled="@(item.IsNew || IngredientViewModel.IsBusy)"
+                                        @onclick="@(_ => MoveIngredientFirstAsync(item))">
                                     <i class="fas fa-angle-double-up"></i>
                                 </button>
-                                <button type="button" class="btn btn-secondary" title="Move Up">
+                                <button type="button"
+                                        class="btn btn-secondary"
+                                        title="Move Up"
+                                        disabled="@(item.IsNew || IngredientViewModel.IsBusy)"
+                                        @onclick="@(_ => MoveIngredientPreviousAsync(item))">
                                     <i class="fas fa-angle-up"></i>
                                 </button>
-                                <button type="button" class="btn btn-secondary" title="Move Down">
+                                <button type="button"
+                                        class="btn btn-secondary"
+                                        title="Move Down"
+                                        disabled="@(item.IsNew || IngredientViewModel.IsBusy)"
+                                        @onclick="@(_ => MoveIngredientNextAsync(item))">
                                     <i class="fas fa-angle-down"></i>
                                 </button>
-                                <button type="button" class="btn btn-secondary" title="Move Bottom">
+                                <button type="button"
+                                        class="btn btn-secondary"
+                                        title="Move Last"
+                                        disabled="@(item.IsNew || IngredientViewModel.IsBusy)"
+                                        @onclick="@(_ => MoveIngredientLastAsync(item))">
                                     <i class="fas fa-angle-double-down"></i>
                                 </button>
                             </div>
                         </td>
+@*                        <td>
+                            <input type="text"
+                                   class="form-control-sm w-100"
+                                   Value="@(item.SortOrder)">
+                        </td>*@
                     </tr>
                 }
             </tbody>
@@ -163,6 +185,124 @@
             }
 
             await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Ingredient", "Deleted successfully!"));
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            IngredientViewModel.IsBusy = false;
+            await OnStateHasChanged.InvokeAsync();
+        }
+    }
+
+    // TODO:  look into moving the "MoveIngredient*" methods to a single "func"
+
+    protected async Task MoveIngredientFirstAsync(IngredientDto ingredientDto)
+    {
+        try
+        {
+            Logger.LogInformation("{MoveIngredientFirstAsync}({ingredientDto})", nameof(MoveIngredientFirstAsync), nameof(ingredientDto));
+
+            IngredientViewModel.IsBusy = true;
+            await IngredientViewModel.MoveIngredientFirstAsync(ingredientDto);
+
+            if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
+            {
+                await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Ingredient", "Moved successfully!"));
+                return;
+            }
+
+            foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
+                await JSRuntime.ToastAsync(new ToastModel(apiResultMessage.MessageType, "Ingredient", apiResultMessage.Message));
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            IngredientViewModel.IsBusy = false;
+            await OnStateHasChanged.InvokeAsync();
+        }
+    }
+
+    protected async Task MoveIngredientPreviousAsync(IngredientDto ingredientDto)
+    {
+        try
+        {
+            Logger.LogInformation("{MoveIngredientPreviousAsync}({ingredientDto})", nameof(MoveIngredientPreviousAsync), nameof(ingredientDto));
+
+            IngredientViewModel.IsBusy = true;
+            await IngredientViewModel.MoveIngredientPreviousAsync(ingredientDto);
+
+            if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
+            {
+                await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Ingredient", "Moved successfully!"));
+                return;
+            }
+
+            foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
+                await JSRuntime.ToastAsync(new ToastModel(apiResultMessage.MessageType, "Ingredient", apiResultMessage.Message));
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            IngredientViewModel.IsBusy = false;
+            await OnStateHasChanged.InvokeAsync();
+        }
+    }
+
+    protected async Task MoveIngredientNextAsync(IngredientDto ingredientDto)
+    {
+        try
+        {
+            Logger.LogInformation("{MoveIngredientNextAsync}({ingredientDto})", nameof(MoveIngredientNextAsync), nameof(ingredientDto));
+
+            IngredientViewModel.IsBusy = true;
+            await IngredientViewModel.MoveIngredientNextAsync(ingredientDto);
+
+            if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
+            {
+                await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Ingredient", "Moved successfully!"));
+                return;
+            }
+
+            foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
+                await JSRuntime.ToastAsync(new ToastModel(apiResultMessage.MessageType, "Ingredient", apiResultMessage.Message));
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            IngredientViewModel.IsBusy = false;
+            await OnStateHasChanged.InvokeAsync();
+        }
+    }
+
+    protected async Task MoveIngredientLastAsync(IngredientDto ingredientDto)
+    {
+        try
+        {
+            Logger.LogInformation("{MoveIngredientLastAsync}({ingredientDto})", nameof(MoveIngredientLastAsync), nameof(ingredientDto));
+
+            IngredientViewModel.IsBusy = true;
+            await IngredientViewModel.MoveIngredientLastAsync(ingredientDto);
+
+            if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
+            {
+                await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Ingredient", "Moved successfully!"));
+                return;
+            }
+
+            foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
+                await JSRuntime.ToastAsync(new ToastModel(apiResultMessage.MessageType, "Ingredient", apiResultMessage.Message));
         }
         catch (Exception ex)
         {
