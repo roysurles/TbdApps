@@ -44,6 +44,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
             {
                 Id = ingredientModel.Id,
                 IntroductionId = ingredientModel.IntroductionId,
+                SortOrder = ingredientModel.SortOrder,
                 Measurement = ingredientModel.Measurement,
                 Description = ingredientModel.Description,
                 CreatedById = ingredientModel.CreatedById,
@@ -71,7 +72,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
 
             var ingredientDtos = (await query
                 .ToListAsync(cancellationToken))
-                .Select(m => new IngredientDto { Id = m.Id, IntroductionId = m.IntroductionId, Measurement = m.Measurement, Description = m.Description, CreatedById = m.CreatedById, CreatedOnUtc = m.CreatedOnUtc, UpdatedById = m.UpdatedById, UpdatedOnUtc = m.UpdatedOnUtc });
+                .Select(m => new IngredientDto { Id = m.Id, IntroductionId = m.IntroductionId, SortOrder = m.SortOrder, Measurement = m.Measurement, Description = m.Description, CreatedById = m.CreatedById, CreatedOnUtc = m.CreatedOnUtc, UpdatedById = m.UpdatedById, UpdatedOnUtc = m.UpdatedOnUtc });
 
             return await Task.FromResult(ingredientDtos);
         }
@@ -84,7 +85,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
 
             using var dbContext = CreateNewRecipeDbContext();
 
-            await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC IngredientInsert {ingredientDto.Id}, {ingredientDto.IntroductionId}, {ingredientDto.Measurement}, {ingredientDto.Description}, {ingredientDto.CreatedById}, {ingredientDto.CreatedOnUtc}", cancellationToken);
+            await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC IngredientInsert {ingredientDto.Id}, {ingredientDto.IntroductionId}, {ingredientDto.SortOrder}, {ingredientDto.Measurement}, {ingredientDto.Description}, {ingredientDto.CreatedById}, {ingredientDto.CreatedOnUtc}", cancellationToken);
 
             return ingredientDto;
         }
@@ -96,7 +97,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
 
             using var dbContext = CreateNewRecipeDbContext();
 
-            await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC IngredientUpdate {ingredientDto.Id}, {ingredientDto.Measurement}, {ingredientDto.Description}, {ingredientDto.UpdatedById}, {ingredientDto.UpdatedOnUtc}", cancellationToken);
+            await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC IngredientUpdate {ingredientDto.Id}, {ingredientDto.SortOrder}, {ingredientDto.Measurement}, {ingredientDto.Description}, {ingredientDto.UpdatedById}, {ingredientDto.UpdatedOnUtc}", cancellationToken);
 
             return ingredientDto;
         }
@@ -114,7 +115,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
             using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
 
             foreach (var ingredientDto in ingredientsDto.Ingredients)
-                result += await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC IngredientUpdate {ingredientDto.Id}, {ingredientDto.Measurement}, {ingredientDto.Description}, {updatedById}, {updatedOnUtc}", cancellationToken);
+                result += await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC IngredientUpdate {ingredientDto.Id}, {ingredientDto.SortOrder}, {ingredientDto.Measurement}, {ingredientDto.Description}, {updatedById}, {updatedOnUtc}", cancellationToken);
 
             transaction.Commit();
 

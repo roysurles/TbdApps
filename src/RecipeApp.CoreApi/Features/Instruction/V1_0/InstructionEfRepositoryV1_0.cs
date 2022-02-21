@@ -38,6 +38,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
             {
                 Id = instructionModel.Id,
                 IntroductionId = instructionModel.IntroductionId,
+                SortOrder = instructionModel.SortOrder,
                 Description = instructionModel.Description,
                 CreatedById = instructionModel.CreatedById,
                 CreatedOnUtc = instructionModel.CreatedOnUtc,
@@ -64,7 +65,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
             var instructionDtos = (await query
                 .ToListAsync(cancellationToken))
-                .Select(m => new InstructionDto { Id = m.Id, IntroductionId = m.IntroductionId, Description = m.Description, CreatedById = m.CreatedById, CreatedOnUtc = m.CreatedOnUtc, UpdatedById = m.UpdatedById, UpdatedOnUtc = m.UpdatedOnUtc });
+                .Select(m => new InstructionDto { Id = m.Id, IntroductionId = m.IntroductionId, SortOrder = m.SortOrder, Description = m.Description, CreatedById = m.CreatedById, CreatedOnUtc = m.CreatedOnUtc, UpdatedById = m.UpdatedById, UpdatedOnUtc = m.UpdatedOnUtc });
 
             return await Task.FromResult(instructionDtos);
         }
@@ -77,7 +78,7 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
             using var dbContext = CreateNewRecipeDbContext();
 
-            await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC InstructionInsert {instructionDto.Id}, {instructionDto.IntroductionId}, {instructionDto.Description}, {instructionDto.CreatedById}, {instructionDto.CreatedOnUtc}", cancellationToken);
+            await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC InstructionInsert {instructionDto.Id}, {instructionDto.IntroductionId}, {instructionDto.SortOrder}, {instructionDto.Description}, {instructionDto.CreatedById}, {instructionDto.CreatedOnUtc}", cancellationToken);
 
             return instructionDto;
         }
@@ -89,9 +90,29 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
 
             using var dbContext = CreateNewRecipeDbContext();
 
-            await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC InstructionUpdate {instructionDto.Id}, {instructionDto.Description}, {instructionDto.UpdatedById}, {instructionDto.UpdatedOnUtc}", cancellationToken);
+            await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC InstructionUpdate {instructionDto.Id}, {instructionDto.SortOrder}, {instructionDto.Description}, {instructionDto.UpdatedById}, {instructionDto.UpdatedOnUtc}", cancellationToken);
 
             return instructionDto;
+        }
+
+        public async Task<int> UpdateMultipleAsync(InstructionsDto instructionsDto, string updatedById, CancellationToken cancellationToken)
+        {
+            var result = 0;
+
+            if (instructionsDto.Instructions.Count == 0)
+                return result;
+
+            var updatedOnUtc = DateTime.UtcNow;
+
+            using var dbContext = CreateNewRecipeDbContext();
+            using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
+
+            foreach (var instructionDto in instructionsDto.Instructions)
+                result += await dbContext.Database.ExecuteSqlInterpolatedAsync($"EXEC InstructionUpdate {instructionDto.Id}, {instructionDto.SortOrder}, {instructionDto.Description}, {updatedById}, {updatedOnUtc}", cancellationToken);
+
+            transaction.Commit();
+
+            return result;
         }
 
         public async Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken)

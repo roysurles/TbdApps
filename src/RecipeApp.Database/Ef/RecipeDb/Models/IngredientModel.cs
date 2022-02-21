@@ -12,6 +12,8 @@ namespace RecipeApp.Database.Ef.RecipeDb.Models
 
         public Guid IntroductionId { get; set; }
 
+        public int SortOrder { get; set; }
+
         [MaxLength(50)]
         public string Measurement { get; set; }
 

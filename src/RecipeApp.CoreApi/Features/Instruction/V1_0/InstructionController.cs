@@ -89,6 +89,18 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
             CreateActionResult(await _instructionService.UpdateAsync(instructionDto, GetNameIdentifierClaimValue, cancellationToken).ConfigureAwait(false));
 
         /// <summary>
+        /// Update Instructions.
+        /// </summary>
+        /// <param name="instructionsDto">Desired list of Instruction data.</param>
+        /// <param name="cancellationToken">CancellationToken in case client cancels this method</param>
+        /// <returns>IApiResultModel of int</returns>
+        /// <response code="200">OK - returns IApiResultModel of int</response>
+        [HttpPut("Multiple")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IApiResultModel<int>>> PutMultipleAsync([FromBody] InstructionsDto instructionsDto, CancellationToken cancellationToken) =>
+            CreateActionResult(await _instructionService.UpdateMultipleAsync(instructionsDto, GetNameIdentifierClaimValue, cancellationToken).ConfigureAwait(false));
+
+        /// <summary>
         /// Delete Instruction record for the desired Instruction Id.
         /// There is no error if the Id does not exist.
         /// </summary>

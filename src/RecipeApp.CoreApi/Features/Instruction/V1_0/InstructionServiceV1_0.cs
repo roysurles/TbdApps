@@ -102,6 +102,18 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
                 : apiResult.SetHttpStatusCode(HttpStatusCode.BadRequest);
         }
 
+        public async Task<IApiResultModel<int>> UpdateMultipleAsync(InstructionsDto instructionsDto, string updatedById, CancellationToken cancellationToken)
+        {
+            var memberName = $"{_className}.{nameof(UpdateAsync)}";
+            _logger.LogInformation("{memberName}(InstructionsDto, {updatedById}, CancellationToken)", memberName, updatedById);
+
+            var apiResult = CreateApiResultModel<int>().SetHttpStatusCode(HttpStatusCode.OK).SetData(0);
+
+            return instructionsDto.Instructions.Count == 0
+                ? apiResult
+                : apiResult.SetData(await _instructionRepository.UpdateMultipleAsync(instructionsDto, updatedById, cancellationToken));
+        }
+
         public async Task<IApiResultModel<int>> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var memberName = $"{_className}.{nameof(DeleteAsync)}";
@@ -126,6 +138,8 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
         Task<IApiResultModel<InstructionDto>> InsertAsync(InstructionDto instructionDto, string createdById, CancellationToken cancellationToken);
 
         Task<IApiResultModel<InstructionDto>> UpdateAsync(InstructionDto instructionDto, string updatedById, CancellationToken cancellationToken);
+
+        Task<IApiResultModel<int>> UpdateMultipleAsync(InstructionsDto instructionsDto, string updatedById, CancellationToken cancellationToken);
 
         Task<IApiResultModel<int>> DeleteAsync(Guid id, CancellationToken cancellationToken);
     }

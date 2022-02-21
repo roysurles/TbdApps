@@ -1,10 +1,12 @@
 ﻿using Dapper;
 
+using RecipeApp.Shared.Features.Ingredient;
 using RecipeApp.Shared.Features.Instruction;
 
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -61,16 +63,44 @@ namespace RecipeApp.CoreApi.Features.Instruction.V1_0
         {
             var updatedOnUtc = DateTime.UtcNow;
 
+            using var connection = await CreateConnectionAsync().ConfigureAwait(false);
+
             var commandDefinition = new CommandDefinition("InstructionUpdate"
                 , instructionDto.ToUpdateParameters(updatedById, updatedOnUtc)
                 , commandType: CommandType.StoredProcedure
                 , cancellationToken: cancellationToken);
 
-            using var connection = await CreateConnectionAsync().ConfigureAwait(false);
-
             await connection.ExecuteAsync(commandDefinition).ConfigureAwait(false);
 
             return instructionDto;
+        }
+
+        public async Task<int> UpdateMultipleAsync(InstructionsDto instructionsDto, string updatedById, CancellationToken cancellationToken)
+        {
+            var result = 0;
+
+            if (instructionsDto.Instructions.Count == 0)
+                return result;
+
+            var updatedOnUtc = DateTime.UtcNow;
+
+            using var connection = await CreateConnectionAsync(cancellationToken).ConfigureAwait(false);
+            using var transaction = await (connection as SqlConnection).BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
+
+            foreach (var instructionDto in instructionsDto.Instructions)
+            {
+                var commandDefinition = new CommandDefinition("InstructionUpdate"
+                    , instructionDto.ToUpdateParameters(updatedById, updatedOnUtc)
+                    , transaction: transaction
+                    , commandType: CommandType.StoredProcedure
+                    , cancellationToken: cancellationToken);
+
+                result += await connection.ExecuteAsync(commandDefinition).ConfigureAwait(false);
+            }
+
+            transaction.Commit();
+
+            return result;
         }
 
         public async Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken)

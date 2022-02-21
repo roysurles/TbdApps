@@ -105,7 +105,7 @@ namespace RecipeApp.CoreApi.Features.Ingredient.V1_0
         public async Task<IApiResultModel<int>> UpdateMultipleAsync(IngredientsDto ingredientsDto, string updatedById, CancellationToken cancellationToken)
         {
             var memberName = $"{_className}.{nameof(UpdateAsync)}";
-            _logger.LogInformation("{memberName}(IngredientDto, {updatedById}, CancellationToken)", memberName, updatedById);
+            _logger.LogInformation("{memberName}(IngredientsDto, {updatedById}, CancellationToken)", memberName, updatedById);
 
             var apiResult = CreateApiResultModel<int>().SetHttpStatusCode(HttpStatusCode.OK).SetData(0);
 

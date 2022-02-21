@@ -6,6 +6,7 @@ using RecipeApp.Shared.Models;
 
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Tbd.RefitEx;
@@ -100,6 +101,102 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Instruction
 
             return this;
         }
+
+        public async Task<IInstructionViewModel> MoveInstructionFirstAsync(InstructionDto instructionDto)
+        {
+            _logger.LogInformation("{MoveInstructionFirstAsync}({instructionDto})", nameof(MoveInstructionFirstAsync), nameof(InstructionDto));
+
+            ClearApiResultMessages();
+
+            if (instructionDto.IsNew)
+                return AddInformationMessage("Please save the instruction before moving it.") as IInstructionViewModel;
+
+            if (instructionDto.SortOrder.Equals(1))
+                return AddInformationMessage("This instruction is already first.") as IInstructionViewModel;
+
+            if (instructionDto.TryValidateObject(ApiResultMessages).Equals(false))
+                return this;
+
+            var currentIndex = Instructions.IndexOf(instructionDto);
+            Instructions.Move(currentIndex, 0);
+
+            return await ResequenceInstructionsSortOrderAsync();
+        }
+
+        public async Task<IInstructionViewModel> MoveInstructionPreviousAsync(InstructionDto instructionDto)
+        {
+            _logger.LogInformation("{MoveInstructionPreviousAsync}({instructionDto})", nameof(MoveInstructionPreviousAsync), nameof(InstructionDto));
+
+            ClearApiResultMessages();
+
+            if (instructionDto.IsNew)
+                return AddInformationMessage("Please save the instruction before moving it.") as IInstructionViewModel;
+
+            if (instructionDto.SortOrder.Equals(1))
+                return AddInformationMessage("This instruction is already first.") as IInstructionViewModel;
+
+            if (instructionDto.TryValidateObject(ApiResultMessages).Equals(false))
+                return this;
+
+            var currentIndex = Instructions.IndexOf(instructionDto);
+            Instructions.Move(currentIndex, currentIndex - 1);
+
+            return await ResequenceInstructionsSortOrderAsync();
+        }
+
+        public async Task<IInstructionViewModel> MoveInstructionNextAsync(InstructionDto instructionDto)
+        {
+            _logger.LogInformation("{MoveInstructionNextAsync}({instructionDto})", nameof(MoveInstructionNextAsync), nameof(InstructionDto));
+
+            ClearApiResultMessages();
+
+            if (instructionDto.IsNew)
+                return AddInformationMessage("Please save the instruction before moving it.") as IInstructionViewModel;
+
+            if (instructionDto.SortOrder.Equals(Instructions.Count))
+                return AddInformationMessage("This instruction is already last.") as IInstructionViewModel;
+
+            if (instructionDto.TryValidateObject(ApiResultMessages).Equals(false))
+                return this;
+
+            var currentIndex = Instructions.IndexOf(instructionDto);
+            Instructions.Move(currentIndex, Instructions.Count - 1);
+
+            return await ResequenceInstructionsSortOrderAsync();
+        }
+
+        public async Task<IInstructionViewModel> MoveInstructionLastAsync(InstructionDto instructionDto)
+        {
+            _logger.LogInformation("{MoveInstructionLastAsync}({instructionDto})", nameof(MoveInstructionLastAsync), nameof(InstructionDto));
+
+            ClearApiResultMessages();
+
+            if (instructionDto.IsNew)
+                return AddInformationMessage("Please save the instruction before moving it.") as IInstructionViewModel;
+
+            if (instructionDto.SortOrder.Equals(Instructions.Count))
+                return AddInformationMessage("This instruction is already last.") as IInstructionViewModel;
+
+            if (instructionDto.TryValidateObject(ApiResultMessages).Equals(false))
+                return this;
+
+            var currentIndex = Instructions.IndexOf(instructionDto);
+            Instructions.Move(currentIndex, Instructions.Count - 1);
+
+            return await ResequenceInstructionsSortOrderAsync();
+        }
+
+        protected async Task<IInstructionViewModel> ResequenceInstructionsSortOrderAsync()
+        {
+            var index = 0;
+            foreach (var item in Instructions)
+                item.SortOrder = ++index;
+
+            var instructionsDto = new InstructionsDto { Instructions = Instructions.ToList() };
+            await RefitExStaticMethods.TryInvokeApiAsync(() => _instructionApiClientV1_0.UpdateMultipleAsync(instructionsDto), ApiResultMessages);
+
+            return this;
+        }
     }
 
     public interface IInstructionViewModel : IBaseViewModel
@@ -115,5 +212,13 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Instruction
         Task<IInstructionViewModel> SaveInstructionAsync(InstructionDto instructionDto);
 
         Task<IInstructionViewModel> DeleteInstructionAsync(InstructionDto instructionDto);
+
+        Task<IInstructionViewModel> MoveInstructionFirstAsync(InstructionDto instructionDto);
+
+        Task<IInstructionViewModel> MoveInstructionPreviousAsync(InstructionDto instructionDto);
+
+        Task<IInstructionViewModel> MoveInstructionNextAsync(InstructionDto instructionDto);
+
+        Task<IInstructionViewModel> MoveInstructionLastAsync(InstructionDto instructionDto);
     }
 }
