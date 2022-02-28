@@ -160,7 +160,7 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Instruction
                 return this;
 
             var currentIndex = Instructions.IndexOf(instructionDto);
-            Instructions.Move(currentIndex, Instructions.Count - 1);
+            Instructions.Move(currentIndex, currentIndex + 1);
 
             return await ResequenceInstructionsSortOrderAsync();
         }
