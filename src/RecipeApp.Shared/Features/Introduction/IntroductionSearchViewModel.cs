@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 
 using RecipeApp.Shared.Models;
+using RecipeApp.Shared.RefitEx;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Tbd.RefitEx;
 using Tbd.Shared.ApiResult;
 
 namespace RecipeApp.Shared.Features.Introduction

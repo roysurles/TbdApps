@@ -1,12 +1,11 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 using RecipeApp.Shared.Models;
+using RecipeApp.Shared.RefitEx;
 
-using Tbd.RefitEx;
+using System;
+using System.Threading.Tasks;
+
 using Tbd.Shared.Extensions;
 
 namespace RecipeApp.Shared.Features.Introduction

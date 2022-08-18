@@ -1,15 +1,14 @@
-﻿
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 using RecipeApp.Shared.Features.Ingredient;
 using RecipeApp.Shared.Models;
+using RecipeApp.Shared.RefitEx;
 
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Tbd.RefitEx;
 using Tbd.Shared.Extensions;
 
 namespace RecipeApp.BlazorWasmBootstrap.Features.Ingredient
