@@ -1,6 +1,9 @@
-using Dapper;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
-using MediatR;
+using Dapper;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,11 +19,6 @@ using RecipeApp.CoreApi.Features.Instruction.V1_0;
 using RecipeApp.CoreApi.Features.Introduction.V1_0;
 using RecipeApp.Database.Ef.RecipeDb;
 using RecipeApp.Shared.Handlers;
-
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
 
 using Tbd.Shared.ApiLog;
 using Tbd.Shared.ApiResult;
@@ -112,7 +110,8 @@ namespace RecipeApp.CoreApi
                 : services.AddScoped<IInstructionRepositoryV1_0, InstructionEfRepositoryV1_0>();
             services.AddScoped<IInstructionServiceV1_0, InstructionServiceV1_0>();
 
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(Program).Assembly));
+            //services.AddMediatR(Assembly.GetExecutingAssembly());
 
             // Impose global model state validation to reduce boilerplate code
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
