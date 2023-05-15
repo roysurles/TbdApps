@@ -1,5 +1,5 @@
 ﻿@page "/Details"
-@page "/Details/{IntoductionId}"
+@page "/Details/{IntroductionId}"
 @inject ISessionViewModel SessionViewModel
 @inject IDetailsPageViewModel DetailsPageViewModel
 @inject ILogger<DetailsPage> Logger
@@ -20,57 +20,70 @@
 else
 {
     <div class="row mt-3 mb-3">
-        <ApiResultMessagesComponent ApiResultMessages="@DetailsPageViewModel.ApiResultMessages" />
+        <div class="col">
+            <ApiResultMessagesComponent ApiResultMessages="@DetailsPageViewModel.ApiResultMessages" />
+        </div>
     </div>
 
     <div class="row mb-3">
-        <div class="accordion" id="accordionPanelsStayOpenExample">
-            <div class="accordion-item" title="@(DetailsPageViewModel.IntroductionViewModel.Introduction.Title)">
-                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                        <span style="font-size:larger"><strong>Introduction</strong></span>
-                    </button>
-                </h2>
-                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                    <div class="accordion-body">
-                        <IntroductionEditComponent IntroductionViewModel="@(DetailsPageViewModel.IntroductionViewModel)"
-                                                   OnIntroductionSaved="@OnIntroductionSavedAsync"
-                                                   OnIntroductionDeleted="@OnIntroductionDeletedAsync" />
+        <div class="col">
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item" title="@(DetailsPageViewModel.IntroductionViewModel.Introduction.Title)">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            <span style="font-size:larger"><strong>Introduction</strong></span>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+                            <IntroductionEditComponent IntroductionViewModel="@(DetailsPageViewModel.IntroductionViewModel)"
+                                                       OnIntroductionSaved="@OnIntroductionSavedAsync"
+                                                       OnIntroductionDeleted="@OnIntroductionDeletedAsync" />
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                            <span>
+                                <span style="font-size:larger"><strong>Ingredients</strong></span>
+                                <span class="badge bg-info text-dark">@(DetailsPageViewModel.IngredientViewModel.Ingredients.Count)</span>
+                            </span>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <IngredientTableEditComponent IngredientViewModel="@(DetailsPageViewModel.IngredientViewModel)"
+                                                          OnStateHasChanged="@ChildComponentStateHasChanged" />
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                            <span>
+                                <span style="font-size:larger"><strong>Instructions</strong></span>
+                                <span class="badge bg-info text-dark">@(DetailsPageViewModel.InstructionViewModel.Instructions.Count)</span>
+                            </span>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                        <div class="accordion-body">
+                            <InstructionTableEditComponent InstructionViewModel="@(DetailsPageViewModel.InstructionViewModel)"
+                                                           OnStateHasChanged="@ChildComponentStateHasChanged" />
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                        <span>
-                            <span style="font-size:larger"><strong>Ingredients</strong></span>
-                            <span class="badge bg-info text-dark">@(DetailsPageViewModel.IngredientViewModel.Ingredients.Count)</span>
-                        </span>
-                    </button>
-                </h2>
-                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-                    <div class="accordion-body">
-                        <IngredientTableEditComponent IngredientViewModel="@(DetailsPageViewModel.IngredientViewModel)"
-                                                      OnStateHasChanged="@ChildComponentStateHasChanged" />
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                        <span>
-                            <span style="font-size:larger"><strong>Instructions</strong></span>
-                            <span class="badge bg-info text-dark">@(DetailsPageViewModel.InstructionViewModel.Instructions.Count)</span>
-                        </span>
-                    </button>
-                </h2>
-                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
-                    <div class="accordion-body">
-                        <InstructionTableEditComponent InstructionViewModel="@(DetailsPageViewModel.InstructionViewModel)"
-                                                       OnStateHasChanged="@ChildComponentStateHasChanged" />
-                    </div>
-                </div>
-            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <button class="btn btn-secondary"
+                    onclick="history.back()">
+                Back
+            </button>
         </div>
     </div>
 }
@@ -78,7 +91,7 @@ else
 @code {
 
     [Parameter]
-    public string IntoductionId { get; set; }
+    public string IntroductionId { get; set; }
 
     protected string PageName = nameof(DetailsPage);
 
@@ -86,10 +99,10 @@ else
     {
         try
         {
-            Logger.LogInformation($"{nameof(OnInitializedAsync)}({IntoductionId})");
+            Logger.LogInformation($"{nameof(OnInitializedAsync)}({IntroductionId})");
 
             DetailsPageViewModel.IsLoading = true;
-            await DetailsPageViewModel.InitializeAsync(IntoductionId.ToGuid());
+            await DetailsPageViewModel.InitializeAsync(IntroductionId.ToGuid());
         }
         catch (Exception ex)
         {
@@ -104,7 +117,7 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
-        Logger.LogInformation($"{nameof(OnParametersSet)}({IntoductionId})");
+        Logger.LogInformation($"{nameof(OnParametersSet)}({IntroductionId})");
         base.OnParametersSet();
         await OnInitializedAsync();
     }
@@ -118,7 +131,7 @@ else
             DetailsPageViewModel.IsBusy = true;
             if (wasNew)
             {
-                IntoductionId = DetailsPageViewModel.IntroductionViewModel.Introduction.Id.ToString();
+                IntroductionId = DetailsPageViewModel.IntroductionViewModel.Introduction.Id.ToString();
                 await DetailsPageViewModel.InitializeIngredientsAndInstructionsAsync(DetailsPageViewModel.IntroductionViewModel.Introduction.Id);
             }
         }
@@ -139,7 +152,7 @@ else
             Logger.LogInformation($"{nameof(OnIntroductionDeletedAsync)}()");
 
             DetailsPageViewModel.IsBusy = true;
-            IntoductionId = null;
+            IntroductionId = null;
             await DetailsPageViewModel.InitializeIngredientsAndInstructionsAsync(Guid.Empty);
         }
         catch (Exception ex)
