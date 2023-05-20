@@ -1,0 +1,19 @@
+﻿
+CollectionView data binding
+https://www.youtube.com/watch?v=dlnNzjc7a60
+https://learn.microsoft.com/en-us/dotnet/maui/user-interface/controls/collectionview/populate-data
+
+Overview
+https://www.youtube.com/watch?v=NddMrFt82wg&list=PLzHIrc5EQ2suJINilwXQjgv4K6zpjbZ-1
+
+ICommand
+https://www.youtube.com/watch?v=d8Bxu9wfwCk
+
+Navigation
+https://www.youtube.com/watch?v=G1ZQqzaILyY
+
+Resource Dictionary
+https://www.youtube.com/watch?v=aSpQTL0CroI
+
+
+

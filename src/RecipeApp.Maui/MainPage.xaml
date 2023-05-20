@@ -38,6 +38,7 @@
                 HorizontalOptions="Center"
                 IsVisible="{Binding IsInitialTextVisible}" />
 
+            <!--https://learn.microsoft.com/en-us/dotnet/communitytoolkit/maui/converters/inverted-bool-converter-->
             <!--<Label
                 Text="Welcome to the Recipe App"
                 SemanticProperties.HeadingLevel="Level2"
