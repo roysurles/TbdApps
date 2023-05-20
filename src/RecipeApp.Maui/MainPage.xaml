@@ -22,6 +22,8 @@
             Padding="5"
             VerticalOptions="Start">
 
+            <ActivityIndicator IsRunning="{Binding IsBusy}" />
+
             <Label
                 Text="Welcome to the Recipe App"
                 SemanticProperties.HeadingLevel="Level2"
@@ -69,7 +71,8 @@
             <SearchBar x:Name="SearchBar1"
                        Placeholder="Search..."
                        Text="{Binding SearchText, Mode=TwoWay}"
-                       SearchCommand="{Binding SearchCommand}" />
+                       SearchCommand="{Binding SearchCommand}"
+                       IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"/>
             <!--SearchCommandParameter="{Binding Source={x:Reference SearchBar1}, Path=Text}"-->
 
             <CollectionView ItemsSource="{Binding IntroductionSearchResults}">
