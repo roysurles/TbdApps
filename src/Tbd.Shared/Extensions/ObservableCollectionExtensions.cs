@@ -14,5 +14,14 @@ namespace Tbd.Shared.Extensions
                     observableCollection.Add(item);
             }
         }
+
+        public static void AddRange<T>(this ICollection<T> observableCollection, IEnumerable<T> items)
+        {
+            if (items?.Any() == true)
+            {
+                foreach (var item in items)
+                    observableCollection.Add(item);
+            }
+        }
     }
 }

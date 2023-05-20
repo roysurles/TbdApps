@@ -1,6 +1,4 @@
-﻿
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
@@ -22,7 +20,7 @@ namespace Tbd.Shared.Extensions
             };
         }
 
-        public static bool TryValidateObject(this object obj, List<IApiResultMessageModel> apiResultMessages, bool nullObjReturnsFalse = true, bool validateAllProperties = true)
+        public static bool TryValidateObject(this object obj, ICollection<IApiResultMessageModel> apiResultMessages, bool nullObjReturnsFalse = true, bool validateAllProperties = true)
         {
             var messages = new List<ApiResultMessageModel>();
             var result = obj.TryValidateObject(messages, nullObjReturnsFalse, validateAllProperties);
@@ -31,7 +29,7 @@ namespace Tbd.Shared.Extensions
             return result;
         }
 
-        public static bool TryValidateObject(this object obj, List<ApiResultMessageModel> apiResultMessages, bool nullObjReturnsFalse = true, bool validateAllProperties = true)
+        public static bool TryValidateObject(this object obj, ICollection<ApiResultMessageModel> apiResultMessages, bool nullObjReturnsFalse = true, bool validateAllProperties = true)
         {
             var returnResult = true;
             var validationResultList = new List<ValidationResult>();

@@ -11,17 +11,67 @@
 
     <ScrollView>
         <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
+            Spacing="10"
+            Padding="10,0"
             VerticalOptions="Center">
 
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
+            <Label
+                Text="Welcome to the Recipe App"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to the Recipe App"
+                FontSize="18"
+                FontAttributes="Bold"
                 HorizontalOptions="Center" />
 
             <Label
+                Text="Input a search term and tap search"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Input a search term and tap search"
+                FontSize="12"
+                HorizontalOptions="Center" />
+
+            <SearchBar x:Name="SearchBar1"
+                       Placeholder="Search..."
+                       Text="{Binding SearchText, Mode=TwoWay}"
+                       SearchCommand="{Binding SearchCommand}" />
+            <!--SearchCommandParameter="{Binding Source={x:Reference SearchBar1}, Path=Text}"-->
+
+            <CollectionView ItemsSource="{Binding IntroductionSearchResults}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="local:IntroductionSearchResultDto">
+                        <Grid Padding="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <!--<ColumnDefinition Width="Auto" />-->
+                            </Grid.ColumnDefinitions>
+                           <!--<Image Grid.RowSpan="2"
+                                   Source="{Binding ImageUrl}"
+                                   Aspect="AspectFill"
+                                   HeightRequest="60"
+                                   WidthRequest="60" />-->
+                            <Label Grid.Column="0"
+                                   Text="{Binding Title}"
+                                   FontAttributes="Bold" />
+                            <Label Grid.Row="1"
+                                   Text="{Binding IngredientsAndInstructionsCountsAsString}"
+                                   FontAttributes="Italic"
+                                   VerticalOptions="End" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!--<Image
+                Source="dotnet_bot.png"
+                SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                HeightRequest="200"
+                HorizontalOptions="Center" />-->
+
+            <!--<Label
                 Text="Hello, World!"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
@@ -46,7 +96,7 @@
                 Text="Click me"
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center" />-->
 
         </VerticalStackLayout>
     </ScrollView>

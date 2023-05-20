@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tbd.Shared.OrderBy
 {
     public class OrderByClauseList<TDbDto> : List<OrderByClauseItemModel<TDbDto>> where TDbDto : class
     {
+        public new OrderByClauseList<TDbDto> Clear()
+        {
+            base.Clear();
+
+            return this;
+        }
+
         /// <summary>
         /// Add OrderByClauseItemModel (Ascending direction) to list via strong typed expression
         /// </summary>
         /// <typeparam name="TProperty">Desired dto public property</typeparam>
-        /// <param name="expression">Desired MethodExpression</param>        
+        /// <param name="expression">Desired MethodExpression</param>
         /// <returns>self</returns>
         public OrderByClauseList<TDbDto> AddOrderByAscending<TProperty>(Expression<Func<TDbDto, TProperty>> expression)
         {
