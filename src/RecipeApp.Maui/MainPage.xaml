@@ -94,6 +94,18 @@
                                     </SwipeItem>
                                 </SwipeItems>
                             </SwipeView.LeftItems>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Delete"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=IntroductionSearchResultSwipedLeftCommand}"
+                                               CommandParameter="{Binding .}" >
+                                    </SwipeItem>
+                                    <SwipeItem Text="Edit"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=IntroductionSearchResultSwipedRightCommand}"
+                                               CommandParameter="{Binding .}" >
+                                    </SwipeItem>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
 
                             <Grid Padding="10">
                                 <!--https://jesseliberty.com/2022/07/16/learning-net-maui-part-12/-->
@@ -102,12 +114,6 @@
                                                           Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=IntroductionSearchResultTappedCommand}"
                                                           CommandParameter="{Binding .}" >
                                     </TapGestureRecognizer>
-                                    <!--<SwipeGestureRecognizer Direction="Left"
-                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=IntroductionSearchResultSwipedLeftCommand}"
-                                                            CommandParameter="{Binding .}" />
-                                    <SwipeGestureRecognizer Direction="Right"
-                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=IntroductionSearchResultSwipedRightCommand}"
-                                                            CommandParameter="{Binding .}" />-->
                                 </Grid.GestureRecognizers>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
