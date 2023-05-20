@@ -7,6 +7,7 @@ namespace RecipeApp.Maui;
  *      - Busy Indicator
  *          - Searching... please wait
  *      - SnackBar ... possible to move to top?  or hide keyboard
+ *
  *      - Swipe / Tap opens details
  *      - Pagination
  *      - Session / Trace Id
@@ -88,7 +89,9 @@ public partial class MainPageViewModel : ObservableObject, IMainPageViewModel
     //    }
     //}
 
-    public ObservableCollection<IApiResultMessageModel> ApiResultMessages { get; protected set; } = new ObservableCollection<IApiResultMessageModel>();
+    [ObservableProperty]
+    [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
+    public ObservableCollection<IApiResultMessageModel> apiResultMessages = new();
 
     public IntroductionDto Introduction { get; protected set; } = new();
 
@@ -116,7 +119,11 @@ public partial class MainPageViewModel : ObservableObject, IMainPageViewModel
             IntroductionSearchResults.AddRange(introductionSearchResult.Data);
 
             HasSearched = true;
-            await App.Current.MainPage.DisplaySnackbar($"Found {IntroductionSearchResults.Count:#,##0} results");
+            var foundResultsTest = $"Found {IntroductionSearchResults.Count:#,##0} results";
+            await App.Current.MainPage.DisplaySnackbar(foundResultsTest);
+            var toast = Toast.Make(foundResultsTest);       // not very friendly.. get rid of .Net and display towards top?
+            await toast.Show();
+            //https://learn.microsoft.com/en-us/dotnet/communitytoolkit/maui/alerts/toast?tabs=android
         }
         finally
         {
@@ -124,6 +131,45 @@ public partial class MainPageViewModel : ObservableObject, IMainPageViewModel
         }
 
         return this;
+    }
+
+    [RelayCommand]
+    public async Task IntroductionSearchResultTappedAsync(object tappedIntroductionSearchResultDto)
+    {
+        var tappedIntroduction = tappedIntroductionSearchResultDto as IntroductionSearchResultDto;
+        if (tappedIntroduction is null)
+        {
+            await App.Current.MainPage.DisplayAlert("Mismatch", "Cannot convert tappedIntroductionSearchResultDto to IntroductionSearchResultDto", "Ok");
+            return;
+        }
+
+        await App.Current.MainPage.DisplayAlert("Tapped", $"{tappedIntroduction.Title} tapped...", "Ok");
+    }
+
+    [RelayCommand]
+    public async Task IntroductionSearchResultSwipedLeftAsync(object swipedIntroductionSearchResultDto)
+    {
+        var swipedIntroduction = swipedIntroductionSearchResultDto as IntroductionSearchResultDto;
+        if (swipedIntroduction is null)
+        {
+            await App.Current.MainPage.DisplayAlert("Mismatch", "Cannot convert swipedIntroductionSearchResultDto to IntroductionSearchResultDto", "Ok");
+            return;
+        }
+
+        await App.Current.MainPage.DisplayAlert("Swiped Left", $"Delete {swipedIntroduction.Title}?", "Ok");
+    }
+
+    [RelayCommand]
+    public async Task IntroductionSearchResultSwipedRightAsync(object swipedIntroductionSearchResultDto)
+    {
+        var swipedIntroduction = swipedIntroductionSearchResultDto as IntroductionSearchResultDto;
+        if (swipedIntroduction is null)
+        {
+            await App.Current.MainPage.DisplayAlert("Mismatch", "Cannot convert swipedIntroductionSearchResultDto to IntroductionSearchResultDto", "Ok");
+            return;
+        }
+
+        await App.Current.MainPage.DisplayAlert("Swiped Right", $"Navigate to {swipedIntroduction.Title}?", "Ok");
     }
 
     public async Task<IMainPageViewModel> InitializeAsync(Guid introductionId)
@@ -274,6 +320,12 @@ public interface IMainPageViewModel
     IntroductionDto Introduction { get; }
 
     Task<IMainPageViewModel> SearchAsync();
+
+    Task IntroductionSearchResultTappedAsync(object tappedIntroductionSearchResultDto);
+
+    Task IntroductionSearchResultSwipedLeftAsync(object swipedIntroductionSearchResultDto);
+
+    Task IntroductionSearchResultSwipedRightAsync(object swipedIntroductionSearchResultDto);
 
     Task<IMainPageViewModel> InitializeAsync(Guid introductionId);
 

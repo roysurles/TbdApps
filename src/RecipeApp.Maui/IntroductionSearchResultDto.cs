@@ -13,6 +13,6 @@ public class IntroductionSearchResultDto
     public int InstructionsCount { get; set; }
 
     // For MAUI only...
-    public string IngredientsAndInstructionsCountsAsString =>
+    public string IngredientsAndInstructionsCountsDescription =>
         $"{IngredientsCount:#,##0} ingredients; {InstructionsCount:#,##0} instructions;";
 }

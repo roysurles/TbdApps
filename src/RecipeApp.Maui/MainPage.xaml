@@ -23,6 +23,7 @@
             VerticalOptions="Start">
 
             <ActivityIndicator IsRunning="{Binding IsBusy}" />
+            <!--https://learn.microsoft.com/en-us/dotnet/api/communitytoolkit.mvvm.input.asyncrelaycommand.isrunning?view=win-comm-toolkit-dotnet-7.0-->
 
             <Label
                 Text="Welcome to the Recipe App"
@@ -75,31 +76,61 @@
                        IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"/>
             <!--SearchCommandParameter="{Binding Source={x:Reference SearchBar1}, Path=Text}"-->
 
+            <!--Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=IntroductionSearchResultTapped}" CommandParameter="{Binding .}" >-->
             <CollectionView ItemsSource="{Binding IntroductionSearchResults}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="local:IntroductionSearchResultDto">
-                        <Grid Padding="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <!--<ColumnDefinition Width="Auto" />-->
-                            </Grid.ColumnDefinitions>
-                           <!--<Image Grid.RowSpan="2"
-                                   Source="{Binding ImageUrl}"
-                                   Aspect="AspectFill"
-                                   HeightRequest="60"
-                                   WidthRequest="60" />-->
-                            <Label Grid.Column="0"
-                                   Text="{Binding Title}"
-                                   FontAttributes="Bold" />
-                            <Label Grid.Row="1"
-                                   Text="{Binding IngredientsAndInstructionsCountsAsString}"
-                                   FontAttributes="Italic"
-                                   VerticalOptions="End" />
-                        </Grid>
+                        <!--https://www.google.com/search?q=.net+maui+collectionview+swipe+gesture&sxsrf=APwXEdeJ9RyjQT9xwSUmnyzu5xAA8mz0mA%3A1684620738618&source=hp&ei=wkVpZMyNI8W30PEP3IO14A8&iflsig=AOEireoAAAAAZGlT0voUwJBpcbndCM8x6Ww20hnq2j1q&ved=0ahUKEwjM9tCl9YT_AhXFGzQIHdxBDfwQ4dUDCAw&uact=5&oq=.net+maui+collectionview+swipe+gesture&gs_lcp=Cgdnd3Mtd2l6EAMyBQgAEKIEMgUIABCiBDIFCAAQogQyBQgAEKIEMgUIABCiBDoHCCMQsAIQJzoECCMQJ1AAWPU1YNI3aAFwAHgAgAGMAYgBmwaSAQM1LjOYAQCgAQKgAQE&sclient=gws-wiz#fpstate=ive&vld=cid:8b6156b0,vid:WAVeY8ySGY4-->
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Delete"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=IntroductionSearchResultSwipedLeftCommand}"
+                                               CommandParameter="{Binding .}" >
+                                    </SwipeItem>
+                                    <SwipeItem Text="Edit"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=IntroductionSearchResultSwipedRightCommand}"
+                                               CommandParameter="{Binding .}" >
+                                    </SwipeItem>
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+
+                            <Grid Padding="10">
+                                <!--https://jesseliberty.com/2022/07/16/learning-net-maui-part-12/-->
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="2"
+                                                          Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=IntroductionSearchResultTappedCommand}"
+                                                          CommandParameter="{Binding .}" >
+                                    </TapGestureRecognizer>
+                                    <!--<SwipeGestureRecognizer Direction="Left"
+                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=IntroductionSearchResultSwipedLeftCommand}"
+                                                            CommandParameter="{Binding .}" />
+                                    <SwipeGestureRecognizer Direction="Right"
+                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=IntroductionSearchResultSwipedRightCommand}"
+                                                            CommandParameter="{Binding .}" />-->
+                                </Grid.GestureRecognizers>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <!--<ColumnDefinition Width="Auto" />-->
+                                </Grid.ColumnDefinitions>
+                               <!--<Image Grid.RowSpan="2"
+                                       Source="{Binding ImageUrl}"
+                                       Aspect="AspectFill"
+                                       HeightRequest="60"
+                                       WidthRequest="60" />-->
+                                <Label Grid.Column="0"
+                                       Text="{Binding Title}"
+                                       FontAttributes="Bold" />
+                                <Label Grid.Row="1"
+                                       Text="{Binding IngredientsAndInstructionsCountsDescription}"
+                                       FontAttributes="Italic"
+                                       VerticalOptions="End" />
+                            </Grid>
+                        </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
