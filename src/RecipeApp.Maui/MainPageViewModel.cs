@@ -1,7 +1,12 @@
-﻿namespace RecipeApp.Maui;
+﻿using CommunityToolkit.Maui.Alerts;
+
+namespace RecipeApp.Maui;
 
 /*  TODO:
+ *      - TextColor to brush
  *      - Busy Indicator
+ *          - Searching... please wait
+ *      - SnackBar ... possible to move to top?  or hide keyboard
  *      - Swipe / Tap opens details
  *      - Pagination
  *      - Session / Trace Id
@@ -53,6 +58,10 @@ public partial class MainPageViewModel : ObservableObject, IMainPageViewModel
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
     public int pageSize = 10;
 
+    [ObservableProperty]
+    [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
+    public bool isInitialTextVisible = true;
+
     public IntroductionSearchRequestDto IntroductionSearchRequestDto { get; } =
         new IntroductionSearchRequestDto { PageNumber = 1, PageSize = 10 };
 
@@ -89,8 +98,9 @@ public partial class MainPageViewModel : ObservableObject, IMainPageViewModel
         try
         {
             _logger.LogInformation("{methodName}({pageNumber}, {pageSize})", nameof(SearchAsync), PageNumber, PageSize);
-            ResetForNextOperation();
             IntroductionSearchResults.Clear();
+            IsInitialTextVisible = false;
+            ResetForNextOperation();
 
             var cleanSearchText = string.Equals(SearchText?.ToString().Trim(), "-") ? string.Empty : SearchText?.ToString().Trim();
 
@@ -106,6 +116,7 @@ public partial class MainPageViewModel : ObservableObject, IMainPageViewModel
             IntroductionSearchResults.AddRange(introductionSearchResult.Data);
 
             HasSearched = true;
+            await App.Current.MainPage.DisplaySnackbar($"Found {IntroductionSearchResults.Count:#,##0} results");
         }
         finally
         {
