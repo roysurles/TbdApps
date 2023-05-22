@@ -1,4 +1,4 @@
-﻿namespace RecipeApp.Maui;
+﻿namespace RecipeApp.Maui.Features.Shared;
 public static class Constants
 {
     public static class HttpClientNames

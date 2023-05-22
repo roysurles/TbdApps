@@ -1,4 +1,6 @@
-﻿namespace RecipeApp.Maui;
+﻿using RecipeApp.Maui.Features.Shared;
+
+namespace RecipeApp.Maui;
 
 public partial class MainPage : ContentPage
 {
