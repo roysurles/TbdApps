@@ -1,7 +1,5 @@
 ﻿using CommunityToolkit.Maui;
 
-using Microsoft.Extensions.Logging;
-
 namespace RecipeApp.Maui;
 public static class MauiProgram
 {
@@ -64,6 +62,9 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddSingleton<IMainPageViewModel, MainPageViewModel>();
+
+        builder.Services.AddTransient<DetailsPage>();
+        builder.Services.AddTransient<IDetailsPageViewModel, DetailsPageViewModel>();
 
         return builder.Build();
     }

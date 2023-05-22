@@ -7,8 +7,8 @@ namespace RecipeApp.Maui;
  *      - Busy Indicator
  *          - Searching... please wait
  *      - SnackBar ... possible to move to top?  or hide keyboard
- *
  *      - Swipe / Tap opens details
+ *
  *      - Pagination
  *      - Session / Trace Id
  *      - Files / Feature Organization
@@ -144,32 +144,40 @@ public partial class MainPageViewModel : ObservableObject, IMainPageViewModel
         }
 
         await App.Current.MainPage.DisplayAlert("Tapped", $"{tappedIntroduction.Title} tapped...", "Ok");
+
+        // https://www.youtube.com/watch?v=ddmZ6k1GIkM
+        //await Shell.Current.Navigation.PushAsync
+        await Shell.Current.GoToAsync($"{nameof(DetailsPage)}?IntroductionId={tappedIntroduction.Id}");
     }
 
     [RelayCommand]
-    public async Task IntroductionSearchResultSwipedLeftAsync(object swipedIntroductionSearchResultDto)
+    public async Task DeleteIntroductionAsync(object introductionSearchResultDto)
     {
-        var swipedIntroduction = swipedIntroductionSearchResultDto as IntroductionSearchResultDto;
-        if (swipedIntroduction is null)
+        var introduction = introductionSearchResultDto as IntroductionSearchResultDto;
+        if (introduction is null)
         {
-            await App.Current.MainPage.DisplayAlert("Mismatch", "Cannot convert swipedIntroductionSearchResultDto to IntroductionSearchResultDto", "Ok");
+            await App.Current.MainPage.DisplayAlert("Mismatch", "Cannot convert introductionSearchResultDto to IntroductionSearchResultDto", "Ok");
             return;
         }
 
-        await App.Current.MainPage.DisplayAlert("Swiped Left", $"Delete {swipedIntroduction.Title}?", "Ok");
+        await App.Current.MainPage.DisplayAlert("Delete", $"Delete {introduction.Title}?", "Ok");
     }
 
     [RelayCommand]
-    public async Task IntroductionSearchResultSwipedRightAsync(object swipedIntroductionSearchResultDto)
+    public async Task EditIntroductionAsync(object introductionSearchResultDto)
     {
-        var swipedIntroduction = swipedIntroductionSearchResultDto as IntroductionSearchResultDto;
-        if (swipedIntroduction is null)
+        var introduction = introductionSearchResultDto as IntroductionSearchResultDto;
+        if (introduction is null)
         {
-            await App.Current.MainPage.DisplayAlert("Mismatch", "Cannot convert swipedIntroductionSearchResultDto to IntroductionSearchResultDto", "Ok");
+            await App.Current.MainPage.DisplayAlert("Mismatch", "Cannot convert introductionSearchResultDto to IntroductionSearchResultDto", "Ok");
             return;
         }
 
-        await App.Current.MainPage.DisplayAlert("Swiped Right", $"Navigate to {swipedIntroduction.Title}?", "Ok");
+        await App.Current.MainPage.DisplayAlert("Edit", $"Navigate to {introduction.Title}?", "Ok");
+
+        // https://www.youtube.com/watch?v=ddmZ6k1GIkM
+        //await Shell.Current.Navigation.PushAsync
+        await Shell.Current.GoToAsync($"{nameof(DetailsPage)}?IntroductionId={introduction.Id}");
     }
 
     public async Task<IMainPageViewModel> InitializeAsync(Guid introductionId)
@@ -220,30 +228,30 @@ public partial class MainPageViewModel : ObservableObject, IMainPageViewModel
         return this;
     }
 
-    public async Task<IMainPageViewModel> DeleteIntroductionAsync()
-    {
-        try
-        {
-            _logger.LogInformation($"{nameof(DeleteIntroductionAsync)}()");
-            ResetForNextOperation();
+    //public async Task<IMainPageViewModel> DeleteIntroductionAsync()
+    //{
+    //    try
+    //    {
+    //        _logger.LogInformation($"{nameof(DeleteIntroductionAsync)}()");
+    //        ResetForNextOperation();
 
-            if (Introduction?.IsNew == true)
-            {
-                AddInformationMessage("There is nothing to Delete!", $"{nameof(MainPageViewModel)}.{nameof(DeleteIntroductionAsync)}");
-                return this;
-            }
+    //        if (Introduction?.IsNew == true)
+    //        {
+    //            AddInformationMessage("There is nothing to Delete!", $"{nameof(MainPageViewModel)}.{nameof(DeleteIntroductionAsync)}");
+    //            return this;
+    //        }
 
-            var apiResult = await RefitExStaticMethods.TryInvokeApiAsync(() => _introductionApiClientV1_0.DeleteAsync(Introduction.Id), ApiResultMessages);
-            if (apiResult.IsSuccessHttpStatusCode)
-                AddInformationMessage("Introduction deleted successfully!", $"{nameof(MainPageViewModel)}.{nameof(DeleteIntroductionAsync)}", 200);
-        }
-        finally
-        {
-            IsBusy = false;
-        }
+    //        var apiResult = await RefitExStaticMethods.TryInvokeApiAsync(() => _introductionApiClientV1_0.DeleteAsync(Introduction.Id), ApiResultMessages);
+    //        if (apiResult.IsSuccessHttpStatusCode)
+    //            AddInformationMessage("Introduction deleted successfully!", $"{nameof(MainPageViewModel)}.{nameof(DeleteIntroductionAsync)}", 200);
+    //    }
+    //    finally
+    //    {
+    //        IsBusy = false;
+    //    }
 
-        return SetIntroductionToNewDto();
-    }
+    //    return SetIntroductionToNewDto();
+    //}
 
     protected IMainPageViewModel ClearApiResultMessages()
     {
@@ -323,13 +331,13 @@ public interface IMainPageViewModel
 
     Task IntroductionSearchResultTappedAsync(object tappedIntroductionSearchResultDto);
 
-    Task IntroductionSearchResultSwipedLeftAsync(object swipedIntroductionSearchResultDto);
+    Task DeleteIntroductionAsync(object introductionSearchResultDto);
 
-    Task IntroductionSearchResultSwipedRightAsync(object swipedIntroductionSearchResultDto);
+    Task EditIntroductionAsync(object introductionSearchResultDto);
 
     Task<IMainPageViewModel> InitializeAsync(Guid introductionId);
 
     Task<IMainPageViewModel> SaveIntroductionAsync();
 
-    Task<IMainPageViewModel> DeleteIntroductionAsync();
+    //Task<IMainPageViewModel> DeleteIntroductionAsync();
 }

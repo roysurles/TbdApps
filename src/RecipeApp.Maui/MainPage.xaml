@@ -77,7 +77,8 @@
             <!--SearchCommandParameter="{Binding Source={x:Reference SearchBar1}, Path=Text}"-->
 
             <!--Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=IntroductionSearchResultTapped}" CommandParameter="{Binding .}" >-->
-            <CollectionView ItemsSource="{Binding IntroductionSearchResults}">
+            <CollectionView ItemsSource="{Binding IntroductionSearchResults}"
+                            SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="local:IntroductionSearchResultDto">
                         <!--https://www.google.com/search?q=.net+maui+collectionview+swipe+gesture&sxsrf=APwXEdeJ9RyjQT9xwSUmnyzu5xAA8mz0mA%3A1684620738618&source=hp&ei=wkVpZMyNI8W30PEP3IO14A8&iflsig=AOEireoAAAAAZGlT0voUwJBpcbndCM8x6Ww20hnq2j1q&ved=0ahUKEwjM9tCl9YT_AhXFGzQIHdxBDfwQ4dUDCAw&uact=5&oq=.net+maui+collectionview+swipe+gesture&gs_lcp=Cgdnd3Mtd2l6EAMyBQgAEKIEMgUIABCiBDIFCAAQogQyBQgAEKIEMgUIABCiBDoHCCMQsAIQJzoECCMQJ1AAWPU1YNI3aAFwAHgAgAGMAYgBmwaSAQM1LjOYAQCgAQKgAQE&sclient=gws-wiz#fpstate=ive&vld=cid:8b6156b0,vid:WAVeY8ySGY4-->
@@ -85,11 +86,11 @@
                             <SwipeView.LeftItems>
                                 <SwipeItems>
                                     <SwipeItem Text="Delete"
-                                               Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=IntroductionSearchResultSwipedLeftCommand}"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=DeleteIntroductionCommand}"
                                                CommandParameter="{Binding .}" >
                                     </SwipeItem>
                                     <SwipeItem Text="Edit"
-                                               Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=IntroductionSearchResultSwipedRightCommand}"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=EditIntroductionCommand}"
                                                CommandParameter="{Binding .}" >
                                     </SwipeItem>
                                 </SwipeItems>
@@ -97,11 +98,11 @@
                             <SwipeView.RightItems>
                                 <SwipeItems>
                                     <SwipeItem Text="Delete"
-                                               Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=IntroductionSearchResultSwipedLeftCommand}"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=DeleteIntroductionCommand}"
                                                CommandParameter="{Binding .}" >
                                     </SwipeItem>
                                     <SwipeItem Text="Edit"
-                                               Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=IntroductionSearchResultSwipedRightCommand}"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=EditIntroductionCommand}"
                                                CommandParameter="{Binding .}" >
                                     </SwipeItem>
                                 </SwipeItems>
