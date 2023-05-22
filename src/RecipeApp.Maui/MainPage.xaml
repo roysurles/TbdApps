@@ -23,7 +23,8 @@
             Padding="5"
             VerticalOptions="Start">
 
-            <ActivityIndicator IsRunning="{Binding IsBusy}" />
+            <ActivityIndicator IsVisible="{Binding IsBusy}"
+                               IsRunning="{Binding IsBusy}" />
             <!--https://learn.microsoft.com/en-us/dotnet/api/communitytoolkit.mvvm.input.asyncrelaycommand.isrunning?view=win-comm-toolkit-dotnet-7.0-->
 
             <Label
