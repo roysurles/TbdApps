@@ -1,4 +1,6 @@
-﻿namespace RecipeApp.Maui;
+﻿using RecipeApp.Maui.Features.Handlers;
+
+namespace RecipeApp.Maui;
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()

@@ -1,4 +1,4 @@
-﻿namespace RecipeApp.Maui;
+﻿namespace RecipeApp.Maui.Features.Handlers;
 
 public class CustomMessageHandler : DelegatingHandler
 {
@@ -15,6 +15,7 @@ public class CustomMessageHandler : DelegatingHandler
 
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
+        // TODO:  need session instead of Guid.NewGuid()
         request.Headers.Remove("X-Correlation-ID");
         request.Headers.Add("X-Correlation-ID", Guid.NewGuid().ToString());
         //request.Headers.Add("X-Correlation-ID", _sessionViewModel.TraceId.ToString());
