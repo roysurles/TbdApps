@@ -1,4 +1,6 @@
 ﻿
+using RecipeApp.Maui.Features.Shared.Models;
+
 namespace RecipeApp.Maui;
 
 public class IntroductionDto : BaseDto

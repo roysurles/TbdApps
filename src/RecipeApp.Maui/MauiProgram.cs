@@ -1,4 +1,4 @@
-﻿using RecipeApp.Maui.Features.Handlers;
+﻿using RecipeApp.Maui.Features.Shared.Handlers;
 
 namespace RecipeApp.Maui;
 public static class MauiProgram

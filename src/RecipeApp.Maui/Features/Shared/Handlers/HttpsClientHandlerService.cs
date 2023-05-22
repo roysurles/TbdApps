@@ -1,4 +1,4 @@
-﻿namespace RecipeApp.Maui.Features.Handlers;
+﻿namespace RecipeApp.Maui.Features.Shared.Handlers;
 
 public class HttpsClientHandlerService
 {

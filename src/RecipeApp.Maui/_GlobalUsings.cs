@@ -9,7 +9,8 @@ global using CommunityToolkit.Mvvm.Input;
 global using Microsoft.Extensions.Logging;
 
 global using RecipeApp.Maui.Features.Details;
-global using RecipeApp.Maui.Features.Handlers;
+global using RecipeApp.Maui.Features.Shared.Handlers;
+global using RecipeApp.Maui.Features.Shared.Models;
 
 global using Refit;
 
