@@ -1,4 +1,4 @@
-﻿namespace RecipeApp.Maui;
+﻿namespace RecipeApp.Maui.Features.Introduction;
 
 public class IntroductionSearchResultDto
 {

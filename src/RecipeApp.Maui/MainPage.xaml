@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:local="clr-namespace:RecipeApp.Maui"
+             xmlns:introductionFeature="clr-namespace:RecipeApp.Maui.Features.Introduction"
              x:Class="RecipeApp.Maui.MainPage"
              x:DataType="local:MainPageViewModel">
 
@@ -32,14 +33,14 @@
                 FontSize="18"
                 FontAttributes="Bold"
                 HorizontalOptions="Center"
-                IsVisible="{Binding IsInitialTextVisible}" />
+                IsVisible="{Binding IntroductionSearchViewModel.HasSearched, Converter={StaticResource InvertedBoolConverter}}" />
             <Label
                 Text="Input a search term and tap search"
                 SemanticProperties.HeadingLevel="Level2"
                 SemanticProperties.Description="Input a search term and tap search"
                 FontSize="12"
                 HorizontalOptions="Center"
-                IsVisible="{Binding IsInitialTextVisible}" />
+                IsVisible="{Binding IntroductionSearchViewModel.HasSearched, Converter={StaticResource InvertedBoolConverter}}" />
 
             <!--https://learn.microsoft.com/en-us/dotnet/communitytoolkit/maui/converters/inverted-bool-converter-->
             <!--<Label
@@ -71,16 +72,17 @@
 
             <SearchBar x:Name="SearchBar1"
                        Placeholder="Search..."
-                       Text="{Binding SearchText, Mode=TwoWay}"
-                       SearchCommand="{Binding SearchCommand}"
-                       IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"/>
+                       Text="{Binding IntroductionSearchViewModel.SearchText, Mode=TwoWay}"
+                       IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
+                       SearchCommand="{Binding SearchCommand}" />
+            <!--SearchCommand="{Binding IntroductionSearchViewModel.SearchCommand}"-->
             <!--SearchCommandParameter="{Binding Source={x:Reference SearchBar1}, Path=Text}"-->
 
             <!--Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=IntroductionSearchResultTapped}" CommandParameter="{Binding .}" >-->
-            <CollectionView ItemsSource="{Binding IntroductionSearchResults}"
+            <CollectionView ItemsSource="{Binding IntroductionSearchViewModel.IntroductionSearchResults}"
                             SelectionMode="None">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="local:IntroductionSearchResultDto">
+                    <DataTemplate x:DataType="introductionFeature:IntroductionSearchResultDto">
                         <!--https://www.google.com/search?q=.net+maui+collectionview+swipe+gesture&sxsrf=APwXEdeJ9RyjQT9xwSUmnyzu5xAA8mz0mA%3A1684620738618&source=hp&ei=wkVpZMyNI8W30PEP3IO14A8&iflsig=AOEireoAAAAAZGlT0voUwJBpcbndCM8x6Ww20hnq2j1q&ved=0ahUKEwjM9tCl9YT_AhXFGzQIHdxBDfwQ4dUDCAw&uact=5&oq=.net+maui+collectionview+swipe+gesture&gs_lcp=Cgdnd3Mtd2l6EAMyBQgAEKIEMgUIABCiBDIFCAAQogQyBQgAEKIEMgUIABCiBDoHCCMQsAIQJzoECCMQJ1AAWPU1YNI3aAFwAHgAgAGMAYgBmwaSAQM1LjOYAQCgAQKgAQE&sclient=gws-wiz#fpstate=ive&vld=cid:8b6156b0,vid:WAVeY8ySGY4-->
                         <SwipeView>
                             <SwipeView.LeftItems>
@@ -112,7 +114,7 @@
                                 <!--https://jesseliberty.com/2022/07/16/learning-net-maui-part-12/-->
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer NumberOfTapsRequired="2"
-                                                          Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=IntroductionSearchResultTappedCommand}"
+                                                          Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=EditIntroductionCommand}"
                                                           CommandParameter="{Binding .}" >
                                     </TapGestureRecognizer>
                                 </Grid.GestureRecognizers>

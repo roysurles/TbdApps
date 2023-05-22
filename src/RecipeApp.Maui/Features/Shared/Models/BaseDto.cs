@@ -1,18 +1,29 @@
 ﻿namespace RecipeApp.Maui.Features.Shared.Models;
 
-public abstract class BaseDto
+public abstract partial class BaseDto : ObservableObject
 {
-    public Guid Id { get; set; } =
-        Guid.Empty;
+    [ObservableProperty]
+    [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
+    public Guid id = Guid.Empty;
 
-    public string CreatedById { get; set; }
+    [ObservableProperty]
+    [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
+    public string createdById;
 
-    public DateTime? CreatedOnUtc { get; set; }
+    [ObservableProperty]
+    [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
+    public DateTime? createdOnUtc;
 
-    public string UpdatedById { get; set; }
+    [ObservableProperty]
+    [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
+    public string updatedById;
 
-    public DateTime? UpdatedOnUtc { get; set; }
+    [ObservableProperty]
+    [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
+    public DateTime? updatedOnUtc;
 
+    //[ObservableProperty]
+    //[SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
     public bool IsNew =>
         Id == Guid.Empty;
 }

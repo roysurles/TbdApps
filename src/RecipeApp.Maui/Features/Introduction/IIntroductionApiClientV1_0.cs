@@ -1,5 +1,5 @@
 ﻿
-namespace RecipeApp.Maui;
+namespace RecipeApp.Maui.Features.Introduction;
 
 public interface IIntroductionApiClientV1_0
 {

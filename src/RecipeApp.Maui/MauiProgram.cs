@@ -1,7 +1,4 @@
-﻿using RecipeApp.Maui.Features.Shared;
-using RecipeApp.Maui.Features.Shared.Handlers;
-
-namespace RecipeApp.Maui;
+﻿namespace RecipeApp.Maui;
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
@@ -60,6 +57,7 @@ public static class MauiProgram
                 .AddHttpMessageHandler<CustomMessageHandler>();
 #endif
 
+        builder.Services.AddTransient<IIntroductionSearchViewModel, IntroductionSearchViewModel>();
 
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddSingleton<IMainPageViewModel, MainPageViewModel>();

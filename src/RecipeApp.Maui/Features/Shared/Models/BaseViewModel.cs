@@ -1,6 +1,6 @@
 ﻿namespace RecipeApp.Maui.Features.Shared.Models;
 
-public abstract partial class BaseViewModel : ObservableObject, IBaseViewModel
+public partial class BaseViewModel : ObservableObject, IBaseViewModel
 {
     [ObservableProperty]
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
@@ -43,9 +43,9 @@ public abstract partial class BaseViewModel : ObservableObject, IBaseViewModel
         return this;
     }
 
-    protected IBaseViewModel ResetForNextOperation(bool isBusy = true)
+    protected IBaseViewModel ResetForNextOperation(bool isbusy = true)
     {
-        IsBusy = isBusy;
+        IsBusy = isbusy;
         ClearApiResultMessages();
 
         return this;
@@ -54,7 +54,7 @@ public abstract partial class BaseViewModel : ObservableObject, IBaseViewModel
 
 public interface IBaseViewModel
 {
-    bool IsBusy { get; }
+    bool IsBusy { get; set; }
 
-    ObservableCollection<IApiResultMessageModel> ApiResultMessages { get; }
+    ObservableCollection<IApiResultMessageModel> ApiResultMessages { get; set; }
 }
