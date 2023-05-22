@@ -1,4 +1,4 @@
-﻿namespace RecipeApp.Maui;
+﻿namespace RecipeApp.Maui.Features.Details;
 
 [QueryProperty("IntroductionId", "IntroductionId")]
 public partial class DetailsPageViewModel : ObservableObject, IDetailsPageViewModel
@@ -21,3 +21,4 @@ public interface IDetailsPageViewModel
 {
     string IntroductionId { get; }
 }
+

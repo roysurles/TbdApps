@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Maui;
-
-namespace RecipeApp.Maui;
+﻿namespace RecipeApp.Maui;
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()

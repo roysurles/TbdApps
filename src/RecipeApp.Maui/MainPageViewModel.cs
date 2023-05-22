@@ -119,7 +119,7 @@ public partial class MainPageViewModel : ObservableObject, IMainPageViewModel
             IntroductionSearchResults.AddRange(introductionSearchResult.Data);
 
             HasSearched = true;
-            var foundResultsTest = $"Found {IntroductionSearchResults.Count:#,##0} results";
+            var foundResultsTest = $"Found {introductionSearchResult.Meta.TotalItemCount:#,##0} results";
             await App.Current.MainPage.DisplaySnackbar(foundResultsTest);
             var toast = Toast.Make(foundResultsTest);       // not very friendly.. get rid of .Net and display towards top?
             await toast.Show();

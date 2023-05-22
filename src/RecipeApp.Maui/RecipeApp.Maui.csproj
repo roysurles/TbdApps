@@ -57,17 +57,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Features\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\Tbd.Shared\Tbd.Shared.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Update="DetailsPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	</ItemGroup>
 
 </Project>
