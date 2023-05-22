@@ -9,6 +9,7 @@ namespace RecipeApp.Maui;
  *      - SnackBar ... possible to move to top?  or hide keyboard
  *      - Swipe / Tap opens details
  *
+ *      - global exception handler
  *      - Pagination
  *      - Session / Trace Id
  *      - Files / Feature Organization
