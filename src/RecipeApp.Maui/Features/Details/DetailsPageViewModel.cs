@@ -21,6 +21,12 @@ public partial class DetailsPageViewModel : ObservableObject, IDetailsPageViewMo
     {
         return App.Current.MainPage.DisplayAlert("Save", $"Save {IntroductionId}?", "Ok");
     }
+
+    [RelayCommand]
+    public Task DeleteIntroductionAsync()
+    {
+        return App.Current.MainPage.DisplayAlert("Delete", $"Delete {IntroductionId}?", "Ok");
+    }
 }
 
 public interface IDetailsPageViewModel
@@ -28,5 +34,7 @@ public interface IDetailsPageViewModel
     string IntroductionId { get; }
 
     Task SaveIntroductionAsync();
+
+    Task DeleteIntroductionAsync();
 }
 

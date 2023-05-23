@@ -15,7 +15,6 @@ public partial class IntroductionEditComponent : ContentView
         var control = (IntroductionEditComponent)bindable;
         control.TitleEntry.Text = newValue as string;
     });
-    //public static readonly BindableProperty TitleProperty = BindableProperty.Create(nameof(Title), typeof(string), typeof(IntroductionEditComponent));
     public string Title
     {
         get => GetValue(TitleProperty) as string;
@@ -47,5 +46,21 @@ public partial class IntroductionEditComponent : ContentView
     private void SaveIntroductionButton_Clicked(object sender, EventArgs e)
     {
         SaveIntroductionClicked?.Invoke(this, EventArgs.Empty);
+    }
+
+    public static readonly BindableProperty DeleteIntroductionCommandProperty =
+        BindableProperty.Create(nameof(DeleteIntroductionCommand), typeof(ICommand), typeof(IntroductionEditComponent));
+
+    public ICommand DeleteIntroductionCommand
+    {
+        get => (ICommand)GetValue(DeleteIntroductionCommandProperty);
+        set => SetValue(DeleteIntroductionCommandProperty, value);
+    }
+
+    public event EventHandler DeleteIntroductionClicked;
+
+    private void DeleteIntroductionButton_Clicked(object sender, EventArgs e)
+    {
+        DeleteIntroductionClicked?.Invoke(this, EventArgs.Empty);
     }
 }

@@ -28,7 +28,10 @@
             <Button Text="Save Introduction"
                     Clicked="SaveIntroductionButton_Clicked"
                     Command="{Binding Source={x:Reference this}, Path=SaveIntroductionCommand}" />
-            <Button Text="Delete Introduction" Margin="5,0,0,0" />
+            <Button Text="Delete Introduction"
+                    Margin="5,0,0,0"
+                    Clicked="DeleteIntroductionButton_Clicked"
+                    Command="{Binding Source={x:Reference this}, Path=DeleteIntroductionCommand}"/>
         </HorizontalStackLayout>
 
     </VerticalStackLayout>
