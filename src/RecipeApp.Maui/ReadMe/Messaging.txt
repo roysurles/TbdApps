@@ -1,0 +1,2 @@
+﻿
+https://cedricgabrang.medium.com/messaging-made-easy-a-guide-to-weakreferencemessenger-in-net-maui-dc0d131163c
