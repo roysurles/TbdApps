@@ -1,6 +1,4 @@
-﻿using Tbd.Shared.Extensions;
-
-namespace RecipeApp.Maui;
+﻿namespace RecipeApp.Maui.Features.Shared.Refit;
 
 public static class RefitExStaticMethods
 {

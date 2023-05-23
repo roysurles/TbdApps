@@ -13,6 +13,7 @@ global using RecipeApp.Maui.Features.Introduction;
 global using RecipeApp.Maui.Features.Shared;
 global using RecipeApp.Maui.Features.Shared.Handlers;
 global using RecipeApp.Maui.Features.Shared.Models;
+global using RecipeApp.Maui.Features.Shared.Refit;
 
 global using Refit;
 
