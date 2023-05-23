@@ -1,6 +1,8 @@
 ﻿namespace RecipeApp.Maui;
 public static class MauiProgram
 {
+    public static string CoreApiUrl = "https://localhost:44350";
+
     public static MauiApp CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
@@ -13,7 +15,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        var coreApiUrl = "https://localhost:44350";
+        //var coreApiUrl = "https://localhost:44350";
 
         builder.Services.AddScoped<CustomMessageHandler>();
 
@@ -21,40 +23,33 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 
         if (DeviceInfo.Platform == DevicePlatform.Android)
-            coreApiUrl = coreApiUrl.Replace("localhost", "10.0.2.2");
+            CoreApiUrl = CoreApiUrl.Replace("localhost", "10.0.2.2");
 
         HttpsClientHandlerService httpsClientHandlerService = new();
 
         if (DeviceInfo.Platform == DevicePlatform.iOS || DeviceInfo.Platform == DevicePlatform.Android)
         {
             builder.Services.AddHttpClient(Constants.HttpClientNames.CoreApi)
-                .ConfigureHttpClient(configureClient => configureClient.BaseAddress = new Uri(coreApiUrl))
+                .ConfigureHttpClient(configureClient => configureClient.BaseAddress = new Uri(CoreApiUrl))
                 .ConfigureHttpMessageHandlerBuilder(configureBuilder => configureBuilder.PrimaryHandler = httpsClientHandlerService.GetPlatformMessageHandler())
                 .AddHttpMessageHandler<CustomMessageHandler>();
 
             builder.Services.AddRefitClient<IIntroductionApiClientV1_0>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(coreApiUrl))
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(CoreApiUrl))
+                .ConfigureHttpMessageHandlerBuilder(configureBuilder => configureBuilder.PrimaryHandler = httpsClientHandlerService.GetPlatformMessageHandler())
+                .AddHttpMessageHandler<CustomMessageHandler>();
+
+            builder.Services.AddRefitClient<IInstructionApiClientV1_0>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(CoreApiUrl))
                 .ConfigureHttpMessageHandlerBuilder(configureBuilder => configureBuilder.PrimaryHandler = httpsClientHandlerService.GetPlatformMessageHandler())
                 .AddHttpMessageHandler<CustomMessageHandler>();
         }
         else
         {
-            builder.Services.AddHttpClient(Constants.HttpClientNames.CoreApi)
-                .ConfigureHttpClient(configureClient => configureClient.BaseAddress = new Uri(coreApiUrl))
-                .AddHttpMessageHandler<CustomMessageHandler>();
-
-            builder.Services.AddRefitClient<IIntroductionApiClientV1_0>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(coreApiUrl))
-                .AddHttpMessageHandler<CustomMessageHandler>();
+            builder.Services.AddHttpClientsWithoutPlatformMessageHandler();
         }
 #else
-            builder.Services.AddHttpClient(Constants.HttpClientNames.CoreApi)
-                .ConfigureHttpClient(configureClient => configureClient.BaseAddress = new Uri(coreApiUrl))
-                .AddHttpMessageHandler<CustomMessageHandler>();
-
-            builder.Services.AddRefitClient<IIntroductionApiClientV1_0>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(coreApiUrl))
-                .AddHttpMessageHandler<CustomMessageHandler>();
+            builder.Services.AddHttpClientsWithoutPlatformMessageHandler();
 #endif
 
         builder.Services.AddTransient<IIntroductionSearchViewModel, IntroductionSearchViewModel>();
@@ -66,5 +61,29 @@ public static class MauiProgram
         builder.Services.AddTransient<IDetailsPageViewModel, DetailsPageViewModel>();
 
         return builder.Build();
+    }
+}
+
+public static class IServiceCollectionExtensions
+{
+    public static IServiceCollection AddHttpClientsWithoutPlatformMessageHandler(this IServiceCollection services)
+    {
+        services.AddHttpClient(Constants.HttpClientNames.CoreApi)
+            .ConfigureHttpClient(configureClient => configureClient.BaseAddress = new Uri(MauiProgram.CoreApiUrl))
+            .AddHttpMessageHandler<CustomMessageHandler>();
+
+        services.AddRefitClient<IIntroductionApiClientV1_0>()
+            .ConfigureHttpClient(c => c.BaseAddress = new Uri(MauiProgram.CoreApiUrl))
+            .AddHttpMessageHandler<CustomMessageHandler>();
+
+        services.AddRefitClient<IInstructionApiClientV1_0>()
+            .ConfigureHttpClient(c => c.BaseAddress = new Uri(MauiProgram.CoreApiUrl))
+            .AddHttpMessageHandler<CustomMessageHandler>();
+
+        services.AddRefitClient<IIngredientApiClientV1_0>()
+            .ConfigureHttpClient(c => c.BaseAddress = new Uri(MauiProgram.CoreApiUrl))
+            .AddHttpMessageHandler<CustomMessageHandler>();
+
+        return services;
     }
 }

@@ -1,29 +1,24 @@
-﻿namespace RecipeApp.Maui.Features.Shared.Models;
+﻿namespace RecipeApp.Maui.Features.Ingredient;
 
-public abstract partial class BaseDto : ObservableValidator
+public partial class IngredientDto : BaseDto
 {
     [ObservableProperty]
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
-    public Guid id = Guid.Empty;
+    public Guid introductionId;
 
     [ObservableProperty]
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
-    public string createdById;
+    public int sortOrder;
 
     [ObservableProperty]
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
-    public DateTime? createdOnUtc;
+    [Required]
+    [MaxLength(50, ErrorMessage = "Measurement cannot exceed 50 characters.")]
+    public string measurement;
 
     [ObservableProperty]
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
-    public string updatedById;
-
-    [ObservableProperty]
-    [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
-    public DateTime? updatedOnUtc;
-
-    //[ObservableProperty]
-    //[SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
-    public bool IsNew =>
-        Id == Guid.Empty;
+    [Required]
+    [MaxLength(255, ErrorMessage = "Description cannot exceed 255 characters.")]
+    public string description;
 }

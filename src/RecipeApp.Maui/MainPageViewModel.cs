@@ -11,6 +11,7 @@
  *      - Pagination
  *      - Session / Trace Id
  *      - Files / Feature Organization
+ *      - Enumeration class nuget package
  */
 public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
 {
@@ -21,15 +22,7 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
         IntroductionSearchViewModel = introductionSearchViewModel;
         _logger = logger;
 
-        //App.Current.MainPage.DisplayAlert("Hello", "", "Cancel");
-        //App.Current.MainPage.DisplayPromptAsync
-        //App.Current.MainPage.DisplaySnackbar
-
         //SearchAsyncCommand = new AsyncRelayCommand<object>((object searchText) => SearchAsync(searchText));
-
-        // Enumeration class nuget package
-
-        // SearchBar xml
     }
 
     public IIntroductionSearchViewModel IntroductionSearchViewModel { get; protected set; }
