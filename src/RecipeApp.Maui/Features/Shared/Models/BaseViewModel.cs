@@ -1,6 +1,6 @@
 ﻿namespace RecipeApp.Maui.Features.Shared.Models;
 
-public partial class BaseViewModel : ObservableObject, IBaseViewModel
+public partial class BaseViewModel : ObservableValidator, IBaseViewModel
 {
     [ObservableProperty]
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]

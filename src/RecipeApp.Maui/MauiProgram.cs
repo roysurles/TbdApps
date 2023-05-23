@@ -53,6 +53,7 @@ public static class MauiProgram
 #endif
 
         builder.Services.AddTransient<IIntroductionSearchViewModel, IntroductionSearchViewModel>();
+        builder.Services.AddTransient<IIntroductionViewModel, IntroductionViewModel>();
 
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddSingleton<IMainPageViewModel, MainPageViewModel>();

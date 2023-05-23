@@ -17,15 +17,19 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
 {
     protected readonly ILogger<MainPageViewModel> _logger;
 
-    public MainPageViewModel(IIntroductionSearchViewModel introductionSearchViewModel, ILogger<MainPageViewModel> logger)
+    public MainPageViewModel(IIntroductionSearchViewModel introductionSearchViewModel, IIntroductionViewModel introductionViewModel, ILogger<MainPageViewModel> logger)
     {
         IntroductionSearchViewModel = introductionSearchViewModel;
+        IntroductionViewModel = introductionViewModel;
         _logger = logger;
 
         //SearchAsyncCommand = new AsyncRelayCommand<object>((object searchText) => SearchAsync(searchText));
+
     }
 
     public IIntroductionSearchViewModel IntroductionSearchViewModel { get; protected set; }
+
+    public IIntroductionViewModel IntroductionViewModel { get; protected set; }
 
     // TODO:  investigate if we can bind to IntroductionSearchViewModel.SearchAsync()  -- SearchCommand
     [RelayCommand]
@@ -51,11 +55,25 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
         var introduction = introductionSearchResultDto as IntroductionSearchResultDto;
         if (introduction is null)
         {
-            await App.Current.MainPage.DisplayAlert("Mismatch", "Cannot convert introductionSearchResultDto to IntroductionSearchResultDto", "Ok");
+            await App.Current.MainPage.DisplayAlert("Mismatch", "Cannot convert introductionSearchResultDto to IntroductionSearchResultDto", Constants.AlertButtonText.OK);
             return;
         }
 
-        await App.Current.MainPage.DisplayAlert("Delete", $"Delete {introduction.Title}?", "Ok");
+        bool confirm = await App.Current.MainPage.DisplayAlert("Delete", $"Delete {introduction.Title}?", Constants.AlertButtonText.OK, Constants.AlertButtonText.Cancel);
+        if (!confirm)
+            return;
+
+        try
+        {
+            IsBusy = true;
+
+            //await IntroductionViewModel.DeleteIntroductionAsync(introduction.Id);
+            await IntroductionSearchViewModel.SearchAsync();
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     [RelayCommand]
@@ -64,11 +82,11 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
         var introduction = introductionSearchResultDto as IntroductionSearchResultDto;
         if (introduction is null)
         {
-            await App.Current.MainPage.DisplayAlert("Mismatch", "Cannot convert introductionSearchResultDto to IntroductionSearchResultDto", "Ok");
+            await App.Current.MainPage.DisplayAlert("Mismatch", "Cannot convert introductionSearchResultDto to IntroductionSearchResultDto", Constants.AlertButtonText.OK);
             return;
         }
 
-        await App.Current.MainPage.DisplayAlert("Edit", $"Navigate to {introduction.Title}?", "Ok");
+        //await App.Current.MainPage.DisplayAlert("Edit", $"Navigate to {introduction.Title}?", Constants.AlertButtonText.OK);
 
         // https://www.youtube.com/watch?v=ddmZ6k1GIkM
         //await Shell.Current.Navigation.PushAsync
@@ -79,6 +97,8 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
 public interface IMainPageViewModel : IBaseViewModel
 {
     IIntroductionSearchViewModel IntroductionSearchViewModel { get; }
+
+    IIntroductionViewModel IntroductionViewModel { get; }
 
     Task<IMainPageViewModel> SearchAsync();
 

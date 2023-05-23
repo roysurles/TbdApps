@@ -5,4 +5,10 @@ public static class Constants
     {
         public const string CoreApi = "CoreApi";
     }
+
+    public static class AlertButtonText
+    {
+        public const string OK = "OK";
+        public const string Cancel = "Cancel";
+    }
 }
