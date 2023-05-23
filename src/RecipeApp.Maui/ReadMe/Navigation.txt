@@ -1,0 +1,6 @@
+﻿
+https://learn.microsoft.com/en-us/dotnet/maui/user-interface/pages/navigationpage
+
+https://learn.microsoft.com/en-us/dotnet/maui/fundamentals/shell/navigation
+
+https://www.youtube.com/watch?v=ddmZ6k1GIkM

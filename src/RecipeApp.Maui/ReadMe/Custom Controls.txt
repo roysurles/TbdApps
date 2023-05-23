@@ -1,0 +1,21 @@
+﻿
+https://www.google.com/search?q=.net+maui+custom+ui+components&sxsrf=APwXEddUteEc26yZyoltkM2OfgRBqtqP1w%3A1684805492613&ei=dBdsZKjjJLGvptQPq9eL6AQ&ved=0ahUKEwio7ZvHpYr_AhWxl4kEHavrAk0Q4dUDCBE&uact=5&oq=.net+maui+custom+ui+components&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIFCAAQogQyBQgAEKIEMgUIABCiBDIFCAAQogQyBQgAEKIEOgoIABBHENYEELADOggIIRCgARDDBDoHCAAQDRCABDoICAAQigUQhgM6CgghEKABEMMEEApKBAhBGABQ5AdY9A1gkRRoAXABeACAAaQBiAHeBZIBAzQuM5gBAKABAcgBCMABAQ&sclient=gws-wiz-serp#fpstate=ive&vld=cid:788c8280,vid:3Cd3amJ-qcw
+
+https://www.google.com/search?q=.net+maui+custom+control+with+button+command&sxsrf=APwXEdc4fD3ty9RrGEKMl41X6bvWhJJ4OQ%3A1684812799223&ei=_zNsZI2EDYiZptQPgLKnkAI&ved=0ahUKEwjN_6PjwIr_AhWIjIkEHQDZCSIQ4dUDCBE&uact=5&oq=.net+maui+custom+control+with+button+command&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIFCCEQoAE6CggAEEcQ1gQQsAM6BQgAEIAEOgUIIRCrAjoICCEQFhAeEB1KBAhBGABQkw5YmUtg1kxoBnABeACAAe8BiAGQFpIBBjUuMTkuMZgBAKABAcgBCMABAQ&sclient=gws-wiz-serp#fpstate=ive&vld=cid:8f37a1fa,vid:fMB6LuEB-4o
+
+https://blog.sentry.io/making-a-time-zone-picker-control-for-net-maui/
+
+https://stackoverflow.com/questions/73268793/how-to-provide-command-property-for-custom-control-in-mvvm-net-maui
+
+ControlTemplates --> CardControl
+https://www.google.com/search?q=.net+maui+custom+ui+components&sxsrf=APwXEddUteEc26yZyoltkM2OfgRBqtqP1w%3A1684805492613&ei=dBdsZKjjJLGvptQPq9eL6AQ&ved=0ahUKEwio7ZvHpYr_AhWxl4kEHavrAk0Q4dUDCBE&uact=5&oq=.net+maui+custom+ui+components&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIFCAAQogQyBQgAEKIEMgUIABCiBDIFCAAQogQyBQgAEKIEOgoIABBHENYEELADOggIIRCgARDDBDoHCAAQDRCABDoICAAQigUQhgM6CgghEKABEMMEEApKBAhBGABQ5AdY9A1gkRRoAXABeACAAaQBiAHeBZIBAzQuM5gBAKABAcgBCMABAQ&sclient=gws-wiz-serp#fpstate=ive&vld=cid:788c8280,vid:3Cd3amJ-qcw
+https://learn.microsoft.com/en-us/dotnet/maui/fundamentals/controltemplate
+
+Existing Controls
+https://learn.microsoft.com/en-us/dotnet/maui/user-interface/controls/
+
+Expander
+https://learn.microsoft.com/en-us/dotnet/communitytoolkit/maui/views/expander
+
+Additional COmmunity Toolkit Views
+https://learn.microsoft.com/en-us/dotnet/communitytoolkit/maui/views/
