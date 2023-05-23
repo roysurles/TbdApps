@@ -60,4 +60,10 @@
 	  <ProjectReference Include="..\Tbd.Shared\Tbd.Shared.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Features\Introduction\IntroductionEditComponent.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>

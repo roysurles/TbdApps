@@ -15,10 +15,18 @@ public partial class DetailsPageViewModel : ObservableObject, IDetailsPageViewMo
     [ObservableProperty]
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
     public string introductionId;
+
+    [RelayCommand]
+    public Task SaveIntroductionAsync()
+    {
+        return App.Current.MainPage.DisplayAlert("Save", $"Save {IntroductionId}?", "Ok");
+    }
 }
 
 public interface IDetailsPageViewModel
 {
     string IntroductionId { get; }
+
+    Task SaveIntroductionAsync();
 }
 
