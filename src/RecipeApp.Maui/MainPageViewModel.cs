@@ -25,6 +25,10 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
 
         //SearchAsyncCommand = new AsyncRelayCommand<object>((object searchText) => SearchAsync(searchText));
 
+        WeakReferenceMessenger.Default.Register<IsBusyValueChangedMessage>(this, (r, m) =>
+        {
+            IsBusy = m.Value;
+        });
     }
 
     public IIntroductionSearchViewModel IntroductionSearchViewModel { get; protected set; }
@@ -32,22 +36,22 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
     public IIntroductionViewModel IntroductionViewModel { get; protected set; }
 
     // TODO:  investigate if we can bind to IntroductionSearchViewModel.SearchAsync()  -- SearchCommand
-    [RelayCommand]
-    public async Task<IMainPageViewModel> SearchAsync()
-    {
-        try
-        {
-            IsBusy = true;
+    //[RelayCommand]
+    //public async Task<IMainPageViewModel> SearchAsync()
+    //{
+    //    try
+    //    {
+    //        IsBusy = true;
 
-            await IntroductionSearchViewModel.SearchAsync();
-        }
-        finally
-        {
-            IsBusy = false;
-        }
+    //        await IntroductionSearchViewModel.SearchAsync();
+    //    }
+    //    finally
+    //    {
+    //        IsBusy = false;
+    //    }
 
-        return this;
-    }
+    //    return this;
+    //}
 
     [RelayCommand]
     public async Task DeleteIntroductionAsync(object introductionSearchResultDto)
@@ -63,17 +67,17 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
         if (!confirm)
             return;
 
-        try
-        {
-            IsBusy = true;
+        //try
+        //{
+        //    IsBusy = true;
 
-            //await IntroductionViewModel.DeleteIntroductionAsync(introduction.Id);
-            await IntroductionSearchViewModel.SearchAsync();
-        }
-        finally
-        {
-            IsBusy = false;
-        }
+        await IntroductionViewModel.DeleteIntroductionAsync(introduction.Id);
+        await IntroductionSearchViewModel.SearchAsync();
+        //}
+        //finally
+        //{
+        //    IsBusy = false;
+        //}
     }
 
     [RelayCommand]
@@ -100,7 +104,7 @@ public interface IMainPageViewModel : IBaseViewModel
 
     IIntroductionViewModel IntroductionViewModel { get; }
 
-    Task<IMainPageViewModel> SearchAsync();
+    //Task<IMainPageViewModel> SearchAsync();
 
     Task DeleteIntroductionAsync(object introductionSearchResultDto);
 

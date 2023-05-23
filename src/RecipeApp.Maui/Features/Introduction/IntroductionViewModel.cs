@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Maui.Alerts;
-
-namespace RecipeApp.Maui.Features.Introduction;
+﻿namespace RecipeApp.Maui.Features.Introduction;
 
 public partial class IntroductionViewModel : BaseViewModel, IIntroductionViewModel
 {
@@ -56,28 +54,43 @@ public partial class IntroductionViewModel : BaseViewModel, IIntroductionViewMod
     [RelayCommand]
     public async Task<IIntroductionViewModel> DeleteIntroductionAsync(Guid introductionId)
     {
-        _logger.LogInformation($"{nameof(DeleteIntroductionAsync)}()");
-        ResetForNextOperation();
-
-        if (Introduction?.IsNew == true)
+        try
         {
-            await App.Current.MainPage.DisplayAlert("Delete", "There is nothing to Delete!", Constants.AlertButtonText.OK);
-            //AddInformationMessage("There is nothing to Delete!", $"{nameof(IntroductionViewModel)}.{nameof(DeleteIntroductionAsync)}");
-            return this;
+            _logger.LogInformation($"{nameof(DeleteIntroductionAsync)}()");
+            ResetForNextOperation();
+            WeakReferenceMessenger.Default.Send(new IsBusyValueChangedMessage(IsBusy));
+
+            if (Equals(introductionId, Guid.Empty))
+            {
+                await App.Current.MainPage.DisplayAlert("Delete", "There is nothing to Delete!", Constants.AlertButtonText.OK);
+                //AddInformationMessage("There is nothing to Delete!", $"{nameof(IntroductionViewModel)}.{nameof(DeleteIntroductionAsync)}");
+                return this;
+            }
+
+            await Task.Delay(3000);
+
+            //var apiResult = await RefitExStaticMethods.TryInvokeApiAsync(() => _introductionApiClientV1_0.DeleteAsync(introductionId), ApiResultMessages);
+            //if (apiResult.IsSuccessHttpStatusCode)
+            //{
+            //    var message = "Recipe deleted successfully!";
+            //    await App.Current.MainPage.DisplaySnackbar(message);
+            //    var toast = Toast.Make(message);
+            //    await toast.Show();
+
+            //    //AddInformationMessage("Introduction deleted successfully!", $"{nameof(IntroductionViewModel)}.{nameof(DeleteIntroductionAsync)}", 200);
+            //}
+
+            //return SetIntroductionToNewDto();
+
+
+        }
+        finally
+        {
+            IsBusy = false;
+            WeakReferenceMessenger.Default.Send(new IsBusyValueChangedMessage(IsBusy));
         }
 
-        var apiResult = await RefitExStaticMethods.TryInvokeApiAsync(() => _introductionApiClientV1_0.DeleteAsync(introductionId), ApiResultMessages);
-        if (apiResult.IsSuccessHttpStatusCode)
-        {
-            var message = "Recipe deleted successfully!";
-            await App.Current.MainPage.DisplaySnackbar(message);
-            var toast = Toast.Make(message);
-            await toast.Show();
-
-            //AddInformationMessage("Introduction deleted successfully!", $"{nameof(IntroductionViewModel)}.{nameof(DeleteIntroductionAsync)}", 200);
-        }
-
-        return SetIntroductionToNewDto();
+        return this;
     }
 
     protected IIntroductionViewModel SetIntroductionToNewDto()

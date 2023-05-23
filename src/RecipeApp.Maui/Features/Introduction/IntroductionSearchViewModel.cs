@@ -43,6 +43,7 @@ public partial class IntroductionSearchViewModel : BaseViewModel, IIntroductionS
             _logger.LogInformation("{methodName}({pageNumber}, {pageSize})", nameof(SearchAsync), PageNumber, PageSize);
             HasSearched = true;
             ResetForNextOperation();
+            WeakReferenceMessenger.Default.Send(new IsBusyValueChangedMessage(IsBusy));
             IntroductionSearchResults.Clear();
 
             var cleanSearchText = string.Equals(SearchText?.ToString().Trim(), "-") ? string.Empty : SearchText?.ToString().Trim();
@@ -67,6 +68,7 @@ public partial class IntroductionSearchViewModel : BaseViewModel, IIntroductionS
         finally
         {
             IsBusy = false;
+            WeakReferenceMessenger.Default.Send(new IsBusyValueChangedMessage(IsBusy));
         }
 
         return this;
@@ -86,4 +88,6 @@ public interface IIntroductionSearchViewModel : IBaseViewModel
     ObservableCollection<IntroductionSearchResultDto> IntroductionSearchResults { get; }
 
     Task<IIntroductionSearchViewModel> SearchAsync();
+
+    IAsyncRelayCommand SearchCommand { get; }
 }
