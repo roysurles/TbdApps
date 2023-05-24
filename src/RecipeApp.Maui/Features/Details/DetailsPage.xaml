@@ -13,19 +13,85 @@
                                         Command="{Binding InitializeCommand}" />
     </ContentPage.Behaviors>
 
-    <VerticalStackLayout>
-        <Label
-            Text="{Binding IntroductionId}"
-            VerticalOptions="Center"
-            HorizontalOptions="Center" />
-
-        <!--https://www.google.com/search?q=.net+maui+custom+ui+components&sxsrf=APwXEddUteEc26yZyoltkM2OfgRBqtqP1w%3A1684805492613&ei=dBdsZKjjJLGvptQPq9eL6AQ&ved=0ahUKEwio7ZvHpYr_AhWxl4kEHavrAk0Q4dUDCBE&uact=5&oq=.net+maui+custom+ui+components&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIFCAAQogQyBQgAEKIEMgUIABCiBDIFCAAQogQyBQgAEKIEOgoIABBHENYEELADOggIIRCgARDDBDoHCAAQDRCABDoICAAQigUQhgM6CgghEKABEMMEEApKBAhBGABQ5AdY9A1gkRRoAXABeACAAaQBiAHeBZIBAzQuM5gBAKABAcgBCMABAQ&sclient=gws-wiz-serp#fpstate=ive&vld=cid:788c8280,vid:3Cd3amJ-qcw-->
-        <introductionFeature:IntroductionEditComponent Title="{Binding IntroductionViewModel.Introduction.Title}"
-                                                       Comments="{Binding IntroductionViewModel.Introduction.Comment}"
-                                                       SaveIntroductionCommand="{Binding SaveIntroductionCommand}"
-                                                       DeleteIntroductionCommand="{Binding DeleteIntroductionCommand}" />
-        <!--Title="{Binding Title}"-->
-        <!--SaveIntroductionClicked="IntroductionEditComponent_SaveIntroductionClicked"-->
-        <!--SaveIntroductionCommand="{Binding SaveIntroductionCommand}"-->
+    <VerticalStackLayout Padding="10" >
+        <toolkit:Expander IsExpanded="True">
+            <toolkit:Expander.Header >
+                <Grid Padding="10"
+                      BackgroundColor="{StaticResource Secondary}" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0"
+                           Text="Introduction"
+                           TextColor="{StaticResource Primary}"
+                           FontAttributes="Bold"
+                           FontSize="Medium" />
+                    <Label Grid.Column="1"
+                           Text="˄"
+                           TextColor="{StaticResource Primary}"
+                           FontAttributes="Bold"
+                           FontSize="Medium" />
+                </Grid>
+            </toolkit:Expander.Header>
+            <VerticalStackLayout Padding="10" >
+                <!--https://www.google.com/search?q=.net+maui+custom+ui+components&sxsrf=APwXEddUteEc26yZyoltkM2OfgRBqtqP1w%3A1684805492613&ei=dBdsZKjjJLGvptQPq9eL6AQ&ved=0ahUKEwio7ZvHpYr_AhWxl4kEHavrAk0Q4dUDCBE&uact=5&oq=.net+maui+custom+ui+components&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIFCAAQogQyBQgAEKIEMgUIABCiBDIFCAAQogQyBQgAEKIEOgoIABBHENYEELADOggIIRCgARDDBDoHCAAQDRCABDoICAAQigUQhgM6CgghEKABEMMEEApKBAhBGABQ5AdY9A1gkRRoAXABeACAAaQBiAHeBZIBAzQuM5gBAKABAcgBCMABAQ&sclient=gws-wiz-serp#fpstate=ive&vld=cid:788c8280,vid:3Cd3amJ-qcw-->
+                <introductionFeature:IntroductionEditComponent Title="{Binding IntroductionViewModel.Introduction.Title}"
+                                                               Comments="{Binding IntroductionViewModel.Introduction.Comment}"
+                                                               SaveIntroductionCommand="{Binding SaveIntroductionCommand}"
+                                                               DeleteIntroductionCommand="{Binding DeleteIntroductionCommand}" />
+            </VerticalStackLayout>
+        </toolkit:Expander>
+        <toolkit:Expander IsExpanded="False">
+            <toolkit:Expander.Header >
+                <Grid Padding="10"
+                      BackgroundColor="{StaticResource Secondary}" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0"
+                           Text="Ingredients"
+                           TextColor="{StaticResource Primary}"
+                           FontAttributes="Bold"
+                           FontSize="Medium" />
+                    <Label Grid.Column="1"
+                           Text="˄"
+                           TextColor="{StaticResource Primary}"
+                           FontAttributes="Bold"
+                           FontSize="Medium" />
+                </Grid>
+            </toolkit:Expander.Header>
+        </toolkit:Expander>
+        <toolkit:Expander IsExpanded="False">
+            <toolkit:Expander.Header >
+                <Grid Padding="10"
+                      BackgroundColor="{StaticResource Secondary}" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0"
+                           Text="Instructions"
+                           TextColor="{StaticResource Primary}"
+                           FontAttributes="Bold"
+                           FontSize="Medium" />
+                    <Label Grid.Column="1"
+                           Text="˄"
+                           TextColor="{StaticResource Primary}"
+                           FontAttributes="Bold"
+                           FontSize="Medium" />
+                </Grid>
+            </toolkit:Expander.Header>
+        </toolkit:Expander>
     </VerticalStackLayout>
 </ContentPage>

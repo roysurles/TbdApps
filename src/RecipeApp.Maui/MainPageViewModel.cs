@@ -7,11 +7,13 @@
  *      - SnackBar ... possible to move to top?  or hide keyboard
  *      - Swipe / Tap opens details
  *
+ *      - Card Control - include session
  *      - global exception handler
  *      - Pagination
  *      - Session / Trace Id
  *      - Files / Feature Organization
  *      - Enumeration class nuget package
+ *      - Blazor exceptions should be [...] button
  */
 public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
 {

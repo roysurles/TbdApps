@@ -66,7 +66,7 @@
                 SemanticProperties.Description="Searching...please wait"
                 FontSize="18"
                 HorizontalOptions="Center"
-                TextColor="{StaticResource PrimaryBrush}"
+                TextColor="{StaticResource Primary}"
                 IsVisible="{Binding IsBusy}" />
                 <!--https://learn.microsoft.com/en-us/dotnet/maui/fundamentals/resource-dictionaries-->
                 <!--TextColor="{StaticResource PrimaryBrush}"-->

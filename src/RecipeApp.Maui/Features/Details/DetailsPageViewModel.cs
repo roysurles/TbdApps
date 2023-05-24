@@ -1,5 +1,9 @@
 ﻿namespace RecipeApp.Maui.Features.Details;
 
+/*  TODO
+ *      - Expander - different colors based on IsExpanded
+ */
+
 [QueryProperty("IntroductionId", "IntroductionId")]
 public partial class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
 {
@@ -24,9 +28,6 @@ public partial class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
     public IIntroductionViewModel introductionViewModel;
 
-    [ObservableProperty]
-    public string title;
-
     [RelayCommand]
     public async Task InitializeAsync()
     {
@@ -40,9 +41,7 @@ public partial class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
 
         //await Task.WhenAll(initializeIntroductionViewModelTask, initializeIngredientViewModelTask, initializeInstructionViewModelTask);
 
-        await App.Current.MainPage.DisplayAlert("InitializeAsync", $"InitializeAsync: {IntroductionViewModel.Introduction.Title}", Constants.AlertButtonText.OK);
-        Title = IntroductionViewModel.Introduction.Title;
-
+        //await App.Current.MainPage.DisplayAlert("InitializeAsync", $"InitializeAsync: {IntroductionViewModel.Introduction.Title}", Constants.AlertButtonText.OK);
     }
 
     [RelayCommand]
@@ -61,8 +60,6 @@ public partial class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
 public interface IDetailsPageViewModel : IBaseViewModel
 {
     string IntroductionId { get; }
-
-    string Title { get; set; }
 
     IIntroductionViewModel IntroductionViewModel { get; }
 

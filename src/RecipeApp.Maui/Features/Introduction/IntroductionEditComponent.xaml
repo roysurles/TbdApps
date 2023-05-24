@@ -8,7 +8,8 @@
 
         <Label Text="Title"
                VerticalOptions="Center"
-               HorizontalOptions="Start" />
+               HorizontalOptions="Start"
+               FontAttributes="Bold" />
         <Entry x:Name="TitleEntry"
                VerticalOptions="Center"
                HorizontalOptions="Fill"
@@ -16,7 +17,8 @@
 
         <Label Text="Comments"
                VerticalOptions="Center"
-               HorizontalOptions="Start" />
+               HorizontalOptions="Start"
+               FontAttributes="Bold" />
         <Entry x:Name="CommentsEntry"
                VerticalOptions="Center"
                HorizontalOptions="Fill"
@@ -29,6 +31,7 @@
                     Clicked="SaveIntroductionButton_Clicked"
                     Command="{Binding Source={x:Reference this}, Path=SaveIntroductionCommand}" />
             <Button Text="Delete Introduction"
+                    BackgroundColor="{StaticResource Gray300}"
                     Margin="5,0,0,0"
                     Clicked="DeleteIntroductionButton_Clicked"
                     Command="{Binding Source={x:Reference this}, Path=DeleteIntroductionCommand}"/>
