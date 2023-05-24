@@ -12,12 +12,13 @@ public partial class IntroductionViewModel : BaseViewModel, IIntroductionViewMod
         _logger = logger;
     }
 
-    public IntroductionDto Introduction { get; protected set; } =
-        new IntroductionDto();
+    [ObservableProperty]
+    [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
+    public IntroductionDto introduction = new();
 
     public async Task<IIntroductionViewModel> InitializeAsync(Guid introductionId)
     {
-        _logger.LogInformation($"{nameof(IntroductionViewModel)}({introductionId})");
+        _logger.LogInformation($"{nameof(IntroductionViewModel)}({{introductionId}})", introductionId);
 
         ApiResultMessages.Clear();
 

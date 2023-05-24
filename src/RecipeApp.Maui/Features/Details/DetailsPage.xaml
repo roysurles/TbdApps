@@ -4,8 +4,14 @@
              x:Class="RecipeApp.Maui.Features.Details.DetailsPage"
              xmlns:local="clr-namespace:RecipeApp.Maui.Features.Details"
              xmlns:introductionFeature="clr-namespace:RecipeApp.Maui.Features.Introduction"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Title="Details"
              x:DataType="local:DetailsPageViewModel">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Loaded"
+                                        Command="{Binding InitializeCommand}" />
+    </ContentPage.Behaviors>
 
     <VerticalStackLayout>
         <Label
@@ -14,10 +20,11 @@
             HorizontalOptions="Center" />
 
         <!--https://www.google.com/search?q=.net+maui+custom+ui+components&sxsrf=APwXEddUteEc26yZyoltkM2OfgRBqtqP1w%3A1684805492613&ei=dBdsZKjjJLGvptQPq9eL6AQ&ved=0ahUKEwio7ZvHpYr_AhWxl4kEHavrAk0Q4dUDCBE&uact=5&oq=.net+maui+custom+ui+components&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIFCAAQogQyBQgAEKIEMgUIABCiBDIFCAAQogQyBQgAEKIEOgoIABBHENYEELADOggIIRCgARDDBDoHCAAQDRCABDoICAAQigUQhgM6CgghEKABEMMEEApKBAhBGABQ5AdY9A1gkRRoAXABeACAAaQBiAHeBZIBAzQuM5gBAKABAcgBCMABAQ&sclient=gws-wiz-serp#fpstate=ive&vld=cid:788c8280,vid:3Cd3amJ-qcw-->
-        <introductionFeature:IntroductionEditComponent Title="Recipe 1"
-                                                       Comments="Comments for Recipe 1"
+        <introductionFeature:IntroductionEditComponent Title="{Binding IntroductionViewModel.Introduction.Title}"
+                                                       Comments="{Binding IntroductionViewModel.Introduction.Comment}"
                                                        SaveIntroductionCommand="{Binding SaveIntroductionCommand}"
-                                                       DeleteIntroductionCommand="{Binding DeleteIntroductionCommand}"/>
+                                                       DeleteIntroductionCommand="{Binding DeleteIntroductionCommand}" />
+        <!--Title="{Binding Title}"-->
         <!--SaveIntroductionClicked="IntroductionEditComponent_SaveIntroductionClicked"-->
         <!--SaveIntroductionCommand="{Binding SaveIntroductionCommand}"-->
     </VerticalStackLayout>

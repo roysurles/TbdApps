@@ -35,24 +35,6 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
 
     public IIntroductionViewModel IntroductionViewModel { get; protected set; }
 
-    // TODO:  investigate if we can bind to IntroductionSearchViewModel.SearchAsync()  -- SearchCommand
-    //[RelayCommand]
-    //public async Task<IMainPageViewModel> SearchAsync()
-    //{
-    //    try
-    //    {
-    //        IsBusy = true;
-
-    //        await IntroductionSearchViewModel.SearchAsync();
-    //    }
-    //    finally
-    //    {
-    //        IsBusy = false;
-    //    }
-
-    //    return this;
-    //}
-
     [RelayCommand]
     public async Task DeleteIntroductionAsync(object introductionSearchResultDto)
     {
@@ -103,8 +85,6 @@ public interface IMainPageViewModel : IBaseViewModel
     IIntroductionSearchViewModel IntroductionSearchViewModel { get; }
 
     IIntroductionViewModel IntroductionViewModel { get; }
-
-    //Task<IMainPageViewModel> SearchAsync();
 
     Task DeleteIntroductionAsync(object introductionSearchResultDto);
 
