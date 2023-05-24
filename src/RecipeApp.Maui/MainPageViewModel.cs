@@ -31,9 +31,13 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
         });
     }
 
-    public IIntroductionSearchViewModel IntroductionSearchViewModel { get; protected set; }
+    [ObservableProperty]
+    [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
+    public IIntroductionSearchViewModel introductionSearchViewModel;
 
-    public IIntroductionViewModel IntroductionViewModel { get; protected set; }
+    [ObservableProperty]
+    [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
+    public IIntroductionViewModel introductionViewModel;
 
     [RelayCommand]
     public async Task DeleteIntroductionAsync(object introductionSearchResultDto)

@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Maui.Alerts;
-
-namespace RecipeApp.Maui.Features.Introduction;
+﻿namespace RecipeApp.Maui.Features.Introduction;
 
 public partial class IntroductionSearchViewModel : BaseViewModel, IIntroductionSearchViewModel
 {
