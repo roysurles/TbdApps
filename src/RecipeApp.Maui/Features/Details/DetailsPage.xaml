@@ -4,6 +4,8 @@
              x:Class="RecipeApp.Maui.Features.Details.DetailsPage"
              xmlns:local="clr-namespace:RecipeApp.Maui.Features.Details"
              xmlns:introductionFeature="clr-namespace:RecipeApp.Maui.Features.Introduction"
+             xmlns:ingredientFeature="clr-namespace:RecipeApp.Maui.Features.Ingredient"
+             xmlns:instructionFeature="clr-namespace:RecipeApp.Maui.Features.Instruction"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:xamlComponents="clr-namespace:RecipeApp.Maui.Features.Shared.XamlComponents"
              Title="Details"
@@ -15,6 +17,7 @@
     </ContentPage.Behaviors>
 
     <VerticalStackLayout Padding="10" >
+        <!-- Introduction -->
         <toolkit:Expander IsExpanded="True">
             <toolkit:Expander.Header >
                 <Grid Padding="10"
@@ -46,6 +49,7 @@
                                                                DeleteIntroductionCommand="{Binding DeleteIntroductionCommand}" />
             </ScrollView>
         </toolkit:Expander>
+        <!-- Ingredients -->
         <toolkit:Expander IsExpanded="False">
             <toolkit:Expander.Header >
                 <Grid Padding="10"
@@ -70,10 +74,34 @@
                 </Grid>
             </toolkit:Expander.Header>
             <ScrollView>
-                <Label Text="Ingredients Collection"
-                       FontAttributes="Italic" />
+                <VerticalStackLayout>
+                    <Label Text="Ingredients Collection"
+                           FontAttributes="Italic" />
+                    <CollectionView ItemsSource="{Binding IngredientViewModel.Ingredients}"
+                                    SelectionMode="None">
+                        <CollectionView.Header>
+                            <Grid ColumnDefinitions="60,100,100,Auto" Padding="5">
+                                <Button Text="+" Grid.Column="0" WidthRequest="40" HeightRequest="40"></Button>
+                                <Label Text="Measurement" Grid.Column="1" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
+                                <Label Text="Description" Grid.Column="2" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
+                                <Label Text="Move" Grid.Column="3" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
+                            </Grid>
+                        </CollectionView.Header>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="ingredientFeature:IngredientDto">
+                                <Grid ColumnDefinitions="60,100,100,Auto" Padding="5">
+                                    <Label Text="" Grid.Column="0"/>
+                                    <Entry Text="{Binding Measurement}" Grid.Column="1"/>
+                                    <Entry Text="{Binding Description}" Grid.Column="2"/>
+                                    <Label Text="" Grid.Column="3"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
             </ScrollView>
         </toolkit:Expander>
+        <!-- Instructions -->
         <toolkit:Expander IsExpanded="False">
             <toolkit:Expander.Header >
                 <Grid Padding="10"

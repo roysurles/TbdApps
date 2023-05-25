@@ -9,15 +9,18 @@ public partial class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
 {
     protected readonly ILogger<DetailsPageViewModel> _logger;
 
-    public DetailsPageViewModel(IIntroductionViewModel introductionViewModel, ILogger<DetailsPageViewModel> logger)
+    public DetailsPageViewModel(IIntroductionViewModel introductionViewModel
+        , IIngredientViewModel ingredientViewModel
+        , ILogger<DetailsPageViewModel> logger)
     {
         IntroductionViewModel = introductionViewModel;
+        IngredientViewModel = ingredientViewModel;
         _logger = logger;
 
-        WeakReferenceMessenger.Default.Register<IsBusyValueChangedMessage>(this, (r, m) =>
-        {
-            IsBusy = m.Value;
-        });
+        //WeakReferenceMessenger.Default.Register<IsBusyValueChangedMessage>(this, (r, m) =>
+        //{
+        //    IsBusy = m.Value;
+        //});
     }
 
     [ObservableProperty]
@@ -30,9 +33,7 @@ public partial class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
 
     [ObservableProperty]
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
-    public bool isIntroductionExpanded = true;
-
-    //public Color IntroductionHeaderBackColor = Resources
+    public IIngredientViewModel ingredientViewModel;
 
     [RelayCommand]
     public async Task InitializeAsync()
@@ -41,6 +42,7 @@ public partial class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
         //return App.Current.MainPage.DisplayAlert("InitializeAsync", $"InitializeAsync", Constants.AlertButtonText.OK);
 
         await IntroductionViewModel.InitializeAsync(Guid.Parse(IntroductionId));
+        await IngredientViewModel.InitializeAsync(Guid.Parse(IntroductionId));
         //var initializeIntroductionViewModelTask = IntroductionViewModel.InitializeAsync(IntroductionId);
         //var initializeIngredientViewModelTask = IngredientViewModel.InitializeAsync(_introductionId);
         //var initializeInstructionViewModelTask = InstructionViewModel.InitializeAsync(_introductionId);
@@ -69,7 +71,7 @@ public interface IDetailsPageViewModel : IBaseViewModel
 
     IIntroductionViewModel IntroductionViewModel { get; }
 
-    bool IsIntroductionExpanded { get; set; }
+    IIngredientViewModel IngredientViewModel { get; }
 
     Task InitializeAsync();
 

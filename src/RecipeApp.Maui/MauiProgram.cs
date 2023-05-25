@@ -39,6 +39,11 @@ public static class MauiProgram
                 .ConfigureHttpMessageHandlerBuilder(configureBuilder => configureBuilder.PrimaryHandler = httpsClientHandlerService.GetPlatformMessageHandler())
                 .AddHttpMessageHandler<CustomMessageHandler>();
 
+            builder.Services.AddRefitClient<IIngredientApiClientV1_0>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(CoreApiUrl))
+                .ConfigureHttpMessageHandlerBuilder(configureBuilder => configureBuilder.PrimaryHandler = httpsClientHandlerService.GetPlatformMessageHandler())
+                .AddHttpMessageHandler<CustomMessageHandler>();
+
             builder.Services.AddRefitClient<IInstructionApiClientV1_0>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(CoreApiUrl))
                 .ConfigureHttpMessageHandlerBuilder(configureBuilder => configureBuilder.PrimaryHandler = httpsClientHandlerService.GetPlatformMessageHandler())
@@ -54,6 +59,7 @@ public static class MauiProgram
 
         builder.Services.AddTransient<IIntroductionSearchViewModel, IntroductionSearchViewModel>();
         builder.Services.AddTransient<IIntroductionViewModel, IntroductionViewModel>();
+        builder.Services.AddTransient<IIngredientViewModel, IngredientViewModel>();
 
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddSingleton<IMainPageViewModel, MainPageViewModel>();
@@ -77,11 +83,11 @@ public static class IServiceCollectionExtensions
             .ConfigureHttpClient(c => c.BaseAddress = new Uri(MauiProgram.CoreApiUrl))
             .AddHttpMessageHandler<CustomMessageHandler>();
 
-        services.AddRefitClient<IInstructionApiClientV1_0>()
+        services.AddRefitClient<IIngredientApiClientV1_0>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri(MauiProgram.CoreApiUrl))
             .AddHttpMessageHandler<CustomMessageHandler>();
 
-        services.AddRefitClient<IIngredientApiClientV1_0>()
+        services.AddRefitClient<IInstructionApiClientV1_0>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri(MauiProgram.CoreApiUrl))
             .AddHttpMessageHandler<CustomMessageHandler>();
 
