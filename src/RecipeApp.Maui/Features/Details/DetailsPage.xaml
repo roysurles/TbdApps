@@ -127,8 +127,27 @@
                 </Grid>
             </toolkit:Expander.Header>
             <ScrollView>
-                <Label Text="Instructions Collection"
-                       FontAttributes="Italic" />
+                <VerticalStackLayout>
+                    <CollectionView ItemsSource="{Binding InstructionViewModel.Instructions}"
+                                    SelectionMode="None">
+                        <CollectionView.Header>
+                            <Grid ColumnDefinitions="60,200,Auto" Padding="5">
+                                <Button Text="+" Grid.Column="0" WidthRequest="40" HeightRequest="40"></Button>
+                                <Label Text="Description" Grid.Column="1" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
+                                <Label Text="Move" Grid.Column="2" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
+                            </Grid>
+                        </CollectionView.Header>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="instructionFeature:InstructionDto">
+                                <Grid ColumnDefinitions="60,200,Auto" Padding="5">
+                                    <Label Text="" Grid.Column="0"/>
+                                    <Entry Text="{Binding Description}" Grid.Column="1"/>
+                                    <Label Text="" Grid.Column="2"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
             </ScrollView>
         </toolkit:Expander>
     </VerticalStackLayout>
