@@ -17,6 +17,9 @@
     </ContentPage.Behaviors>
 
     <VerticalStackLayout Padding="10" >
+        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                       IsRunning="{Binding IsBusy}" />
+
         <!-- Introduction -->
         <toolkit:Expander IsExpanded="True">
             <toolkit:Expander.Header >
@@ -75,8 +78,6 @@
             </toolkit:Expander.Header>
             <ScrollView>
                 <VerticalStackLayout>
-                    <Label Text="Ingredients Collection"
-                           FontAttributes="Italic" />
                     <CollectionView ItemsSource="{Binding IngredientViewModel.Ingredients}"
                                     SelectionMode="None">
                         <CollectionView.Header>

@@ -11,10 +11,12 @@ public partial class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
 
     public DetailsPageViewModel(IIntroductionViewModel introductionViewModel
         , IIngredientViewModel ingredientViewModel
+        , IInstructionViewModel instructionViewModel
         , ILogger<DetailsPageViewModel> logger)
     {
         IntroductionViewModel = introductionViewModel;
         IngredientViewModel = ingredientViewModel;
+        InstructionViewModel = instructionViewModel;
         _logger = logger;
 
         //WeakReferenceMessenger.Default.Register<IsBusyValueChangedMessage>(this, (r, m) =>
@@ -35,21 +37,31 @@ public partial class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
     public IIngredientViewModel ingredientViewModel;
 
+    [ObservableProperty]
+    [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
+    public IInstructionViewModel instructionViewModel;
+
     [RelayCommand]
     public async Task InitializeAsync()
     {
-        _logger.LogInformation($"{nameof(InitializeAsync)}({IntroductionId})");
-        //return App.Current.MainPage.DisplayAlert("InitializeAsync", $"InitializeAsync", Constants.AlertButtonText.OK);
+        try
+        {
+            _logger.LogInformation("{InitializeAsync}({IntroductionId})", nameof(InitializeAsync), IntroductionId);
+            ResetForNextOperation();
 
-        await IntroductionViewModel.InitializeAsync(Guid.Parse(IntroductionId));
-        await IngredientViewModel.InitializeAsync(Guid.Parse(IntroductionId));
-        //var initializeIntroductionViewModelTask = IntroductionViewModel.InitializeAsync(IntroductionId);
-        //var initializeIngredientViewModelTask = IngredientViewModel.InitializeAsync(_introductionId);
-        //var initializeInstructionViewModelTask = InstructionViewModel.InitializeAsync(_introductionId);
+            var introductionIdAsGuid = Guid.Parse(IntroductionId);
+            var initializeIntroductionViewModelTask = IntroductionViewModel.InitializeAsync(introductionIdAsGuid);
+            var initializeIngredientViewModelTask = IngredientViewModel.InitializeAsync(introductionIdAsGuid);
+            var initializeInstructionViewModelTask = InstructionViewModel.InitializeAsync(introductionIdAsGuid);
 
-        //await Task.WhenAll(initializeIntroductionViewModelTask, initializeIngredientViewModelTask, initializeInstructionViewModelTask);
+            await Task.WhenAll(initializeIntroductionViewModelTask, initializeIngredientViewModelTask, initializeInstructionViewModelTask);
 
-        //await App.Current.MainPage.DisplayAlert("InitializeAsync", $"InitializeAsync: {IntroductionViewModel.Introduction.Title}", Constants.AlertButtonText.OK);
+            //await App.Current.MainPage.DisplayAlert("InitializeAsync", $"InitializeAsync: {IntroductionViewModel.Introduction.Title}", Constants.AlertButtonText.OK);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     [RelayCommand]
@@ -72,6 +84,8 @@ public interface IDetailsPageViewModel : IBaseViewModel
     IIntroductionViewModel IntroductionViewModel { get; }
 
     IIngredientViewModel IngredientViewModel { get; }
+
+    IInstructionViewModel InstructionViewModel { get; }
 
     Task InitializeAsync();
 
