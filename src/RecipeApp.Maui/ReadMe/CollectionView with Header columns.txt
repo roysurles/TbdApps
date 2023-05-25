@@ -1,0 +1,3 @@
+﻿
+
+https://stackoverflow.com/questions/75471886/net-maui-how-to-make-a-proper-gridlayout-in-collectionview-with-header
