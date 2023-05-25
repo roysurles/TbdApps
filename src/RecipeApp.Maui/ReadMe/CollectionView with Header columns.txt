@@ -1,3 +1,5 @@
 ﻿
 
 https://stackoverflow.com/questions/75471886/net-maui-how-to-make-a-proper-gridlayout-in-collectionview-with-header
+
+https://learn.microsoft.com/en-us/dotnet/maui/user-interface/controls/collectionview/layout
