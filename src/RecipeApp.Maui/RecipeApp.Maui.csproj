@@ -64,6 +64,9 @@
 	  <MauiXaml Update="Features\Introduction\IntroductionEditComponent.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Features\Shared\XamlComponents\ArrowLabelComponent.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

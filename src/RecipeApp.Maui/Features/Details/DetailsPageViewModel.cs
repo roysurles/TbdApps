@@ -28,6 +28,12 @@ public partial class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
     public IIntroductionViewModel introductionViewModel;
 
+    [ObservableProperty]
+    [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
+    public bool isIntroductionExpanded = true;
+
+    //public Color IntroductionHeaderBackColor = Resources
+
     [RelayCommand]
     public async Task InitializeAsync()
     {
@@ -62,6 +68,8 @@ public interface IDetailsPageViewModel : IBaseViewModel
     string IntroductionId { get; }
 
     IIntroductionViewModel IntroductionViewModel { get; }
+
+    bool IsIntroductionExpanded { get; set; }
 
     Task InitializeAsync();
 
