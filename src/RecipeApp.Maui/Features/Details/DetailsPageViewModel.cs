@@ -19,10 +19,10 @@ public partial class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
         InstructionViewModel = instructionViewModel;
         _logger = logger;
 
-        //WeakReferenceMessenger.Default.Register<IsBusyValueChangedMessage>(this, (r, m) =>
-        //{
-        //    IsBusy = m.Value;
-        //});
+        WeakReferenceMessenger.Default.Register<IsBusyValueChangedMessage>(this, (r, m) =>
+        {
+            IsBusy = m.Value;
+        });
     }
 
     [ObservableProperty]
@@ -65,12 +65,6 @@ public partial class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
     }
 
     [RelayCommand]
-    public Task SaveIntroductionAsync()
-    {
-        return App.Current.MainPage.DisplayAlert("Save", $"Save {IntroductionId}?", Constants.AlertButtonText.OK);
-    }
-
-    [RelayCommand]
     public Task DeleteIntroductionAsync()
     {
         return App.Current.MainPage.DisplayAlert("Delete", $"Delete {IntroductionId}?", Constants.AlertButtonText.OK);
@@ -89,7 +83,7 @@ public interface IDetailsPageViewModel : IBaseViewModel
 
     Task InitializeAsync();
 
-    Task SaveIntroductionAsync();
+    IAsyncRelayCommand InitializeCommand { get; }
 
     Task DeleteIntroductionAsync();
 }

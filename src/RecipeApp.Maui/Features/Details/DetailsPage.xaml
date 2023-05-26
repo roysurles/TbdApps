@@ -7,7 +7,7 @@
              xmlns:ingredientFeature="clr-namespace:RecipeApp.Maui.Features.Ingredient"
              xmlns:instructionFeature="clr-namespace:RecipeApp.Maui.Features.Instruction"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:xamlComponents="clr-namespace:RecipeApp.Maui.Features.Shared.XamlComponents"
+             xmlns:sharedComponents="clr-namespace:RecipeApp.Maui.Features.Shared.XamlComponents"
              Title="Details"
              x:DataType="local:DetailsPageViewModel" >
 
@@ -37,18 +37,18 @@
                            TextColor="{StaticResource Primary}"
                            FontAttributes="Bold"
                            FontSize="Medium" />
-                    <xamlComponents:ArrowLabelComponent Grid.Column="1"
-                                                        IsExpanded="{Binding Source={RelativeSource AncestorType={x:Type toolkit:Expander}, AncestorLevel=1}, Path=IsExpanded}"
-                                                        TextColor="{StaticResource Primary}"
-                                                        FontAttributes="Bold"
-                                                        FontSize="Medium" />
+                    <sharedComponents:ArrowLabelComponent Grid.Column="1"
+                                                          IsExpanded="{Binding Source={RelativeSource AncestorType={x:Type toolkit:Expander}, AncestorLevel=1}, Path=IsExpanded}"
+                                                          TextColor="{StaticResource Primary}"
+                                                          FontAttributes="Bold"
+                                                          FontSize="Medium" />
                 </Grid>
             </toolkit:Expander.Header>
             <ScrollView Padding="10" >
                 <!--https://www.google.com/search?q=.net+maui+custom+ui+components&sxsrf=APwXEddUteEc26yZyoltkM2OfgRBqtqP1w%3A1684805492613&ei=dBdsZKjjJLGvptQPq9eL6AQ&ved=0ahUKEwio7ZvHpYr_AhWxl4kEHavrAk0Q4dUDCBE&uact=5&oq=.net+maui+custom+ui+components&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIFCAAQogQyBQgAEKIEMgUIABCiBDIFCAAQogQyBQgAEKIEOgoIABBHENYEELADOggIIRCgARDDBDoHCAAQDRCABDoICAAQigUQhgM6CgghEKABEMMEEApKBAhBGABQ5AdY9A1gkRRoAXABeACAAaQBiAHeBZIBAzQuM5gBAKABAcgBCMABAQ&sclient=gws-wiz-serp#fpstate=ive&vld=cid:788c8280,vid:3Cd3amJ-qcw-->
-                <introductionFeature:IntroductionEditComponent Title="{Binding IntroductionViewModel.Introduction.Title}"
+                <introductionFeature:IntroductionEditComponent Title="{Binding IntroductionViewModel.Introduction.Title, Mode=TwoWay}"
                                                                Comments="{Binding IntroductionViewModel.Introduction.Comment}"
-                                                               SaveIntroductionCommand="{Binding SaveIntroductionCommand}"
+                                                               SaveIntroductionCommand="{Binding IntroductionViewModel.SaveIntroductionCommand}"
                                                                DeleteIntroductionCommand="{Binding DeleteIntroductionCommand}" />
             </ScrollView>
         </toolkit:Expander>
@@ -69,11 +69,11 @@
                            TextColor="{StaticResource Primary}"
                            FontAttributes="Bold"
                            FontSize="Medium" />
-                    <xamlComponents:ArrowLabelComponent Grid.Column="1"
-                                                        IsExpanded="{Binding Source={RelativeSource AncestorType={x:Type toolkit:Expander}, AncestorLevel=1}, Path=IsExpanded}"
-                                                        TextColor="{StaticResource Primary}"
-                                                        FontAttributes="Bold"
-                                                        FontSize="Medium" />
+                    <sharedComponents:ArrowLabelComponent Grid.Column="1"
+                                                          IsExpanded="{Binding Source={RelativeSource AncestorType={x:Type toolkit:Expander}, AncestorLevel=1}, Path=IsExpanded}"
+                                                          TextColor="{StaticResource Primary}"
+                                                          FontAttributes="Bold"
+                                                          FontSize="Medium" />
                 </Grid>
             </toolkit:Expander.Header>
             <ScrollView>
@@ -119,11 +119,11 @@
                            TextColor="{StaticResource Primary}"
                            FontAttributes="Bold"
                            FontSize="Medium" />
-                    <xamlComponents:ArrowLabelComponent Grid.Column="1"
-                                                        IsExpanded="{Binding Source={RelativeSource AncestorType={x:Type toolkit:Expander}, AncestorLevel=1}, Path=IsExpanded}"
-                                                        TextColor="{StaticResource Primary}"
-                                                        FontAttributes="Bold"
-                                                        FontSize="Medium" />
+                    <sharedComponents:ArrowLabelComponent Grid.Column="1"
+                                                          IsExpanded="{Binding Source={RelativeSource AncestorType={x:Type toolkit:Expander}, AncestorLevel=1}, Path=IsExpanded}"
+                                                          TextColor="{StaticResource Primary}"
+                                                          FontAttributes="Bold"
+                                                          FontSize="Medium" />
                 </Grid>
             </toolkit:Expander.Header>
             <ScrollView>

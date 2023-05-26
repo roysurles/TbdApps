@@ -43,10 +43,22 @@ public partial class BaseViewModel : ObservableValidator, IBaseViewModel
         return this;
     }
 
-    protected IBaseViewModel ResetForNextOperation(bool isbusy = true)
+    protected IBaseViewModel ResetForNextOperation(bool isbusy = true, bool sendIsBusyValueChangedMessage = true)
     {
         IsBusy = isbusy;
+        if (sendIsBusyValueChangedMessage)
+            WeakReferenceMessenger.Default.Send(new IsBusyValueChangedMessage(IsBusy));
+
         ClearApiResultMessages();
+
+        return this;
+    }
+
+    protected IBaseViewModel SetIsBusy(bool isbusy = true, bool sendIsBusyValueChangedMessage = true)
+    {
+        IsBusy = isbusy;
+        if (sendIsBusyValueChangedMessage)
+            WeakReferenceMessenger.Default.Send(new IsBusyValueChangedMessage(IsBusy));
 
         return this;
     }

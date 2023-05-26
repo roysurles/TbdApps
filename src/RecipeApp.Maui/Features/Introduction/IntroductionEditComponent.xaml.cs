@@ -10,7 +10,7 @@ public partial class IntroductionEditComponent : ContentView
     }
 
     public static readonly BindableProperty TitleProperty =
-        BindableProperty.Create(nameof(Title), typeof(string), typeof(IntroductionEditComponent), propertyChanged: (bindable, oldValue, newValue) =>
+        BindableProperty.Create(nameof(Title), typeof(string), typeof(IntroductionEditComponent), defaultBindingMode: BindingMode.TwoWay, propertyChanged: (bindable, oldValue, newValue) =>
     {
         var control = (IntroductionEditComponent)bindable;
         control.TitleEntry.Text = newValue as string;

@@ -13,7 +13,8 @@
         <Entry x:Name="TitleEntry"
                VerticalOptions="Center"
                HorizontalOptions="Fill"
-               Placeholder="Enter title..." />
+               Placeholder="Enter title..."
+               Text="{Binding Source={x:Reference this}, Path=Title}" />
 
         <Label Text="Comments"
                VerticalOptions="Center"
@@ -22,7 +23,8 @@
         <Entry x:Name="CommentsEntry"
                VerticalOptions="Center"
                HorizontalOptions="Fill"
-               Placeholder="Enter comments..." />
+               Placeholder="Enter comments..."
+               Text="{Binding Source={x:Reference this}, Path=Comments}" />
 
         <HorizontalStackLayout >
             <!--https://learn.microsoft.com/en-us/dotnet/maui/fundamentals/controltemplate-->

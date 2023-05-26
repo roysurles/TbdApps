@@ -33,21 +33,34 @@ public partial class IntroductionViewModel : BaseViewModel, IIntroductionViewMod
         return this;
     }
 
+    [RelayCommand]
     public async Task<IIntroductionViewModel> SaveIntroductionAsync()
     {
-        _logger.LogInformation($"{nameof(SaveIntroductionAsync)}()");
+        try
+        {
+            _logger.LogInformation($"{nameof(SaveIntroductionAsync)}()");
 
-        ClearApiResultMessages();
+            ResetForNextOperation();
 
-        if (Introduction.TryValidateObject(ApiResultMessages).Equals(false))
-            return this;
+            if (Introduction.TryValidateObject(ApiResultMessages).Equals(false))
+                return this;
 
-        var saveIntroductionTask = Introduction.IsNew
-            ? RefitExStaticMethods.TryInvokeApiAsync(() => _introductionApiClientV1_0.InsertAsync(Introduction), ApiResultMessages)
-            : RefitExStaticMethods.TryInvokeApiAsync(() => _introductionApiClientV1_0.UpdateAsync(Introduction), ApiResultMessages);
+            var saveIntroductionTask = Introduction.IsNew
+                ? RefitExStaticMethods.TryInvokeApiAsync(() => _introductionApiClientV1_0.InsertAsync(Introduction), ApiResultMessages)
+                : RefitExStaticMethods.TryInvokeApiAsync(() => _introductionApiClientV1_0.UpdateAsync(Introduction), ApiResultMessages);
 
-        await saveIntroductionTask;
-        Introduction = saveIntroductionTask.Result.Data;
+            await saveIntroductionTask;
+            Introduction = saveIntroductionTask.Result.Data;
+
+            var message = $"{Introduction.Title} saved";
+            await App.Current.MainPage.DisplaySnackbar(message);
+            var toast = Toast.Make(message);
+            await toast.Show();
+        }
+        finally
+        {
+            SetIsBusy(false);
+        }
 
         return this;
     }
@@ -108,6 +121,8 @@ public interface IIntroductionViewModel : IBaseViewModel
     Task<IIntroductionViewModel> InitializeAsync(Guid introductionId);
 
     Task<IIntroductionViewModel> SaveIntroductionAsync();
+
+    IAsyncRelayCommand SaveIntroductionCommand { get; }
 
     Task<IIntroductionViewModel> DeleteIntroductionAsync(Guid introductionId);
 }
