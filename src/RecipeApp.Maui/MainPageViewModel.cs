@@ -27,10 +27,7 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
 
         //SearchAsyncCommand = new AsyncRelayCommand<object>((object searchText) => SearchAsync(searchText));
 
-        WeakReferenceMessenger.Default.Register<IsBusyValueChangedMessage>(this, (r, m) =>
-        {
-            IsBusy = m.Value;
-        });
+        WeakReferenceMessenger.Default.Register<IsBusyValueChangedMessage>(this, (r, m) => IsBusy = m.Value);
     }
 
     [ObservableProperty]
@@ -40,33 +37,6 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
     [ObservableProperty]
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
     public IIntroductionViewModel introductionViewModel;
-
-    [RelayCommand]
-    public async Task DeleteIntroductionAsync(object introductionSearchResultDto)
-    {
-        var introduction = introductionSearchResultDto as IntroductionSearchResultDto;
-        if (introduction is null)
-        {
-            await App.Current.MainPage.DisplayAlert("Mismatch", "Cannot convert introductionSearchResultDto to IntroductionSearchResultDto", Constants.AlertButtonText.OK);
-            return;
-        }
-
-        bool confirm = await App.Current.MainPage.DisplayAlert("Delete", $"Delete {introduction.Title}?", Constants.AlertButtonText.OK, Constants.AlertButtonText.Cancel);
-        if (!confirm)
-            return;
-
-        //try
-        //{
-        //    IsBusy = true;
-
-        await IntroductionViewModel.DeleteIntroductionAsync(introduction.Id);
-        await IntroductionSearchViewModel.SearchAsync();
-        //}
-        //finally
-        //{
-        //    IsBusy = false;
-        //}
-    }
 
     [RelayCommand]
     public async Task EditIntroductionAsync(object introductionSearchResultDto)
@@ -91,8 +61,6 @@ public interface IMainPageViewModel : IBaseViewModel
     IIntroductionSearchViewModel IntroductionSearchViewModel { get; }
 
     IIntroductionViewModel IntroductionViewModel { get; }
-
-    Task DeleteIntroductionAsync(object introductionSearchResultDto);
 
     Task EditIntroductionAsync(object introductionSearchResultDto);
 }

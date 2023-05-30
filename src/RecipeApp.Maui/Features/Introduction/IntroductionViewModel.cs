@@ -100,8 +100,7 @@ public partial class IntroductionViewModel : BaseViewModel, IIntroductionViewMod
         }
         finally
         {
-            IsBusy = false;
-            WeakReferenceMessenger.Default.Send(new IsBusyValueChangedMessage(IsBusy));
+            SetIsBusy(false);
         }
 
         return this;

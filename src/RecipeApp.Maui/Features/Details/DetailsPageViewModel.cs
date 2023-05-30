@@ -61,6 +61,7 @@ public partial class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
         finally
         {
             IsBusy = false;
+            WeakReferenceMessenger.Default.Send(new IsBusyValueChangedMessage(IsBusy));
         }
     }
 
