@@ -5,11 +5,18 @@
              xmlns:local="clr-namespace:RecipeApp.Maui"
              xmlns:introductionFeature="clr-namespace:RecipeApp.Maui.Features.Introduction"
              x:Class="RecipeApp.Maui.MainPage"
-             x:DataType="local:MainPageViewModel">
+             x:DataType="local:MainPageViewModel"  >
 
     <!--<ContentPage.BindingContext>
         <local:MainPageViewModel/>
     </ContentPage.BindingContext>-->
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="NavigatedTo"
+                                        Command="{Binding NavigatedToCommand}" CommandParameter="{Binding .}" />
+        <!--<toolkit:EventToCommandBehavior EventName="NavigatedFrom"
+                                        Command="{Binding NavigatedFromCommand}" />-->
+    </ContentPage.Behaviors>
 
     <ContentPage.Resources>
         <ResourceDictionary>

@@ -39,6 +39,27 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
     public IIntroductionViewModel introductionViewModel;
 
     [RelayCommand]
+    public async Task NavigatedToAsync(object obj)
+    {
+        try
+        {
+            _logger.LogInformation("{NavigatedToAsync}()", nameof(NavigatedToAsync));
+            if (!IntroductionSearchViewModel.HasSearched)
+            {
+                return;
+            }
+
+            ResetForNextOperation();
+            await IntroductionSearchViewModel.SearchAsync();
+            //await App.Current.MainPage.DisplayAlert("MainPageViewModel.NavigatedToAsync", "MainPageViewModel.NavigatedToAsync", Constants.AlertButtonText.OK);
+        }
+        finally
+        {
+            SetIsBusy(false);
+        }
+    }
+
+    [RelayCommand]
     public async Task EditIntroductionAsync(object introductionSearchResultDto)
     {
         var introduction = introductionSearchResultDto as IntroductionSearchResultDto;
@@ -61,6 +82,8 @@ public interface IMainPageViewModel : IBaseViewModel
     IIntroductionSearchViewModel IntroductionSearchViewModel { get; }
 
     IIntroductionViewModel IntroductionViewModel { get; }
+
+    Task NavigatedToAsync(object obj);
 
     Task EditIntroductionAsync(object introductionSearchResultDto);
 }
