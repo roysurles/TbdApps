@@ -4,6 +4,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:local="clr-namespace:RecipeApp.Maui"
              xmlns:introductionFeature="clr-namespace:RecipeApp.Maui.Features.Introduction"
+             xmlns:xamlComponents="clr-namespace:RecipeApp.Maui.Features.Shared.XamlComponents"
              x:Class="RecipeApp.Maui.MainPage"
              x:DataType="local:MainPageViewModel"  >
 
@@ -153,39 +154,7 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <!--<Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />-->
-
-            <!--<Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
-
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
-
-            <Button
-                x:Name="CounterBtn2"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />-->
-
+            <xamlComponents:PaginationComponent PageCount="5" PageNumber="3" TotalItemCount="24"/>
         </VerticalStackLayout>
     </ScrollView>
 

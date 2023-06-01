@@ -8,19 +8,19 @@ public partial class ArrowLabelComponent : Label
     }
 
     public static readonly BindableProperty IsExpandedProperty =
-        BindableProperty.Create(nameof(IsExpanded), typeof(bool?), typeof(ArrowLabelComponent), propertyChanged: (bindable, oldValue, newValue) =>
+        BindableProperty.Create(nameof(IsExpanded), typeof(bool), typeof(ArrowLabelComponent), propertyChanged: (bindable, oldValue, newValue) =>
     {
         var control = (ArrowLabelComponent)bindable;
-        if ((bool?)newValue is null)
+        if (newValue is null)
             control.Text = string.Empty;
-        if ((bool?)newValue == true)
+        if ((bool)newValue)
             control.Text = "˄";
-        if ((bool?)newValue == false)
+        if (!(bool)newValue)
             control.Text = "˅";
     });
     public bool? IsExpanded
     {
-        get => GetValue(IsExpandedProperty) as bool?;
+        get => (bool)GetValue(IsExpandedProperty);
         set => SetValue(IsExpandedProperty, value);
     }
 }
