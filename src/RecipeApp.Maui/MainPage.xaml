@@ -154,7 +154,8 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <xamlComponents:PaginationComponent PageCount="5" PageNumber="1" TotalItemCount="24" PageNumberChangedEvent="PaginationComponent_PageNumberChangedEvent"/>
+            <xamlComponents:PaginationComponent PageCount="5" PageNumber="1" TotalItemCount="24" PageNumberChangedCommand="{Binding PageNumberChangedCommand}"/>
+            <!--<xamlComponents:PaginationComponent PageCount="5" PageNumber="1" TotalItemCount="24" PageNumberChangedEvent="PaginationComponent_PageNumberChangedEvent"/>-->
         </VerticalStackLayout>
     </ScrollView>
 

@@ -61,18 +61,19 @@ public partial class PaginationComponent : ContentView
 
     private void OnPageNumberButtonClicked(object sender, EventArgs e)
     {
-        var previousPageNumber = PageNumber;
-        PageNumber = Convert.ToInt32(((Button)sender).Text);
-        PageNumberChangedEvent?.Invoke(this, new PaginationPageNumberChangedEventArgs { PageNumber = PageNumber, PreviousPageNumber = previousPageNumber });
+        var paginationPageNumberChangedEventArgs = new PaginationPageNumberChangedEventArgs
+        {
+            PreviousPageNumber = PageNumber,
+            PageNumber = Convert.ToInt32(((Button)sender).Text)
+        };
+        PageNumber = paginationPageNumberChangedEventArgs.PageNumber;
+
+        PageNumberChangedCommand?.Execute(paginationPageNumberChangedEventArgs);
+        PageNumberChangedEvent?.Invoke(this, paginationPageNumberChangedEventArgs);
     }
 
     public static readonly BindableProperty PageNumberChangedCommandProperty =
-        BindableProperty.Create(nameof(PageNumberChangedCommand), typeof(int), typeof(PaginationComponent), propertyChanged: (bindable, oldValue, newValue) =>
-        {
-            var control = (PaginationComponent)bindable;
-
-            control.PageNumberChangedCommand.Execute(newValue);
-        });
+        BindableProperty.Create(nameof(PageNumberChangedCommand), typeof(ICommand), typeof(PaginationComponent));
     public ICommand PageNumberChangedCommand
     {
         get => (ICommand)GetValue(PageNumberChangedCommandProperty);
