@@ -4,31 +4,34 @@
              xmlns:xamlComponents="clr-namespace:RecipeApp.Maui.Features.Shared.XamlComponents"
              x:Class="RecipeApp.Maui.Features.Shared.XamlComponents.PaginationComponent" >
 
-
-    <Frame BindingContext="{x:Reference this}">
-        <VerticalStackLayout>
-            <CollectionView ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type xamlComponents:PaginationComponent}}, Path=PageNumbers}"
-                            ItemsLayout="HorizontalList">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="x:Int32">
-                        <Button Text="{Binding .}"
-                                Margin="2,0,0,0" />
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-            <Label x:Name="DescriptionLabel" />
-        </VerticalStackLayout>
-    </Frame>
-    <!--<Frame BindingContext="{x:Reference this}">
+    <VerticalStackLayout >
         <CollectionView ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type xamlComponents:PaginationComponent}}, Path=PageNumbers}"
                         ItemsLayout="HorizontalList">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="x:Int32">
                     <Button Text="{Binding .}"
-                            Margin="2,0,0,0" />
+                            Margin="2,0,0,0"
+                            Clicked="OnPageNumberButtonClicked" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        <Label x:Name="DescriptionLabel" />
+    </VerticalStackLayout>
+
+    <!--<Frame BindingContext="{x:Reference this}">
+        <VerticalStackLayout >
+            <CollectionView ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type xamlComponents:PaginationComponent}}, Path=PageNumbers}"
+                            ItemsLayout="HorizontalList">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="x:Int32">
+                        <Button Text="{Binding .}"
+                                Margin="2,0,0,0"
+                                Clicked="OnPageNumberButtonClicked" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Label x:Name="DescriptionLabel" />
+        </VerticalStackLayout>
     </Frame>-->
 
 </ContentView>

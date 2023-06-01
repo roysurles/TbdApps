@@ -20,6 +20,7 @@ global using RecipeApp.Maui.Features.Shared.Handlers;
 global using RecipeApp.Maui.Features.Shared.Models;
 global using RecipeApp.Maui.Features.Shared.Refit;
 global using RecipeApp.Maui.Features.Shared.ValueChangedMessages;
+global using RecipeApp.Maui.Features.Shared.XamlComponents;
 
 global using Refit;
 

@@ -1,6 +1,4 @@
-﻿using RecipeApp.Maui.Features.Shared;
-
-namespace RecipeApp.Maui;
+﻿namespace RecipeApp.Maui;
 
 public partial class MainPage : ContentPage
 {
@@ -21,6 +19,12 @@ public partial class MainPage : ContentPage
         _coreApiHttpClient = _httpClientFactory.CreateClient(Constants.HttpClientNames.CoreApi);
         _introductionApiClientV1_0 = introductionApiClientV1_0;
     }
+
+    private void PaginationComponent_PageNumberChangedEvent(object sender, PaginationPageNumberChangedEventArgs e)
+    {
+
+    }
+
 
     //private async void OnCounterClicked(object sender, EventArgs e)
     //{

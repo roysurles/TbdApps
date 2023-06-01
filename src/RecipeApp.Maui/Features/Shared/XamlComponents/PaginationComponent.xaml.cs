@@ -1,3 +1,5 @@
+using System.Windows.Input;
+
 namespace RecipeApp.Maui.Features.Shared.XamlComponents;
 
 public partial class PaginationComponent : ContentView
@@ -53,4 +55,27 @@ public partial class PaginationComponent : ContentView
     public ObservableCollection<int> PageNumbers { get; set; } = new();
 
     public string Description { get; set; }
+
+
+    public event EventHandler<PaginationPageNumberChangedEventArgs> PageNumberChangedEvent;
+
+    private void OnPageNumberButtonClicked(object sender, EventArgs e)
+    {
+        var previousPageNumber = PageNumber;
+        PageNumber = Convert.ToInt32(((Button)sender).Text);
+        PageNumberChangedEvent?.Invoke(this, new PaginationPageNumberChangedEventArgs { PageNumber = PageNumber, PreviousPageNumber = previousPageNumber });
+    }
+
+    public static readonly BindableProperty PageNumberChangedCommandProperty =
+        BindableProperty.Create(nameof(PageNumberChangedCommand), typeof(int), typeof(PaginationComponent), propertyChanged: (bindable, oldValue, newValue) =>
+        {
+            var control = (PaginationComponent)bindable;
+
+            control.PageNumberChangedCommand.Execute(newValue);
+        });
+    public ICommand PageNumberChangedCommand
+    {
+        get => (ICommand)GetValue(PageNumberChangedCommandProperty);
+        set => SetValue(PageNumberChangedCommandProperty, value);
+    }
 }
