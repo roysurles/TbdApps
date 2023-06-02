@@ -155,11 +155,11 @@
             </CollectionView>
 
             <xamlComponents:PaginationComponent IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
-                                                PageCount="5"
-                                                PageNumber="1"
-                                                TotalItemCount="24"
+                                                PageCount="{Binding IntroductionSearchViewModel.PageCount}"
+                                                PageNumber="{Binding IntroductionSearchViewModel.PageNumber}"
+                                                TotalItemCount="{Binding IntroductionSearchViewModel.TotalItemCount}"
                                                 MaxDisplayPageNumberButtons="3"
-                                                PageNumberChangedCommand="{Binding PageNumberChangedCommand}"/>
+                                                PageNumberChangedCommand="{Binding IntroductionSearchViewModel.PageNumberChangedCommand}"/>
             <!--<xamlComponents:PaginationComponent PageCount="5" PageNumber="1" TotalItemCount="24" PageNumberChangedEvent="PaginationComponent_PageNumberChangedEvent"/>-->
         </VerticalStackLayout>
     </ScrollView>

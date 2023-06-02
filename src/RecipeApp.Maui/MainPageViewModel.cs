@@ -75,11 +75,6 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
         //await Shell.Current.Navigation.PushAsync
         await Shell.Current.GoToAsync($"{nameof(DetailsPage)}?IntroductionId={introduction.Id}");
     }
-
-    [RelayCommand]
-    public async Task PageNumberChangedAsync(object args)
-    {
-    }
 }
 
 public interface IMainPageViewModel : IBaseViewModel
@@ -91,6 +86,4 @@ public interface IMainPageViewModel : IBaseViewModel
     Task NavigatedToAsync(object obj);
 
     Task EditIntroductionAsync(object introductionSearchResultDto);
-
-    Task PageNumberChangedAsync(object args);
 }

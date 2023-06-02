@@ -31,7 +31,22 @@ public partial class IntroductionSearchViewModel : BaseViewModel, IIntroductionS
 
     [ObservableProperty]
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
+    public int pageCount;
+
+    [ObservableProperty]
+    [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
+    public int totalItemCount;
+
+    [ObservableProperty]
+    [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
     public ObservableCollection<IntroductionSearchResultDto> introductionSearchResults = new();
+
+    [RelayCommand]
+    public async Task PageNumberChangedAsync(object args)
+    {
+        PageNumber = (args as PaginationPageNumberChangedEventArgs).PageNumber;
+        await SearchAsync();
+    }
 
     [RelayCommand]
     public async Task<IIntroductionSearchViewModel> SearchAsync()
@@ -41,7 +56,6 @@ public partial class IntroductionSearchViewModel : BaseViewModel, IIntroductionS
             _logger.LogInformation("{methodName}({pageNumber}, {pageSize})", nameof(SearchAsync), PageNumber, PageSize);
             HasSearched = true;
             ResetForNextOperation();
-            WeakReferenceMessenger.Default.Send(new IsBusyValueChangedMessage(IsBusy));
             IntroductionSearchResults.Clear();
 
             var cleanSearchText = string.Equals(SearchText?.ToString().Trim(), "-") ? string.Empty : SearchText?.ToString().Trim();
@@ -55,6 +69,8 @@ public partial class IntroductionSearchViewModel : BaseViewModel, IIntroductionS
             var introductionSearchResult = await RefitExStaticMethods.TryInvokeApiAsync(
                 () => _introductionApiClientV1_0.SearchAsync(_introductionSearchRequestDto), ApiResultMessages);
 
+            PageCount = introductionSearchResult.Meta.PageCount;
+            TotalItemCount = introductionSearchResult.Meta.TotalItemCount;
             IntroductionSearchResults.AddRange(introductionSearchResult.Data);
 
             var foundResultsTest = $"Found {introductionSearchResult.Meta.TotalItemCount:#,##0} results";
@@ -65,8 +81,7 @@ public partial class IntroductionSearchViewModel : BaseViewModel, IIntroductionS
         }
         finally
         {
-            IsBusy = false;
-            WeakReferenceMessenger.Default.Send(new IsBusyValueChangedMessage(IsBusy));
+            SetIsBusy(false);
         }
 
         return this;
@@ -79,11 +94,19 @@ public interface IIntroductionSearchViewModel : IBaseViewModel
 
     string SearchText { get; set; }
 
-    int PageNumber { get; set; }
+    int PageNumber { get; }
 
-    int PageSize { get; set; }
+    int PageSize { get; }
+
+    int PageCount { get; }
+
+    int TotalItemCount { get; }
 
     ObservableCollection<IntroductionSearchResultDto> IntroductionSearchResults { get; }
+
+    Task PageNumberChangedAsync(object args);
+
+    IAsyncRelayCommand<object> PageNumberChangedCommand { get; }
 
     Task<IIntroductionSearchViewModel> SearchAsync();
 
