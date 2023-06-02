@@ -27,9 +27,6 @@ public partial class PaginationComponent : ContentView
         {
             var control = (PaginationComponent)bindable;
 
-            const int maxDisplayButtons = 3;  // TODO:  make property with default
-            const int startIndex = 0;
-
             control.PageNumbers.Clear();
             for (int i = 1; i < control.PageCount + 1; i++)
                 control.PageNumbers.Add(i.ToString());
@@ -37,9 +34,7 @@ public partial class PaginationComponent : ContentView
             control.PageNumberButtons.Clear();
             control.PageNumberButtons.Add("<<");
             control.PageNumberButtons.Add("<");
-
-            control.PageNumberButtons.AddRange(control.PageNumbers.Skip(startIndex).Take(maxDisplayButtons));
-
+            control.PageNumberButtons.InsertRange(2, control.GetPageNumberButtonsFor(control.PageNumbers, control.PageNumber, control.PageCount, control.MaxDisplayPageNumberButtons));
             control.PageNumberButtons.Add(">");
             control.PageNumberButtons.Add(">>");
 
@@ -56,9 +51,11 @@ public partial class PaginationComponent : ContentView
         {
             var control = (PaginationComponent)bindable;
 
-            const int maxDisplayButtons = 3;  // TODO:  make property with default
-            control.PageNumberButtons.RemoveRange(2, maxDisplayButtons);
-            control.PageNumberButtons.InsertRange(2, control.GetPageNumberButtonsFor(control.PageNumber, control.PageCount));
+            if (control.PageCount > control.MaxDisplayPageNumberButtons)
+            {
+                control.PageNumberButtons.RemoveRange(2, control.MaxDisplayPageNumberButtons);
+                control.PageNumberButtons.InsertRange(2, control.GetPageNumberButtonsFor(control.PageNumbers, control.PageNumber, control.PageCount, control.MaxDisplayPageNumberButtons));
+            }
 
             control.DescriptionLabel.Text = control.Description = $"Page {control.PageNumber} of {control.PageCount}; Total Items: {control.TotalItemCount}";
         });
@@ -66,6 +63,13 @@ public partial class PaginationComponent : ContentView
     {
         get => (int)GetValue(PageNumberProperty);
         set => SetValue(PageNumberProperty, value);
+    }
+
+    public static readonly BindableProperty MaxDisplayPageNumberButtonsProperty = BindableProperty.Create(nameof(MaxDisplayPageNumberButtons), typeof(int), typeof(PaginationComponent), 3);
+    public int MaxDisplayPageNumberButtons
+    {
+        get => (int)GetValue(MaxDisplayPageNumberButtonsProperty);
+        set => SetValue(MaxDisplayPageNumberButtonsProperty, value);
     }
 
     public ObservableCollection<string> PageNumbers { get; protected set; } = new();
@@ -122,14 +126,14 @@ public partial class PaginationComponent : ContentView
         return 1;
     }
 
-    private IEnumerable<string> GetPageNumberButtonsFor(int currentPageNumber, int maxPageNumber, int maxDisplayButtons = 3)
+    private IEnumerable<string> GetPageNumberButtonsFor(IEnumerable<string> pageNumbers, int currentPageNumber, int maxPageNumber, int maxDisplayButtons)
     {
         var leftRightButtonCount = maxDisplayButtons / 2;
 
         var startIndex = Math.Max(currentPageNumber - leftRightButtonCount - 1, 0);
         startIndex = Math.Min(startIndex, maxPageNumber - maxDisplayButtons);
 
-        var result = PageNumbers.Skip(startIndex).Take(maxDisplayButtons);
+        var result = pageNumbers.Skip(startIndex).Take(maxDisplayButtons);
 
         return result;
     }
