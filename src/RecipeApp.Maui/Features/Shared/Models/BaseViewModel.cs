@@ -10,13 +10,13 @@ public partial class BaseViewModel : ObservableValidator, IBaseViewModel
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
     public ObservableCollection<IApiResultMessageModel> apiResultMessages = new();
 
-    protected IBaseViewModel ClearApiResultMessages()
+    public IBaseViewModel ClearApiResultMessages()
     {
         ApiResultMessages.Clear();
         return this;
     }
 
-    protected IBaseViewModel AddApiResultMessage(ApiResultMessageModelTypeEnumeration apiResultMessageType, string message, string source = null, int? code = null)
+    public IBaseViewModel AddApiResultMessage(ApiResultMessageModelTypeEnumeration apiResultMessageType, string message, string source = null, int? code = null)
     {
         ApiResultMessages.Add(new ApiResultMessageModel
         {
@@ -28,22 +28,22 @@ public partial class BaseViewModel : ObservableValidator, IBaseViewModel
         return this;
     }
 
-    protected IBaseViewModel AddInformationMessage(string message, string source = null, int? code = null) =>
+    public IBaseViewModel AddInformationMessage(string message, string source = null, int? code = null) =>
         AddApiResultMessage(ApiResultMessageModelTypeEnumeration.Information, message, source, code);
 
-    protected IBaseViewModel AddWarningMessage(string message, string source = null, int? code = null) =>
+    public IBaseViewModel AddWarningMessage(string message, string source = null, int? code = null) =>
         AddApiResultMessage(ApiResultMessageModelTypeEnumeration.Warning, message, source, code);
 
-    protected IBaseViewModel AddErrorMessage(string message, string source = null, int? code = null) =>
+    public IBaseViewModel AddErrorMessage(string message, string source = null, int? code = null) =>
         AddApiResultMessage(ApiResultMessageModelTypeEnumeration.Error, message, source, code);
 
-    protected IBaseViewModel AddMessages(IEnumerable<ApiResultMessageModel> messages)
+    public IBaseViewModel AddMessages(IEnumerable<ApiResultMessageModel> messages)
     {
         ApiResultMessages.AddRange(messages);
         return this;
     }
 
-    protected IBaseViewModel ResetForNextOperation(bool isbusy = true, bool sendIsBusyValueChangedMessage = true)
+    public IBaseViewModel ResetForNextOperation(bool isbusy = true, bool sendIsBusyValueChangedMessage = true)
     {
         IsBusy = isbusy;
         if (sendIsBusyValueChangedMessage)
@@ -54,11 +54,19 @@ public partial class BaseViewModel : ObservableValidator, IBaseViewModel
         return this;
     }
 
-    protected IBaseViewModel SetIsBusy(bool isbusy = true, bool sendIsBusyValueChangedMessage = true)
+    public IBaseViewModel SetIsBusy(bool isbusy = true, bool sendIsBusyValueChangedMessage = true)
     {
         IsBusy = isbusy;
         if (sendIsBusyValueChangedMessage)
             WeakReferenceMessenger.Default.Send(new IsBusyValueChangedMessage(IsBusy));
+
+        return this;
+    }
+
+    public IBaseViewModel RaisePropertyChangedFor(params string[] propertyNames)
+    {
+        foreach (var propertyName in propertyNames)
+            OnPropertyChanged(propertyName);
 
         return this;
     }
@@ -69,4 +77,22 @@ public interface IBaseViewModel
     bool IsBusy { get; set; }
 
     ObservableCollection<IApiResultMessageModel> ApiResultMessages { get; set; }
+
+    IBaseViewModel ClearApiResultMessages();
+
+    IBaseViewModel AddApiResultMessage(ApiResultMessageModelTypeEnumeration apiResultMessageType, string message, string source = null, int? code = null);
+
+    IBaseViewModel AddInformationMessage(string message, string source = null, int? code = null);
+
+    IBaseViewModel AddWarningMessage(string message, string source = null, int? code = null);
+
+    IBaseViewModel AddErrorMessage(string message, string source = null, int? code = null);
+
+    IBaseViewModel AddMessages(IEnumerable<ApiResultMessageModel> messages);
+
+    IBaseViewModel ResetForNextOperation(bool isbusy = true, bool sendIsBusyValueChangedMessage = true);
+
+    IBaseViewModel SetIsBusy(bool isbusy = true, bool sendIsBusyValueChangedMessage = true);
+
+    IBaseViewModel RaisePropertyChangedFor(params string[] propertyNames);
 }

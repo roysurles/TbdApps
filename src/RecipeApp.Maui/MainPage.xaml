@@ -154,7 +154,7 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <xamlComponents:PaginationComponent IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
+            <xamlComponents:PaginationComponent IsVisible="{Binding IntroductionSearchViewModel.IsPaginationVisible}"
                                                 PageCount="{Binding IntroductionSearchViewModel.PageCount}"
                                                 PageNumber="{Binding IntroductionSearchViewModel.PageNumber}"
                                                 TotalItemCount="{Binding IntroductionSearchViewModel.TotalItemCount}"

@@ -37,6 +37,8 @@ public partial class IntroductionSearchViewModel : BaseViewModel, IIntroductionS
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
     public int totalItemCount;
 
+    public bool IsPaginationVisible => !IsBusy && HasSearched;
+
     [ObservableProperty]
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
     public ObservableCollection<IntroductionSearchResultDto> introductionSearchResults = new();
@@ -55,7 +57,7 @@ public partial class IntroductionSearchViewModel : BaseViewModel, IIntroductionS
         {
             _logger.LogInformation("{methodName}({pageNumber}, {pageSize})", nameof(SearchAsync), PageNumber, PageSize);
             HasSearched = true;
-            ResetForNextOperation();
+            ResetForNextOperation().RaisePropertyChangedFor("IsPaginationVisible");
             IntroductionSearchResults.Clear();
 
             var cleanSearchText = string.Equals(SearchText?.ToString().Trim(), "-") ? string.Empty : SearchText?.ToString().Trim();
@@ -81,7 +83,7 @@ public partial class IntroductionSearchViewModel : BaseViewModel, IIntroductionS
         }
         finally
         {
-            SetIsBusy(false);
+            SetIsBusy(false).RaisePropertyChangedFor("IsPaginationVisible");
         }
 
         return this;
@@ -101,6 +103,8 @@ public interface IIntroductionSearchViewModel : IBaseViewModel
     int PageCount { get; }
 
     int TotalItemCount { get; }
+
+    bool IsPaginationVisible { get; }
 
     ObservableCollection<IntroductionSearchResultDto> IntroductionSearchResults { get; }
 
