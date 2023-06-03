@@ -13,6 +13,7 @@ public partial class IntroductionSearchViewModel : BaseViewModel, IIntroductionS
     }
 
     [ObservableProperty]
+    //[NotifyPropertyChangedFor("IsPaginationVisible")]
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
     public bool hasSearched;
 
@@ -37,6 +38,10 @@ public partial class IntroductionSearchViewModel : BaseViewModel, IIntroductionS
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
     public int totalItemCount;
 
+    //[ObservableProperty]
+    //[NotifyPropertyChangedFor("IsPaginationVisible")]
+    //public new bool isBusy;
+
     public bool IsPaginationVisible => !IsBusy && HasSearched;
 
     [ObservableProperty]
@@ -56,8 +61,8 @@ public partial class IntroductionSearchViewModel : BaseViewModel, IIntroductionS
         try
         {
             _logger.LogInformation("{methodName}({pageNumber}, {pageSize})", nameof(SearchAsync), PageNumber, PageSize);
-            HasSearched = true;
             ResetForNextOperation().RaisePropertyChangedFor("IsPaginationVisible");
+            HasSearched = true;
             IntroductionSearchResults.Clear();
 
             var cleanSearchText = string.Equals(SearchText?.ToString().Trim(), "-") ? string.Empty : SearchText?.ToString().Trim();
