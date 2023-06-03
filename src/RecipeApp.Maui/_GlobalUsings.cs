@@ -1,9 +1,11 @@
 ﻿global using System.Collections.ObjectModel;
 global using System.ComponentModel.DataAnnotations;
 global using System.Diagnostics.CodeAnalysis;
+global using System.Globalization;
 
 global using CommunityToolkit.Maui;
 global using CommunityToolkit.Maui.Alerts;
+global using CommunityToolkit.Maui.Converters;
 global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;
 global using CommunityToolkit.Mvvm.Messaging;

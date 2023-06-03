@@ -65,6 +65,12 @@ public partial class PaginationComponent : ContentView
         set => SetValue(PageNumberProperty, value);
     }
 
+    public static readonly BindableProperty PageNumberAsStringProperty = BindableProperty.Create(nameof(PageNumberAsString), typeof(string), typeof(PaginationComponent), "0", BindingMode.OneWay);
+    public string PageNumberAsString
+    {
+        get => GetValue(PageNumberProperty)?.ToString() ?? "0";
+    }
+
     public static readonly BindableProperty MaxDisplayPageNumberButtonsProperty = BindableProperty.Create(nameof(MaxDisplayPageNumberButtons), typeof(int), typeof(PaginationComponent), 3);
     public int MaxDisplayPageNumberButtons
     {
