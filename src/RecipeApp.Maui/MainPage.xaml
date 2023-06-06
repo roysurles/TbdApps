@@ -154,6 +154,10 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
+            <xamlComponents:PaginationComponentEx PageCount="5"
+                                                  PageNumber="1"
+                                                  TotalItemCount="25"
+                                                  MaxNumericButtons="3" />
             <xamlComponents:PaginationComponent IsVisible="{Binding IntroductionSearchViewModel.IsPaginationVisible}"
                                                 PageCount="{Binding IntroductionSearchViewModel.PageCount}"
                                                 PageNumber="{Binding IntroductionSearchViewModel.PageNumber}"
