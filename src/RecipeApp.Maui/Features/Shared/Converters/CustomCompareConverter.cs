@@ -2,6 +2,7 @@
 
 public class CustomCompareConverter : CompareConverter<object>
 {
+
     /// <summary>
     /// Converts an object that implements IComparable to a specified object or a boolean based on a comparaison result.
     /// </summary>
@@ -15,7 +16,10 @@ public class CustomCompareConverter : CompareConverter<object>
         if (value is null)
             return FalseObject;
 
-        ArgumentNullException.ThrowIfNull(ComparingValue);
+        //ArgumentNullException.ThrowIfNull(ComparingValue);
+        if (ComparingValue is null)
+            return FalseObject;
+
         ArgumentNullException.ThrowIfNull(ComparisonOperator);
 
         if (!Enum.IsDefined(typeof(OperatorType), ComparisonOperator))
