@@ -35,7 +35,9 @@
     <VerticalStackLayout >
         <CollectionView x:Name="MyCollectionView"
                         ItemsSource="{Binding Source={x:Reference this}, Path=PageNumberButtons}"
-                        ItemsLayout="HorizontalList">
+                        ItemsLayout="HorizontalList"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding Source={x:Reference this}, Path=SelectedPageNumberButton}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="x:String">
                     <Button x:Name="PageNumberButton"

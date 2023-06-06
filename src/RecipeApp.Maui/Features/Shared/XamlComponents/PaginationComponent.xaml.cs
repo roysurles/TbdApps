@@ -71,6 +71,13 @@ public partial class PaginationComponent : ContentView
     //    get => GetValue(PageNumberProperty)?.ToString() ?? "0";
     //}
 
+    public static readonly BindableProperty SelectedPageNumberButtonProperty = BindableProperty.Create(nameof(SelectedPageNumberButton), typeof(Button), typeof(PaginationComponent));
+    public Button SelectedPageNumberButton
+    {
+        get => (Button)GetValue(SelectedPageNumberButtonProperty);
+        set => SetValue(SelectedPageNumberButtonProperty, value);
+    }
+
     public static readonly BindableProperty MaxDisplayPageNumberButtonsProperty = BindableProperty.Create(nameof(MaxDisplayPageNumberButtons), typeof(int), typeof(PaginationComponent), 3);
     public int MaxDisplayPageNumberButtons
     {
@@ -100,9 +107,7 @@ public partial class PaginationComponent : ContentView
             PageNumber = newPageNumber //Convert.ToInt32(((Button)sender).Text)
         };
         PageNumber = paginationPageNumberChangedEventArgs.PageNumber;
-
-        var x = Resources;
-        //.button.BackgroundColor = Resources["Primary"];
+        SelectedPageNumberButton = button;
 
         PageNumberChangedCommand?.Execute(paginationPageNumberChangedEventArgs);
         PageNumberChangedEvent?.Invoke(this, paginationPageNumberChangedEventArgs);
