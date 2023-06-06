@@ -33,7 +33,8 @@
     <!--{Binding Source={x:Reference this}, Path=PageNumber}-->
 
     <VerticalStackLayout >
-        <CollectionView ItemsSource="{Binding Source={x:Reference this}, Path=PageNumberButtons}"
+        <CollectionView x:Name="MyCollectionView"
+                        ItemsSource="{Binding Source={x:Reference this}, Path=PageNumberButtons}"
                         ItemsLayout="HorizontalList">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="x:String">
@@ -41,8 +42,8 @@
                             Text="{Binding .}"
                             Margin="2,0,0,0"
                             Clicked="OnPageNumberButtonClicked"
-                            BackgroundColor="{Binding ., Mode=OneWay, Converter={converters:CustomCompareConverter ComparingValue="1", ComparisonOperator=Equal, TrueObject={StaticResource Primary}, FalseObject={StaticResource Secondary}}}"
-                            />
+                            BackgroundColor="{Binding ., Converter={StaticResource CustomCompareConverter}}" />
+                    <!--BackgroundColor="{Binding ., Mode=OneWay, Converter={converters:CustomCompareConverter ComparingValue="1", ComparisonOperator=Equal, TrueObject={StaticResource Primary}, FalseObject={StaticResource Secondary}}}"-->
                     <!--BackgroundColor="{Binding ., Converter={StaticResource CustomCompareConverter}}"-->
                     <!--https://github.com/CommunityToolkit/Maui/blob/main/samples/CommunityToolkit.Maui.Sample/Pages/Converters/CompareConverterPage.xaml-->
                     <!--BackgroundColor="{Binding ., Converter={StaticResource CompareConverter}}"-->

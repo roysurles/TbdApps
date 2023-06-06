@@ -2,6 +2,7 @@
 
 public class CustomCompareConverter : CompareConverter<object>
 {
+    public object MyParam { get; set; }
 
     /// <summary>
     /// Converts an object that implements IComparable to a specified object or a boolean based on a comparaison result.
