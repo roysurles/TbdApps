@@ -64,6 +64,7 @@ public partial class PaginationComponentEx : ContentView
                 return;
 
             var control = (PaginationComponentEx)bindable;
+            SetNumericButtonsText(control);
             SetButtonsBackgroundColor(control);
             control.DescriptiveLabel.Text = $"Page {control.PageNumber} of {control.PageCount}; Total Items: {control.TotalItemCount}";
         });
@@ -164,4 +165,19 @@ public partial class PaginationComponentEx : ContentView
         return 1;
     }
 
+    private static void SetNumericButtonsText(PaginationComponentEx control)
+    {
+        var leftRightButtonCount = control.MaxNumericButtons / 2;
+
+        var start = Math.Max(control.PageNumber - leftRightButtonCount - 1, 0);
+        start = Math.Min(start, control.PageCount - control.MaxNumericButtons);
+        var count = Math.Min(control.PageCount, control.MaxNumericButtons);
+        var displayNumbers = Enumerable.Range(start + 1, count).ToList();
+
+        const int startIndex = 2;
+        var endIndex = Math.Min(control.PageCount, control.MaxNumericButtons);
+
+        for (int i = startIndex; i < endIndex + startIndex; i++)
+            control.ButtonsProperties[i].Text = displayNumbers[i - startIndex].ToString();
+    }
 }
