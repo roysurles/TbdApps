@@ -154,16 +154,18 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <xamlComponents:PaginationComponentEx PageCount="5"
-                                                  PageNumber="1"
-                                                  TotalItemCount="25"
-                                                  MaxNumericButtons="3" />
-            <xamlComponents:PaginationComponent IsVisible="{Binding IntroductionSearchViewModel.IsPaginationVisible}"
+            <xamlComponents:PaginationComponentEx IsVisible="{Binding IntroductionSearchViewModel.IsPaginationVisible}"
+                                                  PageCount="{Binding IntroductionSearchViewModel.PageCount}"
+                                                  PageNumber="{Binding IntroductionSearchViewModel.PageNumber}"
+                                                  TotalItemCount="{Binding IntroductionSearchViewModel.TotalItemCount}"
+                                                  MaxNumericButtons="3"
+                                                  PageNumberChangedCommand="{Binding IntroductionSearchViewModel.PageNumberChangedCommand}" />
+            <!--<xamlComponents:PaginationComponent IsVisible="{Binding IntroductionSearchViewModel.IsPaginationVisible}"
                                                 PageCount="{Binding IntroductionSearchViewModel.PageCount}"
                                                 PageNumber="{Binding IntroductionSearchViewModel.PageNumber}"
                                                 TotalItemCount="{Binding IntroductionSearchViewModel.TotalItemCount}"
                                                 MaxDisplayPageNumberButtons="3"
-                                                PageNumberChangedCommand="{Binding IntroductionSearchViewModel.PageNumberChangedCommand}"/>
+                                                PageNumberChangedCommand="{Binding IntroductionSearchViewModel.PageNumberChangedCommand}"/>-->
             <!--<xamlComponents:PaginationComponent PageCount="5" PageNumber="1" TotalItemCount="24" PageNumberChangedEvent="PaginationComponent_PageNumberChangedEvent"/>-->
         </VerticalStackLayout>
     </ScrollView>
