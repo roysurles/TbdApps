@@ -6,6 +6,12 @@
              x:Class="RecipeApp.Maui.Features.Shared.XamlComponents.PaginationComponentEx"
              x:Name="this">
 
+    <!--<ContentView.Resources>
+        <ResourceDictionary>
+            <Color x:Key="LightGreen">{StaticResource}</Color>
+        </ResourceDictionary>
+    </ContentView.Resources>-->
+
     <VerticalStackLayout>
         <CollectionView ItemsSource="{Binding Source={x:Reference this}, Path=ButtonsProperties}"
                         ItemsLayout="HorizontalList">

@@ -7,6 +7,14 @@ public partial class PaginationComponentEx : ContentView
     public PaginationComponentEx()
     {
         InitializeComponent();
+
+        var b1 = App.Current.Resources.TryGetValue("Primary", out object selectedButtonBackgroundColor);
+        if (b1)
+            SelectedButtonBackgroundColor = (Color)selectedButtonBackgroundColor;
+
+        var b2 = App.Current.Resources.TryGetValue("Secondary", out object nonSelectedButtonBackgroundColor);
+        if (b2)
+            NonSelectedButtonBackgroundColor = (Color)nonSelectedButtonBackgroundColor;
     }
 
     public ObservableCollection<PaginationComponentButtonProperties> ButtonsProperties { get; protected set; } = new();
@@ -30,16 +38,16 @@ public partial class PaginationComponentEx : ContentView
             var control = (PaginationComponentEx)bindable;
 
             control.ButtonsProperties.Clear();
-            control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = "<<" });
-            control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = "<" });
+            control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = "<<", BackgroundColor = control.NonSelectedButtonBackgroundColor });
+            control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = "<", BackgroundColor = control.NonSelectedButtonBackgroundColor });
 
             var min = Math.Max(1, control.PageNumber);
             var max = Math.Min(control.PageCount + 1, control.MaxNumericButtons + 1);
             for (int i = min; i < max; i++)
-                control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = i.ToString(), BackgroundColor = i == control.PageNumber ? Colors.Blue : Colors.LightBlue });
+                control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = i.ToString(), BackgroundColor = i == control.PageNumber ? control.SelectedButtonBackgroundColor : control.NonSelectedButtonBackgroundColor });
 
-            control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = ">" });
-            control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = ">>" });
+            control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = ">", BackgroundColor = control.NonSelectedButtonBackgroundColor });
+            control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = ">>", BackgroundColor = control.NonSelectedButtonBackgroundColor });
 
             control.DescriptiveLabel.Text = $"Page {control.PageNumber} of {control.PageCount}; Total Items: {control.TotalItemCount}";
         });
@@ -56,10 +64,7 @@ public partial class PaginationComponentEx : ContentView
                 return;
 
             var control = (PaginationComponentEx)bindable;
-
-            foreach (var item in control.ButtonsProperties)
-                item.BackgroundColor = item.Text == newValue.ToString() ? Colors.Blue : Colors.LightBlue;
-
+            SetButtonsBackgroundColor(control);
             control.DescriptiveLabel.Text = $"Page {control.PageNumber} of {control.PageCount}; Total Items: {control.TotalItemCount}";
         });
     public int PageNumber
@@ -73,6 +78,42 @@ public partial class PaginationComponentEx : ContentView
     {
         get => (int)GetValue(MaxNumericButtonsProperty);
         set => SetValue(MaxNumericButtonsProperty, value);
+    }
+
+    public static readonly BindableProperty SelectedButtonBackgroundColorProperty = BindableProperty.Create(nameof(SelectedButtonBackgroundColor), typeof(Color), typeof(PaginationComponentEx), propertyChanged: (bindable, oldValue, newValue) =>
+    {
+        if (oldValue == newValue)
+            return;
+
+        var control = (PaginationComponentEx)bindable;
+        control.SelectedButtonBackgroundColor = (Color)newValue;
+        SetButtonsBackgroundColor(control);
+    });
+    public Color SelectedButtonBackgroundColor
+    {
+        get => (Color)GetValue(SelectedButtonBackgroundColorProperty);
+        set => SetValue(SelectedButtonBackgroundColorProperty, value);
+    }
+
+    public static readonly BindableProperty NonSelectedButtonBackgroundColorProperty = BindableProperty.Create(nameof(NonSelectedButtonBackgroundColor), typeof(Color), typeof(PaginationComponentEx), propertyChanged: (bindable, oldValue, newValue) =>
+    {
+        if (oldValue == newValue)
+            return;
+
+        var control = (PaginationComponentEx)bindable;
+        control.NonSelectedButtonBackgroundColor = (Color)newValue;
+        SetButtonsBackgroundColor(control);
+    });
+    public Color NonSelectedButtonBackgroundColor
+    {
+        get => (Color)GetValue(NonSelectedButtonBackgroundColorProperty);
+        set => SetValue(NonSelectedButtonBackgroundColorProperty, value);
+    }
+
+    private static void SetButtonsBackgroundColor(PaginationComponentEx control)
+    {
+        foreach (var button in control.ButtonsProperties)
+            button.BackgroundColor = string.Equals(button.Text, control.PageNumber.ToString()) ? control.SelectedButtonBackgroundColor : control.NonSelectedButtonBackgroundColor;
     }
 
     public event EventHandler<PaginationPageNumberChangedEventArgs> PageNumberChangedEvent;
