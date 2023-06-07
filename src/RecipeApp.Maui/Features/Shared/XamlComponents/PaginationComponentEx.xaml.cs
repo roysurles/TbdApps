@@ -121,9 +121,7 @@ public partial class PaginationComponentEx : ContentView
     private void OnPageNumberButtonClicked(object sender, EventArgs e)
     {
         var button = (Button)sender;
-        var buttonText = ((Button)sender).Text;
-        //var newPageNumber = GetPageNumberFor(buttonText, PageNumber, PageCount);
-        var newPageNumber = Convert.ToInt32(buttonText);
+        var newPageNumber = GetPageNumberFor(button.Text, PageNumber, PageCount);
         if (newPageNumber == PageNumber)
             return;
 
@@ -145,4 +143,25 @@ public partial class PaginationComponentEx : ContentView
         get => (ICommand)GetValue(PageNumberChangedCommandProperty);
         set => SetValue(PageNumberChangedCommandProperty, value);
     }
+
+    private int GetPageNumberFor(string newValue, int currentPageNumber, int maxPageNumber)
+    {
+        if (newValue.IsNumeric())
+            return Convert.ToInt32(newValue);
+
+        if (string.Equals("<<", newValue))
+            return 1;
+
+        if (string.Equals("<", newValue))
+            return Math.Max(currentPageNumber - 1, 1);
+
+        if (string.Equals(">>", newValue))
+            return maxPageNumber;
+
+        if (string.Equals(">", newValue))
+            return Math.Min(currentPageNumber + 1, maxPageNumber);
+
+        return 1;
+    }
+
 }
