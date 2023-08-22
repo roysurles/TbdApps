@@ -5,7 +5,10 @@ using System.Reflection;
 
 using Dapper;
 
+using HealthChecks.UI.Client;
+
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 
+using RecipeApp.CoreApi.Features.HealthChecks;
 using RecipeApp.CoreApi.Features.Ingredient.V1_0;
 using RecipeApp.CoreApi.Features.Instruction.V1_0;
 using RecipeApp.CoreApi.Features.Introduction.V1_0;
@@ -26,7 +30,9 @@ using Tbd.WebApi.Shared.ApiLogging;
 using Tbd.WebApi.Shared.CorrelationId;
 using Tbd.WebApi.Shared.Extensions;
 using Tbd.WebApi.Shared.Filters;
+using Tbd.WebApi.Shared.Repositories;
 using Tbd.WebApi.Shared.Swagger;
+
 
 namespace RecipeApp.CoreApi
 {
@@ -81,6 +87,13 @@ namespace RecipeApp.CoreApi
                         .AllowAnyMethod()
                         .AllowAnyHeader()));
 
+            // https://www.youtube.com/watch?v=p2faw9DCSsY
+            // https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-7.0
+            services.AddHealthChecks()
+                .AddCheck<SampleHealthCheck>("SampleHealthCheck")
+                .AddSqlServer(defaultConnectionString, name: "DatabaseHealthCheck");
+            //.AddCheck<DatabaseHealthCheck>("DatabaseHealthCheck");
+
             services.AddControllers();
 
             services.AddHttpContextAccessor();
@@ -94,6 +107,8 @@ namespace RecipeApp.CoreApi
             services.AddTransient(typeof(IApiResultModel<>), typeof(ApiResultModel<>));
 
             SqlMapper.AddTypeHandler(new SqlGuidTypeHandler());
+
+            _ = services.AddScoped(_ => new DatabaseHealthCheckRepository(defaultConnectionString));
 
             _ = useDapperForDataAccess
                 ? services.AddScoped<IIntroductionRepositoryV1_0>(_ => new IntroductionRepositoryV1_0(defaultConnectionString))
@@ -115,8 +130,8 @@ namespace RecipeApp.CoreApi
 
             // Impose global model state validation to reduce boilerplate code
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
-            services.AddMvcCore(config => config.Filters.Add(typeof(GlobalModelStateValidationFilter)))
-                .SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddMvcCore(config => config.Filters.Add(typeof(GlobalModelStateValidationFilter)));
+            //.SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             // Render logs for Auth
             if (!WebHostEnvironment.IsProduction())
@@ -152,6 +167,16 @@ namespace RecipeApp.CoreApi
             app.UseExceptionHandlerEx(env, false);                              // Custom ExceptionHandler:  this must be after app.UseApiLoggingEx to set HttpStatusCode and write out ApiResultModel
 
             app.UseAuthorization();
+
+            // https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-7.0
+            // https://www.youtube.com/watch?v=p2faw9DCSsY
+            //app.MapHealthChecks("/healthz");                                  // Note:  Map vs Use;  could not get MapHealthChecks to work, so there is some subtle difference between this app and a new web api app
+            //app.UseHealthChecks("/healthz");
+            // nuget search for AspNetCore.Healthchecks... AspNetCore.Healthchecks.UI.Client & other packages for specific techs like sql server
+            app.UseHealthChecks("/healthz", new HealthCheckOptions
+            {
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
