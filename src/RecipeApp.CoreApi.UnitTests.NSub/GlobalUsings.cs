@@ -9,8 +9,10 @@ global using Microsoft.Extensions.Logging;
 global using NSubstitute;
 
 global using RecipeApp.CoreApi.Features.Ingredient.V1_0;
+global using RecipeApp.CoreApi.Features.Introduction.V1_0;
 global using RecipeApp.Shared.Features.Ingredient;
 global using RecipeApp.Shared.Features.Instruction;
+global using RecipeApp.Shared.Features.Introduction;
 
 global using Tbd.Shared.ApiResult;
 
