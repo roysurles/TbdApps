@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.BlazorWasmMud", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.BlazorWasmBootstrap.UnitTests", "src\RecipeApp.BlazorWasmBootstrap.UnitTests\RecipeApp.BlazorWasmBootstrap.UnitTests.csproj", "{721B0BB6-3BDD-4BDD-8DFC-31BE9B45D373}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApp.Maui", "src\RecipeApp.Maui\RecipeApp.Maui.csproj", "{DA776250-C9D1-428E-939C-6BAB02ECC9AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.Maui", "src\RecipeApp.Maui\RecipeApp.Maui.csproj", "{DA776250-C9D1-428E-939C-6BAB02ECC9AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApp.CoreApi.UnitTests.NSub", "src\RecipeApp.CoreApi.UnitTests.NSub\RecipeApp.CoreApi.UnitTests.NSub.csproj", "{1E980AFE-F50C-4908-A2A7-E588AE9D56E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,10 @@ Global
 		{DA776250-C9D1-428E-939C-6BAB02ECC9AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA776250-C9D1-428E-939C-6BAB02ECC9AE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DA776250-C9D1-428E-939C-6BAB02ECC9AE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{1E980AFE-F50C-4908-A2A7-E588AE9D56E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E980AFE-F50C-4908-A2A7-E588AE9D56E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E980AFE-F50C-4908-A2A7-E588AE9D56E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E980AFE-F50C-4908-A2A7-E588AE9D56E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +107,7 @@ Global
 		{34E6F8E1-D4E6-4FD4-948B-D91269D3791A} = {3DD50C30-A1BB-4CF5-B7EB-2199704B1514}
 		{721B0BB6-3BDD-4BDD-8DFC-31BE9B45D373} = {3DD50C30-A1BB-4CF5-B7EB-2199704B1514}
 		{DA776250-C9D1-428E-939C-6BAB02ECC9AE} = {3DD50C30-A1BB-4CF5-B7EB-2199704B1514}
+		{1E980AFE-F50C-4908-A2A7-E588AE9D56E8} = {3DD50C30-A1BB-4CF5-B7EB-2199704B1514}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8042CBFD-132D-47AD-8FB4-00DBADAAA74D}
