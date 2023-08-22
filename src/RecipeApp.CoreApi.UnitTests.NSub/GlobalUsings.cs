@@ -10,6 +10,7 @@ global using NSubstitute;
 
 global using RecipeApp.CoreApi.Features.Ingredient.V1_0;
 global using RecipeApp.Shared.Features.Ingredient;
+global using RecipeApp.Shared.Features.Instruction;
 
 global using Tbd.Shared.ApiResult;
 
