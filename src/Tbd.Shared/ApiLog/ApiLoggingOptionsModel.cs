@@ -1,4 +1,6 @@
-﻿namespace Tbd.Shared.ApiLog
+﻿using System.Collections.Generic;
+
+namespace Tbd.Shared.ApiLog
 {
     public class ApiLoggingOptionsModel
     {
@@ -7,5 +9,7 @@
         public bool IsEnabled { get; set; }
 
         public int MinimumHttpStatusCode { get; set; } = 200;
+
+        public HashSet<string> ExcludedUrls { get; set; } = new();
     }
 }

@@ -33,10 +33,22 @@ namespace Tbd.WebApi.Shared.ApiLogging
         {
             _options = options.Value ?? throw new ArgumentNullException(nameof(options));
 
-            if (_options.IsEnabled)
+            if (_options.IsEnabled && !IsFullUrlExcluded(httpContext))
                 await InvokeWithLoggingAsync(httpContext).ConfigureAwait(false);
             else
                 await _next(httpContext).ConfigureAwait(false);
+        }
+
+        protected bool IsFullUrlExcluded(HttpContext httpContext)
+        {
+            var fullRequestUrl = httpContext.GetFullUrl();
+            foreach (var excludedUrl in _options.ExcludedUrls)
+            {
+                if ((excludedUrl.EndsWith('*') && fullRequestUrl.StartsWith(excludedUrl.Trim().Replace("*", ""), StringComparison.OrdinalIgnoreCase)) || (!excludedUrl.EndsWith('*') && string.Equals(fullRequestUrl, excludedUrl, StringComparison.OrdinalIgnoreCase)))
+                    return true;
+            }
+
+            return false;
         }
 
         protected async Task InvokeWithLoggingAsync(HttpContext httpContext)

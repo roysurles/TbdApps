@@ -19,7 +19,6 @@ namespace Tbd.WebApi.Shared.Extensions
     {
         public static ApiLogDto InitializeApiLogDto(this HttpContext httpContext)
         {
-            var queryString = httpContext.Request.QueryString.HasValue ? $"/{httpContext.Request.QueryString}" : "";
             var (ControllerName, ActionName) = httpContext.GetControllerAndActionNameFromEndpoint();
 
             return new ApiLogDto
@@ -32,13 +31,19 @@ namespace Tbd.WebApi.Shared.Extensions
                 LocalIpAddress = httpContext.Connection.LocalIpAddress?.ToString(),
                 RemoteIpAddress = httpContext.Connection.RemoteIpAddress?.ToString(),
                 AssemblyName = Assembly.GetEntryAssembly().GetName().FullName,
-                Url = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}{httpContext.Request.Path}{queryString}",
+                Url = httpContext.GetFullUrl(),
                 ControllerName = ControllerName,
                 ActionName = ActionName,
                 HttpProtocol = httpContext.Request.Protocol,
                 HttpMethod = httpContext.Request.Method,
                 HttpStatusCode = httpContext.Response.StatusCode
             };
+        }
+
+        public static string GetFullUrl(this HttpContext httpContext)
+        {
+            var queryString = httpContext.Request.QueryString.HasValue ? $"/{httpContext.Request.QueryString}" : "";
+            return $"{httpContext.Request.Scheme}://{httpContext.Request.Host}{httpContext.Request.Path}{queryString}";
         }
 
         public static (string ControllerName, string ActionName) GetControllerAndActionNameFromEndpoint(this HttpContext httpContext)
