@@ -26,6 +26,8 @@ namespace Tbd.WebApi.Shared.Extensions
             {
                 ConnectionId = httpContext.Connection.Id,
                 TraceId = httpContext.TraceIdentifier,
+                MachineName = Environment.MachineName,
+                UserAgent = httpContext.Request.Headers.UserAgent,
                 Claims = httpContext.User.Claims?.Any() == true ? JsonSerializer.Serialize(httpContext.User.Claims.Select(claim => new { claim.Type, claim.Value }), new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.Preserve }) : null,
                 LocalIpAddress = httpContext.Connection.LocalIpAddress?.ToString(),
                 RemoteIpAddress = httpContext.Connection.RemoteIpAddress?.ToString(),

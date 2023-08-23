@@ -10,6 +10,10 @@ namespace Tbd.Shared.ApiLog
 
         public string TraceId { get; set; }
 
+        public string MachineName { get; set; }
+
+        public string UserAgent { get; set; }
+
         public string Claims { get; set; }
 
         public string LocalIpAddress { get; set; }

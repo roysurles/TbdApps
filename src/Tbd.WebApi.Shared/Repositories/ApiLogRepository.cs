@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -24,6 +23,8 @@ namespace Tbd.WebApi.Shared.Repositories
                                    (Id
                                    ,ConnectionId
                                    ,TraceId
+                                   ,MachineName
+                                   ,UserAgent
                                    ,Claims
                                    ,LocalIpAddress
                                    ,RemoteIpAddress
@@ -43,6 +44,8 @@ namespace Tbd.WebApi.Shared.Repositories
                                    (@Id
                                    ,@ConnectionId
                                    ,@TraceId
+                                   ,@MachineName
+                                   ,@UserAgent
                                    ,@Claims
                                    ,@LocalIpAddress
                                    ,@RemoteIpAddress
@@ -64,6 +67,8 @@ namespace Tbd.WebApi.Shared.Repositories
                 command.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = apiLogDto.Id;
                 command.Parameters.Add("@ConnectionId", SqlDbType.NVarChar, 255).Value = apiLogDto.ConnectionId.IsNullToDbNull();
                 command.Parameters.Add("@TraceId", SqlDbType.NVarChar, 255).Value = apiLogDto.TraceId.IsNullToDbNull();
+                command.Parameters.Add("@MachineName", SqlDbType.NVarChar, 255).Value = apiLogDto.MachineName.IsNullToDbNull();
+                command.Parameters.Add("@UserAgent", SqlDbType.NVarChar, 255).Value = apiLogDto.UserAgent.IsNullToDbNull();
                 command.Parameters.Add("@Claims", SqlDbType.NVarChar, 255).Value = apiLogDto.Claims.IsNullToDbNull();
                 command.Parameters.Add("@LocalIpAddress", SqlDbType.NVarChar, 50).Value = apiLogDto.LocalIpAddress.IsNullToDbNull();
                 command.Parameters.Add("@RemoteIpAddress", SqlDbType.NVarChar, 50).Value = apiLogDto.RemoteIpAddress.IsNullToDbNull();

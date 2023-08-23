@@ -12,6 +12,8 @@ CREATE TABLE [dbo].[ApiLog](
 	[Id] [uniqueidentifier] NOT NULL,
 	[ConnectionId] [nvarchar](255) NULL,
 	[TraceId] [nvarchar](255) NULL,
+	[MachineName] [nvarchar](255) NULL,
+	[UserAgent] [nvarchar](255) NULL,
 	[Claims] [nvarchar](max) NULL,
 	[LocalIpAddress] [nvarchar](50) NULL,
 	[RemoteIpAddress] [nvarchar](50) NULL,
