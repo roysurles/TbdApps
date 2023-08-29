@@ -5,6 +5,9 @@ using System.Reflection;
 
 using Dapper;
 
+using FluentValidation;
+using FluentValidation.AspNetCore;
+
 using HealthChecks.UI.Client;
 
 using Microsoft.AspNetCore.Builder;
@@ -100,6 +103,11 @@ namespace RecipeApp.CoreApi
 
             services.AddApiVersioningEx();                      // Custom ApiVersioning
 
+            services.AddEndpointsApiExplorer();
+            // https://levelup.gitconnected.com/how-to-use-fluentvalidation-in-asp-net-core-net-6-543d52bd36b4
+            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
             // Custom Swagger
             var xmlFullFileName = Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
             services.AddSwaggerEx("RecipeApp CoreApi", "RecipeApp CoreApi", _swaggerDocumentVersions, xmlFullFileName);
@@ -127,6 +135,9 @@ namespace RecipeApp.CoreApi
 
             services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(Program).Assembly));
             //services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            //// https://levelup.gitconnected.com/how-to-use-fluentvalidation-in-asp-net-core-net-6-543d52bd36b4
+            //services.AddFluentValidationAutoValidation();
 
             // Impose global model state validation to reduce boilerplate code
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
