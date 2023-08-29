@@ -89,6 +89,8 @@ CREATE TABLE [dbo].[ApiLog](
     [Id] [uniqueidentifier] NOT NULL,
     [ConnectionId] [nvarchar](255) NULL,
     [TraceId] [nvarchar](255) NULL,
+    [MachineName] [nvarchar](255) NULL,
+    [UserAgent] [nvarchar](255) NULL,
     [Claims] [nvarchar](max) NULL,
     [LocalIpAddress] [nvarchar](50) NULL,
     [RemoteIpAddress] [nvarchar](50) NULL,
@@ -107,7 +109,7 @@ CREATE TABLE [dbo].[ApiLog](
  CONSTRAINT [PK_ApiLog] PRIMARY KEY CLUSTERED
 (
     [Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 /****** Object:  Table [dbo].[Ingredient]    Script Date: 2/15/2022 4:29:36 PM ******/
