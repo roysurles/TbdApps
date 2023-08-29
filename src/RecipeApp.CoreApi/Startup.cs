@@ -130,7 +130,7 @@ namespace RecipeApp.CoreApi
 
             // Impose global model state validation to reduce boilerplate code
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
-            services.AddMvcCore(config => config.Filters.Add(typeof(GlobalModelStateValidationFilter)));
+            services.AddMvcCore(config => config.Filters.Add(typeof(GlobalModelStateValidationFilterAttribute)));
             //.SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             // Render logs for Auth

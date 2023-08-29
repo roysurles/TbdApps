@@ -13,7 +13,7 @@ namespace Tbd.WebApi.Shared.Filters
     /// <summary>
     /// Global Model State Validation Filter
     /// </summary>
-    public sealed class GlobalModelStateValidationFilter : ActionFilterAttribute
+    public sealed class GlobalModelStateValidationFilterAttribute : ActionFilterAttribute
     {
         /// <summary>
         /// OnActionExecuting
@@ -29,17 +29,14 @@ namespace Tbd.WebApi.Shared.Filters
                 .SetHttpStatusCode(HttpStatusCode.BadRequest);
 
             var errors = modelState.Select(item => new { item.Key, item.Value.Errors }).ToList();
-            foreach (var apiResultErrorModel in errors.SelectMany(item => item.Errors.Select(error => error.Exception == null
+            result.Messages.AddRange(errors.SelectMany(item => item.Errors.Select(error => error.Exception == null
                 ? new ApiResultMessageModel { MessageType = ApiResultMessageModelTypeEnumeration.Error, Code = (int)HttpStatusCode.BadRequest, Source = item.Key, Message = error.ErrorMessage }
                 : new ApiResultMessageModel
                 {
                     MessageType = ApiResultMessageModelTypeEnumeration.UnhandledException,
                     Code = (int)HttpStatusCode.InternalServerError,
                     //TODO:  UnhandledException = error.Exception
-                })))
-            {
-                result.Messages.Add(apiResultErrorModel);
-            }
+                })));
 
             context.Result = ((BaseApiController)context.Controller).BadRequest(result);
         }
