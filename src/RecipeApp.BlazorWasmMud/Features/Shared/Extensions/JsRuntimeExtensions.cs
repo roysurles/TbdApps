@@ -11,6 +11,22 @@ namespace RecipeApp.BlazorWasmMud.Features.Shared.Extensions
 {
     public static class JsRuntimeExtensions
     {
+        public static ValueTask<string> GetHtmlAttribute(this IJSRuntime jsRuntime, string name) =>
+            jsRuntime.InvokeAsync<string>("siteModule.getHtmlAttribute", name);
+
+        /// <summary>
+        /// https://stackoverflow.com/questions/54404940/set-attributes-of-html-tag-using-pure-javascript
+        /// </summary>
+        /// <param name="jsRuntime"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static ValueTask SetHtmlAttribute(this IJSRuntime jsRuntime, string name, string value) =>
+            jsRuntime.InvokeVoidAsync("siteModule.setHtmlAttribute", name, value);
+
+        public static ValueTask<bool> PrefersDarkMode(this IJSRuntime jsRuntime) =>
+            jsRuntime.InvokeAsync<bool>("siteModule.prefersDarkMode");
+
         public static ValueTask AlertAsync(this IJSRuntime jsRuntime, string text) =>
             jsRuntime.InvokeVoidAsync("alert", text);
 

@@ -1,5 +1,6 @@
 ﻿@*@implements IDisposable*@
 @inject ISessionViewModel SessionViewModel
+@inject IJSRuntime JSRuntime
 
 <div class="d-inline-flex">
     <label style="color: whitesmoke">
@@ -29,6 +30,10 @@
         <i class="fa fa-file-o"></i>
     </button>
     &nbsp;&nbsp;
+    <div class="form-check form-switch ml-3 mr-3" style="width: 100px">
+        <input class="form-check-input " type="checkbox" role="switch" id="darkModeSwitch" @onchange="@DarkModeSwitchChangedAsync">
+        <label class="form-check-label" for="flexSwitchCheckChecked" style="color: whitesmoke">Dark</label>
+    </div>
 </div>
 
 @code {
@@ -36,12 +41,19 @@
     public void Dispose() =>
         SessionViewModel.StateHasChangedEvent -= SessionViewModel_StateHasChangedEvent;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         SessionViewModel.StateHasChangedEvent += SessionViewModel_StateHasChangedEvent;
 
         base.OnInitialized();
+
+        var theme = await JSRuntime.GetHtmlElementAttributeAsync(HtmlElementAttributesConstants.BootstrapColorTheme);
+        if (string.Equals(theme, "dark"))
+            await JSRuntime.SetAttributeAsync("darkModeSwitch", "checked", "");
     }
+
+    protected async Task DarkModeSwitchChangedAsync(ChangeEventArgs args) =>
+        await JSRuntime.SetHtmlElementAttributeAsync(HtmlElementAttributesConstants.BootstrapColorTheme, (bool)args.Value ? "dark" : "light");
 
     protected void SessionViewModel_StateHasChangedEvent(object sender, EventArgs e) =>
         StateHasChanged();

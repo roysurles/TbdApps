@@ -1,5 +1,23 @@
 ﻿
-const siteModule = (function () {
+var siteModule = (function () {
+
+    function removeAttribute(elementId, attributeName) {
+        let element = document.getElementById(elementId);
+        if (element != null) {
+            element.removeAttribute(attributeName)
+        }
+    }
+
+    function setAttribute(elementId, attributeName, attributeValue) {
+        let element = document.getElementById(elementId);
+        if (element != null) {
+            element.setAttribute(attributeName, attributeValue)
+        }
+    }
+
+    function prefersDarkMode() {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
 
     function setFocus(elementId) {
         let element = document.getElementById(elementId);
@@ -51,6 +69,9 @@ const siteModule = (function () {
     };
 
     return {
+        removeAttribute: removeAttribute,
+        setAttribute: setAttribute,
+        prefersDarkMode: prefersDarkMode,
         setFocus: setFocus,
         downloadFile: downloadFile,
         uploadFile: uploadFile

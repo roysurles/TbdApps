@@ -13,6 +13,28 @@ namespace RecipeApp.BlazorWasmBootstrap.Features.Shared.Extensions
 {
     public static class JsRuntimeExtensions
     {
+        public static ValueTask RemoveAttributeAsync(this IJSRuntime jsRuntime, string elementId, string attributeName) =>
+            jsRuntime.InvokeVoidAsync("siteModule.removeAttribute", elementId, attributeName);
+
+        public static ValueTask SetAttributeAsync(this IJSRuntime jsRuntime, string elementId, string attributeName, string attributeValue) =>
+            jsRuntime.InvokeVoidAsync("siteModule.setAttribute", elementId, attributeName, attributeValue);
+
+        public static ValueTask<string> GetHtmlElementAttributeAsync(this IJSRuntime jsRuntime, string name) =>
+            jsRuntime.InvokeAsync<string>("document.documentElement.getAttribute", name);
+
+        /// <summary>
+        /// https://stackoverflow.com/questions/54404940/set-attributes-of-html-tag-using-pure-javascript
+        /// </summary>
+        /// <param name="jsRuntime"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static ValueTask SetHtmlElementAttributeAsync(this IJSRuntime jsRuntime, string name, string value) =>
+            jsRuntime.InvokeVoidAsync("document.documentElement.setAttribute", name, value);
+
+        public static ValueTask<bool> PrefersDarkMode(this IJSRuntime jsRuntime) =>
+            jsRuntime.InvokeAsync<bool>("siteModule.prefersDarkMode");
+
         public static ValueTask AlertAsync(this IJSRuntime jsRuntime, string text) =>
             jsRuntime.InvokeVoidAsync("alert", text);
 

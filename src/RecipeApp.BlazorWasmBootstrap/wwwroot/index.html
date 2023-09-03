@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8" />
@@ -122,6 +122,21 @@
     <environment exclude="Development">
         <script type="text/javascript" src="js/siteModule.min.js" asp-append-version="true"></script>
     </environment>
+
+    <script>
+        $(document).ready(function () {
+            // Handler for .ready() called.
+
+            // https://www.w3schools.com/jsref/met_win_matchmedia.asp  -- could also be used to get media query for page size
+            // https://jonhilton.net/blazor-tailwind-dark-mode-local-storage/
+            // https://www.codeproject.com/Articles/5323228/Blazor-Web-Assembly-WASM-Theme-Switching
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches)
+            {
+                // https://stackoverflow.com/questions/54404940/set-attributes-of-html-tag-using-pure-javascript
+                document.documentElement.setAttribute("data-bs-theme", "dark");
+            }
+        });
+    </script>
 </body>
 
 </html>
