@@ -1,19 +1,19 @@
 ﻿
-var siteModule = (function () {
+const siteModule = (function () {
 
     function setFocus(elementId) {
-        var element = document.getElementById(elementId);
+        let element = document.getElementById(elementId);
         if (element != null) {
             element.focus();
         }
     }
 
     function downloadFile(bytesBase64, mimeType, fileName) {
-        var fileUrl = "data:" + mimeType + ";base64," + bytesBase64;
+        let fileUrl = "data:" + mimeType + ";base64," + bytesBase64;
         fetch(fileUrl)
             .then(response => response.blob())
             .then(blob => {
-                var link = window.document.createElement("a");
+                let link = window.document.createElement("a");
                 link.href = window.URL.createObjectURL(blob, { type: mimeType });
                 link.download = fileName;
                 document.body.appendChild(link);
@@ -23,7 +23,7 @@ var siteModule = (function () {
     };
 
     function uploadFile(inputID) {
-        var inputEl = document.getElementById(inputID);
+        let inputEl = document.getElementById(inputID);
         if (inputEl.files.length == 0) {
             return "";
         }
@@ -40,7 +40,7 @@ var siteModule = (function () {
         const fileReader = new FileReader();
         return new Promise((resolve) => {
             fileReader.onloadend = function (e) {
-                var data = {
+                let data = {
                     fileName: inputEl.files[0].name,
                     fileData: e.target.result.split('base64,')[1]
                 };
