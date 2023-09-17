@@ -1,11 +1,92 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
+    <None Remove="SqlScripts\RunAlways\50-StoredProcedures\20-Introduction\1010-Create_dbo_IntroductionDelete.sql" />
+    <None Remove="SqlScripts\RunAlways\50-StoredProcedures\20-Introduction\1020-Create_dbo_IntroductionInsert.sql" />
+    <None Remove="SqlScripts\RunAlways\50-StoredProcedures\20-Introduction\1030-Create_dbo_IntroductionSearch.sql" />
+    <None Remove="SqlScripts\RunAlways\50-StoredProcedures\20-Introduction\1040-Create_dbo_IntroductionSelect.sql" />
+    <None Remove="SqlScripts\RunAlways\50-StoredProcedures\20-Introduction\1050-Create_dbo_IntroductionUpdate.sql" />
+    <None Remove="SqlScripts\RunAlways\50-StoredProcedures\30-Ingredient\1010-Create_dbo_IngredientDelete.sql" />
+    <None Remove="SqlScripts\RunAlways\50-StoredProcedures\30-Ingredient\1020-Create_dbo_IngredientInsert.sql" />
+    <None Remove="SqlScripts\RunAlways\50-StoredProcedures\30-Ingredient\1030-Create_dbo_IngredientSelect.sql" />
+    <None Remove="SqlScripts\RunAlways\50-StoredProcedures\30-Ingredient\1040-Create_dbo_IngredientSelectAllForIntroductionId.sql" />
+    <None Remove="SqlScripts\RunAlways\50-StoredProcedures\30-Ingredient\1050-Create_dbo_IngredientUpdate.sql" />
+    <None Remove="SqlScripts\RunAlways\50-StoredProcedures\40-Instruction\1010-Create_dbo_InstructionDelete.sql" />
+    <None Remove="SqlScripts\RunAlways\50-StoredProcedures\40-Instruction\1020-Create_dbo_InstructionInsert.sql" />
+    <None Remove="SqlScripts\RunAlways\50-StoredProcedures\40-Instruction\1030-Create_dbo_InstructionSelect.sql" />
+    <None Remove="SqlScripts\RunAlways\50-StoredProcedures\40-Instruction\1040-Create_dbo_InstructionSelectAllForIntroductionId.sql" />
+    <None Remove="SqlScripts\RunAlways\50-StoredProcedures\40-Instruction\1050-Create_dbo_InstructionUpdate.sql" />
+    <None Remove="SqlScripts\RunOnce\20-Tables\30-App-Tables\1010-Create_dbo_ApiLog.sql" />
+    <None Remove="SqlScripts\RunOnce\20-Tables\30-App-Tables\1020-Create_dbo_Introduction.sql" />
+    <None Remove="SqlScripts\RunOnce\20-Tables\30-App-Tables\1030-Create_dbo_Ingredient.sql" />
+    <None Remove="SqlScripts\RunOnce\20-Tables\30-App-Tables\1040-Create_dbo_Instruction.sql" />
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\RunAlways\50-StoredProcedures\20-Introduction\1010-Create_dbo_IntroductionDelete.sql" />
+    <EmbeddedResource Include="SqlScripts\RunAlways\50-StoredProcedures\20-Introduction\1020-Create_dbo_IntroductionInsert.sql" />
+    <EmbeddedResource Include="SqlScripts\RunAlways\50-StoredProcedures\20-Introduction\1030-Create_dbo_IntroductionSearch.sql" />
+    <EmbeddedResource Include="SqlScripts\RunAlways\50-StoredProcedures\20-Introduction\1040-Create_dbo_IntroductionSelect.sql" />
+    <EmbeddedResource Include="SqlScripts\RunAlways\50-StoredProcedures\20-Introduction\1050-Create_dbo_IntroductionUpdate.sql" />
+    <EmbeddedResource Include="SqlScripts\RunAlways\50-StoredProcedures\30-Ingredient\1010-Create_dbo_IngredientDelete.sql" />
+    <EmbeddedResource Include="SqlScripts\RunAlways\50-StoredProcedures\30-Ingredient\1020-Create_dbo_IngredientInsert.sql" />
+    <EmbeddedResource Include="SqlScripts\RunAlways\50-StoredProcedures\30-Ingredient\1030-Create_dbo_IngredientSelect.sql" />
+    <EmbeddedResource Include="SqlScripts\RunAlways\50-StoredProcedures\30-Ingredient\1040-Create_dbo_IngredientSelectAllForIntroductionId.sql" />
+    <EmbeddedResource Include="SqlScripts\RunAlways\50-StoredProcedures\30-Ingredient\1050-Create_dbo_IngredientUpdate.sql" />
+    <EmbeddedResource Include="SqlScripts\RunAlways\50-StoredProcedures\40-Instruction\1010-Create_dbo_InstructionDelete.sql" />
+    <EmbeddedResource Include="SqlScripts\RunAlways\50-StoredProcedures\40-Instruction\1020-Create_dbo_InstructionInsert.sql" />
+    <EmbeddedResource Include="SqlScripts\RunAlways\50-StoredProcedures\40-Instruction\1030-Create_dbo_InstructionSelect.sql" />
+    <EmbeddedResource Include="SqlScripts\RunAlways\50-StoredProcedures\40-Instruction\1040-Create_dbo_InstructionSelectAllForIntroductionId.sql" />
+    <EmbeddedResource Include="SqlScripts\RunAlways\50-StoredProcedures\40-Instruction\1050-Create_dbo_InstructionUpdate.sql" />
+    <EmbeddedResource Include="SqlScripts\RunOnce\20-Tables\30-App-Tables\1010-Create_dbo_ApiLog.sql" />
+    <EmbeddedResource Include="SqlScripts\RunOnce\20-Tables\30-App-Tables\1020-Create_dbo_Introduction.sql" />
+    <EmbeddedResource Include="SqlScripts\RunOnce\20-Tables\30-App-Tables\1030-Create_dbo_Ingredient.sql" />
+    <EmbeddedResource Include="SqlScripts\RunOnce\20-Tables\30-App-Tables\1040-Create_dbo_Instruction.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DbUp" Version="5.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
+    <PackageReference Include="Serilog" Version="3.0.1" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
+    <PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.1" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SqlScripts\RunOnce\10-PreDeployment\" />
+    <Folder Include="SqlScripts\RunOnce\20-Tables\10-Lookup-Tables\" />
+    <Folder Include="SqlScripts\RunOnce\30-Views\" />
+    <Folder Include="SqlScripts\RunOnce\40-Functions\" />
+    <Folder Include="SqlScripts\RunOnce\50-StoredProcedures\" />
+    <Folder Include="SqlScripts\RunOnce\60-Data\" />
+  </ItemGroup>
+
+    <ItemGroup>
+        <None Update="appsettings.development.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <DependentUpon>appsettings.json</DependentUpon>
+        </None>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="appsettings.staging.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <DependentUpon>appsettings.json</DependentUpon>
+        </None>
+    </ItemGroup>
 
 </Project>
