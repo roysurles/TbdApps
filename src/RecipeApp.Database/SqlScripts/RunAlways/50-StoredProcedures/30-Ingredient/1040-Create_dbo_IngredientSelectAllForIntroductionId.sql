@@ -22,7 +22,8 @@ AS
               ,UpdatedById
               ,UpdatedOnUtc
         FROM   dbo.Ingredient
-        WHERE  IntroductionId = @IntroductionId;
+        WHERE  IntroductionId = @IntroductionId
+        ORDER BY SortOrder;
     END;
 
 GO

@@ -21,7 +21,8 @@ AS
               ,UpdatedById
               ,UpdatedOnUtc
         FROM   dbo.Instruction
-        WHERE  IntroductionId = @IntroductionId;
+        WHERE  IntroductionId = @IntroductionId
+        ORDER BY SortOrder;
     END;
 
 GO
