@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ReadMe JSON.md" />
     <None Remove="SqlScripts\RunAlways\50-StoredProcedures\20-Introduction\1010-Create_dbo_IntroductionDelete.sql" />
     <None Remove="SqlScripts\RunAlways\50-StoredProcedures\20-Introduction\1020-Create_dbo_IntroductionInsert.sql" />
     <None Remove="SqlScripts\RunAlways\50-StoredProcedures\20-Introduction\1030-Create_dbo_IntroductionSearch.sql" />
@@ -27,6 +28,10 @@
     <None Remove="SqlScripts\RunOnce\20-Tables\30-App-Tables\1020-Create_dbo_Introduction.sql" />
     <None Remove="SqlScripts\RunOnce\20-Tables\30-App-Tables\1030-Create_dbo_Ingredient.sql" />
     <None Remove="SqlScripts\RunOnce\20-Tables\30-App-Tables\1040-Create_dbo_Instruction.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="ReadMe JSON.md" />
   </ItemGroup>
 
   <ItemGroup>
