@@ -7,7 +7,10 @@ order by ActionDateTimeOffset desc
 
 /*
 
-truncate table ApiLog
+truncate table dbo.ApiLog
+truncate table dbo.Ingredient
+truncate table dbo.Instruction
+truncate table dbo.Introduction
 
 DBCC SHRINKDATABASE (Recipe, 10);
 GO
