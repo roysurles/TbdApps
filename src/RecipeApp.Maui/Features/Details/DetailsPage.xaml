@@ -16,139 +16,142 @@
                                         Command="{Binding InitializeCommand}" />
     </ContentPage.Behaviors>
 
-    <VerticalStackLayout Padding="10" >
-        <ActivityIndicator IsVisible="{Binding IsBusy}"
-                           IsRunning="{Binding IsBusy}" />
+    <ScrollView Margin="5">
+        <VerticalStackLayout Padding="10" >
+            <ActivityIndicator IsVisible="{Binding IsBusy}"
+                               IsRunning="{Binding IsBusy}" />
 
-        <!-- Introduction -->
-        <toolkit:Expander IsExpanded="True">
-            <toolkit:Expander.Header >
-                <Grid Padding="10"
-                      BackgroundColor="{StaticResource Secondary}" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0"
-                           Text="Introduction"
-                           TextColor="{StaticResource Primary}"
-                           FontAttributes="Bold"
-                           FontSize="Medium" />
-                    <sharedComponents:ArrowLabelComponent Grid.Column="1"
-                                                          IsExpanded="{Binding Source={RelativeSource AncestorType={x:Type toolkit:Expander}, AncestorLevel=1}, Path=IsExpanded}"
-                                                          TextColor="{StaticResource Primary}"
-                                                          FontAttributes="Bold"
-                                                          FontSize="Medium" />
-                </Grid>
-            </toolkit:Expander.Header>
-            <ScrollView Padding="10" >
-                <!--https://www.google.com/search?q=.net+maui+custom+ui+components&sxsrf=APwXEddUteEc26yZyoltkM2OfgRBqtqP1w%3A1684805492613&ei=dBdsZKjjJLGvptQPq9eL6AQ&ved=0ahUKEwio7ZvHpYr_AhWxl4kEHavrAk0Q4dUDCBE&uact=5&oq=.net+maui+custom+ui+components&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIFCAAQogQyBQgAEKIEMgUIABCiBDIFCAAQogQyBQgAEKIEOgoIABBHENYEELADOggIIRCgARDDBDoHCAAQDRCABDoICAAQigUQhgM6CgghEKABEMMEEApKBAhBGABQ5AdY9A1gkRRoAXABeACAAaQBiAHeBZIBAzQuM5gBAKABAcgBCMABAQ&sclient=gws-wiz-serp#fpstate=ive&vld=cid:788c8280,vid:3Cd3amJ-qcw-->
-                <introductionFeature:IntroductionEditComponent Title="{Binding IntroductionViewModel.Introduction.Title}"
-                                                               Comments="{Binding IntroductionViewModel.Introduction.Comment}"
-                                                               SaveIntroductionCommand="{Binding IntroductionViewModel.SaveIntroductionCommand}"
-                                                               DeleteIntroductionCommand="{Binding DeleteIntroductionCommand}" />
-            </ScrollView>
-        </toolkit:Expander>
-        <!-- Ingredients -->
-        <toolkit:Expander IsExpanded="False">
-            <toolkit:Expander.Header >
-                <Grid Padding="10"
-                      BackgroundColor="{StaticResource Secondary}" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0"
-                           Text="Ingredients"
-                           TextColor="{StaticResource Primary}"
-                           FontAttributes="Bold"
-                           FontSize="Medium" />
-                    <sharedComponents:ArrowLabelComponent Grid.Column="1"
-                                                          IsExpanded="{Binding Source={RelativeSource AncestorType={x:Type toolkit:Expander}, AncestorLevel=1}, Path=IsExpanded}"
-                                                          TextColor="{StaticResource Primary}"
-                                                          FontAttributes="Bold"
-                                                          FontSize="Medium" />
-                </Grid>
-            </toolkit:Expander.Header>
-            <ScrollView>
-                <VerticalStackLayout>
-                    <CollectionView ItemsSource="{Binding IngredientViewModel.Ingredients}"
-                                    SelectionMode="None">
-                        <CollectionView.Header>
-                            <Grid ColumnDefinitions="60,100,100,Auto" Padding="5">
-                                <Button Text="+" Grid.Column="0" WidthRequest="40" HeightRequest="40"></Button>
-                                <Label Text="Measurement" Grid.Column="1" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
-                                <Label Text="Description" Grid.Column="2" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
-                                <Label Text="Move" Grid.Column="3" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
-                            </Grid>
-                        </CollectionView.Header>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="ingredientFeature:IngredientDto">
+            <!-- Introduction -->
+            <toolkit:Expander IsExpanded="True">
+                <toolkit:Expander.Header >
+                    <Grid Padding="10"
+                          BackgroundColor="{StaticResource Secondary}" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0"
+                               Text="Introduction"
+                               TextColor="{StaticResource Primary}"
+                               FontAttributes="Bold"
+                               FontSize="Medium" />
+                        <sharedComponents:ArrowLabelComponent Grid.Column="1"
+                                                              IsExpanded="{Binding Source={RelativeSource AncestorType={x:Type toolkit:Expander}, AncestorLevel=1}, Path=IsExpanded}"
+                                                              TextColor="{StaticResource Primary}"
+                                                              FontAttributes="Bold"
+                                                              FontSize="Medium" />
+                    </Grid>
+                </toolkit:Expander.Header>
+                <ScrollView Padding="10" >
+                    <!--https://www.google.com/search?q=.net+maui+custom+ui+components&sxsrf=APwXEddUteEc26yZyoltkM2OfgRBqtqP1w%3A1684805492613&ei=dBdsZKjjJLGvptQPq9eL6AQ&ved=0ahUKEwio7ZvHpYr_AhWxl4kEHavrAk0Q4dUDCBE&uact=5&oq=.net+maui+custom+ui+components&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIFCAAQogQyBQgAEKIEMgUIABCiBDIFCAAQogQyBQgAEKIEOgoIABBHENYEELADOggIIRCgARDDBDoHCAAQDRCABDoICAAQigUQhgM6CgghEKABEMMEEApKBAhBGABQ5AdY9A1gkRRoAXABeACAAaQBiAHeBZIBAzQuM5gBAKABAcgBCMABAQ&sclient=gws-wiz-serp#fpstate=ive&vld=cid:788c8280,vid:3Cd3amJ-qcw-->
+                    <introductionFeature:IntroductionEditComponent Title="{Binding IntroductionViewModel.Introduction.Title}"
+                                                                   Comments="{Binding IntroductionViewModel.Introduction.Comment}"
+                                                                   SaveIntroductionCommand="{Binding IntroductionViewModel.SaveIntroductionCommand}"
+                                                                   DeleteIntroductionCommand="{Binding DeleteIntroductionCommand}" />
+                </ScrollView>
+            </toolkit:Expander>
+            <!-- Ingredients -->
+            <toolkit:Expander IsExpanded="False">
+                <toolkit:Expander.Header >
+                    <Grid Padding="10"
+                          BackgroundColor="{StaticResource Secondary}" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0"
+                               Text="Ingredients"
+                               TextColor="{StaticResource Primary}"
+                               FontAttributes="Bold"
+                               FontSize="Medium" />
+                        <sharedComponents:ArrowLabelComponent Grid.Column="1"
+                                                              IsExpanded="{Binding Source={RelativeSource AncestorType={x:Type toolkit:Expander}, AncestorLevel=1}, Path=IsExpanded}"
+                                                              TextColor="{StaticResource Primary}"
+                                                              FontAttributes="Bold"
+                                                              FontSize="Medium" />
+                    </Grid>
+                </toolkit:Expander.Header>
+                <ScrollView>
+                    <VerticalStackLayout>
+                        <CollectionView ItemsSource="{Binding IngredientViewModel.Ingredients}"
+                                        SelectionMode="None">
+                            <CollectionView.Header>
                                 <Grid ColumnDefinitions="60,100,100,Auto" Padding="5">
-                                    <Label Text="" Grid.Column="0"/>
-                                    <Entry Text="{Binding Measurement}" Grid.Column="1"/>
-                                    <Entry Text="{Binding Description}" Grid.Column="2"/>
-                                    <Label Text="" Grid.Column="3"/>
+                                    <Button Text="+" Grid.Column="0" WidthRequest="40" HeightRequest="40"></Button>
+                                    <Label Text="Measurement" Grid.Column="1" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
+                                    <Label Text="Description" Grid.Column="2" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
+                                    <Label Text="Move" Grid.Column="3" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
                                 </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </VerticalStackLayout>
-            </ScrollView>
-        </toolkit:Expander>
-        <!-- Instructions -->
-        <toolkit:Expander IsExpanded="False">
-            <toolkit:Expander.Header >
-                <Grid Padding="10"
-                      BackgroundColor="{StaticResource Secondary}" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0"
-                           Text="Instructions"
-                           TextColor="{StaticResource Primary}"
-                           FontAttributes="Bold"
-                           FontSize="Medium" />
-                    <sharedComponents:ArrowLabelComponent Grid.Column="1"
-                                                          IsExpanded="{Binding Source={RelativeSource AncestorType={x:Type toolkit:Expander}, AncestorLevel=1}, Path=IsExpanded}"
-                                                          TextColor="{StaticResource Primary}"
-                                                          FontAttributes="Bold"
-                                                          FontSize="Medium" />
-                </Grid>
-            </toolkit:Expander.Header>
-            <ScrollView>
-                <VerticalStackLayout>
-                    <CollectionView ItemsSource="{Binding InstructionViewModel.Instructions}"
-                                    SelectionMode="None">
-                        <CollectionView.Header>
-                            <Grid ColumnDefinitions="60,200,Auto" Padding="5">
-                                <Button Text="+" Grid.Column="0" WidthRequest="40" HeightRequest="40"></Button>
-                                <Label Text="Description" Grid.Column="1" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
-                                <Label Text="Move" Grid.Column="2" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
-                            </Grid>
-                        </CollectionView.Header>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="instructionFeature:InstructionDto">
+                            </CollectionView.Header>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="ingredientFeature:IngredientDto">
+                                    <Grid ColumnDefinitions="60,100,100,Auto" Padding="5">
+                                        <Label Text="" Grid.Column="0"/>
+                                        <Entry Text="{Binding Measurement}" Grid.Column="1"/>
+                                        <Entry Text="{Binding Description}" Grid.Column="2"/>
+                                        <Label Text="" Grid.Column="3"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </toolkit:Expander>
+            <!-- Instructions -->
+            <toolkit:Expander IsExpanded="False">
+                <toolkit:Expander.Header >
+                    <Grid Padding="10"
+                          BackgroundColor="{StaticResource Secondary}" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0"
+                               Text="Instructions"
+                               TextColor="{StaticResource Primary}"
+                               FontAttributes="Bold"
+                               FontSize="Medium" />
+                        <sharedComponents:ArrowLabelComponent Grid.Column="1"
+                                                              IsExpanded="{Binding Source={RelativeSource AncestorType={x:Type toolkit:Expander}, AncestorLevel=1}, Path=IsExpanded}"
+                                                              TextColor="{StaticResource Primary}"
+                                                              FontAttributes="Bold"
+                                                              FontSize="Medium" />
+                    </Grid>
+                </toolkit:Expander.Header>
+                <ScrollView>
+                    <VerticalStackLayout>
+                        <CollectionView ItemsSource="{Binding InstructionViewModel.Instructions}"
+                                        SelectionMode="None">
+                            <CollectionView.Header>
                                 <Grid ColumnDefinitions="60,200,Auto" Padding="5">
-                                    <Label Text="" Grid.Column="0"/>
-                                    <Entry Text="{Binding Description}" Grid.Column="1"/>
-                                    <Label Text="" Grid.Column="2"/>
+                                    <Button Text="+" Grid.Column="0" WidthRequest="40" HeightRequest="40"></Button>
+                                    <Label Text="Description" Grid.Column="1" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
+                                    <Label Text="Move" Grid.Column="2" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
                                 </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </VerticalStackLayout>
-            </ScrollView>
-        </toolkit:Expander>
-    </VerticalStackLayout>
+                            </CollectionView.Header>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="instructionFeature:InstructionDto">
+                                    <Grid ColumnDefinitions="60,200,Auto" Padding="5">
+                                        <Label Text="" Grid.Column="0"/>
+                                        <Entry Text="{Binding Description}" Grid.Column="1"/>
+                                        <Label Text="" Grid.Column="2"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </toolkit:Expander>
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>
