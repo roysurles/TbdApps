@@ -75,6 +75,30 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
 
     //    return this;
     //}
+
+    [RelayCommand]
+    public async Task AddIngredientAsync()
+    {
+        await App.Current.MainPage.DisplayAlert("Add", $"AddIngredientAsync", Constants.AlertButtonText.OK);
+    }
+
+    [RelayCommand]
+    public async Task SaveIngredientAsync(object args)
+    {
+        await App.Current.MainPage.DisplayAlert("Save", $"SaveIngredientAsync {args}?", Constants.AlertButtonText.OK);
+    }
+
+    [RelayCommand]
+    public async Task DeleteIngredientAsync(object args)
+    {
+        await App.Current.MainPage.DisplayAlert("Delete", $"DeleteIngredientAsync {args}?", Constants.AlertButtonText.OK);
+    }
+
+    [RelayCommand]
+    public async Task MoveIngredientFirstAsync(object args)
+    {
+        await App.Current.MainPage.DisplayAlert("Move", $"MoveIngredientFirstAsync {args}", Constants.AlertButtonText.OK);
+    }
 }
 
 public interface IIngredientViewModel : IBaseViewModel
@@ -82,4 +106,20 @@ public interface IIngredientViewModel : IBaseViewModel
     ObservableCollection<IngredientDto> Ingredients { get; }
 
     Task<IIngredientViewModel> InitializeAsync(Guid introductionId);
+
+    Task AddIngredientAsync();
+
+    IAsyncRelayCommand AddIngredientCommand { get; }
+
+    Task SaveIngredientAsync(object args);
+
+    IAsyncRelayCommand<object> SaveIngredientCommand { get; }
+
+    Task DeleteIngredientAsync(object args);
+
+    IAsyncRelayCommand<object> DeleteIngredientCommand { get; }
+
+    Task MoveIngredientFirstAsync(object args);
+
+    IAsyncRelayCommand<object> MoveIngredientFirstCommand { get; }
 }

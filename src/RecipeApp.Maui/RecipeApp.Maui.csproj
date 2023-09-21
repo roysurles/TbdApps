@@ -73,6 +73,9 @@
 	  <MauiXaml Update="Features\Shared\XamlComponents\PaginationComponentEx.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Features\Shared\XamlComponents\RepositionItemComponent.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

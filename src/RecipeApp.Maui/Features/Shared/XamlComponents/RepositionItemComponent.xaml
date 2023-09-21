@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:xamlComponents="clr-namespace:RecipeApp.Maui.Features.Shared.XamlComponents"
+             x:Class="RecipeApp.Maui.Features.Shared.XamlComponents.RepositionItemComponent"
+             xmlns:sharedComponents="clr-namespace:RecipeApp.Maui.Features.Shared.XamlComponents"
+             x:DataType="sharedComponents:RepositionItemComponent" >
+
+    <ContentView.Resources>
+        <x:String x:Key="Save">&#xf0c7;</x:String>
+        <x:String x:Key="Delete">&#xf2ed;</x:String>
+
+        <x:String x:Key="MoveFirst">&#xf102;</x:String>
+        <x:String x:Key="MoveUp">&#xf106;</x:String>
+        <x:String x:Key="MoveDown">&#xf107;</x:String>
+        <x:String x:Key="MoveLast">&#xf103;</x:String>
+    </ContentView.Resources>
+
+    <!--TODO: research how to bind ImageButton Command & CommandParameter here to command in code behind-->
+    <HorizontalStackLayout >
+        <ImageButton WidthRequest="40"
+                     HeightRequest="40"
+                     Clicked="MoveFirstImageButton_Clicked">
+            <ImageButton.Source>
+                <FontImageSource FontFamily="FAS"
+                                 Glyph="{StaticResource MoveFirst}"
+                                 Color="{StaticResource Secondary}"
+                                 Size="40" />
+            </ImageButton.Source>
+        </ImageButton>
+        <ImageButton WidthRequest="40"
+                     HeightRequest="40" >
+            <ImageButton.Source>
+                <FontImageSource FontFamily="FAS"
+                                 Glyph="{StaticResource MoveUp}"
+                                 Color="{StaticResource Secondary}"
+                                 Size="40" />
+            </ImageButton.Source>
+        </ImageButton>
+        <ImageButton WidthRequest="40"
+                     HeightRequest="40" >
+            <ImageButton.Source>
+                <FontImageSource FontFamily="FAS"
+                                 Glyph="{StaticResource MoveDown}"
+                                 Color="{StaticResource Secondary}"
+                                 Size="40" />
+            </ImageButton.Source>
+        </ImageButton>
+        <ImageButton WidthRequest="40"
+                     HeightRequest="40" >
+            <ImageButton.Source>
+                <FontImageSource FontFamily="FAS"
+                                 Glyph="{StaticResource MoveLast}"
+                                 Color="{StaticResource Secondary}"
+                                 Size="40" />
+            </ImageButton.Source>
+        </ImageButton>
+    </HorizontalStackLayout>
+
+</ContentView>

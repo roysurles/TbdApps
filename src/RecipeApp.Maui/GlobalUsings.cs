@@ -2,6 +2,7 @@
 global using System.ComponentModel.DataAnnotations;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Globalization;
+global using System.Windows.Input;
 
 global using CommunityToolkit.Maui;
 global using CommunityToolkit.Maui.Alerts;
