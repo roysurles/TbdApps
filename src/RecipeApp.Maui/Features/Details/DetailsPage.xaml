@@ -122,8 +122,10 @@
                                         <Entry Text="{Binding Description}" Grid.Column="3"/>
                                         <sharedComponents:RepositionItemComponent Grid.Column="4"
                                                                                   MoveFirstCommand="{Binding Source={RelativeSource AncestorType={x:Type local:DetailsPageViewModel}}, Path=IngredientViewModel.MoveIngredientFirstCommand}"
-                                                                                  CommandParameter="{Binding .}"/>
-                                        <!--CommandParameter="{Binding .}"-->
+                                                                                  MoveUpCommand="{Binding Source={RelativeSource AncestorType={x:Type local:DetailsPageViewModel}}, Path=IngredientViewModel.MoveIngredientUpCommand}"
+                                                                                  MoveDownCommand="{Binding Source={RelativeSource AncestorType={x:Type local:DetailsPageViewModel}}, Path=IngredientViewModel.MoveIngredientDownCommand}"
+                                                                                  MoveLastCommand="{Binding Source={RelativeSource AncestorType={x:Type local:DetailsPageViewModel}}, Path=IngredientViewModel.MoveIngredientLastCommand}"
+                                                                                  CommandParameter="{Binding .}" />
                                     </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>

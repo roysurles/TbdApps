@@ -30,7 +30,7 @@
         </ImageButton>
         <ImageButton WidthRequest="40"
                      HeightRequest="40"
-                     Clicked="MovueUpImageButton_Clicked">
+                     Clicked="MoveUpImageButton_Clicked">
             <ImageButton.Source>
                 <FontImageSource FontFamily="FAS"
                                  Glyph="{StaticResource MoveUp}"

@@ -97,7 +97,25 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
     [RelayCommand]
     public async Task MoveIngredientFirstAsync(object args)
     {
-        await App.Current.MainPage.DisplayAlert("Move", $"MoveIngredientFirstAsync {args}", Constants.AlertButtonText.OK);
+        await App.Current.MainPage.DisplayAlert("Move First", $"MoveIngredientFirstAsync {args}", Constants.AlertButtonText.OK);
+    }
+
+    [RelayCommand]
+    public async Task MoveIngredientUpAsync(object args)
+    {
+        await App.Current.MainPage.DisplayAlert("Move Up", $"MoveIngredientUpAsync {args}", Constants.AlertButtonText.OK);
+    }
+
+    [RelayCommand]
+    public async Task MoveIngredientDownAsync(object args)
+    {
+        await App.Current.MainPage.DisplayAlert("Move Down", $"MoveIngredientDownAsync {args}", Constants.AlertButtonText.OK);
+    }
+
+    [RelayCommand]
+    public async Task MoveIngredientLastAsync(object args)
+    {
+        await App.Current.MainPage.DisplayAlert("Move Last", $"MoveIngredientLastAsync {args}", Constants.AlertButtonText.OK);
     }
 }
 
@@ -122,4 +140,16 @@ public interface IIngredientViewModel : IBaseViewModel
     Task MoveIngredientFirstAsync(object args);
 
     IAsyncRelayCommand<object> MoveIngredientFirstCommand { get; }
+
+    Task MoveIngredientUpAsync(object args);
+
+    IAsyncRelayCommand<object> MoveIngredientUpCommand { get; }
+
+    Task MoveIngredientDownAsync(object args);
+
+    IAsyncRelayCommand<object> MoveIngredientDownCommand { get; }
+
+    Task MoveIngredientLastAsync(object args);
+
+    IAsyncRelayCommand<object> MoveIngredientLastCommand { get; }
 }

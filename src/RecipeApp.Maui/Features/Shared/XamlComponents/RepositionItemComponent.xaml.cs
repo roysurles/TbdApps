@@ -20,8 +20,8 @@ public partial class RepositionItemComponent : ContentView
         BindableProperty.Create(nameof(MoveFirstCommand), typeof(ICommand), typeof(RepositionItemComponent));
     public ICommand MoveFirstCommand
     {
-        get => (ICommand)GetValue(MoveUpCommandProperty);
-        set => SetValue(MoveUpCommandProperty, value);
+        get => (ICommand)GetValue(MoveFirstCommandProperty);
+        set => SetValue(MoveFirstCommandProperty, value);
     }
 
 
@@ -54,7 +54,7 @@ public partial class RepositionItemComponent : ContentView
     private void MoveFirstImageButton_Clicked(object sender, EventArgs e) =>
         MoveFirstCommand?.Execute(CommandParameter);
 
-    private void MovueUpImageButton_Clicked(object sender, EventArgs e) =>
+    private void MoveUpImageButton_Clicked(object sender, EventArgs e) =>
         MoveUpCommand?.Execute(CommandParameter);
 
     private void MoveDownImageButton_Clicked(object sender, EventArgs e) =>
