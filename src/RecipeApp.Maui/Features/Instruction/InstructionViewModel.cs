@@ -41,6 +41,48 @@ public partial class InstructionViewModel : BaseViewModel, IInstructionViewModel
 
         return this;
     }
+
+    [RelayCommand]
+    public async Task AddInstructionAsync()
+    {
+        await App.Current.MainPage.DisplayAlert("Add", $"AddInstructionAsync", Constants.AlertButtonText.OK);
+    }
+
+    [RelayCommand]
+    public async Task SaveInstructionAsync(object args)
+    {
+        await App.Current.MainPage.DisplayAlert("Save", $"SaveInstructionAsync {args}?", Constants.AlertButtonText.OK);
+    }
+
+    [RelayCommand]
+    public async Task DeleteInstructionAsync(object args)
+    {
+        await App.Current.MainPage.DisplayAlert("Delete", $"DeleteInstructionAsync {args}?", Constants.AlertButtonText.OK);
+    }
+
+    [RelayCommand]
+    public async Task MoveInstructionFirstAsync(object args)
+    {
+        await App.Current.MainPage.DisplayAlert("Move First", $"MoveInstructionFirstAsync {args}", Constants.AlertButtonText.OK);
+    }
+
+    [RelayCommand]
+    public async Task MoveInstructionUpAsync(object args)
+    {
+        await App.Current.MainPage.DisplayAlert("Move Up", $"MoveInstructionUpAsync {args}", Constants.AlertButtonText.OK);
+    }
+
+    [RelayCommand]
+    public async Task MoveInstructionDownAsync(object args)
+    {
+        await App.Current.MainPage.DisplayAlert("Move Down", $"MoveInstructionDownAsync {args}", Constants.AlertButtonText.OK);
+    }
+
+    [RelayCommand]
+    public async Task MoveInstructionLastAsync(object args)
+    {
+        await App.Current.MainPage.DisplayAlert("Move Last", $"MoveInstructionLastAsync {args}", Constants.AlertButtonText.OK);
+    }
 }
 
 public interface IInstructionViewModel : IBaseViewModel
@@ -48,4 +90,32 @@ public interface IInstructionViewModel : IBaseViewModel
     ObservableCollection<InstructionDto> Instructions { get; }
 
     Task<IInstructionViewModel> InitializeAsync(Guid introductionId);
+
+    Task AddInstructionAsync();
+
+    IAsyncRelayCommand AddInstructionCommand { get; }
+
+    Task SaveInstructionAsync(object args);
+
+    IAsyncRelayCommand<object> SaveInstructionCommand { get; }
+
+    Task DeleteInstructionAsync(object args);
+
+    IAsyncRelayCommand<object> DeleteInstructionCommand { get; }
+
+    Task MoveInstructionFirstAsync(object args);
+
+    IAsyncRelayCommand<object> MoveInstructionFirstCommand { get; }
+
+    Task MoveInstructionUpAsync(object args);
+
+    IAsyncRelayCommand<object> MoveInstructionUpCommand { get; }
+
+    Task MoveInstructionDownAsync(object args);
+
+    IAsyncRelayCommand<object> MoveInstructionDownCommand { get; }
+
+    Task MoveInstructionLastAsync(object args);
+
+    IAsyncRelayCommand<object> MoveInstructionLastCommand { get; }
 }

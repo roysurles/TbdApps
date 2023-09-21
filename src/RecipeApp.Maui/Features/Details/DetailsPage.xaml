@@ -157,13 +157,14 @@
                                                               FontSize="Medium" />
                     </Grid>
                 </toolkit:Expander.Header>
-                <ScrollView>
+                <ScrollView HorizontalScrollBarVisibility="Always" Orientation="Both">
                     <VerticalStackLayout>
                         <CollectionView ItemsSource="{Binding InstructionViewModel.Instructions}"
                                         SelectionMode="None">
                             <CollectionView.Header>
                                 <Grid ColumnDefinitions="45,45,200,Auto" Padding="5">
-                                    <Button Text="+" Grid.Column="0" WidthRequest="40" HeightRequest="40"></Button>
+                                    <Button Text="+" Grid.Column="0" WidthRequest="40" HeightRequest="40"
+                                            Command="{Binding InstructionViewModel.AddInstructionCommand}" />
                                     <Label Text="" Grid.Column="1" WidthRequest="40" HeightRequest="40"></Label>
                                     <Label Text="Description" Grid.Column="2" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
                                     <Label Text="Move" Grid.Column="3" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
@@ -172,18 +173,28 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="instructionFeature:InstructionDto">
                                     <Grid ColumnDefinitions="45,45,200,Auto" Padding="5">
-                                        <ImageButton Grid.Column="0" WidthRequest="40" HeightRequest="40" >
+                                        <ImageButton Grid.Column="0" WidthRequest="40" HeightRequest="40"
+                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:DetailsPageViewModel}}, Path=InstructionViewModel.SaveInstructionCommand}"
+                                                     CommandParameter="{Binding .}" >
                                             <ImageButton.Source>
                                                 <FontImageSource FontFamily="FAS" Glyph="{StaticResource Save}" Color="{StaticResource Primary}" Size="40" />
                                             </ImageButton.Source>
                                         </ImageButton>
-                                        <ImageButton Grid.Column="1" WidthRequest="40" HeightRequest="40" >
+                                        <ImageButton Grid.Column="1" WidthRequest="40" HeightRequest="40"
+                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:DetailsPageViewModel}}, Path=InstructionViewModel.DeleteInstructionCommand}"
+                                                     CommandParameter="{Binding .}" >
                                             <ImageButton.Source>
                                                 <FontImageSource FontFamily="FAS" Glyph="{StaticResource Delete}" Color="{StaticResource Secondary}" Size="40" />
                                             </ImageButton.Source>
                                         </ImageButton>
                                         <Entry Text="{Binding Description}" Grid.Column="2"/>
-                                        <Label Text="" Grid.Column="3"/>
+                                        <sharedComponents:RepositionItemComponent Grid.Column="3"
+                                                                                  MoveFirstCommand="{Binding Source={RelativeSource AncestorType={x:Type local:DetailsPageViewModel}}, Path=InstructionViewModel.MoveInstructionFirstCommand}"
+                                                                                  MoveUpCommand="{Binding Source={RelativeSource AncestorType={x:Type local:DetailsPageViewModel}}, Path=InstructionViewModel.MoveInstructionUpCommand}"
+                                                                                  MoveDownCommand="{Binding Source={RelativeSource AncestorType={x:Type local:DetailsPageViewModel}}, Path=InstructionViewModel.MoveInstructionDownCommand}"
+                                                                                  MoveLastCommand="{Binding Source={RelativeSource AncestorType={x:Type local:DetailsPageViewModel}}, Path=InstructionViewModel.MoveInstructionLastCommand}"
+                                                                                  CommandParameter="{Binding .}" />
+
                                     </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
