@@ -2,7 +2,6 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:xamlComponents="clr-namespace:RecipeApp.Maui.Features.Shared.XamlComponents"
              x:Class="RecipeApp.Maui.Features.Shared.XamlComponents.RepositionItemComponent"
              xmlns:sharedComponents="clr-namespace:RecipeApp.Maui.Features.Shared.XamlComponents"
              x:DataType="sharedComponents:RepositionItemComponent" >
@@ -30,7 +29,8 @@
             </ImageButton.Source>
         </ImageButton>
         <ImageButton WidthRequest="40"
-                     HeightRequest="40" >
+                     HeightRequest="40"
+                     Clicked="MovueUpImageButton_Clicked">
             <ImageButton.Source>
                 <FontImageSource FontFamily="FAS"
                                  Glyph="{StaticResource MoveUp}"
@@ -39,7 +39,8 @@
             </ImageButton.Source>
         </ImageButton>
         <ImageButton WidthRequest="40"
-                     HeightRequest="40" >
+                     HeightRequest="40"
+                     Clicked="MoveDownImageButton_Clicked">
             <ImageButton.Source>
                 <FontImageSource FontFamily="FAS"
                                  Glyph="{StaticResource MoveDown}"
@@ -48,7 +49,8 @@
             </ImageButton.Source>
         </ImageButton>
         <ImageButton WidthRequest="40"
-                     HeightRequest="40" >
+                     HeightRequest="40"
+                     Clicked="MoveLastImageButton_Clicked" >
             <ImageButton.Source>
                 <FontImageSource FontFamily="FAS"
                                  Glyph="{StaticResource MoveLast}"
