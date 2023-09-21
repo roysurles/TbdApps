@@ -11,6 +11,16 @@
              Title="Details"
              x:DataType="local:DetailsPageViewModel" >
 
+    <ContentPage.Resources>
+        <x:String x:Key="Save">&#xf0c7;</x:String>
+        <x:String x:Key="Delete">&#xf2ed;</x:String>
+
+        <x:String x:Key="MoveFirst">&#xf102;</x:String>
+        <x:String x:Key="MoveUp">&#xf106;</x:String>
+        <x:String x:Key="MoveDown">&#xf107;</x:String>
+        <x:String x:Key="MoveLast">&#xf103;</x:String>
+    </ContentPage.Resources>
+
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Loaded"
                                         Command="{Binding InitializeCommand}" />
@@ -77,25 +87,49 @@
                                                               FontSize="Medium" />
                     </Grid>
                 </toolkit:Expander.Header>
-                <ScrollView>
+                <ScrollView HorizontalScrollBarVisibility="Always" Orientation="Both">
                     <VerticalStackLayout>
                         <CollectionView ItemsSource="{Binding IngredientViewModel.Ingredients}"
                                         SelectionMode="None">
                             <CollectionView.Header>
-                                <Grid ColumnDefinitions="60,100,100,Auto" Padding="5">
+                                <Grid ColumnDefinitions="45, 45,100,100,Auto" Padding="5">
                                     <Button Text="+" Grid.Column="0" WidthRequest="40" HeightRequest="40"></Button>
-                                    <Label Text="Measurement" Grid.Column="1" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
-                                    <Label Text="Description" Grid.Column="2" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
-                                    <Label Text="Move" Grid.Column="3" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
+                                    <Label Text="" Grid.Column="1" WidthRequest="40" HeightRequest="40"></Label>
+                                    <Label Text="Measurement" Grid.Column="2" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
+                                    <Label Text="Description" Grid.Column="3" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
+                                    <Label Text="Move" Grid.Column="4" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
                                 </Grid>
                             </CollectionView.Header>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="ingredientFeature:IngredientDto">
-                                    <Grid ColumnDefinitions="60,100,100,Auto" Padding="5">
-                                        <Label Text="" Grid.Column="0"/>
-                                        <Entry Text="{Binding Measurement}" Grid.Column="1"/>
-                                        <Entry Text="{Binding Description}" Grid.Column="2"/>
-                                        <Label Text="" Grid.Column="3"/>
+                                    <Grid ColumnDefinitions="45, 45,100,100,Auto" Padding="5">
+                                        <ImageButton Grid.Column="0" WidthRequest="40" HeightRequest="40" >
+                                            <ImageButton.Source>
+                                                <FontImageSource FontFamily="FAS" Glyph="{StaticResource Save}" Color="{StaticResource Primary}" Size="40" />
+                                            </ImageButton.Source>
+                                        </ImageButton>
+                                        <ImageButton Grid.Column="1" WidthRequest="40" HeightRequest="40" >
+                                            <ImageButton.Source>
+                                                <FontImageSource FontFamily="FAS" Glyph="{StaticResource Delete}" Color="{StaticResource Secondary}" Size="40" />
+                                            </ImageButton.Source>
+                                        </ImageButton>
+                                        <Entry Text="{Binding Measurement}" Grid.Column="2"/>
+                                        <Entry Text="{Binding Description}" Grid.Column="3"/>
+                                        <!--<Label Text="" Grid.Column="4"/>-->
+                                        <HorizontalStackLayout Grid.Column="4">
+                                            <Button Text="1"
+                                                    Margin="2,0,0,0"
+                                                    BackgroundColor="{StaticResource Primary}" />
+                                            <Button Text="2"
+                                                    Margin="2,0,0,0"
+                                                    BackgroundColor="{StaticResource Primary}" />
+                                            <Button Text="3"
+                                                    Margin="2,0,0,0"
+                                                    BackgroundColor="{StaticResource Primary}" />
+                                            <Button Text="4"
+                                                    Margin="2,0,0,0"
+                                                    BackgroundColor="{StaticResource Primary}" />
+                                        </HorizontalStackLayout>
                                     </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
@@ -132,18 +166,28 @@
                         <CollectionView ItemsSource="{Binding InstructionViewModel.Instructions}"
                                         SelectionMode="None">
                             <CollectionView.Header>
-                                <Grid ColumnDefinitions="60,200,Auto" Padding="5">
+                                <Grid ColumnDefinitions="45,45,200,Auto" Padding="5">
                                     <Button Text="+" Grid.Column="0" WidthRequest="40" HeightRequest="40"></Button>
-                                    <Label Text="Description" Grid.Column="1" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
-                                    <Label Text="Move" Grid.Column="2" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
+                                    <Label Text="" Grid.Column="1" WidthRequest="40" HeightRequest="40"></Label>
+                                    <Label Text="Description" Grid.Column="2" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
+                                    <Label Text="Move" Grid.Column="3" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
                                 </Grid>
                             </CollectionView.Header>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="instructionFeature:InstructionDto">
-                                    <Grid ColumnDefinitions="60,200,Auto" Padding="5">
-                                        <Label Text="" Grid.Column="0"/>
-                                        <Entry Text="{Binding Description}" Grid.Column="1"/>
-                                        <Label Text="" Grid.Column="2"/>
+                                    <Grid ColumnDefinitions="45,45,200,Auto" Padding="5">
+                                        <ImageButton Grid.Column="0" WidthRequest="40" HeightRequest="40" >
+                                            <ImageButton.Source>
+                                                <FontImageSource FontFamily="FAS" Glyph="{StaticResource Save}" Color="{StaticResource Primary}" Size="40" />
+                                            </ImageButton.Source>
+                                        </ImageButton>
+                                        <ImageButton Grid.Column="1" WidthRequest="40" HeightRequest="40" >
+                                            <ImageButton.Source>
+                                                <FontImageSource FontFamily="FAS" Glyph="{StaticResource Delete}" Color="{StaticResource Secondary}" Size="40" />
+                                            </ImageButton.Source>
+                                        </ImageButton>
+                                        <Entry Text="{Binding Description}" Grid.Column="2"/>
+                                        <Label Text="" Grid.Column="3"/>
                                     </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
