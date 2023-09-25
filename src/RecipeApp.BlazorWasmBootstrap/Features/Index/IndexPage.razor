@@ -70,9 +70,9 @@ else
         @if (IntroductionSearchViewModel.IntroductionSearchResult.Meta.PageCount > 1)
         {
             <PaginationComponent TotalItemCount="@IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.TotalItemCount"
-                                    PageCount="@(Math.Min(IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.PageCount, 10))"
-                                    PageNumber="@(IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.PageNumber)"
-                                    PageNumberClicked="@((int pageNumber) => SearchAsync(pageNumber))" />
+                                 PageCount="@(Math.Min(IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.PageCount, 10))"
+                                 PageNumber="@(IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.PageNumber)"
+                                 PageNumberClicked="@((int pageNumber) => SearchAsync(pageNumber))" />
         }
     }
     else

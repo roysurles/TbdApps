@@ -19,7 +19,9 @@ else
 {
     @if (IntroductionSearchViewModel.HasSearched)
     {
-        <MudTable Items="@(IntroductionSearchViewModel.IntroductionSearchResult.Data)"
+        <MudTable @ref="@_mudTable"
+                  T="IntroductionSearchResultDto"
+                  Items="@(IntroductionSearchViewModel.IntroductionSearchResult.Data)"
                   Hover="true"
                   Bordered="true"
                   Striped="true">
@@ -52,7 +54,15 @@ else
                 <MudTd DataLabel="Instructions" Style="text-align: right">@context.InstructionsCount</MudTd>
             </RowTemplate>
             <PagerContent>
-                <MudTablePager />
+                @* <MudTablePager /> *@
+                <div class="d-flex align-center flex-grow-1 gap-4" >
+                    <MudPagination Selected="@(IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.PageNumber)"
+                                   SelectedChanged="@((int pageNumber) => SearchAsync(pageNumber))"
+                                   Count="@(Math.Min(IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.PageCount, 10))"
+                                   Class="d-flex py-5 "  />
+                    <MudText Class="d-flex py-5"
+                             Align="Align.Left">@PaginationText</MudText>
+                </div>
             </PagerContent>
         </MudTable>
     }
@@ -75,6 +85,11 @@ else
 
     protected string PageName = nameof(IndexPage);
 
+    protected MudTable<IntroductionSearchResultDto> _mudTable;
+
+    protected string PaginationText =>
+        $"Page {IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.PageNumber} of {Math.Min(IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.PageCount, 10)}; Total Items: {IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.TotalItemCount}";
+
     protected override async Task OnInitializedAsync()
     {
         IntroductionSearchViewModel.StateHasChangedEvent += IntroductionSearchViewModel_StateHasChangedEvent;
@@ -95,6 +110,7 @@ else
 
             IntroductionSearchViewModel.SetBusyFlag(true);
             await IntroductionSearchViewModel.SearchAsync(pageNumber, pageSize);
+            _mudTable.NavigateTo(pageNumber - 1);
         }
         catch (Exception ex)
         {
