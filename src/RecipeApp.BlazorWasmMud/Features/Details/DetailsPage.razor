@@ -1,13 +1,119 @@
 ﻿@page "/Details"
 @page "/Details/{IntroductionId}"
 @inject ISessionViewModel SessionViewModel
-@* @inject IDetailsPageViewModel DetailsPageViewModel *@
+@inject IDetailsPageViewModel DetailsPageViewModel
 @inject ILogger<DetailsPage> Logger
+@inject IJSRuntime JSRuntime
 
 <PageTitle>RecipeApp - Details</PageTitle>
 
-<h3>DetailsPage</h3>
+<MudGrid>
+    <MudItem xs="12" Class="py-3">
+    </MudItem>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h5" Class="ml-3">Details</MudText>
+    </MudItem>
+
+    @if (DetailsPageViewModel.IsLoading)
+    {
+        <MudItem xs="12" Class="d-flex align-center justify-center mud-width-full py-8">
+            <i>Loading...</i>
+        </MudItem>
+    }
+    else
+    {
+        <MudItem xs="12" Class="d-flex align-center justify-center mud-width-full py-8">
+            <ApiResultMessagesComponent ApiResultMessages="@DetailsPageViewModel.ApiResultMessages" />
+        </MudItem>
+
+        <MudItem xs="12" Class="d-flex align-center justify-start mud-width-full py-8">
+            <MudButton Color="Color.Tertiary"
+                       OnClick="@(async () => await JSRuntime.InvokeVoidAsync("history.back;"))">
+                Back
+            </MudButton>
+        </MudItem>
+    }
+
+</MudGrid>
 
 @code {
+
+    [Parameter]
+    public string IntroductionId { get; set; }
+
+    protected string PageName = nameof(DetailsPage);
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(OnInitializedAsync)}({IntroductionId})");
+
+            DetailsPageViewModel.IsLoading = true;
+            await DetailsPageViewModel.InitializeAsync(IntroductionId.ToGuid());
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, DetailsPageViewModel.ApiResultMessages, PageName);
+        }
+        finally
+        {
+            DetailsPageViewModel.IsLoading = false;
+            await base.OnInitializedAsync();
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Logger.LogInformation($"{nameof(OnParametersSet)}({IntroductionId})");
+        base.OnParametersSet();
+        await OnInitializedAsync();
+    }
+
+    protected async Task OnIntroductionSavedAsync(bool wasNew)
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(OnIntroductionSavedAsync)}({wasNew})");
+
+            DetailsPageViewModel.IsBusy = true;
+            if (wasNew)
+            {
+                IntroductionId = DetailsPageViewModel.IntroductionViewModel.Introduction.Id.ToString();
+                await DetailsPageViewModel.InitializeIngredientsAndInstructionsAsync(DetailsPageViewModel.IntroductionViewModel.Introduction.Id);
+            }
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, DetailsPageViewModel.ApiResultMessages, PageName);
+        }
+        finally
+        {
+            DetailsPageViewModel.IsBusy = false;
+        }
+    }
+
+    protected async Task OnIntroductionDeletedAsync()
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(OnIntroductionDeletedAsync)}()");
+
+            DetailsPageViewModel.IsBusy = true;
+            IntroductionId = null;
+            await DetailsPageViewModel.InitializeIngredientsAndInstructionsAsync(Guid.Empty);
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, DetailsPageViewModel.ApiResultMessages, PageName);
+        }
+        finally
+        {
+            DetailsPageViewModel.IsBusy = false;
+        }
+    }
+
+    protected void ChildComponentStateHasChanged() =>
+        StateHasChanged();
 
 }

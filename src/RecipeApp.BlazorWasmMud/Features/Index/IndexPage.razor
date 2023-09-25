@@ -110,7 +110,7 @@ else
 
             IntroductionSearchViewModel.SetBusyFlag(true);
             await IntroductionSearchViewModel.SearchAsync(pageNumber, pageSize);
-            _mudTable.NavigateTo(pageNumber - 1);
+            _mudTable?.NavigateTo(pageNumber - 1);
         }
         catch (Exception ex)
         {
