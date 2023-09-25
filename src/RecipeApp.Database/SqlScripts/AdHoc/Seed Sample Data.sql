@@ -12,7 +12,7 @@ DECLARE @NewIntroductionId UNIQUEIDENTIFIER
 DECLARE @Counter INT
 SET @Counter=1
 
-WHILE ( @Counter <= 10 )
+WHILE ( @Counter <= 24 )
 BEGIN
 
     SET @NewIntroductionId = NEWID()
