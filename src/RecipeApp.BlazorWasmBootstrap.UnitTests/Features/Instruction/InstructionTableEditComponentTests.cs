@@ -1,16 +1,4 @@
-﻿using Bunit;
-
-using Microsoft.Extensions.Logging;
-
-using Moq;
-
-using RecipeApp.BlazorWasmBootstrap.Features.Instruction;
-using RecipeApp.BlazorWasmBootstrap.UnitTests.Shared.Extensions;
-
-using Xunit;
-using Xunit.Abstractions;
-
-namespace RecipeApp.BlazorWasmBootstrap.UnitTests.Features.Instruction
+﻿namespace RecipeApp.BlazorWasmBootstrap.UnitTests.Features.Instruction
 {
     public class InstructionTableEditComponentTests : TestContext
     {

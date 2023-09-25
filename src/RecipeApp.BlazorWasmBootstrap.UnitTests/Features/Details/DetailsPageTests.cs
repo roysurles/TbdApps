@@ -1,20 +1,4 @@
-﻿using Bunit;
-
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
-using Moq;
-
-using RecipeApp.BlazorWasmBootstrap.Features.Details;
-using RecipeApp.BlazorWasmBootstrap.Features.Ingredient;
-using RecipeApp.BlazorWasmBootstrap.Features.Instruction;
-using RecipeApp.BlazorWasmBootstrap.UnitTests.Shared.Extensions;
-using RecipeApp.Shared.Features.Introduction;
-
-using Xunit;
-using Xunit.Abstractions;
-
-namespace RecipeApp.BlazorWasmBootstrap.UnitTests.Features.Details
+﻿namespace RecipeApp.BlazorWasmBootstrap.UnitTests.Features.Details
 {
     public class DetailsPageTests : TestContext
     {

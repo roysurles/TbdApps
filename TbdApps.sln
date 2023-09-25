@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.Maui", "src\Recip
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.CoreApi.UnitTests.NSub", "src\RecipeApp.CoreApi.UnitTests.NSub\RecipeApp.CoreApi.UnitTests.NSub.csproj", "{1E980AFE-F50C-4908-A2A7-E588AE9D56E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApp.WatchdogMvc", "src\RecipeApp.WatchdogMvc\RecipeApp.WatchdogMvc.csproj", "{49048271-9F13-44C9-869F-5C2A55C66D13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.WatchdogMvc", "src\RecipeApp.WatchdogMvc\RecipeApp.WatchdogMvc.csproj", "{49048271-9F13-44C9-869F-5C2A55C66D13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
