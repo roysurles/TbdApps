@@ -23,16 +23,13 @@
         </MudText>
         <MudSpacer />
         <SessionComponent />
-        <MudAutocomplete T="string"
-                         Placeholder="Search"
-                         Variant="Variant.Outlined"
-                         Class="mr-2 mb-1"
-                         Style="color: white;"
-                         DisableUnderLine="true"
-                         InputType="InputType.Text">
-        </MudAutocomplete>
+        <MudTextField @bind-Value="@(IntroductionSearchViewModel.IntroductionSearchRequestDto.SearchText)"
+                      Variant="Variant.Outlined"
+                      Placeholder="Search"
+                      Class="mr-1 my-2"
+                      Style="max-width: 510px; color: white;" />
         <MudButton Variant="Variant.Outlined"
-                   Color="Color.Secondary"
+                   Color="Color.Success"
                    Disabled="@(IntroductionSearchViewModel.IsBusy)"
                    OnClick="@SearchAsync">
             Search
