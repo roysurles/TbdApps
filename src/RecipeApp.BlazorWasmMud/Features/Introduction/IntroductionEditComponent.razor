@@ -1,0 +1,133 @@
+﻿@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+
+@inject ISessionViewModel SessionViewModel
+@inject IJSRuntime JSRuntime
+@inject ILogger<IntroductionEditComponent> Logger
+@inject ISnackbar Snackbar
+
+@if (IntroductionViewModel is not null)
+{
+    <MudForm @ref="@MudForm" Model="@IntroductionViewModel.Introduction" @bind-IsValid="IsValid" @bind-Errors="@Errors" >
+        <MudGrid>
+            <MudItem xs="12" >
+                <div style="width:auto">
+                    <MudTextField @bind-Value="@(IntroductionViewModel.Introduction.Title)"
+                                  Required="true"
+                                  RequiredError="Title is required."
+                                  Validation="@(new MaxLengthAttribute(50) { ErrorMessage="Title cannot exceed 50 characters."})"
+                                  Label="Title"
+                                  Variant="Variant.Outlined"
+                                  Margin="Margin.Dense" />
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" >
+                <MudTextField @bind-Value="@(IntroductionViewModel.Introduction.Comment)"
+                              Validation="@(new MaxLengthAttribute(255) { ErrorMessage="Comment cannot exceed 255 characters."})"
+                              Label="Comment"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudButton Variant="Variant.Filled"
+                           StartIcon="@Icons.Material.Filled.Save"
+                           Color="Color.Primary"
+                           OnClick="@SaveIntroductionAsync" >
+                    Save Introduction
+                </MudButton>
+                <MudButton Variant="Variant.Filled"
+                           StartIcon="@Icons.Material.Filled.Delete"
+                           Color="Color.Error"
+                           OnClick="@DeleteIntroductionAsync"
+                           Disabled="@(IntroductionViewModel.Introduction.IsNew)">
+                    Delete Introduction
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudForm>
+}
+
+@code {
+
+    [Parameter]
+    public IIntroductionViewModel IntroductionViewModel { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnIntroductionSaved { get; set; }
+
+    [Parameter]
+    public EventCallback OnIntroductionDeleted { get; set; }
+
+    protected string ComponentName = nameof(IntroductionEditComponent);
+
+    protected MudForm MudForm { get; set; }
+
+    protected bool IsValid { get; set; }
+
+    protected string[] Errors { get; set; }
+
+    protected async Task SaveIntroductionAsync()
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(SaveIntroductionAsync)}()");
+
+            await MudForm.Validate();
+            if (!MudForm.IsValid)
+                return;
+
+            IntroductionViewModel.IsBusy = true;
+            var wasNew = IntroductionViewModel.Introduction.IsNew;
+            await IntroductionViewModel.SaveIntroductionAsync();
+            await OnIntroductionSaved.InvokeAsync(wasNew);
+            using var snack = Snackbar.Add($"'{IntroductionViewModel.Introduction.Title}' saved successfully!"
+                , Severity.Info
+                , (options) => options.RequireInteraction = false);
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, IntroductionViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            IntroductionViewModel.IsBusy = false;
+        }
+    }
+
+    protected async Task DeleteIntroductionAsync()
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(DeleteIntroductionAsync)}()");
+
+            if (IntroductionViewModel.Introduction.IsNew)
+            {
+                IntroductionViewModel.AddInformationMessage("There is nothing to Delete!", $"{ComponentName}.{nameof(DeleteIntroductionAsync)}");
+                await JSRuntime.AlertAsync("There is nothing to delete!");
+                return;
+            }
+
+            var introductionTitle = IntroductionViewModel.Introduction.Title;
+            if (await JSRuntime.ConfirmAsync($"Are you sure you want to delete '{introductionTitle}'?") == false)
+                return;
+
+            IntroductionViewModel.IsBusy = true;
+            await IntroductionViewModel.DeleteIntroductionAsync();
+            await OnIntroductionDeleted.InvokeAsync();
+            using var snack = Snackbar.Add($"'{introductionTitle}' deleted successfully!"
+                , Severity.Info
+                , (options) => options.RequireInteraction = false);
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, IntroductionViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            IntroductionViewModel.IsBusy = false;
+        }
+    }
+
+}
