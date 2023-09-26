@@ -1,13 +1,15 @@
 ﻿@inject ISessionViewModel SessionViewModel
 @inject IJSRuntime JSRuntime
 
-<div class="d-inline-flex align-content-end align-items-end">
-    <MudText Class="mt-6 mr-1">Environment:</MudText>
-    <MudText Class="mt-6 mr-3">@(SessionViewModel.HostEnvironment.Environment)</MudText>
-    <MudText Class="mt-6 mr-1">Trace Id:</MudText>
+@* <div class="d-inline-flex align-content-end align-items-end" > *@
+<div class="d-flex justify-start flex-grow-1 gap-1">
+    <MudText Class="mt-4 mr-1">Environment:</MudText>
+    <MudText Class="mt-4 mr-3">@(SessionViewModel.HostEnvironment.Environment)</MudText>
+    <MudText Class="mt-4 mr-1">Trace Id:</MudText>
     <MudTextField ReadOnly="true"
                   Class="mr-1 my-2"
                   Style="width: 330px; color: white;"
+                  Margin="Margin.Dense"
                   DisableUnderLine="true"
                   Variant="Variant.Outlined"
                   UserAttributes="@TraceIdUserAttributes"
@@ -16,15 +18,14 @@
     <MudIconButton Icon="@Icons.Material.Filled.FileCopy"
                    Title="Copy to Clipboard"
                    Color="Color.Inherit"
-                   Class="mr-1"
                    OnClick="@(_ => JSRuntime.CopyToClipboard("TraceIdTextBox"))">
     </MudIconButton>
     <MudIconButton Icon="@Icons.Material.Filled.InsertDriveFile"
                    Title="Generate new Id"
                    Color="Color.Inherit"
-                   Class="mr-1"
                    OnClick="@(_ => SessionViewModel.NewTraceId())">
     </MudIconButton>
+    <MudSpacer  />
 </div>
 
 @code {
