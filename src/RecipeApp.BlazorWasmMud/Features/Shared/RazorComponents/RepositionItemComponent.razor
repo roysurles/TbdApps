@@ -1,0 +1,63 @@
+﻿@typeparam TItem where TItem : new()
+
+<div class="d-flex justify-start flex-grow-1 gap-0">
+    <MudIconButton Icon="fas fa-angle-double-up"
+                   Variant="Variant.Filled"
+                   Color="Color.Default"
+                   Title="Move First"
+                   Size="Size.Small"
+                   Disabled="@IsMoveFirstDisabled"
+                   OnClick="@(_ => OnMoveFirstClick.InvokeAsync(Item))" />
+    <MudIconButton Icon="fas fa-angle-up"
+                   Variant="Variant.Filled"
+                   Color="Color.Default"
+                   Title="Move Up"
+                   Size="Size.Small"
+                   Disabled="@IsMoveUpDisabled"
+                   OnClick="@(_ => OnMoveUpClick.InvokeAsync(Item))" />
+    <MudIconButton Icon="fas fa-angle-down"
+                   Variant="Variant.Filled"
+                   Color="Color.Default"
+                   Title="Move Down"
+                   Size="Size.Small"
+                   Disabled="@IsMoveDownDisabled"
+                   OnClick="@(_ => OnMoveDownClick.InvokeAsync(Item))" />
+    <MudIconButton Icon="fas fa-angle-double-down"
+                   Variant="Variant.Filled"
+                   Color="Color.Default"
+                   Title="Move Last"
+                   Size="Size.Small"
+                   Disabled="@IsMoveLastDisabled"
+                   OnClick="@(_ => OnMoveLastClick.InvokeAsync(Item))" />
+</div>
+
+@code {
+
+    [Parameter, EditorRequired]
+    public TItem Item { get; set; }
+
+    [Parameter]
+    public bool IsMoveFirstDisabled { get; set; }
+
+    [Parameter]
+    public bool IsMoveUpDisabled { get; set; }
+
+    [Parameter]
+    public bool IsMoveDownDisabled { get; set; }
+
+    [Parameter]
+    public bool IsMoveLastDisabled { get; set; }
+
+    [Parameter]
+    public EventCallback<TItem> OnMoveFirstClick { get; set; }
+
+    [Parameter]
+    public EventCallback<TItem> OnMoveUpClick { get; set; }
+
+    [Parameter]
+    public EventCallback<TItem> OnMoveDownClick { get; set; }
+
+    [Parameter]
+    public EventCallback<TItem> OnMoveLastClick { get; set; }
+
+}

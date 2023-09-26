@@ -110,9 +110,9 @@ public class IngredientViewModel : BaseViewModel, IIngredientViewModel
         return await ResequenceIngredientsSortOrderAsync();
     }
 
-    public async Task<IIngredientViewModel> MoveIngredientPreviousAsync(IngredientDto ingredientDto)
+    public async Task<IIngredientViewModel> MoveIngredientUpAsync(IngredientDto ingredientDto)
     {
-        _logger.LogInformation("{MoveIngredientPreviousAsync}({ingredientDto})", nameof(MoveIngredientPreviousAsync), nameof(ingredientDto));
+        _logger.LogInformation("{MoveIngredientUpAsync}({ingredientDto})", nameof(MoveIngredientUpAsync), nameof(ingredientDto));
 
         ClearApiResultMessages();
 
@@ -131,9 +131,9 @@ public class IngredientViewModel : BaseViewModel, IIngredientViewModel
         return await ResequenceIngredientsSortOrderAsync();
     }
 
-    public async Task<IIngredientViewModel> MoveIngredientNextAsync(IngredientDto ingredientDto)
+    public async Task<IIngredientViewModel> MoveIngredientDownAsync(IngredientDto ingredientDto)
     {
-        _logger.LogInformation("{MoveIngredientNextAsync}({ingredientDto})", nameof(MoveIngredientNextAsync), nameof(ingredientDto));
+        _logger.LogInformation("{MoveIngredientDownAsync}({ingredientDto})", nameof(MoveIngredientDownAsync), nameof(ingredientDto));
 
         ClearApiResultMessages();
 
@@ -202,9 +202,9 @@ public interface IIngredientViewModel : IBaseViewModel
 
     Task<IIngredientViewModel> MoveIngredientFirstAsync(IngredientDto ingredientDto);
 
-    Task<IIngredientViewModel> MoveIngredientPreviousAsync(IngredientDto ingredientDto);
+    Task<IIngredientViewModel> MoveIngredientUpAsync(IngredientDto ingredientDto);
 
-    Task<IIngredientViewModel> MoveIngredientNextAsync(IngredientDto ingredientDto);
+    Task<IIngredientViewModel> MoveIngredientDownAsync(IngredientDto ingredientDto);
 
     Task<IIngredientViewModel> MoveIngredientLastAsync(IngredientDto ingredientDto);
 }

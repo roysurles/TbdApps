@@ -67,7 +67,15 @@
                                       Margin="Margin.Dense" />
                     </MudTd>
                     <MudTd DataLabel="Reposition">
-
+                        <RepositionItemComponent Item="@context"
+                                                 IsMoveFirstDisabled="@(context.IsNew || IngredientViewModel.IsBusy)"
+                                                 IsMoveUpDisabled="@(context.IsNew || IngredientViewModel.IsBusy)"
+                                                 IsMoveDownDisabled="@(context.IsNew || IngredientViewModel.IsBusy)"
+                                                 IsMoveLastDisabled="@(context.IsNew || IngredientViewModel.IsBusy)"
+                                                 OnMoveFirstClick="@((IngredientDto dto) => MoveIngredientFirstAsync(dto))"
+                                                 OnMoveUpClick="@((IngredientDto dto) => MoveIngredientUpAsync(dto))"
+                                                 OnMoveDownClick="@((IngredientDto dto) => MoveIngredientDownAsync(dto))"
+                                                 OnMoveLastClick="@((IngredientDto dto) => MoveIngredientLastAsync(dto))" />
                     </MudTd>
                 </RowTemplate>
             </MudTable>
@@ -208,14 +216,14 @@
         }
     }
 
-    protected async Task MoveIngredientPreviousAsync(IngredientDto ingredientDto)
+    protected async Task MoveIngredientUpAsync(IngredientDto ingredientDto)
     {
         try
         {
-            Logger.LogInformation("{MoveIngredientPreviousAsync}({ingredientDto})", nameof(MoveIngredientPreviousAsync), nameof(ingredientDto));
+            Logger.LogInformation("{MoveIngredientUpAsync}({ingredientDto})", nameof(MoveIngredientUpAsync), nameof(ingredientDto));
 
             IngredientViewModel.IsBusy = true;
-            await IngredientViewModel.MoveIngredientPreviousAsync(ingredientDto);
+            await IngredientViewModel.MoveIngredientUpAsync(ingredientDto);
 
             if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
             {
@@ -239,14 +247,14 @@
         }
     }
 
-    protected async Task MoveIngredientNextAsync(IngredientDto ingredientDto)
+    protected async Task MoveIngredientDownAsync(IngredientDto ingredientDto)
     {
         try
         {
-            Logger.LogInformation("{MoveIngredientNextAsync}({ingredientDto})", nameof(MoveIngredientNextAsync), nameof(ingredientDto));
+            Logger.LogInformation("{MoveIngredientDownAsync}({ingredientDto})", nameof(MoveIngredientDownAsync), nameof(ingredientDto));
 
             IngredientViewModel.IsBusy = true;
-            await IngredientViewModel.MoveIngredientNextAsync(ingredientDto);
+            await IngredientViewModel.MoveIngredientDownAsync(ingredientDto);
 
             if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
             {

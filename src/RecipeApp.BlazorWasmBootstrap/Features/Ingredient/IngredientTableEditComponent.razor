@@ -71,14 +71,14 @@
                                         class="btn btn-secondary"
                                         title="Move Up"
                                         disabled="@(item.IsNew || IngredientViewModel.IsBusy)"
-                                        @onclick="@(_ => MoveIngredientPreviousAsync(item))">
+                                        @onclick="@(_ => MoveIngredientUpAsync(item))">
                                     <i class="fas fa-angle-up"></i>
                                 </button>
                                 <button type="button"
                                         class="btn btn-secondary"
                                         title="Move Down"
                                         disabled="@(item.IsNew || IngredientViewModel.IsBusy)"
-                                        @onclick="@(_ => MoveIngredientNextAsync(item))">
+                                        @onclick="@(_ => MoveIngredientDownAsync(item))">
                                     <i class="fas fa-angle-down"></i>
                                 </button>
                                 <button type="button"
@@ -228,14 +228,14 @@
         }
     }
 
-    protected async Task MoveIngredientPreviousAsync(IngredientDto ingredientDto)
+    protected async Task MoveIngredientUpAsync(IngredientDto ingredientDto)
     {
         try
         {
-            Logger.LogInformation("{MoveIngredientPreviousAsync}({ingredientDto})", nameof(MoveIngredientPreviousAsync), nameof(ingredientDto));
+            Logger.LogInformation("{MoveIngredientUpAsync}({ingredientDto})", nameof(MoveIngredientUpAsync), nameof(ingredientDto));
 
             IngredientViewModel.IsBusy = true;
-            await IngredientViewModel.MoveIngredientPreviousAsync(ingredientDto);
+            await IngredientViewModel.MoveIngredientUpAsync(ingredientDto);
 
             if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
             {
@@ -257,14 +257,14 @@
         }
     }
 
-    protected async Task MoveIngredientNextAsync(IngredientDto ingredientDto)
+    protected async Task MoveIngredientDownAsync(IngredientDto ingredientDto)
     {
         try
         {
-            Logger.LogInformation("{MoveIngredientNextAsync}({ingredientDto})", nameof(MoveIngredientNextAsync), nameof(ingredientDto));
+            Logger.LogInformation("{MoveIngredientDownAsync}({ingredientDto})", nameof(MoveIngredientDownAsync), nameof(ingredientDto));
 
             IngredientViewModel.IsBusy = true;
-            await IngredientViewModel.MoveIngredientNextAsync(ingredientDto);
+            await IngredientViewModel.MoveIngredientDownAsync(ingredientDto);
 
             if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
             {
