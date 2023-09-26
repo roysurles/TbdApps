@@ -75,7 +75,8 @@
                                                  OnMoveFirstClick="@((IngredientDto dto) => MoveIngredientFirstAsync(dto))"
                                                  OnMoveUpClick="@((IngredientDto dto) => MoveIngredientUpAsync(dto))"
                                                  OnMoveDownClick="@((IngredientDto dto) => MoveIngredientDownAsync(dto))"
-                                                 OnMoveLastClick="@((IngredientDto dto) => MoveIngredientLastAsync(dto))" />
+                                                 OnMoveLastClick="@((IngredientDto dto) => MoveIngredientAsync(dto, _ => IngredientViewModel.MoveIngredientLastAsync(dto), nameof(IngredientViewModel.MoveIngredientLastAsync)))" />
+                        @* OnMoveLastClick="@((IngredientDto dto) => MoveIngredientLastAsync(dto))" *@
                     </MudTd>
                 </RowTemplate>
             </MudTable>
@@ -184,6 +185,20 @@
     }
 
     // TODO:  look into moving the "MoveIngredient*" methods to a single "func"
+
+     protected async Task MoveIngredientAsync(IngredientDto ingredientDto
+        , Func<IngredientDto, Task<IIngredientViewModel>> func
+        , string methodName)
+    {
+        var method = func.Method.Name.ToString();
+
+        var name = func.Method.GetMethodBody().ToString();
+        var list = func.GetInvocationList();
+        var a = list[0];
+        var target = func.Target?.ToString();
+
+        await func.Invoke(ingredientDto);
+    }
 
     protected async Task MoveIngredientFirstAsync(IngredientDto ingredientDto)
     {
