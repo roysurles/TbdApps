@@ -1,7 +1,4 @@
-﻿@using System.Text.RegularExpressions
-@using System.ComponentModel.DataAnnotations
-
-@inject ISessionViewModel SessionViewModel
+﻿@inject ISessionViewModel SessionViewModel
 @inject IJSRuntime JSRuntime
 @inject ILogger<IntroductionEditComponent> Logger
 @inject ISnackbar Snackbar
@@ -10,6 +7,11 @@
 {
     <MudForm @ref="@MudForm" Model="@IntroductionViewModel.Introduction" @bind-IsValid="IsValid" @bind-Errors="@Errors" >
         <MudGrid>
+
+            <MudItem xs="12" >
+                <ApiResultMessagesComponent ApiResultMessages="@IntroductionViewModel.ApiResultMessages" />
+            </MudItem>
+
             <MudItem xs="12" >
                 <div style="width:auto">
                     <MudTextField @bind-Value="@(IntroductionViewModel.Introduction.Title)"
@@ -83,7 +85,7 @@
             await IntroductionViewModel.SaveIntroductionAsync();
             await OnIntroductionSaved.InvokeAsync(wasNew);
             using var snack = Snackbar.Add($"'{IntroductionViewModel.Introduction.Title}' saved successfully!"
-                , Severity.Info
+                , Severity.Success
                 , (options) => options.RequireInteraction = false);
         }
         catch (Exception ex)
@@ -117,7 +119,7 @@
             await IntroductionViewModel.DeleteIntroductionAsync();
             await OnIntroductionDeleted.InvokeAsync();
             using var snack = Snackbar.Add($"'{introductionTitle}' deleted successfully!"
-                , Severity.Info
+                , Severity.Success
                 , (options) => options.RequireInteraction = false);
         }
         catch (Exception ex)

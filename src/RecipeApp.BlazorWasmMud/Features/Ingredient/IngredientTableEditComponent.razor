@@ -1,0 +1,320 @@
+﻿@inject ISessionViewModel SessionViewModel
+@inject IJSRuntime JSRuntime
+@inject ILogger<IngredientTableEditComponent> Logger
+@inject ISnackbar Snackbar
+
+@if (IngredientViewModel is not null)
+{
+    <MudGrid>
+
+        <MudItem xs="12">
+            <ApiResultMessagesComponent ApiResultMessages="@IngredientViewModel.ApiResultMessages" />
+        </MudItem>
+
+        <MudItem xs="12">
+            <MudTable T="IngredientDto"
+                      Items="@(IngredientViewModel.Ingredients)"
+                      Hover="true"
+                      Bordered="true"
+                      Striped="true"
+                      Dense="true" >
+                <ColGroup>
+                    <col style="width: 40px;" />
+                    <col />
+                    <col />
+                    <col style="width: 40px;" />
+                </ColGroup>
+                <HeaderContent>
+                    <MudTh>
+                        <MudIconButton Icon="fas fa-plus"
+                                       Color="Color.Primary"
+                                       Title="Add Ingredient"
+                                       Size="Size.Small" />
+                    </MudTh>
+                    <MudTh>Measurement</MudTh>
+                    <MudTh>Description</MudTh>
+                    <MudTh>Reposition</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="">
+                        <div class="d-flex justify-start flex-grow-1 gap-0">
+                            <MudIconButton Icon="@Icons.Material.Filled.Save"
+                                           Color="Color.Primary"
+                                           Title="Save Ingredient"
+                                           Size="Size.Small" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                           Color="Color.Default"
+                                           Title="Delete Ingredient"
+                                           Size="Size.Small" />
+                        </div>
+                    </MudTd>
+                    <MudTd DataLabel="Measurement">
+                        <MudTextField @bind-Value="@(context.Measurement)"
+                                      Variant="Variant.Outlined"
+                                      Margin="Margin.Dense" />
+                    </MudTd>
+                    <MudTd DataLabel="Description">
+                        <MudTextField @bind-Value="@(context.Description)"
+                                      Variant="Variant.Outlined"
+                                      Margin="Margin.Dense" />
+                    </MudTd>
+                    <MudTd DataLabel="Reposition">
+
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudItem>
+
+    </MudGrid>
+}
+
+@code {
+
+    [Parameter]
+    public IIngredientViewModel IngredientViewModel { get; set; }
+
+    [Parameter]
+    public EventCallback OnStateHasChanged { get; set; }
+
+    protected string ComponentName = nameof(IngredientTableEditComponent);
+
+    protected void AddIngredient()
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(AddIngredient)}()");
+
+            IngredientViewModel.IsBusy = true;
+            IngredientViewModel.AddIngredient();
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            IngredientViewModel.IsBusy = false;
+            OnStateHasChanged.InvokeAsync();
+        }
+    }
+
+    protected async Task SaveIngredientAsync(IngredientDto ingredientDto)
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(SaveIngredientAsync)}({nameof(ingredientDto)})");
+
+            IngredientViewModel.IsBusy = true;
+            await IngredientViewModel.SaveIngredientAsync(ingredientDto);
+            var errorMessages = IngredientViewModel.ApiResultMessages.Where(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error);
+            if (errorMessages.Any())
+            {
+                foreach (var errorMessage in errorMessages)
+                {
+                    using var errorSnack = Snackbar.Add(errorMessage.Message
+                        , Severity.Error
+                        , (options) => options.RequireInteraction = false);
+                }
+
+                return;
+            }
+
+            using var snack = Snackbar.Add($"'{ingredientDto.Description}' saved successfully!"
+                , Severity.Success
+                , (options) => options.RequireInteraction = false);
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            IngredientViewModel.IsBusy = false;
+            await OnStateHasChanged.InvokeAsync();
+        }
+    }
+
+    protected async Task DeleteIngredientAsync(IngredientDto ingredientDto)
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(DeleteIngredientAsync)}({nameof(ingredientDto)})");
+
+            IngredientViewModel.ClearApiResultMessages();
+
+            if (await JSRuntime.ConfirmAsync($"Are you sure you want to delete this ingredient?") == false)
+                return;
+
+            IngredientViewModel.IsBusy = true;
+            await IngredientViewModel.DeleteIngredientAsync(ingredientDto);
+            var errorMessages = IngredientViewModel.ApiResultMessages.Where(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error);
+            if (errorMessages.Any())
+            {
+                foreach (var errorMessage in errorMessages)
+                {
+                    using var errorSnack = Snackbar.Add(errorMessage.Message
+                        , Severity.Error
+                        , (options) => options.RequireInteraction = false);
+                }
+
+                return;
+            }
+
+            using var snack = Snackbar.Add($"'{ingredientDto.Description}' deleted successfully!"
+                , Severity.Success
+                , (options) => options.RequireInteraction = false);
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            IngredientViewModel.IsBusy = false;
+            await OnStateHasChanged.InvokeAsync();
+        }
+    }
+
+    // TODO:  look into moving the "MoveIngredient*" methods to a single "func"
+
+    protected async Task MoveIngredientFirstAsync(IngredientDto ingredientDto)
+    {
+        try
+        {
+            Logger.LogInformation("{MoveIngredientFirstAsync}({ingredientDto})", nameof(MoveIngredientFirstAsync), nameof(ingredientDto));
+
+            IngredientViewModel.IsBusy = true;
+            await IngredientViewModel.MoveIngredientFirstAsync(ingredientDto);
+
+            if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
+            {
+                using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!"
+                    , Severity.Success
+                    , (options) => options.RequireInteraction = false);
+                return;
+            }
+
+            foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
+            {
+                using var snack = Snackbar.Add(apiResultMessage.Message
+                    , apiResultMessage.MessageType.ToSeverity()
+                    , (options) => options.RequireInteraction = false);
+            }
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            IngredientViewModel.IsBusy = false;
+            await OnStateHasChanged.InvokeAsync();
+        }
+    }
+
+    protected async Task MoveIngredientPreviousAsync(IngredientDto ingredientDto)
+    {
+        try
+        {
+            Logger.LogInformation("{MoveIngredientPreviousAsync}({ingredientDto})", nameof(MoveIngredientPreviousAsync), nameof(ingredientDto));
+
+            IngredientViewModel.IsBusy = true;
+            await IngredientViewModel.MoveIngredientPreviousAsync(ingredientDto);
+
+            if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
+            {
+                using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!"
+                    , Severity.Success
+                    , (options) => options.RequireInteraction = false);
+                return;
+            }
+
+            foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
+            {
+                using var snack = Snackbar.Add(apiResultMessage.Message
+                    , apiResultMessage.MessageType.ToSeverity()
+                    , (options) => options.RequireInteraction = false);
+            }
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            IngredientViewModel.IsBusy = false;
+            await OnStateHasChanged.InvokeAsync();
+        }
+    }
+
+    protected async Task MoveIngredientNextAsync(IngredientDto ingredientDto)
+    {
+        try
+        {
+            Logger.LogInformation("{MoveIngredientNextAsync}({ingredientDto})", nameof(MoveIngredientNextAsync), nameof(ingredientDto));
+
+            IngredientViewModel.IsBusy = true;
+            await IngredientViewModel.MoveIngredientNextAsync(ingredientDto);
+
+            if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
+            {
+                using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!"
+                    , Severity.Success
+                    , (options) => options.RequireInteraction = false);
+                return;
+            }
+
+            foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
+            {
+                using var snack = Snackbar.Add(apiResultMessage.Message
+                    , apiResultMessage.MessageType.ToSeverity()
+                    , (options) => options.RequireInteraction = false);
+            }
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            IngredientViewModel.IsBusy = false;
+            await OnStateHasChanged.InvokeAsync();
+        }
+    }
+
+    protected async Task MoveIngredientLastAsync(IngredientDto ingredientDto)
+    {
+        try
+        {
+            Logger.LogInformation("{MoveIngredientLastAsync}({ingredientDto})", nameof(MoveIngredientLastAsync), nameof(ingredientDto));
+
+            IngredientViewModel.IsBusy = true;
+            await IngredientViewModel.MoveIngredientLastAsync(ingredientDto);
+
+            if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
+            {
+                using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!"
+                    , Severity.Success
+                    , (options) => options.RequireInteraction = false);
+                return;
+            }
+
+            foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
+            {
+                using var snack = Snackbar.Add(apiResultMessage.Message
+                    , apiResultMessage.MessageType.ToSeverity()
+                    , (options) => options.RequireInteraction = false);
+            }
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            IngredientViewModel.IsBusy = false;
+            await OnStateHasChanged.InvokeAsync();
+        }
+    }
+
+}

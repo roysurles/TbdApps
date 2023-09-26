@@ -52,9 +52,8 @@
                         </div>
                     </TitleContent>
                     <ChildContent>
-                        <div>
-                            Panel Two Content
-                        </div>
+                        <IngredientTableEditComponent IngredientViewModel="@(DetailsPageViewModel.IngredientViewModel)"
+                                                      OnStateHasChanged="@ChildComponentStateHasChanged" />
                     </ChildContent>
                 </MudExpansionPanel>
                 <MudExpansionPanel >
