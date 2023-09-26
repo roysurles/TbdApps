@@ -84,9 +84,7 @@
             var wasNew = IntroductionViewModel.Introduction.IsNew;
             await IntroductionViewModel.SaveIntroductionAsync();
             await OnIntroductionSaved.InvokeAsync(wasNew);
-            using var snack = Snackbar.Add($"'{IntroductionViewModel.Introduction.Title}' saved successfully!"
-                , Severity.Success
-                , (options) => options.RequireInteraction = false);
+            using var snack = Snackbar.Add($"'{IntroductionViewModel.Introduction.Title}' saved successfully!", Severity.Success);
         }
         catch (Exception ex)
         {
@@ -118,9 +116,7 @@
             IntroductionViewModel.IsBusy = true;
             await IntroductionViewModel.DeleteIntroductionAsync();
             await OnIntroductionDeleted.InvokeAsync();
-            using var snack = Snackbar.Add($"'{introductionTitle}' deleted successfully!"
-                , Severity.Success
-                , (options) => options.RequireInteraction = false);
+            using var snack = Snackbar.Add($"'{introductionTitle}' deleted successfully!", Severity.Success);
         }
         catch (Exception ex)
         {

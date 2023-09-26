@@ -119,9 +119,7 @@
             {
                 foreach (var errorMessage in errorMessages)
                 {
-                    using var errorSnack = Snackbar.Add(errorMessage.Message
-                        , Severity.Error
-                        , (options) => options.RequireInteraction = false);
+                    using var errorSnack = Snackbar.Add(errorMessage.Message, Severity.Error );
                 }
 
                 return;
@@ -158,17 +156,13 @@
             {
                 foreach (var errorMessage in errorMessages)
                 {
-                    using var errorSnack = Snackbar.Add(errorMessage.Message
-                        , Severity.Error
-                        , (options) => options.RequireInteraction = false);
+                    using var errorSnack = Snackbar.Add(errorMessage.Message, Severity.Error);
                 }
 
                 return;
             }
 
-            using var snack = Snackbar.Add($"'{ingredientDto.Description}' deleted successfully!"
-                , Severity.Success
-                , (options) => options.RequireInteraction = false);
+            using var snack = Snackbar.Add($"'{ingredientDto.Description}' deleted successfully!", Severity.Success);
         }
         catch (Exception ex)
         {
@@ -194,17 +188,13 @@
 
             if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
             {
-                using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!"
-                    , Severity.Success
-                    , (options) => options.RequireInteraction = false);
+                using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!", Severity.Success);
                 return;
             }
 
             foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
             {
-                using var snack = Snackbar.Add(apiResultMessage.Message
-                    , apiResultMessage.MessageType.ToSeverity()
-                    , (options) => options.RequireInteraction = false);
+                using var snack = Snackbar.Add(apiResultMessage.Message, apiResultMessage.MessageType.ToSeverity());
             }
         }
         catch (Exception ex)
@@ -229,17 +219,13 @@
 
             if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
             {
-                using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!"
-                    , Severity.Success
-                    , (options) => options.RequireInteraction = false);
+                using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!", Severity.Success);
                 return;
             }
 
             foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
             {
-                using var snack = Snackbar.Add(apiResultMessage.Message
-                    , apiResultMessage.MessageType.ToSeverity()
-                    , (options) => options.RequireInteraction = false);
+                using var snack = Snackbar.Add(apiResultMessage.Message, apiResultMessage.MessageType.ToSeverity());
             }
         }
         catch (Exception ex)
@@ -264,17 +250,13 @@
 
             if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
             {
-                using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!"
-                    , Severity.Success
-                    , (options) => options.RequireInteraction = false);
+                using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!", Severity.Success);
                 return;
             }
 
             foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
             {
-                using var snack = Snackbar.Add(apiResultMessage.Message
-                    , apiResultMessage.MessageType.ToSeverity()
-                    , (options) => options.RequireInteraction = false);
+                using var snack = Snackbar.Add(apiResultMessage.Message, apiResultMessage.MessageType.ToSeverity());
             }
         }
         catch (Exception ex)
@@ -299,17 +281,13 @@
 
             if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
             {
-                using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!"
-                    , Severity.Success
-                    , (options) => options.RequireInteraction = false);
+                using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!", Severity.Success);
                 return;
             }
 
             foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
             {
-                using var snack = Snackbar.Add(apiResultMessage.Message
-                    , apiResultMessage.MessageType.ToSeverity()
-                    , (options) => options.RequireInteraction = false);
+                using var snack = Snackbar.Add(apiResultMessage.Message, apiResultMessage.MessageType.ToSeverity());
             }
         }
         catch (Exception ex)
