@@ -52,36 +52,15 @@
                                    @bind-value="@(item.Description)">
                         </td>
                         <td class="align-middle">
-                            <div class="btn-group btn-group-sm" role="group">
-                                <button type="button"
-                                        class="btn btn-secondary"
-                                        title="Move First"
-                                        disabled="@(item.IsNew || InstructionViewModel.IsBusy)"
-                                        @onclick="@(_ => MoveInstructionFirstAsync(item))">
-                                    <i class="fas fa-angle-double-up"></i>
-                                </button>
-                                <button type="button"
-                                        class="btn btn-secondary"
-                                        title="Move Up"
-                                        disabled="@(item.IsNew || InstructionViewModel.IsBusy)"
-                                        @onclick="@(_ => MoveInstructionPreviousAsync(item))">
-                                    <i class="fas fa-angle-up"></i>
-                                </button>
-                                <button type="button"
-                                        class="btn btn-secondary"
-                                        title="Move Down"
-                                        disabled="@(item.IsNew || InstructionViewModel.IsBusy)"
-                                        @onclick="@(_ => MoveInstructionNextAsync(item))">
-                                    <i class="fas fa-angle-down"></i>
-                                </button>
-                                <button type="button"
-                                        class="btn btn-secondary"
-                                        title="Move Last"
-                                        disabled="@(item.IsNew || InstructionViewModel.IsBusy)"
-                                        @onclick="@(_ => MoveInstructionLastAsync(item))">
-                                    <i class="fas fa-angle-double-down"></i>
-                                </button>
-                            </div>
+                            <RepositionItemComponent Item="@item"
+                                                     IsMoveFirstDisabled="@(item.IsNew || InstructionViewModel.IsBusy)"
+                                                     IsMoveUpDisabled="@(item.IsNew || InstructionViewModel.IsBusy)"
+                                                     IsMoveDownDisabled="@(item.IsNew || InstructionViewModel.IsBusy)"
+                                                     IsMoveLastDisabled="@(item.IsNew || InstructionViewModel.IsBusy)"
+                                                     OnMoveFirstClick="@((InstructionDto dto) => MoveInstructionAsync(dto, _ => InstructionViewModel.MoveInstructionFirstAsync(dto)))"
+                                                     OnMoveUpClick="@((InstructionDto dto) => MoveInstructionAsync(dto, _ => InstructionViewModel.MoveInstructionUpAsync(dto)))"
+                                                     OnMoveDownClick="@((InstructionDto dto) => MoveInstructionAsync(dto, _ => InstructionViewModel.MoveInstructionDownAsync(dto)))"
+                                                     OnMoveLastClick="@((InstructionDto dto) => MoveInstructionAsync(dto, _ => InstructionViewModel.MoveInstructionLastAsync(dto)))" />
                         </td>
 @*                        <td>
                             <input type="text"
@@ -120,8 +99,7 @@
         }
         finally
         {
-            InstructionViewModel.IsBusy = false;
-            OnStateHasChanged.InvokeAsync();
+            InstructionViewModel.SetIsBusyFlag(false, () => OnStateHasChanged.InvokeAsync());
         }
     }
 
@@ -150,8 +128,7 @@
         }
         finally
         {
-            InstructionViewModel.IsBusy = false;
-            await OnStateHasChanged.InvokeAsync();
+            await InstructionViewModel.SetIsBusyFlagAsync(false, OnStateHasChanged);
         }
     }
 
@@ -185,21 +162,23 @@
         }
         finally
         {
-            InstructionViewModel.IsBusy = false;
-            await OnStateHasChanged.InvokeAsync();
+            await InstructionViewModel.SetIsBusyFlagAsync(false, OnStateHasChanged);
         }
     }
 
-    // TODO:  look into moving the "MoveInstruction*" methods to a single "func"
-
-    protected async Task MoveInstructionFirstAsync(InstructionDto instructionDto)
+    protected async Task MoveInstructionAsync(InstructionDto instructionDto
+        , Expression<Func<InstructionDto, Task<IInstructionViewModel>>> expression)
     {
         try
         {
-            Logger.LogInformation("{MoveInstructionFirstAsync}({InstructionDto})", nameof(MoveInstructionFirstAsync), nameof(InstructionDto));
+            // https://stackoverflow.com/questions/1495465/get-name-of-action-func-delegate
+            // https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/expression-trees/expression-trees-execution
+            Logger.LogInformation("{MoveInstructionAsync}({instructionDto}) for: {ActualMethodName}"
+                , nameof(MoveInstructionAsync), nameof(instructionDto), ((MethodCallExpression)expression.Body).Method.Name.ToString());
 
             InstructionViewModel.IsBusy = true;
-            await InstructionViewModel.MoveInstructionFirstAsync(instructionDto);
+            var func = expression.Compile();
+            await func(instructionDto);
 
             if (InstructionViewModel.ApiResultMessages.Any().Equals(false))
             {
@@ -216,96 +195,124 @@
         }
         finally
         {
-            InstructionViewModel.IsBusy = false;
-            await OnStateHasChanged.InvokeAsync();
+            await InstructionViewModel.SetIsBusyFlagAsync(false, OnStateHasChanged);
         }
     }
 
-    protected async Task MoveInstructionPreviousAsync(InstructionDto instructionDto)
-    {
-        try
-        {
-            Logger.LogInformation("{MoveInstructionPreviousAsync}({InstructionDto})", nameof(MoveInstructionPreviousAsync), nameof(InstructionDto));
+    // protected async Task MoveInstructionFirstAsync(InstructionDto instructionDto)
+    // {
+    //     try
+    //     {
+    //         Logger.LogInformation("{MoveInstructionFirstAsync}({InstructionDto})", nameof(MoveInstructionFirstAsync), nameof(InstructionDto));
 
-            InstructionViewModel.IsBusy = true;
-            await InstructionViewModel.MoveInstructionUpAsync(instructionDto);
+    //         InstructionViewModel.IsBusy = true;
+    //         await InstructionViewModel.MoveInstructionFirstAsync(instructionDto);
 
-            if (InstructionViewModel.ApiResultMessages.Any().Equals(false))
-            {
-                await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Instruction", "Moved successfully!"));
-                return;
-            }
+    //         if (InstructionViewModel.ApiResultMessages.Any().Equals(false))
+    //         {
+    //             await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Instruction", "Moved successfully!"));
+    //             return;
+    //         }
 
-            foreach (var apiResultMessage in InstructionViewModel.ApiResultMessages)
-                await JSRuntime.ToastAsync(new ToastModel(apiResultMessage.MessageType, "Instruction", apiResultMessage.Message));
-        }
-        catch (Exception ex)
-        {
-            SessionViewModel.HandleException(ex, InstructionViewModel.ApiResultMessages, ComponentName);
-        }
-        finally
-        {
-            InstructionViewModel.IsBusy = false;
-            await OnStateHasChanged.InvokeAsync();
-        }
-    }
+    //         foreach (var apiResultMessage in InstructionViewModel.ApiResultMessages)
+    //             await JSRuntime.ToastAsync(new ToastModel(apiResultMessage.MessageType, "Instruction", apiResultMessage.Message));
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         SessionViewModel.HandleException(ex, InstructionViewModel.ApiResultMessages, ComponentName);
+    //     }
+    //     finally
+    //     {
+    //         InstructionViewModel.IsBusy = false;
+    //         await OnStateHasChanged.InvokeAsync();
+    //     }
+    // }
 
-    protected async Task MoveInstructionNextAsync(InstructionDto instructionDto)
-    {
-        try
-        {
-            Logger.LogInformation("{MoveInstructionNextAsync}({InstructionDto})", nameof(MoveInstructionNextAsync), nameof(InstructionDto));
+    // protected async Task MoveInstructionPreviousAsync(InstructionDto instructionDto)
+    // {
+    //     try
+    //     {
+    //         Logger.LogInformation("{MoveInstructionPreviousAsync}({InstructionDto})", nameof(MoveInstructionPreviousAsync), nameof(InstructionDto));
 
-            InstructionViewModel.IsBusy = true;
-            await InstructionViewModel.MoveInstructionDownAsync(instructionDto);
+    //         InstructionViewModel.IsBusy = true;
+    //         await InstructionViewModel.MoveInstructionUpAsync(instructionDto);
 
-            if (InstructionViewModel.ApiResultMessages.Any().Equals(false))
-            {
-                await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Instruction", "Moved successfully!"));
-                return;
-            }
+    //         if (InstructionViewModel.ApiResultMessages.Any().Equals(false))
+    //         {
+    //             await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Instruction", "Moved successfully!"));
+    //             return;
+    //         }
 
-            foreach (var apiResultMessage in InstructionViewModel.ApiResultMessages)
-                await JSRuntime.ToastAsync(new ToastModel(apiResultMessage.MessageType, "Instruction", apiResultMessage.Message));
-        }
-        catch (Exception ex)
-        {
-            SessionViewModel.HandleException(ex, InstructionViewModel.ApiResultMessages, ComponentName);
-        }
-        finally
-        {
-            InstructionViewModel.IsBusy = false;
-            await OnStateHasChanged.InvokeAsync();
-        }
-    }
+    //         foreach (var apiResultMessage in InstructionViewModel.ApiResultMessages)
+    //             await JSRuntime.ToastAsync(new ToastModel(apiResultMessage.MessageType, "Instruction", apiResultMessage.Message));
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         SessionViewModel.HandleException(ex, InstructionViewModel.ApiResultMessages, ComponentName);
+    //     }
+    //     finally
+    //     {
+    //         InstructionViewModel.IsBusy = false;
+    //         await OnStateHasChanged.InvokeAsync();
+    //     }
+    // }
 
-    protected async Task MoveInstructionLastAsync(InstructionDto instructionDto)
-    {
-        try
-        {
-            Logger.LogInformation("{MoveInstructionLastAsync}({InstructionDto})", nameof(MoveInstructionLastAsync), nameof(InstructionDto));
+    // protected async Task MoveInstructionNextAsync(InstructionDto instructionDto)
+    // {
+    //     try
+    //     {
+    //         Logger.LogInformation("{MoveInstructionNextAsync}({InstructionDto})", nameof(MoveInstructionNextAsync), nameof(InstructionDto));
 
-            InstructionViewModel.IsBusy = true;
-            await InstructionViewModel.MoveInstructionLastAsync(instructionDto);
+    //         InstructionViewModel.IsBusy = true;
+    //         await InstructionViewModel.MoveInstructionDownAsync(instructionDto);
 
-            if (InstructionViewModel.ApiResultMessages.Any().Equals(false))
-            {
-                await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Instruction", "Moved successfully!"));
-                return;
-            }
+    //         if (InstructionViewModel.ApiResultMessages.Any().Equals(false))
+    //         {
+    //             await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Instruction", "Moved successfully!"));
+    //             return;
+    //         }
 
-            foreach (var apiResultMessage in InstructionViewModel.ApiResultMessages)
-                await JSRuntime.ToastAsync(new ToastModel(apiResultMessage.MessageType, "Instruction", apiResultMessage.Message));
-        }
-        catch (Exception ex)
-        {
-            SessionViewModel.HandleException(ex, InstructionViewModel.ApiResultMessages, ComponentName);
-        }
-        finally
-        {
-            InstructionViewModel.IsBusy = false;
-            await OnStateHasChanged.InvokeAsync();
-        }
-    }
+    //         foreach (var apiResultMessage in InstructionViewModel.ApiResultMessages)
+    //             await JSRuntime.ToastAsync(new ToastModel(apiResultMessage.MessageType, "Instruction", apiResultMessage.Message));
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         SessionViewModel.HandleException(ex, InstructionViewModel.ApiResultMessages, ComponentName);
+    //     }
+    //     finally
+    //     {
+    //         InstructionViewModel.IsBusy = false;
+    //         await OnStateHasChanged.InvokeAsync();
+    //     }
+    // }
+
+    // protected async Task MoveInstructionLastAsync(InstructionDto instructionDto)
+    // {
+    //     try
+    //     {
+    //         Logger.LogInformation("{MoveInstructionLastAsync}({InstructionDto})", nameof(MoveInstructionLastAsync), nameof(InstructionDto));
+
+    //         InstructionViewModel.IsBusy = true;
+    //         await InstructionViewModel.MoveInstructionLastAsync(instructionDto);
+
+    //         if (InstructionViewModel.ApiResultMessages.Any().Equals(false))
+    //         {
+    //             await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Instruction", "Moved successfully!"));
+    //             return;
+    //         }
+
+    //         foreach (var apiResultMessage in InstructionViewModel.ApiResultMessages)
+    //             await JSRuntime.ToastAsync(new ToastModel(apiResultMessage.MessageType, "Instruction", apiResultMessage.Message));
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         SessionViewModel.HandleException(ex, InstructionViewModel.ApiResultMessages, ComponentName);
+    //     }
+    //     finally
+    //     {
+    //         InstructionViewModel.IsBusy = false;
+    //         await OnStateHasChanged.InvokeAsync();
+    //     }
+    // }
 
 }
