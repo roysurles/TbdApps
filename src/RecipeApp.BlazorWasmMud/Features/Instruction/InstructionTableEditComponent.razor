@@ -1,0 +1,330 @@
+﻿@inject ISessionViewModel SessionViewModel
+@inject IJSRuntime JSRuntime
+@inject ILogger<InstructionTableEditComponent> Logger
+@inject ISnackbar Snackbar
+
+
+@if (InstructionViewModel is not null)
+{
+    <MudGrid>
+
+        <MudItem xs="12">
+            <ApiResultMessagesComponent ApiResultMessages="@InstructionViewModel.ApiResultMessages" />
+        </MudItem>
+
+        <MudItem xs="12">
+            <MudTable T="InstructionDto"
+                      Items="@(InstructionViewModel.Instructions)"
+                      Hover="true"
+                      Bordered="true"
+                      Striped="true"
+                      Dense="true">
+                <ColGroup>
+                    <col style="width: 40px;" />
+                    <col />
+                    <col style="width: 40px;" />
+                </ColGroup>
+                <HeaderContent>
+                    <MudTh>
+                        <MudIconButton Icon="fas fa-plus"
+                                       Variant="Variant.Filled"
+                                       Color="Color.Primary"
+                                       Title="Add Ingredient"
+                                       Size="Size.Small"
+                                       Disabled="@(InstructionViewModel.IsInstructionNew)"
+                                       OnClick="@AddInstruction" />
+                    </MudTh>
+                    <MudTh>Description</MudTh>
+                    <MudTh>Reposition</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="">
+                        <div class="d-flex justify-start flex-grow-1 gap-0">
+                            <MudIconButton Icon="@Icons.Material.Filled.Save"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Primary"
+                                           Title="Save Ingredient"
+                                           Size="Size.Small"
+                                           OnClick="@(() => SaveInstructionAsync(context))" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Default"
+                                           Title="Delete Ingredient"
+                                           Size="Size.Small"
+                                           Disabled="@(context.IsNew)"
+                                           OnClick="@(() => DeleteInstructionAsync(context))" />
+                        </div>
+                    </MudTd>
+                    <MudTd DataLabel="Description">
+                        <MudTextField @bind-Value="@(context.Description)"
+                                      Variant="Variant.Outlined"
+                                      Margin="Margin.Dense" />
+                    </MudTd>
+                    <MudTd DataLabel="Reposition">
+                        <RepositionItemComponent Item="@context"
+                                                 IsMoveFirstDisabled="@(context.IsNew || InstructionViewModel.IsBusy)"
+                                                 IsMoveUpDisabled="@(context.IsNew || InstructionViewModel.IsBusy)"
+                                                 IsMoveDownDisabled="@(context.IsNew || InstructionViewModel.IsBusy)"
+                                                 IsMoveLastDisabled="@(context.IsNew || InstructionViewModel.IsBusy)"
+                                                 OnMoveFirstClick="@((InstructionDto dto) => MoveInstructionAsync(dto, _ => InstructionViewModel.MoveInstructionFirstAsync(dto)))"
+                                                 OnMoveUpClick="@((InstructionDto dto) => MoveInstructionAsync(dto, _ => InstructionViewModel.MoveInstructionUpAsync(dto)))"
+                                                 OnMoveDownClick="@((InstructionDto dto) => MoveInstructionAsync(dto, _ => InstructionViewModel.MoveInstructionDownAsync(dto)))"
+                                                 OnMoveLastClick="@((InstructionDto dto) => MoveInstructionAsync(dto, _ => InstructionViewModel.MoveInstructionLastAsync(dto)))" />
+                        @* OnMoveLastClick="@((InstructionDto dto) => MoveInstructionLastAsync(dto))" *@
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudItem>
+
+    </MudGrid>
+}
+
+
+@code {
+
+    [Parameter]
+    public IInstructionViewModel InstructionViewModel { get; set; }
+
+    [Parameter]
+    public EventCallback OnStateHasChanged { get; set; }
+
+    protected string ComponentName = nameof(InstructionTableEditComponent);
+
+    protected void AddInstruction()
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(AddInstruction)}()");
+
+            InstructionViewModel.IsBusy = true;
+            InstructionViewModel.AddInstruction();
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, InstructionViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            InstructionViewModel.SetIsBusyFlag(false, () => OnStateHasChanged.InvokeAsync());
+        }
+    }
+
+    protected async Task SaveInstructionAsync(InstructionDto instructionDto)
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(SaveInstructionAsync)}({nameof(instructionDto)})");
+
+            InstructionViewModel.IsBusy = true;
+            await InstructionViewModel.SaveInstructionAsync(instructionDto);
+            var errorMessages = InstructionViewModel.ApiResultMessages.Where(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error);
+            if (errorMessages.Any())
+            {
+                foreach (var errorMessage in errorMessages)
+                {
+                    using var errorSnack = Snackbar.Add(errorMessage.Message, Severity.Error);
+                }
+
+                return;
+            }
+
+            using var snack = Snackbar.Add($"'{instructionDto.Description}' saved successfully!", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, InstructionViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            await InstructionViewModel.SetIsBusyFlagAsync(false, OnStateHasChanged);
+        }
+    }
+
+    protected async Task DeleteInstructionAsync(InstructionDto instructionDto)
+    {
+        try
+        {
+            Logger.LogInformation($"{nameof(DeleteInstructionAsync)}({nameof(instructionDto)})");
+
+            InstructionViewModel.ClearApiResultMessages();
+
+            if (await JSRuntime.ConfirmAsync($"Are you sure you want to delete this instruction?") == false)
+                return;
+
+            InstructionViewModel.IsBusy = true;
+            await InstructionViewModel.DeleteInstructionAsync(instructionDto);
+            var errorMessages = InstructionViewModel.ApiResultMessages.Where(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error);
+            if (errorMessages.Any())
+            {
+                foreach (var errorMessage in errorMessages)
+                {
+                    using var errorSnack = Snackbar.Add(errorMessage.Message, Severity.Error);
+                }
+
+                return;
+            }
+
+            using var snack = Snackbar.Add($"'{instructionDto.Description}' deleted successfully!", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, InstructionViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            await InstructionViewModel.SetIsBusyFlagAsync(false, OnStateHasChanged);
+        }
+    }
+
+    protected async Task MoveInstructionAsync(InstructionDto instructionDto
+        , Expression<Func<InstructionDto, Task<IInstructionViewModel>>> expression)
+    {
+        try
+        {
+            // https://stackoverflow.com/questions/1495465/get-name-of-action-func-delegate
+            // https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/expression-trees/expression-trees-execution
+            Logger.LogInformation("{MoveInstructionAsync}({instructionDto}) for: {ActualMethodName}"
+                , nameof(MoveInstructionAsync), nameof(instructionDto), ((MethodCallExpression)expression.Body).Method.Name.ToString());
+
+            InstructionViewModel.IsBusy = true;
+            var func = expression.Compile();
+            await func(instructionDto);
+
+            if (InstructionViewModel.ApiResultMessages.Any().Equals(false))
+            {
+                using var snack = Snackbar.Add($"'{instructionDto.Description}' moved successfully!", Severity.Success);
+                return;
+            }
+
+            foreach (var apiResultMessage in InstructionViewModel.ApiResultMessages)
+            {
+                using var snack = Snackbar.Add(apiResultMessage.Message, apiResultMessage.MessageType.ToSeverity());
+            }
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, InstructionViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            await InstructionViewModel.SetIsBusyFlagAsync(false, OnStateHasChanged);
+        }
+    }
+
+    // protected async Task MoveInstructionFirstAsync(InstructionDto instructionDto)
+    // {
+    //     try
+    //     {
+    //         Logger.LogInformation("{MoveInstructionFirstAsync}({InstructionDto})", nameof(MoveInstructionFirstAsync), nameof(InstructionDto));
+
+    //         InstructionViewModel.IsBusy = true;
+    //         await InstructionViewModel.MoveInstructionFirstAsync(instructionDto);
+
+    //         if (InstructionViewModel.ApiResultMessages.Any().Equals(false))
+    //         {
+    //             await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Instruction", "Moved successfully!"));
+    //             return;
+    //         }
+
+    //         foreach (var apiResultMessage in InstructionViewModel.ApiResultMessages)
+    //             await JSRuntime.ToastAsync(new ToastModel(apiResultMessage.MessageType, "Instruction", apiResultMessage.Message));
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         SessionViewModel.HandleException(ex, InstructionViewModel.ApiResultMessages, ComponentName);
+    //     }
+    //     finally
+    //     {
+    //         InstructionViewModel.IsBusy = false;
+    //         await OnStateHasChanged.InvokeAsync();
+    //     }
+    // }
+
+    // protected async Task MoveInstructionPreviousAsync(InstructionDto instructionDto)
+    // {
+    //     try
+    //     {
+    //         Logger.LogInformation("{MoveInstructionPreviousAsync}({InstructionDto})", nameof(MoveInstructionPreviousAsync), nameof(InstructionDto));
+
+    //         InstructionViewModel.IsBusy = true;
+    //         await InstructionViewModel.MoveInstructionPreviousAsync(instructionDto);
+
+    //         if (InstructionViewModel.ApiResultMessages.Any().Equals(false))
+    //         {
+    //             await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Instruction", "Moved successfully!"));
+    //             return;
+    //         }
+
+    //         foreach (var apiResultMessage in InstructionViewModel.ApiResultMessages)
+    //             await JSRuntime.ToastAsync(new ToastModel(apiResultMessage.MessageType, "Instruction", apiResultMessage.Message));
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         SessionViewModel.HandleException(ex, InstructionViewModel.ApiResultMessages, ComponentName);
+    //     }
+    //     finally
+    //     {
+    //         InstructionViewModel.IsBusy = false;
+    //         await OnStateHasChanged.InvokeAsync();
+    //     }
+    // }
+
+    // protected async Task MoveInstructionNextAsync(InstructionDto instructionDto)
+    // {
+    //     try
+    //     {
+    //         Logger.LogInformation("{MoveInstructionNextAsync}({InstructionDto})", nameof(MoveInstructionNextAsync), nameof(InstructionDto));
+
+    //         InstructionViewModel.IsBusy = true;
+    //         await InstructionViewModel.MoveInstructionNextAsync(instructionDto);
+
+    //         if (InstructionViewModel.ApiResultMessages.Any().Equals(false))
+    //         {
+    //             await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Instruction", "Moved successfully!"));
+    //             return;
+    //         }
+
+    //         foreach (var apiResultMessage in InstructionViewModel.ApiResultMessages)
+    //             await JSRuntime.ToastAsync(new ToastModel(apiResultMessage.MessageType, "Instruction", apiResultMessage.Message));
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         SessionViewModel.HandleException(ex, InstructionViewModel.ApiResultMessages, ComponentName);
+    //     }
+    //     finally
+    //     {
+    //         InstructionViewModel.IsBusy = false;
+    //         await OnStateHasChanged.InvokeAsync();
+    //     }
+    // }
+
+    // protected async Task MoveInstructionLastAsync(InstructionDto instructionDto)
+    // {
+    //     try
+    //     {
+    //         Logger.LogInformation("{MoveInstructionLastAsync}({InstructionDto})", nameof(MoveInstructionLastAsync), nameof(InstructionDto));
+
+    //         InstructionViewModel.IsBusy = true;
+    //         await InstructionViewModel.MoveInstructionLastAsync(instructionDto);
+
+    //         if (InstructionViewModel.ApiResultMessages.Any().Equals(false))
+    //         {
+    //             await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Instruction", "Moved successfully!"));
+    //             return;
+    //         }
+
+    //         foreach (var apiResultMessage in InstructionViewModel.ApiResultMessages)
+    //             await JSRuntime.ToastAsync(new ToastModel(apiResultMessage.MessageType, "Instruction", apiResultMessage.Message));
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         SessionViewModel.HandleException(ex, InstructionViewModel.ApiResultMessages, ComponentName);
+    //     }
+    //     finally
+    //     {
+    //         InstructionViewModel.IsBusy = false;
+    //         await OnStateHasChanged.InvokeAsync();
+    //     }
+    // }
+
+}

@@ -17,7 +17,7 @@
                         <button type="button"
                                 class="btn btn-primary btn-sm"
                                 title="Add Instruction"
-                                disabled="@(InstructionViewModel.IsIntroductionNew)"
+                                disabled="@(InstructionViewModel.IsInstructionNew)"
                                 @onclick="@AddInstruction">
                             <i class="fas fa-plus"></i>
                         </button>
@@ -228,7 +228,7 @@
             Logger.LogInformation("{MoveInstructionPreviousAsync}({InstructionDto})", nameof(MoveInstructionPreviousAsync), nameof(InstructionDto));
 
             InstructionViewModel.IsBusy = true;
-            await InstructionViewModel.MoveInstructionPreviousAsync(instructionDto);
+            await InstructionViewModel.MoveInstructionUpAsync(instructionDto);
 
             if (InstructionViewModel.ApiResultMessages.Any().Equals(false))
             {
@@ -257,7 +257,7 @@
             Logger.LogInformation("{MoveInstructionNextAsync}({InstructionDto})", nameof(MoveInstructionNextAsync), nameof(InstructionDto));
 
             InstructionViewModel.IsBusy = true;
-            await InstructionViewModel.MoveInstructionNextAsync(instructionDto);
+            await InstructionViewModel.MoveInstructionDownAsync(instructionDto);
 
             if (InstructionViewModel.ApiResultMessages.Any().Equals(false))
             {

@@ -110,8 +110,7 @@
         }
         finally
         {
-            IngredientViewModel.IsBusy = false;
-            OnStateHasChanged.InvokeAsync();
+            IngredientViewModel.SetIsBusyFlag(false, () => OnStateHasChanged.InvokeAsync());
         }
     }
 
@@ -142,8 +141,7 @@
         }
         finally
         {
-            IngredientViewModel.IsBusy = false;
-            await OnStateHasChanged.InvokeAsync();
+            await IngredientViewModel.SetIsBusyFlagAsync(false, OnStateHasChanged);
         }
     }
 
@@ -179,8 +177,7 @@
         }
         finally
         {
-            IngredientViewModel.IsBusy = false;
-            await OnStateHasChanged.InvokeAsync();
+            await IngredientViewModel.SetIsBusyFlagAsync(false, OnStateHasChanged);
         }
     }
 

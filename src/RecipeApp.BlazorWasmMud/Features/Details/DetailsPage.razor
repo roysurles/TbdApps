@@ -65,9 +65,8 @@
                         </div>
                     </TitleContent>
                     <ChildContent>
-                        <div>
-                            Panel Three Content
-                        </div>
+                        <InstructionTableEditComponent InstructionViewModel="@(DetailsPageViewModel.InstructionViewModel)"
+                                                       OnStateHasChanged="@ChildComponentStateHasChanged" />
                     </ChildContent>
                 </MudExpansionPanel>
             </MudExpansionPanels>

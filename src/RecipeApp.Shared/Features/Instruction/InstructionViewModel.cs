@@ -13,7 +13,7 @@ public class InstructionViewModel : BaseViewModel, IInstructionViewModel
         _logger = logger;
     }
 
-    public bool IsIntroductionNew =>
+    public bool IsInstructionNew =>
         Equals(Guid.Empty, _introductionId);
 
     public ObservableCollection<InstructionDto> Instructions { get; protected set; } =
@@ -109,9 +109,9 @@ public class InstructionViewModel : BaseViewModel, IInstructionViewModel
         return await ResequenceInstructionsSortOrderAsync();
     }
 
-    public async Task<IInstructionViewModel> MoveInstructionPreviousAsync(InstructionDto instructionDto)
+    public async Task<IInstructionViewModel> MoveInstructionUpAsync(InstructionDto instructionDto)
     {
-        _logger.LogInformation("{MoveInstructionPreviousAsync}({instructionDto})", nameof(MoveInstructionPreviousAsync), nameof(InstructionDto));
+        _logger.LogInformation("{MoveInstructionPreviousAsync}({instructionDto})", nameof(MoveInstructionUpAsync), nameof(InstructionDto));
 
         ClearApiResultMessages();
 
@@ -130,9 +130,9 @@ public class InstructionViewModel : BaseViewModel, IInstructionViewModel
         return await ResequenceInstructionsSortOrderAsync();
     }
 
-    public async Task<IInstructionViewModel> MoveInstructionNextAsync(InstructionDto instructionDto)
+    public async Task<IInstructionViewModel> MoveInstructionDownAsync(InstructionDto instructionDto)
     {
-        _logger.LogInformation("{MoveInstructionNextAsync}({instructionDto})", nameof(MoveInstructionNextAsync), nameof(InstructionDto));
+        _logger.LogInformation("{MoveInstructionNextAsync}({instructionDto})", nameof(MoveInstructionDownAsync), nameof(InstructionDto));
 
         ClearApiResultMessages();
 
@@ -187,7 +187,7 @@ public class InstructionViewModel : BaseViewModel, IInstructionViewModel
 
 public interface IInstructionViewModel : IBaseViewModel
 {
-    bool IsIntroductionNew { get; }
+    bool IsInstructionNew { get; }
 
     ObservableCollection<InstructionDto> Instructions { get; }
 
@@ -201,9 +201,9 @@ public interface IInstructionViewModel : IBaseViewModel
 
     Task<IInstructionViewModel> MoveInstructionFirstAsync(InstructionDto instructionDto);
 
-    Task<IInstructionViewModel> MoveInstructionPreviousAsync(InstructionDto instructionDto);
+    Task<IInstructionViewModel> MoveInstructionUpAsync(InstructionDto instructionDto);
 
-    Task<IInstructionViewModel> MoveInstructionNextAsync(InstructionDto instructionDto);
+    Task<IInstructionViewModel> MoveInstructionDownAsync(InstructionDto instructionDto);
 
     Task<IInstructionViewModel> MoveInstructionLastAsync(InstructionDto instructionDto);
 }
