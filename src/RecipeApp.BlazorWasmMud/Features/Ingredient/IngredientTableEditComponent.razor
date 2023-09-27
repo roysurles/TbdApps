@@ -72,10 +72,10 @@
                                                  IsMoveUpDisabled="@(context.IsNew || IngredientViewModel.IsBusy)"
                                                  IsMoveDownDisabled="@(context.IsNew || IngredientViewModel.IsBusy)"
                                                  IsMoveLastDisabled="@(context.IsNew || IngredientViewModel.IsBusy)"
-                                                 OnMoveFirstClick="@((IngredientDto dto) => MoveIngredientFirstAsync(dto))"
-                                                 OnMoveUpClick="@((IngredientDto dto) => MoveIngredientUpAsync(dto))"
-                                                 OnMoveDownClick="@((IngredientDto dto) => MoveIngredientDownAsync(dto))"
-                                                 OnMoveLastClick="@((IngredientDto dto) => MoveIngredientAsync(dto, _ => IngredientViewModel.MoveIngredientLastAsync(dto), nameof(IngredientViewModel.MoveIngredientLastAsync)))" />
+                                                 OnMoveFirstClick="@((IngredientDto dto) => MoveIngredientAsync(dto, _ => IngredientViewModel.MoveIngredientFirstAsync(dto)))"
+                                                 OnMoveUpClick="@((IngredientDto dto) => MoveIngredientAsync(dto, _ => IngredientViewModel.MoveIngredientUpAsync(dto)))"
+                                                 OnMoveDownClick="@((IngredientDto dto) => MoveIngredientAsync(dto, _ => IngredientViewModel.MoveIngredientDownAsync(dto)))"
+                                                 OnMoveLastClick="@((IngredientDto dto) => MoveIngredientAsync(dto, _ => IngredientViewModel.MoveIngredientLastAsync(dto)))" />
                         @* OnMoveLastClick="@((IngredientDto dto) => MoveIngredientLastAsync(dto))" *@
                     </MudTd>
                 </RowTemplate>
@@ -184,30 +184,19 @@
         }
     }
 
-    // TODO:  look into moving the "MoveIngredient*" methods to a single "func"
-
-     protected async Task MoveIngredientAsync(IngredientDto ingredientDto
-        , Func<IngredientDto, Task<IIngredientViewModel>> func
-        , string methodName)
-    {
-        var method = func.Method.Name.ToString();
-
-        var name = func.Method.GetMethodBody().ToString();
-        var list = func.GetInvocationList();
-        var a = list[0];
-        var target = func.Target?.ToString();
-
-        await func.Invoke(ingredientDto);
-    }
-
-    protected async Task MoveIngredientFirstAsync(IngredientDto ingredientDto)
+    protected async Task MoveIngredientAsync(IngredientDto ingredientDto
+        , Expression<Func<IngredientDto, Task<IIngredientViewModel>>> expression)
     {
         try
         {
-            Logger.LogInformation("{MoveIngredientFirstAsync}({ingredientDto})", nameof(MoveIngredientFirstAsync), nameof(ingredientDto));
+            // https://stackoverflow.com/questions/1495465/get-name-of-action-func-delegate
+            // https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/expression-trees/expression-trees-execution
+            Logger.LogInformation("{MoveIngredientAsync}({ingredientDto}) for: {ActualMethodName}"
+                , nameof(MoveIngredientAsync), nameof(ingredientDto), ((MethodCallExpression)expression.Body).Method.Name.ToString());
 
             IngredientViewModel.IsBusy = true;
-            await IngredientViewModel.MoveIngredientFirstAsync(ingredientDto);
+            var func = expression.Compile();
+            await func(ingredientDto);
 
             if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
             {
@@ -226,102 +215,132 @@
         }
         finally
         {
-            IngredientViewModel.IsBusy = false;
-            await OnStateHasChanged.InvokeAsync();
+            await IngredientViewModel.SetIsBusyFlagAsync(false, OnStateHasChanged);
         }
     }
 
-    protected async Task MoveIngredientUpAsync(IngredientDto ingredientDto)
-    {
-        try
-        {
-            Logger.LogInformation("{MoveIngredientUpAsync}({ingredientDto})", nameof(MoveIngredientUpAsync), nameof(ingredientDto));
+    // protected async Task MoveIngredientFirstAsync(IngredientDto ingredientDto)
+    // {
+    //     try
+    //     {
+    //         Logger.LogInformation("{MoveIngredientFirstAsync}({ingredientDto})", nameof(MoveIngredientFirstAsync), nameof(ingredientDto));
 
-            IngredientViewModel.IsBusy = true;
-            await IngredientViewModel.MoveIngredientUpAsync(ingredientDto);
+    //         IngredientViewModel.IsBusy = true;
+    //         await IngredientViewModel.MoveIngredientFirstAsync(ingredientDto);
 
-            if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
-            {
-                using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!", Severity.Success);
-                return;
-            }
+    //         if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
+    //         {
+    //             using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!", Severity.Success);
+    //             return;
+    //         }
 
-            foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
-            {
-                using var snack = Snackbar.Add(apiResultMessage.Message, apiResultMessage.MessageType.ToSeverity());
-            }
-        }
-        catch (Exception ex)
-        {
-            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
-        }
-        finally
-        {
-            IngredientViewModel.IsBusy = false;
-            await OnStateHasChanged.InvokeAsync();
-        }
-    }
+    //         foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
+    //         {
+    //             using var snack = Snackbar.Add(apiResultMessage.Message, apiResultMessage.MessageType.ToSeverity());
+    //         }
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+    //     }
+    //     finally
+    //     {
+    //         IngredientViewModel.IsBusy = false;
+    //         await OnStateHasChanged.InvokeAsync();
+    //     }
+    // }
 
-    protected async Task MoveIngredientDownAsync(IngredientDto ingredientDto)
-    {
-        try
-        {
-            Logger.LogInformation("{MoveIngredientDownAsync}({ingredientDto})", nameof(MoveIngredientDownAsync), nameof(ingredientDto));
+    // protected async Task MoveIngredientUpAsync(IngredientDto ingredientDto)
+    // {
+    //     try
+    //     {
+    //         Logger.LogInformation("{MoveIngredientUpAsync}({ingredientDto})", nameof(MoveIngredientUpAsync), nameof(ingredientDto));
 
-            IngredientViewModel.IsBusy = true;
-            await IngredientViewModel.MoveIngredientDownAsync(ingredientDto);
+    //         IngredientViewModel.IsBusy = true;
+    //         await IngredientViewModel.MoveIngredientUpAsync(ingredientDto);
 
-            if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
-            {
-                using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!", Severity.Success);
-                return;
-            }
+    //         if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
+    //         {
+    //             using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!", Severity.Success);
+    //             return;
+    //         }
 
-            foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
-            {
-                using var snack = Snackbar.Add(apiResultMessage.Message, apiResultMessage.MessageType.ToSeverity());
-            }
-        }
-        catch (Exception ex)
-        {
-            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
-        }
-        finally
-        {
-            IngredientViewModel.IsBusy = false;
-            await OnStateHasChanged.InvokeAsync();
-        }
-    }
+    //         foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
+    //         {
+    //             using var snack = Snackbar.Add(apiResultMessage.Message, apiResultMessage.MessageType.ToSeverity());
+    //         }
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+    //     }
+    //     finally
+    //     {
+    //         IngredientViewModel.IsBusy = false;
+    //         await OnStateHasChanged.InvokeAsync();
+    //     }
+    // }
 
-    protected async Task MoveIngredientLastAsync(IngredientDto ingredientDto)
-    {
-        try
-        {
-            Logger.LogInformation("{MoveIngredientLastAsync}({ingredientDto})", nameof(MoveIngredientLastAsync), nameof(ingredientDto));
+    // protected async Task MoveIngredientDownAsync(IngredientDto ingredientDto)
+    // {
+    //     try
+    //     {
+    //         Logger.LogInformation("{MoveIngredientDownAsync}({ingredientDto})", nameof(MoveIngredientDownAsync), nameof(ingredientDto));
 
-            IngredientViewModel.IsBusy = true;
-            await IngredientViewModel.MoveIngredientLastAsync(ingredientDto);
+    //         IngredientViewModel.IsBusy = true;
+    //         await IngredientViewModel.MoveIngredientDownAsync(ingredientDto);
 
-            if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
-            {
-                using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!", Severity.Success);
-                return;
-            }
+    //         if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
+    //         {
+    //             using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!", Severity.Success);
+    //             return;
+    //         }
 
-            foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
-            {
-                using var snack = Snackbar.Add(apiResultMessage.Message, apiResultMessage.MessageType.ToSeverity());
-            }
-        }
-        catch (Exception ex)
-        {
-            SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
-        }
-        finally
-        {
-            IngredientViewModel.IsBusy = false;
-            await OnStateHasChanged.InvokeAsync();
-        }
-    }
+    //         foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
+    //         {
+    //             using var snack = Snackbar.Add(apiResultMessage.Message, apiResultMessage.MessageType.ToSeverity());
+    //         }
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+    //     }
+    //     finally
+    //     {
+    //         IngredientViewModel.IsBusy = false;
+    //         await OnStateHasChanged.InvokeAsync();
+    //     }
+    // }
+
+    // protected async Task MoveIngredientLastAsync(IngredientDto ingredientDto)
+    // {
+    //     try
+    //     {
+    //         Logger.LogInformation("{MoveIngredientLastAsync}({ingredientDto})", nameof(MoveIngredientLastAsync), nameof(ingredientDto));
+
+    //         IngredientViewModel.IsBusy = true;
+    //         await IngredientViewModel.MoveIngredientLastAsync(ingredientDto);
+
+    //         if (IngredientViewModel.ApiResultMessages.Any().Equals(false))
+    //         {
+    //             using var snack = Snackbar.Add($"'{ingredientDto.Description}' moved successfully!", Severity.Success);
+    //             return;
+    //         }
+
+    //         foreach (var apiResultMessage in IngredientViewModel.ApiResultMessages)
+    //         {
+    //             using var snack = Snackbar.Add(apiResultMessage.Message, apiResultMessage.MessageType.ToSeverity());
+    //         }
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+    //     }
+    //     finally
+    //     {
+    //         IngredientViewModel.IsBusy = false;
+    //         await OnStateHasChanged.InvokeAsync();
+    //     }
+    // }
 
 }

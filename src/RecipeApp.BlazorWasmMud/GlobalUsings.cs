@@ -20,3 +20,4 @@ global using RecipeApp.Shared.Models;
 global using Refit;
 
 global using Tbd.Shared.ApiResult;
+global using System.Linq.Expressions;
