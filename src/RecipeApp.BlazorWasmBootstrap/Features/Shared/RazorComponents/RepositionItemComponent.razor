@@ -1,0 +1,63 @@
+﻿@typeparam TItem where TItem : new()
+
+<div class="btn-group btn-group-sm" role="group">
+    <button type="button"
+            class="btn btn-secondary"
+            title="Move First"
+            disabled="@IsMoveFirstDisabled"
+            @onclick="@(_ => OnMoveFirstClick.InvokeAsync(Item))">
+        <i class="fas fa-angle-double-up"></i>
+    </button>
+    <button type="button"
+            class="btn btn-secondary"
+            title="Move Up"
+            disabled="@IsMoveUpDisabled"
+            @onclick="@(_ => OnMoveUpClick.InvokeAsync(Item))">
+        <i class="fas fa-angle-up"></i>
+    </button>
+    <button type="button"
+            class="btn btn-secondary"
+            title="Move Down"
+            disabled="@IsMoveDownDisabled"
+            @onclick="@(_ => OnMoveDownClick.InvokeAsync(Item))">
+        <i class="fas fa-angle-down"></i>
+    </button>
+    <button type="button"
+            class="btn btn-secondary"
+            title="Move Last"
+            disabled="@IsMoveLastDisabled"
+            @onclick="@(_ => OnMoveLastClick.InvokeAsync(Item))">
+        <i class="fas fa-angle-double-down"></i>
+    </button>
+</div>
+
+@code {
+
+    [Parameter, EditorRequired]
+    public TItem Item { get; set; }
+
+    [Parameter]
+    public bool IsMoveFirstDisabled { get; set; }
+
+    [Parameter]
+    public bool IsMoveUpDisabled { get; set; }
+
+    [Parameter]
+    public bool IsMoveDownDisabled { get; set; }
+
+    [Parameter]
+    public bool IsMoveLastDisabled { get; set; }
+
+    [Parameter]
+    public EventCallback<TItem> OnMoveFirstClick { get; set; }
+
+    [Parameter]
+    public EventCallback<TItem> OnMoveUpClick { get; set; }
+
+    [Parameter]
+    public EventCallback<TItem> OnMoveDownClick { get; set; }
+
+    [Parameter]
+    public EventCallback<TItem> OnMoveLastClick { get; set; }
+
+}
