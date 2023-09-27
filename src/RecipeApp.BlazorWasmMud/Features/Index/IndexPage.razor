@@ -43,16 +43,21 @@ else
                 <MudTh Style="text-align: center; width: 10%">Instructions</MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="Title">
-                    <a class="nav-link"
-                       aria-current="page"
-                       href="@($"/Details/{@context.Id.ToString()}")">
+                <MudTd DataLabel="Title" title="@(context.Comment)">
+                    <MudNavLink Href="@($"/Details/{@context.Id.ToString()}")" Style="height:30px">
                         @context.Title
-                    </a>
+                    </MudNavLink>
                 </MudTd>
-                @*<MudTd DataLabel="Title">@context.Title</MudTd>*@
-                <MudTd DataLabel="Ingredients" Style="text-align: right">@context.IngredientsCount</MudTd>
-                <MudTd DataLabel="Instructions" Style="text-align: right">@context.InstructionsCount</MudTd>
+                <MudTd DataLabel="Ingredients" Style="text-align: center">
+                    <MudChip Color="Color.Info" Size="Size.Small">
+                        @context.IngredientsCount
+                    </MudChip>
+                </MudTd>
+                <MudTd DataLabel="Instructions" Style="text-align: center">
+                    <MudChip Color="Color.Info" Size="Size.Small">
+                        @context.InstructionsCount
+                    </MudChip>
+                </MudTd>
             </RowTemplate>
             <PagerContent>
                 @* <MudTablePager /> *@
@@ -123,36 +128,5 @@ else
         }
     }
 
-    /*
-    @*<MudTable Items="@(IntroductionSearchViewModel.IntroductionSearchResult.Data)"
-                  Hover="true"
-                  Bordered="true"
-                  Striped="true">
-            <ToolBarContent>
-                <MudText Typo="Typo.h6">Recipe(s)</MudText>
-                <MudSpacer />
-                <MudTextField T="string"
-                              Placeholder="Filter"
-                              Adornment="Adornment.Start"
-                              AdornmentIcon="@Icons.Material.Filled.Search"
-                              IconSize="Size.Medium"
-                              Class="mt-0">
-                </MudTextField>
-            </ToolBarContent>
-            <HeaderContent>
-                <MudTh>Title</MudTh>
-                <MudTh>Ingredients</MudTh>
-                <MudTh>Instructions</MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd DataLabel="Title">@context.Title</MudTd>
-                <MudTd DataLabel="Ingredients">@context.IngredientsCount</MudTd>
-                <MudTd DataLabel="Instructions">@context.InstructionsCount</MudTd>
-            </RowTemplate>
-            <PagerContent>
-                <MudTablePager />
-            </PagerContent>
-        </MudTable>*@
-    */
 
 }
