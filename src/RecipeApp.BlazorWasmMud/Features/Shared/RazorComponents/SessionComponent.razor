@@ -25,11 +25,29 @@
                    Color="Color.Inherit"
                    OnClick="@(_ => SessionViewModel.NewTraceId())">
     </MudIconButton>
-    <MudSpacer  />
+    <MudSwitch Class="mt-3" Checked="@SessionViewModel.IsDarkMode" CheckedChanged="@((bool isChecked) => DarkModeSwitchChanged(isChecked))" Label="Dark" />
 </div>
 
-@code {
+    @code {
+
+    public void Dispose() =>
+        SessionViewModel.StateHasChangedEvent -= SessionViewModel_StateHasChangedEvent;
 
     Dictionary<string, object> TraceIdUserAttributes = new Dictionary<string, object> { { "Id", "TraceIdTextBox" } };
+
+    protected override async Task OnInitializedAsync()
+    {
+        SessionViewModel.StateHasChangedEvent += SessionViewModel_StateHasChangedEvent;
+
+        base.OnInitialized();
+
+        SessionViewModel.SetDarkMode(await JSRuntime.PrefersDarkMode());
+    }
+
+    protected void DarkModeSwitchChanged(bool isChecked) =>
+        SessionViewModel.SetDarkMode(isChecked);
+
+    protected void SessionViewModel_StateHasChangedEvent(object sender, EventArgs e) =>
+        StateHasChanged();
 
 }
