@@ -1,4 +1,3 @@
-
 namespace RecipeApp.CoreApi
 {
     /// <summary>
@@ -39,6 +38,18 @@ namespace RecipeApp.CoreApi
             var defaultConnectionString = Configuration.GetConnectionString("Default");
             var useDapperForDataAccess = Configuration.GetValue<bool>("UseDapperForDataAccess");
             services.Configure<ApiLoggingOptionsModel>(Configuration.GetSection("ApiLogging"));
+
+            //services.AddRateLimiter(_ =>
+            //{
+            //    _.AddFixedWindowLimiter("FixedWindowLimiter", options =>
+            //    {
+            //        options.QueueLimit = 2;
+            //        options.AutoReplenishment = true;
+            //        options.PermitLimit = 2;
+            //        options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
+            //        options.Window = TimeSpan.FromMinutes(5);
+            //    });
+            //});
 
             services.AddDbContext<RecipeDbContext>(options =>
             {
@@ -151,7 +162,15 @@ namespace RecipeApp.CoreApi
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
             });
 
-            app.UseEndpoints(endpoints => endpoints.MapControllers());
+            app.UseRateLimiter();       // This has to go after app.UseRouting(); --> https://github.com/dotnet/aspnetcore/issues/45302
+
+            //app.UseEndpoints(endpoints => endpoints.MapControllers());
+            // https://github.com/dotnet/aspnetcore/issues/45302
+            // https://nicolaiarocci.com/on-implementing-the-asp.net-core-7-rate-limiting-middleware/
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers().RequireRateLimiting("FixedWindowLimiter");
+            });
         }
     }
 }
