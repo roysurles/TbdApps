@@ -21,3 +21,4 @@ global using Refit;
 
 global using Tbd.Shared.ApiResult;
 global using Tbd.Shared.Extensions;
+global using RecipeApp.Shared.Extensions;
