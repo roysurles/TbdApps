@@ -8,6 +8,7 @@ global using System.Threading.Tasks;
 
 global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Logging;
 
 global using RecipeApp.Shared.Features.Ingredient;
