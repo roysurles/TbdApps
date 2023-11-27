@@ -162,7 +162,7 @@ namespace RecipeApp.CoreApi
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
             });
 
-            app.UseRateLimiter();       // This has to go after app.UseRouting(); --> https://github.com/dotnet/aspnetcore/issues/45302
+            // app.UseRateLimiter();       // This has to go after app.UseRouting(); --> https://github.com/dotnet/aspnetcore/issues/45302
 
             //app.UseEndpoints(endpoints => endpoints.MapControllers());
             // https://github.com/dotnet/aspnetcore/issues/45302
