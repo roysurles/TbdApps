@@ -1,6 +1,4 @@
-﻿using RecipeApp.CoreApi.Features.Instruction.V1_0;
-
-namespace RecipeApp.CoreApi.UnitTests.NSub.Features.Instruction.V1_0;
+﻿namespace RecipeApp.CoreApi.UnitTests.NSub.Features.Instruction.V1_0;
 
 public partial class InstructionServiceTests
 {
