@@ -1,43 +1,29 @@
-﻿using Bunit;
+﻿namespace RecipeApp.BlazorWasmBootstrap.UnitTests.Features.Introduction;
 
-using Microsoft.Extensions.Logging;
-
-using Moq;
-
-using RecipeApp.BlazorWasmBootstrap.Features.Introduction;
-using RecipeApp.BlazorWasmBootstrap.UnitTests.Shared.Extensions;
-using RecipeApp.Shared.Features.Introduction;
-
-using Xunit;
-using Xunit.Abstractions;
-
-namespace RecipeApp.BlazorWasmBootstrap.UnitTests.Features.Introduction
+public class IntroductionEditComponentTests : TestContext
 {
-    public class IntroductionEditComponentTests : TestContext
+    protected readonly ITestOutputHelper _output;
+
+    public IntroductionEditComponentTests(ITestOutputHelper output) =>
+        _output = output;
+
+    [Fact]
+    public void Should_Render()
     {
-        protected readonly ITestOutputHelper _output;
+        // Arrange
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        Services.AddDefaultServices();
 
-        public IntroductionEditComponentTests(ITestOutputHelper output) =>
-            _output = output;
+        var mockIntroductionApiClientV1_0 = new Mock<IIntroductionApiClientV1_0>();
+        var mockLogger = new Mock<ILogger<IntroductionViewModel>>();
 
-        [Fact]
-        public void Should_Render()
-        {
-            // Arrange
-            JSInterop.Mode = JSRuntimeMode.Loose;
-            Services.AddDefaultServices();
+        // Act
+        var cut = RenderComponent<IntroductionEditComponent>(parameters =>
+            parameters.Add(p => p.IntroductionViewModel, new IntroductionViewModel(mockIntroductionApiClientV1_0.Object, mockLogger.Object)));
 
-            var mockIntroductionApiClientV1_0 = new Mock<IIntroductionApiClientV1_0>();
-            var mockLogger = new Mock<ILogger<IntroductionViewModel>>();
+        // Assert
+        var formHtml = cut.Find("form");
 
-            // Act
-            var cut = RenderComponent<IntroductionEditComponent>(parameters =>
-                parameters.Add(p => p.IntroductionViewModel, new IntroductionViewModel(mockIntroductionApiClientV1_0.Object, mockLogger.Object)));
-
-            // Assert
-            var formHtml = cut.Find("form");
-
-            _output.WriteLine("*** Finished");
-        }
+        _output.WriteLine("*** Finished");
     }
 }

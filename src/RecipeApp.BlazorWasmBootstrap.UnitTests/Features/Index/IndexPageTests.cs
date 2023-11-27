@@ -1,45 +1,30 @@
-﻿using Bunit;
+﻿namespace RecipeApp.BlazorWasmBootstrap.UnitTests.Features.Index;
 
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
-using Moq;
-
-using RecipeApp.BlazorWasmBootstrap.Features.Index;
-using RecipeApp.BlazorWasmBootstrap.UnitTests.Shared.Extensions;
-using RecipeApp.Shared.Features.Introduction;
-
-using Xunit;
-using Xunit.Abstractions;
-
-namespace RecipeApp.BlazorWasmBootstrap.UnitTests.Features.Index
+public class IndexPageTests : TestContext
 {
-    public class IndexPageTests : TestContext
+    protected readonly ITestOutputHelper _output;
+
+    public IndexPageTests(ITestOutputHelper output) =>
+        _output = output;
+
+    [Fact]
+    public void Should_Render()
     {
-        protected readonly ITestOutputHelper _output;
+        // Arrange
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        Services.AddDefaultServices();
 
-        public IndexPageTests(ITestOutputHelper output) =>
-            _output = output;
+        var mockIntroductionApiClientV1_0 = new Mock<IIntroductionApiClientV1_0>();
+        var mockIntroductionApiClientNativeV1_0 = new Mock<IIntroductionApiClientNativeV1_0>();
+        var mockLogger = new Mock<ILogger<IntroductionSearchViewModel>>();
+        Services.AddTransient<IIntroductionSearchViewModel>(_ => new IntroductionSearchViewModel(mockIntroductionApiClientV1_0.Object
+            , mockIntroductionApiClientNativeV1_0.Object
+            , mockLogger.Object));
 
-        [Fact]
-        public void Should_Render()
-        {
-            // Arrange
-            JSInterop.Mode = JSRuntimeMode.Loose;
-            Services.AddDefaultServices();
+        // Act
+        var cut = RenderComponent<IndexPage>();
 
-            var mockIntroductionApiClientV1_0 = new Mock<IIntroductionApiClientV1_0>();
-            var mockIntroductionApiClientNativeV1_0 = new Mock<IIntroductionApiClientNativeV1_0>();
-            var mockLogger = new Mock<ILogger<IntroductionSearchViewModel>>();
-            Services.AddTransient<IIntroductionSearchViewModel>(_ => new IntroductionSearchViewModel(mockIntroductionApiClientV1_0.Object
-                , mockIntroductionApiClientNativeV1_0.Object
-                , mockLogger.Object));
-
-            // Act
-            var cut = RenderComponent<IndexPage>();
-
-            // Assert
-            var divHtml = cut.Find("div");
-        }
+        // Assert
+        var divHtml = cut.Find("div");
     }
 }
