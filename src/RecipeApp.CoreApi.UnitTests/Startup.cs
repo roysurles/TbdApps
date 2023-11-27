@@ -1,19 +1,12 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿namespace RecipeApp.CoreApi.UnitTests;
 
-using Microsoft.Extensions.DependencyInjection;
-
-using Tbd.Shared.ApiResult;
-
-namespace RecipeApp.CoreApi.UnitTests
+public class Startup
 {
-    public class Startup
+    [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
+    public void ConfigureServices(IServiceCollection services)
     {
-        [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddTransient(typeof(IApiResultModel<>), typeof(ApiResultModel<>));
+        services.AddTransient(typeof(IApiResultModel<>), typeof(ApiResultModel<>));
 
-            services.AddTransient((_) => services.BuildServiceProvider());
-        }
+        services.AddTransient((_) => services.BuildServiceProvider());
     }
 }
