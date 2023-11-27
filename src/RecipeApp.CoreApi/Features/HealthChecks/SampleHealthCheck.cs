@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-
-namespace RecipeApp.CoreApi.Features.HealthChecks;
+﻿namespace RecipeApp.CoreApi.Features.HealthChecks;
 
 /// <summary>
 /// https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-7.0

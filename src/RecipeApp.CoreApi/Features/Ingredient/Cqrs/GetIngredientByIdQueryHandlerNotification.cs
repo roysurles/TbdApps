@@ -1,13 +1,6 @@
-﻿using MediatR;
+﻿namespace RecipeApp.CoreApi.Features.Ingredient.Cqrs;
 
-using RecipeApp.Shared.Features.Ingredient;
-
-using Tbd.Shared.ApiResult;
-
-namespace RecipeApp.CoreApi.Features.Ingredient.Cqrs
+public class GetIngredientByIdQueryHandlerNotification : INotification
 {
-    public class GetIngredientByIdQueryHandlerNotification : INotification
-    {
-        public IApiResultModel<IngredientDto> ApiResultModel { get; init; }
-    }
+    public IApiResultModel<IngredientDto> ApiResultModel { get; init; }
 }

@@ -1,15 +1,6 @@
-﻿using MediatR;
+﻿namespace RecipeApp.CoreApi.Features.Ingredient.Cqrs;
 
-using RecipeApp.Shared.Features.Ingredient;
-
-using System;
-
-using Tbd.Shared.ApiResult;
-
-namespace RecipeApp.CoreApi.Features.Ingredient.Cqrs
+public class GetIngredientByIdQuery : IRequest<IApiResultModel<IngredientDto>>
 {
-    public class GetIngredientByIdQuery : IRequest<IApiResultModel<IngredientDto>>
-    {
-        public Guid Id { get; set; }        // Ingredient Id
-    }
+    public Guid Id { get; set; }        // Ingredient Id
 }

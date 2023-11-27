@@ -1,30 +1,20 @@
-﻿using MediatR;
+﻿namespace RecipeApp.CoreApi.Features.Ingredient.V1_0.CqrsMedDapp;
 
-using Microsoft.Extensions.Logging;
-
-using RecipeApp.CoreApi.Features.Ingredient.Cqrs;
-
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace RecipeApp.CoreApi.Features.Ingredient.V1_0.CqrsMedDapp
+public class GetIngredientsByIntroductionIdQueryHandlerNotificationHandler : INotificationHandler<GetIngredientsByIntroductionIdQueryHandlerNotification>
 {
-    public class GetIngredientsByIntroductionIdQueryHandlerNotificationHandler : INotificationHandler<GetIngredientsByIntroductionIdQueryHandlerNotification>
+    protected readonly ILogger<GetIngredientsByIntroductionIdQueryHandlerNotificationHandler> _logger;
+
+    public GetIngredientsByIntroductionIdQueryHandlerNotificationHandler(ILogger<GetIngredientsByIntroductionIdQueryHandlerNotificationHandler> logger)
     {
-        protected readonly ILogger<GetIngredientsByIntroductionIdQueryHandlerNotificationHandler> _logger;
+        _logger = logger;
+    }
 
-        public GetIngredientsByIntroductionIdQueryHandlerNotificationHandler(ILogger<GetIngredientsByIntroductionIdQueryHandlerNotificationHandler> logger)
-        {
-            _logger = logger;
-        }
+    public Task Handle(GetIngredientsByIntroductionIdQueryHandlerNotification notification, CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("{methodName}", nameof(Handle));
 
-        public Task Handle(GetIngredientsByIntroductionIdQueryHandlerNotification notification, CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("{methodName}", nameof(Handle));
+        // TODO:  interrogate notification.ApiResultModel for further processing
 
-            // TODO:  interrogate notification.ApiResultModel for further processing
-
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

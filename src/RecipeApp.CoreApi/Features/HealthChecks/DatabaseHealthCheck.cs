@@ -1,12 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-
-using Tbd.WebApi.Shared.Repositories;
-
-namespace RecipeApp.CoreApi.Features.HealthChecks;
+﻿namespace RecipeApp.CoreApi.Features.HealthChecks;
 
 /// <summary>
 /// https://www.youtube.com/watch?v=p2faw9DCSsY
