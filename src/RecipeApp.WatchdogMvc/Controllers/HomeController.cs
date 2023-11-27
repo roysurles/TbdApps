@@ -1,10 +1,5 @@
-﻿using System.Diagnostics;
+﻿namespace RecipeApp.WatchdogMvc.Controllers;
 
-using Microsoft.AspNetCore.Mvc;
-
-using RecipeApp.WatchdogMvc.Models;
-
-namespace RecipeApp.WatchdogMvc.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;

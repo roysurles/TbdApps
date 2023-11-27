@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
+﻿namespace Tbd.Shared.ApiLog;
 
-namespace Tbd.Shared.ApiLog
+public class ApiLoggingOptionsModel
 {
-    public class ApiLoggingOptionsModel
-    {
-        public string ConnectionString { get; set; }
+    public string ConnectionString { get; set; }
 
-        public bool IsEnabled { get; set; }
+    public bool IsEnabled { get; set; }
 
-        public int MinimumHttpStatusCode { get; set; } = 200;
+    public int MinimumHttpStatusCode { get; set; } = 200;
 
-        public HashSet<string> ExcludedUrls { get; set; } = new();
-    }
+    public HashSet<string> ExcludedUrls { get; set; } = new();
 }

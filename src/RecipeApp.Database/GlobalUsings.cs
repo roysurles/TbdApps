@@ -5,3 +5,6 @@ global using Serilog;
 global using System.Reflection;
 global using DbUp;
 global using DbUp.Helpers;
+global using System;
+global using System.ComponentModel.DataAnnotations;
+global using System.ComponentModel.DataAnnotations.Schema;
