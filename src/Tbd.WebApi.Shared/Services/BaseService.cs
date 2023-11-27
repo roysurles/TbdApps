@@ -1,21 +1,12 @@
-﻿using System;
+﻿namespace Tbd.WebApi.Shared.Services;
 
-using Microsoft.Extensions.DependencyInjection;
-
-using RecipeApp.Shared.Extensions;
-
-using Tbd.Shared.ApiResult;
-
-namespace Tbd.WebApi.Shared.Services
+public abstract class BaseService
 {
-    public abstract class BaseService
-    {
-        protected readonly IServiceProvider _serviceProvider;
+    protected readonly IServiceProvider _serviceProvider;
 
-        protected BaseService(IServiceProvider serviceProvider) =>
-            _serviceProvider = serviceProvider;
+    protected BaseService(IServiceProvider serviceProvider) =>
+        _serviceProvider = serviceProvider;
 
-        protected virtual IApiResultModel<T> CreateApiResultModel<T>() =>
-            _serviceProvider.GetRequiredService<IApiResultModel<T>>();
-    }
+    protected virtual IApiResultModel<T> CreateApiResultModel<T>() =>
+        _serviceProvider.GetRequiredService<IApiResultModel<T>>();
 }

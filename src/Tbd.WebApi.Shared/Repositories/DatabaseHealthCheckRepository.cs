@@ -1,10 +1,4 @@
-﻿using System.Data;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Dapper;
-
-namespace Tbd.WebApi.Shared.Repositories;
+﻿namespace Tbd.WebApi.Shared.Repositories;
 
 public class DatabaseHealthCheckRepository : BaseRepository
 {
