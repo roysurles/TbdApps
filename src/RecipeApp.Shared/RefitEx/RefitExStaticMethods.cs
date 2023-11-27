@@ -1,14 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-
-using Refit;
-
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using Tbd.Shared.ApiResult;
-
-namespace RecipeApp.Shared.RefitEx;
+﻿namespace RecipeApp.Shared.RefitEx;
 
 public static class RefitExStaticMethods
 {

@@ -1,18 +1,12 @@
-﻿using RecipeApp.Shared.Models;
+﻿namespace RecipeApp.Shared.Features.Instruction;
 
-using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace RecipeApp.Shared.Features.Instruction
+public class InstructionDto : BaseDto
 {
-    public class InstructionDto : BaseDto
-    {
-        public Guid IntroductionId { get; set; }
+    public Guid IntroductionId { get; set; }
 
-        public int SortOrder { get; set; }
+    public int SortOrder { get; set; }
 
-        [Required]
-        [MaxLength(255, ErrorMessage = "Description cannot exceed 255 characters.")]
-        public string Description { get; set; }
-    }
+    [Required]
+    [MaxLength(255, ErrorMessage = "Description cannot exceed 255 characters.")]
+    public string Description { get; set; }
 }

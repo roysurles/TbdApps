@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
+﻿namespace RecipeApp.Shared.Features.Instruction;
 
-namespace RecipeApp.Shared.Features.Instruction
+public class InstructionsDto
 {
-    public class InstructionsDto
-    {
-        public List<InstructionDto> Instructions { get; set; } =
-            new List<InstructionDto>();
-    }
+    public List<InstructionDto> Instructions { get; set; } = [];
 }
