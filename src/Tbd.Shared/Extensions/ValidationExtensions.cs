@@ -31,9 +31,9 @@ public static class ValidationExtensions
             return !nullObjReturnsFalse;
 
         // Single object
-        if (obj is not System.Collections.IEnumerable enumerable)
+        if (obj is not IEnumerable enumerable)
         {
-            returnResult = returnResult && Validator.TryValidateObject(obj, new ValidationContext(obj), validationResultList, validateAllProperties);
+            returnResult = Validator.TryValidateObject(obj, new ValidationContext(obj), validationResultList, validateAllProperties);
             foreach (var validationResult in validationResultList)
                 apiResultMessages.Add(validationResult.ToApiResultMessageModel());
 
