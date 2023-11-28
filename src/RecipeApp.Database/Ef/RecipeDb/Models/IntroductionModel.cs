@@ -1,29 +1,24 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace RecipeApp.Database.Ef.RecipeDb.Models;
 
-namespace RecipeApp.Database.Ef.RecipeDb.Models
+[Table("Introduction")]
+public class IntroductionModel
 {
-    [Table("Introduction")]
-    public class IntroductionModel
-    {
-        [Key]
-        public Guid Id { get; set; }
+    [Key]
+    public Guid Id { get; set; }
 
-        [MaxLength(50)]
-        public string Title { get; set; }
+    [MaxLength(50)]
+    public string Title { get; set; }
 
-        [MaxLength(255)]
-        public string Comment { get; set; }
+    [MaxLength(255)]
+    public string Comment { get; set; }
 
-        [MaxLength(255)]
-        public string CreatedById { get; set; }
+    [MaxLength(255)]
+    public string CreatedById { get; set; }
 
-        public DateTime? CreatedOnUtc { get; set; }
+    public DateTime? CreatedOnUtc { get; set; }
 
-        [MaxLength(255)]
-        public string UpdatedById { get; set; }
+    [MaxLength(255)]
+    public string UpdatedById { get; set; }
 
-        public DateTime? UpdatedOnUtc { get; set; }
-    }
+    public DateTime? UpdatedOnUtc { get; set; }
 }

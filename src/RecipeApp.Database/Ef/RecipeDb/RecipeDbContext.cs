@@ -1,17 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿namespace RecipeApp.Database.Ef.RecipeDb;
 
-using RecipeApp.Database.Ef.RecipeDb.Models;
-
-namespace RecipeApp.Database.Ef.RecipeDb
+public class RecipeDbContext : DbContext
 {
-    public class RecipeDbContext : DbContext
-    {
-        public RecipeDbContext(DbContextOptions<RecipeDbContext> options) : base(options) { }
+    public RecipeDbContext(DbContextOptions<RecipeDbContext> options) : base(options) { }
 
-        public DbSet<IngredientModel> Ingredients { get; set; }
+    public DbSet<IngredientModel> Ingredients { get; set; }
 
-        public DbSet<InstructionModel> Instructions { get; set; }
+    public DbSet<InstructionModel> Instructions { get; set; }
 
-        public DbSet<IntroductionModel> Introductions { get; set; }
-    }
+    public DbSet<IntroductionModel> Introductions { get; set; }
 }
