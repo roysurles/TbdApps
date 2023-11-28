@@ -15,7 +15,7 @@ public partial class IntroductionServiceTests
             .ReturnsAsync(1);
 
         // Act
-        var actualApiResult = await _introductionService.DeleteAsync(id, new CancellationToken()).ConfigureAwait(false);
+        var actualApiResult = await _introductionService.DeleteAsync(id, new CancellationToken());
 
         // Assert
         actualApiResult.HttpStatusCode.Should().Be(expectedHttpStatusCode);

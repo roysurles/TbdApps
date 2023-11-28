@@ -19,7 +19,7 @@ public partial class IngredientServiceTests
         _ingredientRepositoryMock.InsertAsync(Arg.Any<IngredientDto>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(ingredientDto);
 
         // Act
-        var actualApiResult = await _ingredientService.InsertAsync(ingredientDto, null, new CancellationToken()).ConfigureAwait(false);
+        var actualApiResult = await _ingredientService.InsertAsync(ingredientDto, null, new CancellationToken());
 
         // Assert
         actualApiResult.HttpStatusCode.Should().Be(expectedHttpStatusCode);

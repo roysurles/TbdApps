@@ -20,7 +20,7 @@ public partial class IntroductionServiceTests
             .ReturnsAsync(introductionDto);
 
         // Act
-        var actualApiResult = await _introductionService.UpdateAsync(introductionDto, null, new CancellationToken()).ConfigureAwait(false);
+        var actualApiResult = await _introductionService.UpdateAsync(introductionDto, null, new CancellationToken());
 
         // Assert
         actualApiResult.HttpStatusCode.Should().Be(expectedHttpStatusCode);

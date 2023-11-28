@@ -18,7 +18,7 @@ public partial class InstructionServiceTests
         _instructionRepositoryMock.InsertAsync(Arg.Any<InstructionDto>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(instructionDto);
 
         // Act
-        var actualApiResult = await _instructionService.InsertAsync(instructionDto, null, new CancellationToken()).ConfigureAwait(false);
+        var actualApiResult = await _instructionService.InsertAsync(instructionDto, null, new CancellationToken());
 
         // Assert
         actualApiResult.HttpStatusCode.Should().Be(expectedHttpStatusCode);

@@ -18,7 +18,7 @@ public partial class IngredientServiceTests
         _ingredientRepositoryMock.SelectAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(returnInstructionDto);
 
         // Act
-        var actualApiResult = await _ingredientService.SelectAsync(id, new CancellationToken()).ConfigureAwait(false);
+        var actualApiResult = await _ingredientService.SelectAsync(id, new CancellationToken());
 
         // Assert
         actualApiResult.HttpStatusCode.Should().Be(expectedHttpStatusCode);

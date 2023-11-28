@@ -18,7 +18,7 @@ public partial class IntroductionServiceTests
         _introductionRepositoryMock.SelectAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(returnIntroductionDto);
 
         // Act
-        var actualApiResult = await _introductionService.SelectAsync(id, new CancellationToken()).ConfigureAwait(false);
+        var actualApiResult = await _introductionService.SelectAsync(id, new CancellationToken());
 
         // Assert
         actualApiResult.HttpStatusCode.Should().Be(expectedHttpStatusCode);

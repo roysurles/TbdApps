@@ -13,7 +13,7 @@ public partial class InstructionServiceTests
         _instructionRepositoryMock.DeleteAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(1);
 
         // Act
-        var actualApiResult = await _instructionService.DeleteAsync(id, new CancellationToken()).ConfigureAwait(false);
+        var actualApiResult = await _instructionService.DeleteAsync(id, new CancellationToken());
 
         // Assert
         actualApiResult.HttpStatusCode.Should().Be(expectedHttpStatusCode);

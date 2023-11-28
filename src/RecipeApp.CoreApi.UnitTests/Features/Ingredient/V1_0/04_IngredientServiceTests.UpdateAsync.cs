@@ -23,7 +23,7 @@ public partial class IngredientServiceTests
             .ReturnsAsync(ingredientDto);
 
         // Act
-        var actualApiResult = await _ingredientService.UpdateAsync(ingredientDto, null, new CancellationToken()).ConfigureAwait(false);
+        var actualApiResult = await _ingredientService.UpdateAsync(ingredientDto, null, new CancellationToken());
 
         // Assert
         actualApiResult.HttpStatusCode.Should().Be(expectedHttpStatusCode);

@@ -22,7 +22,7 @@ public partial class InstructionServiceTests
             .ReturnsAsync(instructionDto);
 
         // Act
-        var actualApiResult = await _instructionService.UpdateAsync(instructionDto, null, new CancellationToken()).ConfigureAwait(false);
+        var actualApiResult = await _instructionService.UpdateAsync(instructionDto, null, new CancellationToken());
 
         // Assert
         actualApiResult.HttpStatusCode.Should().Be(expectedHttpStatusCode);
