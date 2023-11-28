@@ -8,7 +8,7 @@ public partial class IntroductionServiceTests
     [InlineData("eb95c593-69b2-4483-8fc3-4f74726a317e", "", HttpStatusCode.BadRequest, new string[] { "The Title field is required." })]
     [InlineData("eb95c593-69b2-4483-8fc3-4f74726a317e", "New Recipe", HttpStatusCode.OK, new string[] { })]
     public async Task Update_Should_Return_Correct_StatusCode(Guid introductionId
-        , string title
+        , string? title
         , HttpStatusCode expectedHttpStatusCode
         , string[] expectedMessages)
     {

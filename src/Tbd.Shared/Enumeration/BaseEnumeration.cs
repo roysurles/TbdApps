@@ -47,8 +47,8 @@ public abstract class BaseEnumeration : IBaseEnumeration
     public override int GetHashCode() =>
         Value.GetHashCode();
 
-    public int CompareTo(object other) =>
-        Value.CompareTo(((BaseEnumeration)other).Value);
+    public int CompareTo(object obj) =>
+        Value.CompareTo(((BaseEnumeration)obj).Value);
 
     public static int AbsoluteDifference(BaseEnumeration firstValue, BaseEnumeration secondValue) =>
         Math.Abs(firstValue.Value - secondValue.Value);

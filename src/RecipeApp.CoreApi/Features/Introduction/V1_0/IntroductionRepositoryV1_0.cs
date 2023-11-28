@@ -11,7 +11,7 @@ internal class IntroductionRepositoryV1_0 : BaseRepository, IIntroductionReposit
         , CancellationToken cancellationToken)
     {
         var (IsValid, ErrorMessages) = introductionSearchRequestDto.OrderByClause.IsValid();
-        if (IsValid == false)
+        if (!IsValid)
             throw new InvalidOperationException(string.Join(", ", ErrorMessages));
 
         var sql = @$"

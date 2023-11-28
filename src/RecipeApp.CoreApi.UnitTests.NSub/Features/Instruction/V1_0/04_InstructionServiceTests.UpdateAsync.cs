@@ -10,7 +10,7 @@ public partial class InstructionServiceTests
     [InlineData("eb95c593-69b2-4483-8fc3-4f74726a317e", "eb95c593-69b2-4483-8fc3-4f74726a317e", "Description", HttpStatusCode.OK, new string[] { })]
     public async Task Update_Should_Return_Correct_StatusCode(Guid introductionId
         , Guid instructionId
-        , string description
+        , string? description
         , HttpStatusCode expectedHttpStatusCode
         , string[] expectedMessages)
     {

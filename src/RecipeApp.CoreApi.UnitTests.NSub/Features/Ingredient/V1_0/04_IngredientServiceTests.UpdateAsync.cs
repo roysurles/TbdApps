@@ -10,8 +10,8 @@ public partial class IngredientServiceTests
     [InlineData("eb95c593-69b2-4483-8fc3-4f74726a317e", "eb95c593-69b2-4483-8fc3-4f74726a317e", "Measurement", "Description", HttpStatusCode.OK, new string[] { })]
     public async Task Update_Should_Return_Correct_StatusCode(Guid introductionId
         , Guid ingredientId
-        , string measurement
-        , string description
+        , string? measurement
+        , string? description
         , HttpStatusCode expectedHttpStatusCode
         , string[] expectedMessages)
     {

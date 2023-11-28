@@ -7,7 +7,7 @@ public partial class IntroductionServiceTests
     [InlineData("eb95c593-69b2-4483-8fc3-4f74726a317e", HttpStatusCode.OK, null)]
     public async Task Delete_Should_Return_Correct_StatusCode(Guid id
         , HttpStatusCode expectedHttpStatusCode
-        , string expectedMessage)
+        , string? expectedMessage)
     {
         // Arrange
         _introductionRepositoryMock.DeleteAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(1);

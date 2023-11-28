@@ -8,8 +8,8 @@ public partial class IngredientServiceTests
     [InlineData("eb95c593-69b2-4483-8fc3-4f74726a317e", "", "", HttpStatusCode.BadRequest, new string[] { "The Measurement field is required.", "The Description field is required." })]
     [InlineData("eb95c593-69b2-4483-8fc3-4f74726a317e", "Measurement", "Description", HttpStatusCode.Created, new string[] { })]
     public async Task Insert_Should_Return_Correct_StatusCode(Guid introductionId
-        , string measurement
-        , string description
+        , string? measurement
+        , string? description
         , HttpStatusCode expectedHttpStatusCode
         , string[] expectedMessages)
     {

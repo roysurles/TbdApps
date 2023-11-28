@@ -42,19 +42,19 @@ public class ApiResultModel<T> : IApiResultModel<T>
     /// Flag indicating errors exist.
     /// </summary>
     [JsonPropertyName("hasErrors")]
-    public bool HasErrors => Messages.Any(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Error));
+    public bool HasErrors => Messages.Exists(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Error));
 
     /// <summary>
     /// Flag indicating unhandledExceptions exist.
     /// </summary>
     [JsonPropertyName("hasUnhandledExceptions")]
-    public bool HasUnhandledExceptions => Messages.Any(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.UnhandledException));
+    public bool HasUnhandledExceptions => Messages.Exists(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.UnhandledException));
 
     /// <summary>
     /// Flag indicating warnings exist.
     /// </summary>
     [JsonPropertyName("hasWarnings")]
-    public bool HasWarnings => Messages.Any(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Warning));
+    public bool HasWarnings => Messages.Exists(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Warning));
 
     /// <summary>
     /// List of messages.

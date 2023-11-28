@@ -84,7 +84,7 @@ public class ApiLogRepository : BaseRepository
         catch (Exception ex)
         {
             logger.LogInformation("Inserted 0 ApiLog Record(s); Swallowing exception.");
-            logger.LogError($"{nameof(InsertApiLogDtoAsync)} encountered an exception: ", ex);
+            logger.LogError(ex, "{methodName} encountered an exception: ", nameof(InsertApiLogDtoAsync));
             return affectedRows;
         }
     }

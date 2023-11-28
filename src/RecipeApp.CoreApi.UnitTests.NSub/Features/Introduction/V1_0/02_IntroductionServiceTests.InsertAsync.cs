@@ -6,7 +6,7 @@ public partial class IntroductionServiceTests
     [InlineData(null, HttpStatusCode.BadRequest, new string[] { "The Title field is required." })]
     [InlineData("", HttpStatusCode.BadRequest, new string[] { "The Title field is required." })]
     [InlineData("New Recipe", HttpStatusCode.Created, new string[] { })]
-    public async Task Insert_Should_Return_Correct_StatusCode(string title
+    public async Task Insert_Should_Return_Correct_StatusCode(string? title
         , HttpStatusCode expectedHttpStatusCode
         , string[] expectedMessages)
     {
