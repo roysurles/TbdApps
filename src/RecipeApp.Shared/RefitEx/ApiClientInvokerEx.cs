@@ -13,10 +13,10 @@ public class ApiClientInvokerEx<TApiClient> : IApiClientInvokerEx<TApiClient> wh
         _logger = logger;
     }
 
-    public async Task<(TResult Data, ProblemDetails? Problems)> TryInvokeAsync<TResult>(Expression<Func<TApiClient, Task<TResult>>> expression)
+    public async Task<(TResult Data, ProblemDetails Problems)> TryInvokeAsync<TResult>(Expression<Func<TApiClient, Task<TResult>>> expression)
     {
         TResult result = default!;
-        ProblemDetails? problemDetails = null;
+        ProblemDetails problemDetails = null;
         Delegate firstDelegate = null!;
 
         try
@@ -60,9 +60,9 @@ public class ApiClientInvokerEx<TApiClient> : IApiClientInvokerEx<TApiClient> wh
     }
 
     //  We need a second method for Api's that dont return any data... 204 - No Content
-    public async Task<ProblemDetails?> TryInvokeAsync(Expression<Func<TApiClient, Task>> expression)
+    public async Task<ProblemDetails> TryInvokeAsync(Expression<Func<TApiClient, Task>> expression)
     {
-        ProblemDetails? problemDetails = null;
+        ProblemDetails problemDetails = null;
         Delegate firstDelegate = null!;
 
         try
@@ -93,7 +93,7 @@ public class ApiClientInvokerEx<TApiClient> : IApiClientInvokerEx<TApiClient> wh
 
 public interface IApiClientInvokerEx<TApiClient>
 {
-    Task<(TResult Data, ProblemDetails? Problems)> TryInvokeAsync<TResult>(Expression<Func<TApiClient, Task<TResult>>> expression);
+    Task<(TResult Data, ProblemDetails Problems)> TryInvokeAsync<TResult>(Expression<Func<TApiClient, Task<TResult>>> expression);
 
-    Task<ProblemDetails?> TryInvokeAsync(Expression<Func<TApiClient, Task>> expression);
+    Task<ProblemDetails> TryInvokeAsync(Expression<Func<TApiClient, Task>> expression);
 }

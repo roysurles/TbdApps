@@ -2,7 +2,7 @@
 
 public static class ExceptionExtensions
 {
-    public static async Task<ProblemDetails> ToProblemDetailsAsync(this ApiException apiException, IHostEnvironment? hostEnvironment)
+    public static async Task<ProblemDetails> ToProblemDetailsAsync(this ApiException apiException, IHostEnvironment hostEnvironment)
     {
         ProblemDetails problemDetails;
 
@@ -22,7 +22,7 @@ public static class ExceptionExtensions
         return problemDetails!;
     }
 
-    public static ProblemDetails ToProblemDetails(this ApiException apiException, IHostEnvironment? hostEnvironment)
+    public static ProblemDetails ToProblemDetails(this ApiException apiException, IHostEnvironment hostEnvironment)
     {
         return new ProblemDetails
         {
@@ -32,7 +32,7 @@ public static class ExceptionExtensions
         };
     }
 
-    public static ProblemDetails ToProblemDetails(this Exception exception, IHostEnvironment? hostEnvironment)
+    public static ProblemDetails ToProblemDetails(this Exception exception, IHostEnvironment hostEnvironment)
     {
         return new ProblemDetails
         {
@@ -42,7 +42,7 @@ public static class ExceptionExtensions
         };
     }
 
-    public static string GetExceptionMessage(this Exception exception, IHostEnvironment? hostEnvironment)
+    public static string GetExceptionMessage(this Exception exception, IHostEnvironment hostEnvironment)
     {
         // Redact exception data for Production
         return hostEnvironment?.IsProduction() == true

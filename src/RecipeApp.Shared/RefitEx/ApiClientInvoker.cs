@@ -12,10 +12,10 @@ public class ApiClientInvoker : IApiClientInvoker
         // TODO RRS:  inject TelemetryClient for AppInsights or cover object for both after reviewing AppInsights POC
     }
 
-    public async Task<(TResult Data, ProblemDetails? Problems)> TryInvokeAsync<TResult>(Func<Task<TResult>> func)
+    public async Task<(TResult Data, ProblemDetails Problems)> TryInvokeAsync<TResult>(Func<Task<TResult>> func)
     {
         TResult result = default!;
-        ProblemDetails? problemDetails = null;
+        ProblemDetails problemDetails = null;
         Delegate firstDelegate = null!;
 
         try
@@ -46,9 +46,9 @@ public class ApiClientInvoker : IApiClientInvoker
     }
 
     //  We need a second method for Api's that dont return any data... 204 - No Content
-    public async Task<ProblemDetails?> TryInvokeAsync(Func<Task> func)
+    public async Task<ProblemDetails> TryInvokeAsync(Func<Task> func)
     {
-        ProblemDetails? problemDetails = null;
+        ProblemDetails problemDetails = null;
         Delegate firstDelegate = null!;
 
         try
@@ -77,7 +77,7 @@ public class ApiClientInvoker : IApiClientInvoker
 
 public interface IApiClientInvoker
 {
-    Task<(TResult Data, ProblemDetails? Problems)> TryInvokeAsync<TResult>(Func<Task<TResult>> func);
+    Task<(TResult Data, ProblemDetails Problems)> TryInvokeAsync<TResult>(Func<Task<TResult>> func);
 
-    Task<ProblemDetails?> TryInvokeAsync(Func<Task> func);
+    Task<ProblemDetails> TryInvokeAsync(Func<Task> func);
 }

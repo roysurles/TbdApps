@@ -2,10 +2,10 @@
 
 public static class ApiClient
 {
-    public static async Task<(TResult Data, ProblemDetails? Problems)> TryInvokeAsync<TResult>(Func<Task<TResult>> func)
+    public static async Task<(TResult Data, ProblemDetails Problems)> TryInvokeAsync<TResult>(Func<Task<TResult>> func)
     {
         TResult result = default!;
-        ProblemDetails? problemDetails = null;
+        ProblemDetails problemDetails = null;
 
         try
         {
@@ -23,9 +23,9 @@ public static class ApiClient
         return (result, problemDetails);
     }
 
-    public static async Task<ProblemDetails?> TryInvokeAsync(Func<Task> func)
+    public static async Task<ProblemDetails> TryInvokeAsync(Func<Task> func)
     {
-        ProblemDetails? problemDetails = null;
+        ProblemDetails problemDetails = null;
 
         try
         {
