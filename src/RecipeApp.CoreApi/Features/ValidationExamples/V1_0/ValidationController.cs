@@ -1,13 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-using FluentValidation;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-using Tbd.WebApi.Shared.Controllers;
-
-namespace RecipeApp.CoreApi.Features.ValidationExamples.V1_0;
+﻿namespace RecipeApp.CoreApi.Features.ValidationExamples.V1_0;
 
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/Validation", Name = "Validation")]
