@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.CoreApi.UnitTests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.WatchdogMvc", "src\RecipeApp.WatchdogMvc\RecipeApp.WatchdogMvc.csproj", "{49048271-9F13-44C9-869F-5C2A55C66D13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApp.Mvc", "src\RecipeApp.Mvc\RecipeApp.Mvc.csproj", "{B6744472-5C56-45AF-9E68-0A5A2E89CA01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{49048271-9F13-44C9-869F-5C2A55C66D13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49048271-9F13-44C9-869F-5C2A55C66D13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49048271-9F13-44C9-869F-5C2A55C66D13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6744472-5C56-45AF-9E68-0A5A2E89CA01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6744472-5C56-45AF-9E68-0A5A2E89CA01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6744472-5C56-45AF-9E68-0A5A2E89CA01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6744472-5C56-45AF-9E68-0A5A2E89CA01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,6 +121,7 @@ Global
 		{DA776250-C9D1-428E-939C-6BAB02ECC9AE} = {3DD50C30-A1BB-4CF5-B7EB-2199704B1514}
 		{1E980AFE-F50C-4908-A2A7-E588AE9D56E8} = {3DD50C30-A1BB-4CF5-B7EB-2199704B1514}
 		{49048271-9F13-44C9-869F-5C2A55C66D13} = {3DD50C30-A1BB-4CF5-B7EB-2199704B1514}
+		{B6744472-5C56-45AF-9E68-0A5A2E89CA01} = {3DD50C30-A1BB-4CF5-B7EB-2199704B1514}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8042CBFD-132D-47AD-8FB4-00DBADAAA74D}
