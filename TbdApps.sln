@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.CoreApi.UnitTests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.WatchdogMvc", "src\RecipeApp.WatchdogMvc\RecipeApp.WatchdogMvc.csproj", "{49048271-9F13-44C9-869F-5C2A55C66D13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApp.Mvc", "src\RecipeApp.Mvc\RecipeApp.Mvc.csproj", "{B6744472-5C56-45AF-9E68-0A5A2E89CA01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApp.Mvc", "src\RecipeApp.Mvc\RecipeApp.Mvc.csproj", "{B6744472-5C56-45AF-9E68-0A5A2E89CA01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

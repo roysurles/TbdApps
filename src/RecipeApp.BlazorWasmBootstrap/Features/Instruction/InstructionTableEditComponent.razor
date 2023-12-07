@@ -5,9 +5,9 @@
 
 @if (InstructionViewModel is not null)
 {
-    <div class="row">
+@*     <div class="row">
         <ApiResultMessagesComponent ApiResultMessages="@InstructionViewModel.ApiResultMessages" />
-    </div>
+    </div> *@
 
     <div class="row">
         <table class="table table-striped table-hover">
@@ -15,12 +15,13 @@
                 <tr>
                     <th scope="col">
                         <button type="button"
-                                class="btn btn-primary btn-sm"
+                                class="btn btn-primary btn-sm mr-3"
                                 title="Add Instruction"
                                 disabled="@(InstructionViewModel.IsInstructionNew)"
                                 @onclick="@AddInstruction">
                             <i class="fas fa-plus"></i>
                         </button>
+                        <ApiResultMessagesModalComponent ApiResultMessages="@InstructionViewModel.ApiResultMessages" />
                     </th>
                     <th scope="col">Description</th>
                     <th scope="col">Reposition</th>

@@ -56,6 +56,9 @@ public static class JsRuntimeExtensions
         return fileDetails;
     }
 
+    public static async ValueTask CopyElementToClipboard(this IJSRuntime jsRuntime, string element) =>
+        jsRuntime.InvokeVoidAsync("siteModule.copyElementToClipboard", element);
+
     public static ValueTask SnackAsync(this IJSRuntime jsRuntime, ToastType toastType, string content, int delay = 3000) =>
         jsRuntime.InvokeVoidAsync("$.snack", toastType.ToString(), content, delay);
 

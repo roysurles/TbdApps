@@ -1,0 +1,170 @@
+﻿@inject IJSRuntime JSRuntime
+
+@if (ApiResultMessages.Any())
+{
+    <!-- Button trigger modal -->
+    <button type="button"
+            class="btn btn-outline-primary blink_me"
+            data-bs-toggle="modal"
+            data-bs-target="#ApiResultMessagesModal">
+        @if (Informations.Any())
+        {
+            <i class="fas fa-info text-info" style="width:10px" title="Info"></i>
+        }
+        @if (Warnings.Any())
+        {
+            <i class="fas fa-exclamation text-warning" style="width:10px" title="Warnings"></i>
+        }
+        @if (Errors.Any())
+        {
+            <i class="fas fa-exclamation text-danger" style="width:10px" title="Errors"></i>
+        }
+        @if (UnhandledExceptions.Any())
+        {
+            <i class="fas fa-exclamation text-danger" style="width:10px" title="Unhandled Exceptions"></i>
+        }
+    </button>
+
+    <!-- Modal -->
+    <div class="modal modal-xl modal-dialog-scrollable fade"
+            id="ApiResultMessagesModal"
+            data-bs-backdrop="static"
+            data-bs-keyboard="true"
+            tabindex="-1"
+            aria-labelledby="ApiResultMessagesModalLabel"
+            aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-6" id="ApiResultMessagesModalLabel"><strong>Messages</strong></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body overflow-scroll text-nowrap" style="max-height: 500px">
+                    <div class="container-fluid " >
+                        <div class="row">
+                            <div id="InfoCol"  class="col">
+                                @if (Informations.Any())
+                                {
+                                    <div class="text-info text-start">
+                                        <div style="display: inline-flex">
+                                            <h6><strong>Information</strong></h6>
+                                            <button @onclick="@(async () => await JSRuntime.CopyElementToClipboard("InfoCol"))"
+                                                    type="button"
+                                                    class="btn btn-sm"
+                                                    title="Copy">
+                                                <i class="fas fa-copy" style="width:10px"></i>
+                                            </button>
+                                        </div>
+                                        <ul>
+                                            @foreach (var information in Informations)
+                                            {
+                                                <li>@($"{information.Code} : {information.Message}".ToMarkupString())</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div id="WarningsCol" class="col">
+                                @if (Warnings.Any())
+                                {
+                                    <div class="text-warning text-start">
+                                        <div style="display: inline-flex">
+                                            <h6><strong>Warnings</strong></h6>
+                                            <button @onclick="@(async () => await JSRuntime.CopyElementToClipboard("WarningsCol"))"
+                                                    type="button"
+                                                    class="btn btn-sm"
+                                                    title="Copy">
+                                                <i class="fas fa-copy" style="width:10px"></i>
+                                            </button>
+                                        </div>
+                                        <ul>
+                                            @foreach (var warning in Warnings)
+                                            {
+                                                <li>@($"{warning.Code} : {warning.Message}".ToMarkupString())</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div id="ErrorsCol" class="col">
+                                @if (Errors.Any())
+                                {
+                                    <div class="text-danger text-start">
+                                        <div style="display: inline-flex">
+                                            <h6><strong>Errors</strong></h6>
+                                            <button @onclick="@(async () => await JSRuntime.CopyElementToClipboard("ErrorsCol"))"
+                                                    type="button"
+                                                    class="btn btn-sm"
+                                                    title="Copy">
+                                                <i class="fas fa-copy" style="width:10px"></i>
+                                            </button>
+                                        </div>
+                                        <ul>
+                                            @foreach (var error in Errors)
+                                            {
+                                                <li>@($"{error.Code} : {error.Message}".ToMarkupString())</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div id="UnhandledExceptionsCol" class="col">
+                                @if (UnhandledExceptions.Any())
+                                {
+                                    <div class="text-danger text-start" >
+                                        <div style="display: inline-flex">
+                                            <h6><strong>Unhandled Exceptions</strong></h6>
+                                            <button @onclick="@(async () => await JSRuntime.CopyElementToClipboard("UnhandledExceptionsCol"))"
+                                                    type="button"
+                                                    class="btn btn-sm"
+                                                    title="Copy">
+                                                <i class="fas fa-copy" style="width:10px"></i>
+                                            </button>
+                                        </div>
+                                        <ul>
+                                            @foreach (var unhandledException in UnhandledExceptions)
+                                            {
+                                                <li>@($"{unhandledException.Code} : {unhandledException.Message}".ToMarkupString())</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public IList<IApiResultMessageModel> ApiResultMessages { get; set; } = new List<IApiResultMessageModel>();
+
+    public IEnumerable<IApiResultMessageModel> Informations =>
+        ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Information));
+
+    public IEnumerable<IApiResultMessageModel> Warnings =>
+        ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Warning));
+
+    public IEnumerable<IApiResultMessageModel> Errors =>
+        ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Error));
+
+    public IEnumerable<IApiResultMessageModel> UnhandledExceptions =>
+        ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.UnhandledException));
+
+}

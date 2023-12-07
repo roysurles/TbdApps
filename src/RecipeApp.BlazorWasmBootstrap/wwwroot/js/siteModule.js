@@ -68,13 +68,24 @@ var siteModule = (function () {
         });
     };
 
+    // https://stackoverflow.com/questions/34191780/javascript-copy-string-to-clipboard-as-text-html
+    function copyElementToClipboard(element) {
+        window.getSelection().removeAllRanges();
+        let range = document.createRange();
+        range.selectNode(typeof element === 'string' ? document.getElementById(element) : element);
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+    }
+
     return {
         removeAttribute: removeAttribute,
         setAttribute: setAttribute,
         prefersDarkMode: prefersDarkMode,
         setFocus: setFocus,
         downloadFile: downloadFile,
-        uploadFile: uploadFile
+        uploadFile: uploadFile,
+        copyElementToClipboard: copyElementToClipboard
     }
 
 }());
