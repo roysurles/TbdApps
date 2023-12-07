@@ -6,11 +6,11 @@ public class IntroductionSearchViewModel : BaseViewModel, IIntroductionSearchVie
     protected readonly IIntroductionApiClientNativeV1_0 _introductionApiClientNativeV1_0;
     protected readonly ILogger<IntroductionSearchViewModel> _logger;
 
-    public IntroductionSearchViewModel(IIntroductionApiClientV1_0 introductionpiClientV1_0
+    public IntroductionSearchViewModel(IIntroductionApiClientV1_0 introductionApiClientV1_0
         , IIntroductionApiClientNativeV1_0 introductionApiClientNativeV1_0
         , ILogger<IntroductionSearchViewModel> logger)
     {
-        _introductionApiClientV1_0 = introductionpiClientV1_0;
+        _introductionApiClientV1_0 = introductionApiClientV1_0;
         _introductionApiClientNativeV1_0 = introductionApiClientNativeV1_0;
         _logger = logger;
     }
