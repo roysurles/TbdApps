@@ -112,6 +112,7 @@ namespace RecipeApp.CoreApi
             //// https://levelup.gitconnected.com/how-to-use-fluentvalidation-in-asp-net-core-net-6-543d52bd36b4
             //services.AddFluentValidationAutoValidation();
 
+            // NEW .Net 8 Methodology --> https://learn.microsoft.com/en-us/aspnet/core/web-api/handle-errors?view=aspnetcore-8.0#validation-failure-error-response
             // Impose global model state validation to reduce boilerplate code
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
             services.AddMvcCore(config => config.Filters.Add(typeof(GlobalModelStateValidationFilterAttribute)));
