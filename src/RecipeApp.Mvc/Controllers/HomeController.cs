@@ -14,10 +14,11 @@ public class HomeController : Controller
 
         // https://andrewlock.net/session-state-gdpr-and-non-essential-cookies/
         // https://stackoverflow.com/questions/281881/sessionid-keeps-changing-in-asp-net-mvc-why
-        _httpContextAccessor.HttpContext!.Session.SetString("_forceSession", string.Empty);  // this has to be done for session to persist
+        if (!_httpContextAccessor.HttpContext!.Session.Keys.Contains("_forceSession"))
+            _httpContextAccessor.HttpContext!.Session.SetString("_forceSession", string.Empty);  // this has to be done for session to persist
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index([FromQuery] int? pageNumber)        // [FromQuery] int? pageNumber
     {
         _logger.LogInformation(nameof(Index));
 
@@ -28,16 +29,26 @@ public class HomeController : Controller
          */
 
         // This indicates a new session, either from new browser or previous session timed out
-        if (string.IsNullOrWhiteSpace(_httpContextAccessor.HttpContext!.Session.GetString("sessionId")))
+        if (string.IsNullOrWhiteSpace(_httpContextAccessor.HttpContext!.Session.GetString("SessionId")))
         {
             _logger.LogInformation("{MethodName} - Starting new session", nameof(Index));
 
             _httpContextAccessor.HttpContext!.Session.SetString("SessionId", Guid.NewGuid().ToString());
-            _httpContextAccessor.HttpContext!.Session.Set("RecipeSearchViewModel", new RecipeSearchViewModel());
+
+            if (string.IsNullOrWhiteSpace(_httpContextAccessor.HttpContext!.Session.GetString("RecipeSearchViewModel")))
+                _httpContextAccessor.HttpContext!.Session.Set("RecipeSearchViewModel", new RecipeSearchViewModel());
         }
 
         var recipeSearchViewModel = _httpContextAccessor.HttpContext!.Session.Get<RecipeSearchViewModel>("RecipeSearchViewModel");
+
         PopulateTempData(recipeSearchViewModel.SearchText);
+
+        if (pageNumber is not null)
+        {
+            recipeSearchViewModel.PaginationMetaDataModel.PageNumber = pageNumber.Value;
+            await SearchIntAsync(recipeSearchViewModel);
+            _httpContextAccessor.HttpContext!.Session.Set("RecipeSearchViewModel", recipeSearchViewModel);
+        }
 
         return View(recipeSearchViewModel);
     }
@@ -73,23 +84,35 @@ public class HomeController : Controller
         if (string.IsNullOrWhiteSpace(recipeSearchViewModel.SearchText))
             recipeSearchViewModel.SearchText = HttpContext.Request.Form["SearchTextInputHidden"].ToString();
 
+        recipeSearchViewModel.PaginationMetaDataModel.PageNumber = 1;
         PopulateTempData(recipeSearchViewModel.SearchText);
 
-        recipeSearchViewModel.IntroductionSearchResult = await SearchIntAsync(recipeSearchViewModel);
+        await SearchIntAsync(recipeSearchViewModel);
+        //recipeSearchViewModel.IntroductionSearchResult = await SearchIntAsync(recipeSearchViewModel);
         _httpContextAccessor.HttpContext!.Session.Set("RecipeSearchViewModel", recipeSearchViewModel);
 
         return View("Index", recipeSearchViewModel);
     }
 
-    private async Task<ApiResultModel<List<IntroductionSearchResultDto>>> SearchIntAsync(RecipeSearchViewModel recipeSearchViewModel)
+    private async Task SearchIntAsync(RecipeSearchViewModel recipeSearchViewModel)
     {
         recipeSearchViewModel.HasSearched = true;
         var introductionSearchViewModel = _httpContextAccessor.HttpContext!.RequestServices.GetService<IIntroductionSearchViewModel>();
         introductionSearchViewModel!.IntroductionSearchRequestDto.SearchText = recipeSearchViewModel.SearchText;
-        await introductionSearchViewModel.SearchAsync(); // TODO:  pageNumber, pageSize
+        await introductionSearchViewModel.SearchAsync(recipeSearchViewModel.PaginationMetaDataModel.PageNumber, recipeSearchViewModel.PaginationMetaDataModel.PageSize); // TODO:  pageNumber, pageSize
 
-        return (ApiResultModel<List<IntroductionSearchResultDto>>)introductionSearchViewModel.IntroductionSearchResult;
+        recipeSearchViewModel.IntroductionSearchResult = (ApiResultModel<List<IntroductionSearchResultDto>>)introductionSearchViewModel.IntroductionSearchResult;
+        recipeSearchViewModel.PaginationMetaDataModel = introductionSearchViewModel.IntroductionSearchResult.Meta;
     }
+    //private async Task<ApiResultModel<List<IntroductionSearchResultDto>>> SearchIntAsync(RecipeSearchViewModel recipeSearchViewModel)
+    //{
+    //    recipeSearchViewModel.HasSearched = true;
+    //    var introductionSearchViewModel = _httpContextAccessor.HttpContext!.RequestServices.GetService<IIntroductionSearchViewModel>();
+    //    introductionSearchViewModel!.IntroductionSearchRequestDto.SearchText = recipeSearchViewModel.SearchText;
+    //    await introductionSearchViewModel.SearchAsync(); // TODO:  pageNumber, pageSize
+
+    //    return (ApiResultModel<List<IntroductionSearchResultDto>>)introductionSearchViewModel.IntroductionSearchResult;
+    //}
 
     private void PopulateTempData(string searchText)
     {

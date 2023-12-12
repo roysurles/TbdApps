@@ -1,0 +1,55 @@
+﻿@model PaginationMetaDataModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@* <h3>_PaginationPartial</h3> *@
+
+<div class="row">
+    <div class="col d-flex">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item @(Model.PageNumber.Equals(1).RenderDisabled())">
+                    <a class="page-link" href="/?pageNumber=1">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                </li>
+                <li class="page-item @(Model.PageNumber.Equals(1).RenderDisabled())">
+                    <a class="page-link" href="/?pageNumber=@(Model.PageNumber - 1)">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                </li>
+                @for (int pageNumber = 1; pageNumber <= Model.PageCount; pageNumber++)
+                {
+                    var currentPageNumber = pageNumber;
+                    var active = pageNumber.Equals(Model.PageNumber)
+                    ? "active"
+                    : "";
+                    <li class="page-item @active">
+                        <a class="page-link" href="/?pageNumber=@currentPageNumber" >
+                            @(currentPageNumber)
+                        </a>
+                    </li>
+                }
+                <li class="page-item @(Model.PageNumber.Equals(Model.PageCount).RenderDisabled())">
+                    <a class="page-link" href="/?pageNumber=@(Model.PageNumber + 1)">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+                <li class="page-item @(Model.PageNumber.Equals(Model.PageCount).RenderDisabled())">
+                    <a class="page-link" href="/?pageNumber=@Model.PageCount" >
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
+                </li>
+                <li class="page-item disabled ml-5">
+                    <a class="page-link" href="javascript:void();">
+                        Page @Model.PageNumber of @Model.PageCount; Total Items: @Model.TotalItemCount
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

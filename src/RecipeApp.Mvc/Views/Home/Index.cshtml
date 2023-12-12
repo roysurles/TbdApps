@@ -59,6 +59,7 @@
                 @if (Model.IntroductionSearchResult.Meta.PageCount > 1)
                 {
                     @* PaginationComponent *@
+                    { await Html.RenderPartialAsync("_PaginationPartial", Model.PaginationMetaDataModel); }
                 }
             </div>
         </div>
@@ -73,7 +74,7 @@
         </div>
     }
 
-    <br />
+@*     <br />
     <br />
     <hr />
 
@@ -82,7 +83,7 @@
         <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     </div>
     <hr/>
-
+ *@
 @*     @Html.TextBoxFor(model => model.HasSearched, )
     @Html.TextBoxFor(model => model.SearchText)
     @Html.TextBoxFor(model => model.PageNumber)
@@ -90,11 +91,11 @@
 
     <input id="SearchTextInputHidden"
            name="SearchTextInputHidden"
-           type="text"
+           type="hidden"
            maxlength="50"
            asp-for="@Model.SearchText">
     <hr/>
-    <input id="ConnectionIdInput"
+@*     <input id="ConnectionIdInput"
            name="ConnectionIdInput"
            class="form-control me-2"
            type="search"
@@ -106,5 +107,5 @@
     <button class="btn btn-outline-success"
             type="submit">
         Search
-    </button>
+    </button> *@
 }

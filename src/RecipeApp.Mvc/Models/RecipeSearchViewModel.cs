@@ -10,6 +10,9 @@ public class RecipeSearchViewModel
 
             IntroductionSearchResult.SetData([]);
             IntroductionSearchResult.SetMeta(1, 10, 0);
+
+            PaginationMetaDataModel.PageNumber = 1;
+            PaginationMetaDataModel.PageSize = 10;
         }
     }
 
@@ -17,9 +20,11 @@ public class RecipeSearchViewModel
 
     public string SearchText { get; set; } = string.Empty;
 
-    public int PageNumber { get; set; } = 1;
+    //public int PageNumber { get; set; } = 1;
 
-    public int PageSize { get; set; } = 10;
+    //public int PageSize { get; set; } = 10;
 
     public ApiResultModel<List<IntroductionSearchResultDto>> IntroductionSearchResult { get; set; }
+
+    public PaginationMetaDataModel PaginationMetaDataModel { get; set; } = new();
 }
