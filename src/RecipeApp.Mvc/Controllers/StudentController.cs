@@ -20,6 +20,8 @@ public class StudentController : Controller
     public IActionResult Add(StudentViewModel studentViewModel)
     {
         studentViewModel.StudentAddress.Add(new StudentAddressViewModel());
+
+        ModelState.Clear();
         return View("Index", studentViewModel);
     }
 }

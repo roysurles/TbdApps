@@ -21,14 +21,14 @@
 {
     <div class="row">
         <div class="col">
-            @Html.LabelFor(m => Model.StudentAddress[0].Address)
-            @Html.TextBoxFor(m => Model.StudentAddress[0].Address)
+            @Html.LabelFor(m => Model.StudentAddress[i].Address)
+            @Html.TextBoxFor(m => Model.StudentAddress[i].Address)
         </div>
     </div>
     <div class="row">
         <div class="col">
-            @Html.LabelFor(m => Model.StudentAddress[1].City)
-            @Html.TextBoxFor(m => Model.StudentAddress[1].City)
+            @Html.LabelFor(m => Model.StudentAddress[i].City)
+            @Html.TextBoxFor(m => Model.StudentAddress[i].City)
         </div>
     </div>
 }
