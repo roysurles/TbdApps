@@ -1,0 +1,34 @@
+﻿@model RecipeApp.Mvc.Models.StudentViewModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="row">
+    <div class="col">
+        <button class="btn btn-outline-success"
+                type="submit"
+                value="Add"
+                asp-action="Add">
+                Add
+        </button>
+    </div>
+</div>
+
+@for (int i = 0; i < Model.StudentAddress.Count; i++)
+{
+    <div class="row">
+        <div class="col">
+            @Html.LabelFor(m => Model.StudentAddress[0].Address)
+            @Html.TextBoxFor(m => Model.StudentAddress[0].Address)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            @Html.LabelFor(m => Model.StudentAddress[1].City)
+            @Html.TextBoxFor(m => Model.StudentAddress[1].City)
+        </div>
+    </div>
+}

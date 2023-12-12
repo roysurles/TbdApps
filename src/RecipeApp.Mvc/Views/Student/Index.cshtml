@@ -1,0 +1,60 @@
+﻿@model RecipeApp.Mvc.Models.StudentViewModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@using (@Html.BeginForm("Index", "Student", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col">
+            @Html.LabelFor(m => m.Id)
+            @Html.TextBoxFor(m => m.Id)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name)
+        </div>
+    </div>
+
+    <hr />
+
+@*     <div class="row">
+        <div class="col">
+            <button class="btn btn-outline-success"
+                    type="submit"
+                    value="Add"
+                    asp-action="Add">
+                Add
+            </button>
+        </div>
+    </div> *@
+
+    <div class="row mt-3 mb-3">
+        <div class="col">
+            @{ await Html.RenderPartialAsync("_StudentAddressPartial", Model); }
+@*             @for (int i = 0; i < Model.StudentAddress.Count; i++)
+            {
+                <div class="row">
+                    <div class="col">
+                        @Html.EditorFor(m => m.StudentAddress[i])
+                    </div>
+                </div>
+            } *@
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-outline-success"
+                    type="submit">
+                Submit
+            </button>
+        </div>
+    </div>
+}
