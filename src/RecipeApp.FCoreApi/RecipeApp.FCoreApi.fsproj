@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <DocumentationFile>obj\Debug\net8.0\RecipeApp.FCoreApi.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Features\Extensions\ExceptionHandlerMiddlewareExtensions.fs" />
+    <Compile Include="Features\Extensions\ApiLoggingMiddlewareExtensions.fs" />
+    <Compile Include="Features\Extensions\CorrelationIdMiddlewareExtensions.fs" />
+    <Compile Include="Features\Extensions\ApiVersioningMiddlewareExtensions.fs" />
+    <Compile Include="Features\Extensions\SwaggerMiddlewareExtensions.fs" />
+    <Compile Include="Features\HealthChecks\SampleHealthCheck.fs" />
+    <Compile Include="Features\HealthChecks\DatabaseHealthCheck.fs" />
+    <Compile Include="WeatherForecast.fs" />
+    <Compile Include="Controllers/WeatherForecastController.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+      <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="7.0.0" />
+      <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="7.1.0" />
+      <PackageReference Include="Dapper" Version="2.1.24" />
+      <PackageReference Include="Dapper.FluentMap" Version="2.0.0" />
+      <PackageReference Include="FluentValidation" Version="11.8.1" />
+      <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
+      <PackageReference Include="MediatR" Version="12.2.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
+      <PackageReference Include="Microsoft.AspNetCore.RateLimiting" Version="7.0.0-rc.2.22476.2" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="8.0.0" />
+      <PackageReference Include="Microsoft.IdentityModel.Logging" Version="7.0.3" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+      <PackageReference Include="System.Text.Json" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tbd.Shared\Tbd.Shared.csproj" />
+    <ProjectReference Include="..\Tbd.WebApi.Shared\Tbd.WebApi.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
