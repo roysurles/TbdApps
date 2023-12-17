@@ -11,6 +11,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Features\Helpers\DbHelper.fs" />
+    <Compile Include="Features\Introduction\V1_0\IIntroductionRepositoryV1_0.fs" />
     <Compile Include="Features\Extensions\ExceptionHandlerMiddlewareExtensions.fs" />
     <Compile Include="Features\Extensions\ApiLoggingMiddlewareExtensions.fs" />
     <Compile Include="Features\Extensions\CorrelationIdMiddlewareExtensions.fs" />

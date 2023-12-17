@@ -32,6 +32,7 @@ open RecipeApp.FCoreApi.Features.Extensions.ExceptionHandlerMiddlewareExtensions
 open RecipeApp.FCoreApi.Features.Extensions.SwaggerMiddlewareExtensions
 open RecipeApp.FCoreApi.Features.Extensions.CorrelationIdMiddlewareExtensions
 open RecipeApp.FCoreApi.Features.HealthChecks
+open RecipeApp.FCoreApi.Features.Introduction.V1_0.Introduction
 
 open RecipeApp.Shared.Handlers
 
@@ -49,9 +50,9 @@ module Program =
         let defaultConnectionString = builder.Configuration.GetConnectionString("Default");
         builder.Services.Configure<ApiLoggingOptionsModel>(builder.Configuration.GetSection("ApiLogging"));
 
-        // services.AddRateLimiter
+        // TODO F#: services.AddRateLimiter
 
-        // services.AddDbContext<RecipeDbContext>
+        // TODO F#: services.AddDbContext<RecipeDbContext>
 
         builder.Services.AddCors(fun options ->
             options.AddPolicy("AllowAll", fun builder ->
@@ -83,9 +84,11 @@ module Program =
         let xmlFullFileName = Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
         builder.Services.AddSwaggerGenEx("RecipeApp F# CoreApi", "RecipeApp F# CoreApi", swaggerDocumentVersions, xmlFullFileName);
 
-        //TODO F#: builder.Services.AddTransient(typedefof<IApiResultModel<_>>, typedefof<IApiResultModel<_>>);
+        // TODO F#: builder.Services.AddTransient(typedefof<IApiResultModel<_>>, typedefof<IApiResultModel<_>>);
 
         SqlMapper.AddTypeHandler(new SqlGuidTypeHandler());
+
+        builder.Services.AddScoped<IIntroductionRepositoryV1_0>(fun _ -> new IntroductionRepositoryV1_0(defaultConnectionString))
 
         let app = builder.Build()
 
