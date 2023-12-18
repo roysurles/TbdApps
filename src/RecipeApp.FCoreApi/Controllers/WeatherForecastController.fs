@@ -21,6 +21,9 @@ open System.Data.Common
 open Dapper
 
 
+// https://github.com/joeaudette/playground/blob/master/spa-stack/src/FSharp.WebLib/Controllers.fs
+// https://stackoverflow.com/questions/39626220/f-syntax-for-async-controller-methods-in-asp-net-core
+
 [<ApiController>]
 [<Route("[controller]")>]
 type WeatherForecastController (logger : ILogger<WeatherForecastController>, repo : IIntroductionRepositoryV1_0) as this  =
