@@ -44,10 +44,10 @@
                             <button type="button"
                                     class="btn btn-secondary btn-sm"
                                     title="Delete Ingredient"
-                                    disabled="@(item.IsNew)"
                                     @onclick="@(() => DeleteIngredientAsync(item))">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
+                            @* disabled="@(item.IsNew)" *@
                         </td>
                         <td>
                             <input type="text"
@@ -148,7 +148,7 @@
 
             IngredientViewModel.ClearApiResultMessages();
 
-            if (await JSRuntime.ConfirmAsync($"Are you sure you want to delete this ingredient?") == false)
+            if (await JSRuntime.ConfirmAsync("Are you sure you want to delete this ingredient?") == false)
                 return;
 
             IngredientViewModel.IsBusy = true;

@@ -79,7 +79,15 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
     [RelayCommand]
     public async Task AddIngredientAsync()
     {
-        await App.Current.MainPage.DisplayAlert("Add", $"AddIngredientAsync", Constants.AlertButtonText.OK);
+        _logger.LogInformation("{AddIngredient}()", nameof(AddIngredientAsync));
+
+        ClearApiResultMessages();
+
+        Ingredients.Add(new IngredientDto { IntroductionId = _introductionId, SortOrder = Ingredients.Count + 1 });
+
+        await Task.CompletedTask;
+
+        // TODO cleanup: await App.Current.MainPage.DisplayAlert("Add", $"AddIngredientAsync", Constants.AlertButtonText.OK);
     }
 
     [RelayCommand]
@@ -91,7 +99,54 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
     [RelayCommand]
     public async Task DeleteIngredientAsync(object args)
     {
-        await App.Current.MainPage.DisplayAlert("Delete", $"DeleteIngredientAsync {args}?", Constants.AlertButtonText.OK);
+        // await App.Current.MainPage.DisplayAlert("Delete", $"DeleteIngredientAsync {args}?", Constants.AlertButtonText.OK);
+        try
+        {
+            _logger.LogInformation($"{nameof(DeleteIngredientAsync)}({nameof(args)})");
+            ClearApiResultMessages();
+
+            var ingredientDto = args as IngredientDto;
+
+            if (!(await App.Current.MainPage.DisplayAlert("Delete", "Are you sure you want to delete this ingredient?", "Yes", "No")))
+                return;
+
+            if (ingredientDto.IsNew)
+            {
+                Ingredients.Remove(ingredientDto);
+                return;
+            }
+
+            IsBusy = true;
+            // await IngredientViewModel.DeleteIngredientAsync(ingredientDto);
+            var index = Ingredients.IndexOf(ingredientDto);
+            var response = await RefitExStaticMethods.TryInvokeApiAsync(() => _ingredientApiClientV1_0.DeleteAsync(ingredientDto.Id), ApiResultMessages);
+            if (response.IsSuccessHttpStatusCode)
+                Ingredients.RemoveAt(index);
+            // ***************************************************************
+
+            if (ApiResultMessages.Any(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error))
+                await App.Current.MainPage.DisplaySnackbar("Ingredient deleted successfully!");
+            //var errorMessages = ApiResultMessages.Where(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error);
+            //if (errorMessages.Any())
+            //{
+            //    foreach (var errorMessage in errorMessages)
+            //        await JSRuntime.ToastAsync(new ToastModel(ToastType.error, "Ingredient", errorMessage.Message));
+            //    return;
+            //}
+
+            await App.Current.MainPage.DisplaySnackbar("Ingredient deleted successfully!");
+            // TODO:  toast replacement - await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Ingredient", "Deleted successfully!"));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unhandled exception occurred: ");
+            await App.Current.MainPage.DisplaySnackbar("Unhandled exception occurred!");
+            // TODO implement: SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     [RelayCommand]

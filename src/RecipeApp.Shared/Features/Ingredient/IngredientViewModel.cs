@@ -79,6 +79,12 @@ public class IngredientViewModel : BaseViewModel, IIngredientViewModel
 
         ClearApiResultMessages();
 
+        if (ingredientDto.IsNew)
+        {
+            Ingredients.Remove(ingredientDto);
+            return this;
+        }
+
         var index = Ingredients.IndexOf(ingredientDto);
 
         var response = await RefitExStaticMethods.TryInvokeApiAsync(() => _ingredientApiClientV1_0.DeleteAsync(ingredientDto.Id), ApiResultMessages);
