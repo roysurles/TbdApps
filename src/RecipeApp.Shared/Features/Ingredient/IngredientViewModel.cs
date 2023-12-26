@@ -39,6 +39,8 @@ public class IngredientViewModel : BaseViewModel, IIngredientViewModel
         return this;
     }
 
+    public bool IsAddDisabled => IsIntroductionNew || Ingredients.Any(x => x.IsNew);
+
     public IIngredientViewModel AddIngredient()
     {
         _logger.LogInformation("{AddIngredient}()", nameof(AddIngredient));
@@ -199,6 +201,8 @@ public interface IIngredientViewModel : IBaseViewModel
     ObservableCollection<IngredientDto> Ingredients { get; }
 
     Task<IIngredientViewModel> InitializeAsync(Guid introductionId);
+
+    bool IsAddDisabled { get; }
 
     IIngredientViewModel AddIngredient();
 

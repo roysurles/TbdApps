@@ -76,6 +76,9 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
     //    return this;
     //}
 
+    //[ObservableProperty]
+    public bool IsAddEnabled => !Ingredients.Any(x => x.IsNew);
+
     [RelayCommand]
     public async Task AddIngredientAsync()
     {
@@ -94,6 +97,7 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
     public async Task SaveIngredientAsync(object args)
     {
         await App.Current.MainPage.DisplayAlert("Save", $"SaveIngredientAsync {args}?", Constants.AlertButtonText.OK);
+        RaisePropertyChangedFor("IsAddEnabled");  // TODO hack:
     }
 
     [RelayCommand]
@@ -115,6 +119,8 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
                 Ingredients.Remove(ingredientDto);
                 return;
             }
+
+            // TODO EXCEPTION:  *** this throws exception if one of the inputs (description or measurement) has focus ***
 
             IsBusy = true;
             // await IngredientViewModel.DeleteIngredientAsync(ingredientDto);
@@ -146,6 +152,7 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
         finally
         {
             IsBusy = false;
+            RaisePropertyChangedFor("IsAddEnabled");  // TODO hack:
         }
     }
 
@@ -179,6 +186,8 @@ public interface IIngredientViewModel : IBaseViewModel
     ObservableCollection<IngredientDto> Ingredients { get; }
 
     Task<IIngredientViewModel> InitializeAsync(Guid introductionId);
+
+    bool IsAddEnabled { get; }
 
     Task AddIngredientAsync();
 

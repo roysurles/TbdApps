@@ -94,7 +94,9 @@
                             <CollectionView.Header>
                                 <Grid ColumnDefinitions="45, 45,100,100,Auto" Padding="5">
                                     <Button Text="+" Grid.Column="0" WidthRequest="40" HeightRequest="40"
+                                            IsEnabled="{Binding IngredientViewModel.IsAddEnabled}"
                                             Command="{Binding IngredientViewModel.AddIngredientCommand}" />
+                                    <!--IsEnabled="{Binding IngredientViewModel.IsAddEnabled}"-->
                                     <Label Text="" Grid.Column="1" WidthRequest="40" HeightRequest="40"></Label>
                                     <Label Text="Measurement" Grid.Column="2" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
                                     <Label Text="Description" Grid.Column="3" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
