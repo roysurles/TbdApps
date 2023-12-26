@@ -12,6 +12,9 @@ public partial class InstructionViewModel : BaseViewModel, IInstructionViewModel
         _logger = logger;
     }
 
+    public bool IsIntroductionNew =>
+        Equals(Guid.Empty, _introductionId);
+
     [ObservableProperty]
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
     public ObservableCollection<InstructionDto> instructions = new();
@@ -45,7 +48,25 @@ public partial class InstructionViewModel : BaseViewModel, IInstructionViewModel
     [RelayCommand]
     public async Task AddInstructionAsync()
     {
-        await App.Current.MainPage.DisplayAlert("Add", $"AddInstructionAsync", Constants.AlertButtonText.OK);
+        _logger.LogInformation("{AddInstruction}()", nameof(AddInstructionAsync));
+
+        ClearApiResultMessages();
+
+        if (IsIntroductionNew)
+        {
+            await App.Current.MainPage.DisplayAlert("Add", "Save introduction, before adding instructions.", Constants.AlertButtonText.OK);
+            return;
+        }
+
+        if (Instructions.Any(x => x.IsNew))
+        {
+            await App.Current.MainPage.DisplayAlert("Add", "Save unsaved instruction before adding another.", Constants.AlertButtonText.OK);
+            return;
+        }
+
+        Instructions.Add(new InstructionDto { IntroductionId = _introductionId, SortOrder = Instructions.Count + 1 });
+
+        // TODO cleanup: await App.Current.MainPage.DisplayAlert("Add", $"AddInstructionAsync", Constants.AlertButtonText.OK);
     }
 
     [RelayCommand]
@@ -57,7 +78,56 @@ public partial class InstructionViewModel : BaseViewModel, IInstructionViewModel
     [RelayCommand]
     public async Task DeleteInstructionAsync(object args)
     {
-        await App.Current.MainPage.DisplayAlert("Delete", $"DeleteInstructionAsync {args}?", Constants.AlertButtonText.OK);
+        //await App.Current.MainPage.DisplayAlert("Delete", $"DeleteInstructionAsync {args}?", Constants.AlertButtonText.OK);
+        try
+        {
+            _logger.LogInformation($"{nameof(DeleteInstructionAsync)}({nameof(args)})");
+            ClearApiResultMessages();
+
+            var instructionDto = args as InstructionDto;
+
+            if (!(await App.Current.MainPage.DisplayAlert("Delete", "Are you sure you want to delete this instruction?", "Yes", "No")))
+                return;
+
+            if (instructionDto.IsNew)
+            {
+                Instructions.Remove(instructionDto);
+                return;
+            }
+
+            // TODO EXCEPTION:  *** this throws exception if one of the inputs (description or measurement) has focus ***
+
+            IsBusy = true;
+            // await IngredientViewModel.DeleteIngredientAsync(ingredientDto);
+            var index = Instructions.IndexOf(instructionDto);
+            var response = await RefitExStaticMethods.TryInvokeApiAsync(() => _instructionApiClientV1_0.DeleteAsync(instructionDto.Id), ApiResultMessages);
+            if (response.IsSuccessHttpStatusCode)
+                Instructions.RemoveAt(index);
+            // ***************************************************************
+
+            if (ApiResultMessages.Any(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error))
+                await App.Current.MainPage.DisplaySnackbar("Instruction deleted successfully!");
+            //var errorMessages = ApiResultMessages.Where(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error);
+            //if (errorMessages.Any())
+            //{
+            //    foreach (var errorMessage in errorMessages)
+            //        await JSRuntime.ToastAsync(new ToastModel(ToastType.error, "Ingredient", errorMessage.Message));
+            //    return;
+            //}
+
+            await App.Current.MainPage.DisplaySnackbar("Instruction deleted successfully!");
+            // TODO:  toast replacement - await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Ingredient", "Deleted successfully!"));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unhandled exception occurred: ");
+            await App.Current.MainPage.DisplaySnackbar("Unhandled exception occurred!");
+            // TODO implement: SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     [RelayCommand]
@@ -87,6 +157,8 @@ public partial class InstructionViewModel : BaseViewModel, IInstructionViewModel
 
 public interface IInstructionViewModel : IBaseViewModel
 {
+    bool IsIntroductionNew { get; }
+
     ObservableCollection<InstructionDto> Instructions { get; }
 
     Task<IInstructionViewModel> InitializeAsync(Guid introductionId);

@@ -17,10 +17,10 @@
                         <button type="button"
                                 class="btn btn-primary btn-sm mr-3"
                                 title="Add Instruction"
-                                disabled="@(InstructionViewModel.IsInstructionNew)"
-                                @onclick="@AddInstruction">
+                                @onclick="@AddInstructionAsync">
                             <i class="fas fa-plus"></i>
                         </button>
+                        @* disabled="@(InstructionViewModel.IsIntroductionNew)" *@
                         <ApiResultMessagesModalComponent ApiResultMessages="@InstructionViewModel.ApiResultMessages" />
                     </th>
                     <th scope="col">Description</th>
@@ -42,10 +42,10 @@
                             <button type="button"
                                     class="btn btn-secondary btn-sm"
                                     title="Delete Instruction"
-                                    disabled="@(item.IsNew)"
                                     @onclick="@(() => DeleteInstructionAsync(item))">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
+                            @* disabled="@(item.IsNew)" *@
                         </td>
                         <td>
                             <input type="text"
@@ -85,11 +85,23 @@
 
     protected string ComponentName = nameof(InstructionTableEditComponent);
 
-    protected void AddInstruction()
+    protected async Task AddInstructionAsync()
     {
         try
         {
-            Logger.LogInformation($"{nameof(AddInstruction)}()");
+            Logger.LogInformation($"{nameof(AddInstructionAsync)}()");
+
+            if (InstructionViewModel.IsIntroductionNew)
+            {
+                await JSRuntime.AlertAsync("Save introduction, before adding instructions.");
+                return;
+            }
+
+            if (InstructionViewModel.Instructions.Any(x => x.IsNew))
+            {
+                await JSRuntime.AlertAsync("Save unsaved instruction before adding another.");
+                return;
+            }
 
             InstructionViewModel.IsBusy = true;
             InstructionViewModel.AddInstruction();

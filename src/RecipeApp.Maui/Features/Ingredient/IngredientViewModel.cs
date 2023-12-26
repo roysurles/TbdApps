@@ -12,6 +12,9 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
         _logger = logger;
     }
 
+    public bool IsIntroductionNew =>
+        Equals(Guid.Empty, _introductionId);
+
     [ObservableProperty]
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
     public ObservableCollection<IngredientDto> ingredients = new();
@@ -85,6 +88,12 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
 
         ClearApiResultMessages();
 
+        if (IsIntroductionNew)
+        {
+            await App.Current.MainPage.DisplayAlert("Add", "Save introduction, before adding ingredients.", Constants.AlertButtonText.OK);
+            return;
+        }
+
         if (Ingredients.Any(x => x.IsNew))
         {
             await App.Current.MainPage.DisplayAlert("Add", "Save unsaved ingredient before adding another.", Constants.AlertButtonText.OK);
@@ -92,8 +101,6 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
         }
 
         Ingredients.Add(new IngredientDto { IntroductionId = _introductionId, SortOrder = Ingredients.Count + 1 });
-
-        await Task.CompletedTask;
 
         // TODO cleanup: await App.Current.MainPage.DisplayAlert("Add", $"AddIngredientAsync", Constants.AlertButtonText.OK);
     }
@@ -186,6 +193,8 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
 
 public interface IIngredientViewModel : IBaseViewModel
 {
+    bool IsIntroductionNew { get; }
+
     ObservableCollection<IngredientDto> Ingredients { get; }
 
     Task<IIngredientViewModel> InitializeAsync(Guid introductionId);

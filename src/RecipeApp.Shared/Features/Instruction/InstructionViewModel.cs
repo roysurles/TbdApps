@@ -13,7 +13,7 @@ public class InstructionViewModel : BaseViewModel, IInstructionViewModel
         _logger = logger;
     }
 
-    public bool IsInstructionNew =>
+    public bool IsIntroductionNew =>
         Equals(Guid.Empty, _introductionId);
 
     public ObservableCollection<InstructionDto> Instructions { get; protected set; } =
@@ -77,6 +77,12 @@ public class InstructionViewModel : BaseViewModel, IInstructionViewModel
         _logger.LogInformation($"{nameof(DeleteInstructionAsync)}({nameof(instructionDto)})");
 
         ClearApiResultMessages();
+
+        if (instructionDto.IsNew)
+        {
+            Instructions.Remove(instructionDto);
+            return this;
+        }
 
         var index = Instructions.IndexOf(instructionDto);
 
@@ -187,7 +193,7 @@ public class InstructionViewModel : BaseViewModel, IInstructionViewModel
 
 public interface IInstructionViewModel : IBaseViewModel
 {
-    bool IsInstructionNew { get; }
+    bool IsIntroductionNew { get; }
 
     ObservableCollection<InstructionDto> Instructions { get; }
 

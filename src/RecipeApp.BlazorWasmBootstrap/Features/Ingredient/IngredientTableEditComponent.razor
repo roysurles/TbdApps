@@ -20,6 +20,7 @@
                                 @onclick="@AddIngredientAsync">
                             <i class="fas fa-plus"></i>
                         </button>
+                        @* disabled="@(IngredientViewModel.IsIntroductionNew)" *@
                         <ApiResultMessagesModalComponent ApiResultMessages="@IngredientViewModel.ApiResultMessages" />
                     </th>
                     <th scope="col">Measurement</th>
@@ -96,6 +97,12 @@
         try
         {
             Logger.LogInformation($"{nameof(AddIngredientAsync)}()");
+
+            if (IngredientViewModel.IsIntroductionNew)
+            {
+                await JSRuntime.AlertAsync("Save introduction, before adding ingredients.");
+                return;
+            }
 
             if (IngredientViewModel.Ingredients.Any(x => x.IsNew))
             {
