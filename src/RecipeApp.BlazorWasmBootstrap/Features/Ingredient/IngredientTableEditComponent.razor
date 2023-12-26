@@ -17,8 +17,7 @@
                         <button type="button"
                                 class="btn btn-primary btn-sm mr-3"
                                 title="Add Ingredient"
-                                disabled="@(IngredientViewModel.IsAddDisabled)"
-                                @onclick="@AddIngredient">
+                                @onclick="@AddIngredientAsync">
                             <i class="fas fa-plus"></i>
                         </button>
                         <ApiResultMessagesModalComponent ApiResultMessages="@IngredientViewModel.ApiResultMessages" />
@@ -92,11 +91,17 @@
 
     protected string ComponentName = nameof(IngredientTableEditComponent);
 
-    protected void AddIngredient()
+    protected async Task AddIngredientAsync()
     {
         try
         {
-            Logger.LogInformation($"{nameof(AddIngredient)}()");
+            Logger.LogInformation($"{nameof(AddIngredientAsync)}()");
+
+            if (IngredientViewModel.Ingredients.Any(x => x.IsNew))
+            {
+                await JSRuntime.AlertAsync("Save unsaved ingredient before adding another.");
+                return;
+            }
 
             IngredientViewModel.IsBusy = true;
             IngredientViewModel.AddIngredient();

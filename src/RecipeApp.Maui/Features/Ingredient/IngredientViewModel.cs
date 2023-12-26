@@ -77,7 +77,6 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
     //}
 
     //[ObservableProperty]
-    public bool IsAddEnabled => !Ingredients.Any(x => x.IsNew);
 
     [RelayCommand]
     public async Task AddIngredientAsync()
@@ -85,6 +84,12 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
         _logger.LogInformation("{AddIngredient}()", nameof(AddIngredientAsync));
 
         ClearApiResultMessages();
+
+        if (Ingredients.Any(x => x.IsNew))
+        {
+            await App.Current.MainPage.DisplayAlert("Add", "Save unsaved ingredient before adding another.", Constants.AlertButtonText.OK);
+            return;
+        }
 
         Ingredients.Add(new IngredientDto { IntroductionId = _introductionId, SortOrder = Ingredients.Count + 1 });
 
@@ -97,7 +102,6 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
     public async Task SaveIngredientAsync(object args)
     {
         await App.Current.MainPage.DisplayAlert("Save", $"SaveIngredientAsync {args}?", Constants.AlertButtonText.OK);
-        RaisePropertyChangedFor("IsAddEnabled");  // TODO hack:
     }
 
     [RelayCommand]
@@ -152,7 +156,6 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
         finally
         {
             IsBusy = false;
-            RaisePropertyChangedFor("IsAddEnabled");  // TODO hack:
         }
     }
 
@@ -186,8 +189,6 @@ public interface IIngredientViewModel : IBaseViewModel
     ObservableCollection<IngredientDto> Ingredients { get; }
 
     Task<IIngredientViewModel> InitializeAsync(Guid introductionId);
-
-    bool IsAddEnabled { get; }
 
     Task AddIngredientAsync();
 
