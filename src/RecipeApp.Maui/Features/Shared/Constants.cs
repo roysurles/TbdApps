@@ -11,4 +11,12 @@ public static class Constants
         public const string OK = "OK";
         public const string Cancel = "Cancel";
     }
+
+    public static class PaginationButtonText
+    {
+        public const string First = "<<";
+        public const string Previous = "<";
+        public const string Next = ">";
+        public const string Last = ">>";
+    }
 }

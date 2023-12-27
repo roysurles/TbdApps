@@ -14,7 +14,8 @@
 
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="NavigatedTo"
-                                        Command="{Binding NavigatedToCommand}" CommandParameter="{Binding .}" />
+                                        Command="{Binding NavigatedToCommand}"
+                                        CommandParameter="{Binding .}" />
         <!--<toolkit:EventToCommandBehavior EventName="NavigatedFrom"
                                         Command="{Binding NavigatedFromCommand}" />-->
     </ContentPage.Behaviors>
@@ -23,6 +24,10 @@
         <ResourceDictionary>
             <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         </ResourceDictionary>
+
+        <x:String x:Key="CopyFas">&#xf0c5;</x:String>
+        <x:String x:Key="InfoFas">&#xf129;</x:String>
+        <x:String x:Key="ExclamationFas">&#x21;</x:String>
     </ContentPage.Resources>
 
     <ScrollView>
@@ -34,6 +39,9 @@
             <ActivityIndicator IsVisible="{Binding IsBusy}"
                                IsRunning="{Binding IsBusy}" />
             <!--https://learn.microsoft.com/en-us/dotnet/api/communitytoolkit.mvvm.input.asyncrelaycommand.isrunning?view=win-comm-toolkit-dotnet-7.0-->
+
+            <!-- TODO: this has to be placed correctly -->
+            <xamlComponents:ApiResultMessagesModalComponent ApiResultMessages="{Binding ApiResultMessages}" />
 
             <Label
                 Text="Welcome to the Recipe App"

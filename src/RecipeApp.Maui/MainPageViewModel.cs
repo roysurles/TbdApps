@@ -28,6 +28,11 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
         //SearchAsyncCommand = new AsyncRelayCommand<object>((object searchText) => SearchAsync(searchText));
 
         WeakReferenceMessenger.Default.Register<IsBusyValueChangedMessage>(this, (r, m) => IsBusy = m.Value);
+
+        // TODO:  remove testing messages
+        AddInformationMessage("Info");
+        AddErrorMessage("Error");
+        // ******************************
     }
 
     [ObservableProperty]

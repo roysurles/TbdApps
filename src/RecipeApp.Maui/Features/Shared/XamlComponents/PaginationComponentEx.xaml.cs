@@ -1,5 +1,3 @@
-using System.Windows.Input;
-
 namespace RecipeApp.Maui.Features.Shared.XamlComponents;
 
 public partial class PaginationComponentEx : ContentView
@@ -20,12 +18,12 @@ public partial class PaginationComponentEx : ContentView
     public ObservableCollection<PaginationComponentButtonProperties> ButtonsProperties { get; protected set; } = new();
 
     public static readonly BindableProperty TotalItemCountProperty =
-    BindableProperty.Create(nameof(TotalItemCount), typeof(int), typeof(PaginationComponentEx), propertyChanged: (bindable, oldValue, newValue) =>
-    {
-        var control = (PaginationComponentEx)bindable;
+        BindableProperty.Create(nameof(TotalItemCount), typeof(int), typeof(PaginationComponentEx), propertyChanged: (bindable, oldValue, newValue) =>
+        {
+            var control = (PaginationComponentEx)bindable;
 
-        control.DescriptiveLabel.Text = $"Page {control.PageNumber} of {control.PageCount}; Total Items: {control.TotalItemCount}";
-    });
+            control.DescriptiveLabel.Text = $"Page {control.PageNumber} of {control.PageCount}; Total Items: {control.TotalItemCount}";
+        });
     public int TotalItemCount
     {
         get => (int)GetValue(TotalItemCountProperty);
@@ -38,16 +36,16 @@ public partial class PaginationComponentEx : ContentView
             var control = (PaginationComponentEx)bindable;
 
             control.ButtonsProperties.Clear();
-            control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = "<<", BackgroundColor = control.NonSelectedButtonBackgroundColor });
-            control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = "<", BackgroundColor = control.NonSelectedButtonBackgroundColor });
+            control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = PaginationButtonText.First, BackgroundColor = control.NonSelectedButtonBackgroundColor });
+            control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = PaginationButtonText.Previous, BackgroundColor = control.NonSelectedButtonBackgroundColor });
 
             var min = Math.Max(1, control.PageNumber);
             var max = Math.Min(control.PageCount + 1, control.MaxNumericButtons + 1);
             for (int i = min; i < max; i++)
                 control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = i.ToString(), BackgroundColor = i == control.PageNumber ? control.SelectedButtonBackgroundColor : control.NonSelectedButtonBackgroundColor });
 
-            control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = ">", BackgroundColor = control.NonSelectedButtonBackgroundColor });
-            control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = ">>", BackgroundColor = control.NonSelectedButtonBackgroundColor });
+            control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = PaginationButtonText.Next, BackgroundColor = control.NonSelectedButtonBackgroundColor });
+            control.ButtonsProperties.Add(new PaginationComponentButtonProperties { Text = PaginationButtonText.Last, BackgroundColor = control.NonSelectedButtonBackgroundColor });
 
             control.DescriptiveLabel.Text = $"Page {control.PageNumber} of {control.PageCount}; Total Items: {control.TotalItemCount}";
         });
@@ -150,16 +148,16 @@ public partial class PaginationComponentEx : ContentView
         if (newValue.IsNumeric())
             return Convert.ToInt32(newValue);
 
-        if (string.Equals("<<", newValue))
+        if (string.Equals(PaginationButtonText.First, newValue))
             return 1;
 
-        if (string.Equals("<", newValue))
+        if (string.Equals(PaginationButtonText.Previous, newValue))
             return Math.Max(currentPageNumber - 1, 1);
 
-        if (string.Equals(">>", newValue))
+        if (string.Equals(PaginationButtonText.Last, newValue))
             return maxPageNumber;
 
-        if (string.Equals(">", newValue))
+        if (string.Equals(PaginationButtonText.Next, newValue))
             return Math.Min(currentPageNumber + 1, maxPageNumber);
 
         return 1;
