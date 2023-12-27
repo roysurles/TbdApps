@@ -28,13 +28,17 @@
             <ScrollView HeightRequest="200" VerticalOptions="FillAndExpand" VerticalScrollBarVisibility="Always" HorizontalScrollBarVisibility="Always">
                 <VerticalStackLayout>
                     <local:ApiResultMessagesCategorySectionComponent Caption="Information"
-                                                                     TextColor="{StaticResource InfoColor}" />
+                                                                     TextColor="{StaticResource InfoColor}"
+                                                                     ApiResultMessages="{Binding Source={x:Reference this}, Path=Informations}" />
                     <local:ApiResultMessagesCategorySectionComponent Caption=
-                                                                     "Warnings" TextColor="{StaticResource WarningColor}" />
-                    <local:ApiResultMessagesCategorySectionComponent Caption="Erros"
-                                                                     TextColor="{StaticResource DangerColor}" />
+                                                                     "Warnings" TextColor="{StaticResource WarningColor}"
+                                                                     ApiResultMessages="{Binding Source={x:Reference this}, Path=Warnings}" />
+                    <local:ApiResultMessagesCategorySectionComponent Caption="Errors"
+                                                                     TextColor="{StaticResource DangerColor}"
+                                                                     ApiResultMessages="{Binding Source={x:Reference this}, Path=Errors}" />
                     <local:ApiResultMessagesCategorySectionComponent Caption="Unhandled Exceptions"
-                                                                     TextColor="{StaticResource DangerColor}" />
+                                                                     TextColor="{StaticResource DangerColor}"
+                                                                     ApiResultMessages="{Binding Source={x:Reference this}, Path=UnhandledExceptions}" />
                 </VerticalStackLayout>
             </ScrollView>
             <BoxView HeightRequest="1" />

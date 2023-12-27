@@ -10,7 +10,7 @@ public partial class ApiResultMessagesCategorySectionComponent : ContentView
     public static readonly BindableProperty ApiResultMessagesProperty =
         BindableProperty.Create(nameof(ApiResultMessages), typeof(IList<IApiResultMessageModel>), typeof(ApiResultMessagesCategorySectionComponent), propertyChanged: (bindable, oldValue, newValue) =>
     {
-        var control = (ApiResultMessagesButtonComponent)bindable;
+        var control = (ApiResultMessagesCategorySectionComponent)bindable;
 
         control.IsVisible = control.ApiResultMessages.Any();
     });

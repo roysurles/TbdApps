@@ -26,9 +26,9 @@ public partial class ApiResultMessagesButtonComponent : ContentView
             control.MaximumWidthRequest = maximumWidthRequest;
 
             control.InformationsImageButton.IsVisible = control.HasInformations;
-            control.WarningsImageButton.IsVisible = control.HasInformations;
-            control.ErrorsImageButton.IsVisible = control.HasInformations;
-            control.UnhandledExceptionsImageButton.IsVisible = control.HasInformations;
+            control.WarningsImageButton.IsVisible = control.HasWarnings;
+            control.ErrorsImageButton.IsVisible = control.HasErrors;
+            control.UnhandledExceptionsImageButton.IsVisible = control.HasUnhandledExceptions;
 
             if (control.IsVisible)
             {

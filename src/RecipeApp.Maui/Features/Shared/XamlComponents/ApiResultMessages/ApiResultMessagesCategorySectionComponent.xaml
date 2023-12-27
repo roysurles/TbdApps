@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:local="clr-namespace:RecipeApp.Maui.Features.Shared.XamlComponents.ApiResultMessages"
+             xmlns:apiResult="clr-namespace:Tbd.Shared.ApiResult;assembly=Tbd.Shared"
              x:Class="RecipeApp.Maui.Features.Shared.XamlComponents.ApiResultMessages.ApiResultMessagesCategorySectionComponent"
              x:DataType="local:ApiResultMessagesCategorySectionComponent"
              x:Name="this">
@@ -32,5 +33,27 @@
                 </ImageButton.Source>
             </ImageButton>
         </HorizontalStackLayout>
+
+        <CollectionView ItemsSource="{Binding Source={x:Reference this}, Path=ApiResultMessages}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="apiResult:ApiResultMessageModel">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="•" TextColor="{Binding Source={x:Reference this}, Path=TextColor}" />
+                        <Label Grid.Column="1" Text="{Binding Code}" TextColor="{Binding Source={x:Reference this}, Path=TextColor}" />
+                        <Label Grid.Column="2" Text=" : " TextColor="{Binding Source={x:Reference this}, Path=TextColor}" />
+                        <Label Grid.Column="3" Text="{Binding Message}" TextColor="{Binding Source={x:Reference this}, Path=TextColor}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </VerticalStackLayout>
 </ContentView>

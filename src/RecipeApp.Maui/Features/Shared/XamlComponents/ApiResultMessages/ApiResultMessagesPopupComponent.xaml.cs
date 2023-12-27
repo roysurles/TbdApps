@@ -13,9 +13,16 @@ public partial class ApiResultMessagesPopupComponent : Popup
             var control = (ApiResultMessagesPopupComponent)bindable;
 
             control.Informations = control.ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Information)).ToList();
+            control.Warnings = control.ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Warning)).ToList();
+            control.Errors = control.ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Error)).ToList();
+            control.UnhandledExceptions = control.ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.UnhandledException)).ToList();
         });
 
-    public IList<IApiResultMessageModel> ApiResultMessages { get; set; } = new List<IApiResultMessageModel>();
+    public IList<IApiResultMessageModel> ApiResultMessages
+    {
+        get => (IList<IApiResultMessageModel>)GetValue(ApiResultMessagesProperty);
+        set => SetValue(ApiResultMessagesProperty, value);
+    }
 
     public Border PopupBorder => ThisBorder;
 
@@ -27,17 +34,30 @@ public partial class ApiResultMessagesPopupComponent : Popup
         get => (IList<IApiResultMessageModel>)GetValue(InformationsProperty);
         set => SetValue(InformationsProperty, value);
     }
-    //protected IEnumerable<IApiResultMessageModel> Warnings =>
-    //    ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Warning));
 
-    //protected IEnumerable<IApiResultMessageModel> Errors =>
-    //    ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Error));
-
-    //protected IEnumerable<IApiResultMessageModel> UnhandledExceptions =>
-    //    ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.UnhandledException));
-
-    private void Button_Clicked(object sender, EventArgs e)
+    public static readonly BindableProperty WarningsProperty =
+        BindableProperty.Create(nameof(Warnings), typeof(IList<IApiResultMessageModel>), typeof(ApiResultMessagesPopupComponent));
+    public IList<IApiResultMessageModel> Warnings
     {
-        Close();
+        get => (IList<IApiResultMessageModel>)GetValue(WarningsProperty);
+        set => SetValue(WarningsProperty, value);
     }
+
+    public static readonly BindableProperty ErrorsProperty =
+        BindableProperty.Create(nameof(Errors), typeof(IList<IApiResultMessageModel>), typeof(ApiResultMessagesPopupComponent));
+    public IList<IApiResultMessageModel> Errors
+    {
+        get => (IList<IApiResultMessageModel>)GetValue(ErrorsProperty);
+        set => SetValue(ErrorsProperty, value);
+    }
+
+    public static readonly BindableProperty UnhandledExceptionsProperty =
+        BindableProperty.Create(nameof(UnhandledExceptions), typeof(IList<IApiResultMessageModel>), typeof(ApiResultMessagesPopupComponent));
+    public IList<IApiResultMessageModel> UnhandledExceptions
+    {
+        get => (IList<IApiResultMessageModel>)GetValue(UnhandledExceptionsProperty);
+        set => SetValue(UnhandledExceptionsProperty, value);
+    }
+
+    private void Button_Clicked(object sender, EventArgs e) => Close();
 }
