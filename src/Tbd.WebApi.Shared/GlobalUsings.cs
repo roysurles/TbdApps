@@ -17,6 +17,8 @@ global using System.Text.Json.Serialization;
 global using System.Threading;
 global using System.Threading.Tasks;
 
+global using Asp.Versioning;
+
 global using Dapper;
 
 global using Microsoft.AspNetCore.Authentication;

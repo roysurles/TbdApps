@@ -2,6 +2,7 @@
 
 open Microsoft.AspNetCore.Mvc
 open Microsoft.Extensions.DependencyInjection
+open Asp.Versioning
 
 module ApiVersioningMiddlewareExtensions =
     type IServiceCollection with

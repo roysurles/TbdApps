@@ -10,6 +10,8 @@ global using System.Reflection;
 global using System.Threading;
 global using System.Threading.Tasks;
 
+global using Asp.Versioning;
+
 global using Dapper;
 
 global using FluentValidation;
