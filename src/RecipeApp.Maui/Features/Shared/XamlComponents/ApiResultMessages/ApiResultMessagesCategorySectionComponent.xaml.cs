@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace RecipeApp.Maui.Features.Shared.XamlComponents.ApiResultMessages;
 
 public partial class ApiResultMessagesCategorySectionComponent : ContentView
@@ -39,8 +41,16 @@ public partial class ApiResultMessagesCategorySectionComponent : ContentView
 
     private async void ImageButton_Clicked(object sender, EventArgs e)
     {
-        // TODO:  copy to clipboard
+        // copy to clipboard
         // https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/data/clipboard?view=net-maui-8.0
-        await Clipboard.Default.SetTextAsync("This text was highlighted in the UI.");
+
+        var stringBuilder = new StringBuilder();
+        stringBuilder.AppendLine(Caption);
+
+        foreach (var item in ApiResultMessages)
+        {
+            stringBuilder.Append("    • ").Append(item.Code).Append(" : ").AppendLine(item.Message);
+        }
+        await Clipboard.Default.SetTextAsync(stringBuilder.ToString());
     }
 }

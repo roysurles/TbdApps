@@ -6,12 +6,10 @@
            x:Class="RecipeApp.Maui.Features.Shared.XamlComponents.ApiResultMessages.ApiResultMessagesPopupComponent"
            CanBeDismissedByTappingOutsideOfPopup="False"
            Color="Transparent"
-           Size="350, 600"
+           Size="350, 600"           
            x:Name="this">
 
     <Border x:Name="ThisBorder" Padding="0"
-            HeightRequest="300"
-            WidthRequest="300"
             Stroke="Transparent"
             BackgroundColor="#FFEAE7EC">
         <Border.StrokeShape>

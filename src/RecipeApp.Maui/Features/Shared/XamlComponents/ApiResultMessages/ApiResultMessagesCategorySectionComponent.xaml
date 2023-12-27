@@ -29,7 +29,7 @@
                     <FontImageSource FontFamily="FAS"
                                      Glyph="{StaticResource CopyFas}"
                                      Color="{Binding Source={x:Reference this}, Path=TextColor}"
-                                     Size="10" />
+                                     Size="20" />
                 </ImageButton.Source>
             </ImageButton>
         </HorizontalStackLayout>

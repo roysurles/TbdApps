@@ -13,7 +13,6 @@
  *      - Session / Trace Id
  *      - Files / Feature Organization
  *      - Enumeration class nuget package
- *      - Blazor exceptions should be [...] button
  */
 public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
 {
@@ -27,33 +26,6 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
         //SearchAsyncCommand = new AsyncRelayCommand<object>((object searchText) => SearchAsync(searchText));
 
         WeakReferenceMessenger.Default.Register<IsBusyValueChangedMessage>(this, (r, m) => IsBusy = m.Value);
-
-        // TODO:  remove testing messages
-        AddInformationMessage("Info 1", code: 200);
-        AddInformationMessage("Info 2", code: 200);
-        AddInformationMessage("Info 3", code: 200);
-        AddInformationMessage("Info 4", code: 200);
-        AddErrorMessage("Error 1", code: 600);
-        AddErrorMessage("Error 2", code: 600);
-        AddErrorMessage("Error 3", code: 600);
-        AddErrorMessage("Error 4", code: 600);
-        AddInformationMessage("Info 1", code: 200);
-        AddInformationMessage("Info 2", code: 200);
-        AddInformationMessage("Info 3", code: 200);
-        AddInformationMessage("Info 4", code: 200);
-        AddErrorMessage("Error 1", code: 600);
-        AddErrorMessage("Error 2", code: 600);
-        AddErrorMessage("Error 3", code: 600);
-        AddErrorMessage("Error 4", code: 600);
-        AddInformationMessage("Info 1", code: 200);
-        AddInformationMessage("Info 2", code: 200);
-        AddInformationMessage("Info 3", code: 200);
-        AddInformationMessage("Info 4", code: 200);
-        AddErrorMessage("Error 1", code: 600);
-        AddErrorMessage("Error 2", code: 600);
-        AddErrorMessage("Error 3", code: 600);
-        AddErrorMessage("Error 4", code: 600);
-        // ******************************
     }
 
     [ObservableProperty]
