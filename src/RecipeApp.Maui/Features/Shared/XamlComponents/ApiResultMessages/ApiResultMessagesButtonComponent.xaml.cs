@@ -42,25 +42,13 @@ public partial class ApiResultMessagesButtonComponent : ContentView
         set => SetValue(ApiResultMessagesProperty, value);
     }
 
-    protected bool HasInformations => Informations.Any();
+    protected bool HasInformations => ApiResultMessages.Any(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Information));
 
-    protected bool HasWarnings => Warnings.Any();
+    protected bool HasWarnings => ApiResultMessages.Any(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Warning));
 
-    protected bool HasErrors => Errors.Any();
+    protected bool HasErrors => ApiResultMessages.Any(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Error));
 
-    protected bool HasUnhandledExceptions => UnhandledExceptions.Any();
-
-    protected IEnumerable<IApiResultMessageModel> Informations =>
-        ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Information));
-
-    protected IEnumerable<IApiResultMessageModel> Warnings =>
-        ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Warning));
-
-    protected IEnumerable<IApiResultMessageModel> Errors =>
-        ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.Error));
-
-    protected IEnumerable<IApiResultMessageModel> UnhandledExceptions =>
-        ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.UnhandledException));
+    protected bool HasUnhandledExceptions => ApiResultMessages.Any(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.UnhandledException));
 
     private void ImageButton_Clicked(object sender, EventArgs e)
     {

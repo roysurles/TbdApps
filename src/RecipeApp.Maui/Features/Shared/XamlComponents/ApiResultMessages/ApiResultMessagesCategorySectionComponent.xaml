@@ -13,7 +13,7 @@
     </ContentView.Resources>
 
     <VerticalStackLayout>
-        <HorizontalStackLayout HorizontalOptions="StartAndExpand">
+        <HorizontalStackLayout Margin="5" HorizontalOptions="StartAndExpand">
             <Label Text="{Binding Source={x:Reference this}, Path=Caption}"
                    FontAttributes="Bold"
                    TextColor="{Binding Source={x:Reference this}, Path=TextColor}"
@@ -37,14 +37,14 @@
         <CollectionView ItemsSource="{Binding Source={x:Reference this}, Path=ApiResultMessages}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="apiResult:ApiResultMessageModel">
-                    <Grid>
+                    <Grid Margin="10,0,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="20" />
-                            <ColumnDefinition Width="40" />
-                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="15" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Text="•" TextColor="{Binding Source={x:Reference this}, Path=TextColor}" />
@@ -55,5 +55,8 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
+        <Label HeightRequest="20" />
+
     </VerticalStackLayout>
 </ContentView>

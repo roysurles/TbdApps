@@ -37,8 +37,10 @@ public partial class ApiResultMessagesCategorySectionComponent : ContentView
         set => SetValue(TextColorProperty, value);
     }
 
-    private void ImageButton_Clicked(object sender, EventArgs e)
+    private async void ImageButton_Clicked(object sender, EventArgs e)
     {
         // TODO:  copy to clipboard
+        // https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/data/clipboard?view=net-maui-8.0
+        await Clipboard.Default.SetTextAsync("This text was highlighted in the UI.");
     }
 }

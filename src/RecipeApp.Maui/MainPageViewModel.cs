@@ -37,6 +37,22 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
         AddErrorMessage("Error 2", code: 600);
         AddErrorMessage("Error 3", code: 600);
         AddErrorMessage("Error 4", code: 600);
+        AddInformationMessage("Info 1", code: 200);
+        AddInformationMessage("Info 2", code: 200);
+        AddInformationMessage("Info 3", code: 200);
+        AddInformationMessage("Info 4", code: 200);
+        AddErrorMessage("Error 1", code: 600);
+        AddErrorMessage("Error 2", code: 600);
+        AddErrorMessage("Error 3", code: 600);
+        AddErrorMessage("Error 4", code: 600);
+        AddInformationMessage("Info 1", code: 200);
+        AddInformationMessage("Info 2", code: 200);
+        AddInformationMessage("Info 3", code: 200);
+        AddInformationMessage("Info 4", code: 200);
+        AddErrorMessage("Error 1", code: 600);
+        AddErrorMessage("Error 2", code: 600);
+        AddErrorMessage("Error 3", code: 600);
+        AddErrorMessage("Error 4", code: 600);
         // ******************************
     }
 
