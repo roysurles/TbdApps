@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:local="clr-namespace:RecipeApp.Maui.Features.Shared.XamlComponents.ApiResultMessages"
+             x:Class="RecipeApp.Maui.Features.Shared.XamlComponents.ApiResultMessages.ApiResultMessagesCategorySectionComponent"
+             x:DataType="local:ApiResultMessagesCategorySectionComponent"
+             x:Name="this">
+
+    <ContentView.Resources>
+        <x:String x:Key="CopyFas">&#xf0c5;</x:String>
+    </ContentView.Resources>
+
+    <VerticalStackLayout>
+        <HorizontalStackLayout HorizontalOptions="StartAndExpand">
+            <Label Text="{Binding Source={x:Reference this}, Path=Caption}"
+                   FontAttributes="Bold"
+                   TextColor="{Binding Source={x:Reference this}, Path=TextColor}"
+                   VerticalOptions="Start"
+                   HorizontalOptions="Start" />
+
+            <ImageButton x:Name="ImageButton"
+                         Margin="20,0,0,0"
+                         WidthRequest="10"
+                         HeightRequest="20"
+                         Clicked="ImageButton_Clicked" >
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="FAS"
+                                     Glyph="{StaticResource CopyFas}"
+                                     Color="{Binding Source={x:Reference this}, Path=TextColor}"
+                                     Size="10" />
+                </ImageButton.Source>
+            </ImageButton>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentView>

@@ -5,6 +5,7 @@
              xmlns:local="clr-namespace:RecipeApp.Maui"
              xmlns:introductionFeature="clr-namespace:RecipeApp.Maui.Features.Introduction"
              xmlns:xamlComponents="clr-namespace:RecipeApp.Maui.Features.Shared.XamlComponents"
+             xmlns:apiResultMessagesXamlComponents="clr-namespace:RecipeApp.Maui.Features.Shared.XamlComponents.ApiResultMessages"
              x:Class="RecipeApp.Maui.MainPage"
              x:DataType="local:MainPageViewModel"  >
 
@@ -40,8 +41,10 @@
                                IsRunning="{Binding IsBusy}" />
             <!--https://learn.microsoft.com/en-us/dotnet/api/communitytoolkit.mvvm.input.asyncrelaycommand.isrunning?view=win-comm-toolkit-dotnet-7.0-->
 
-            <!-- TODO: this has to be placed correctly -->
-            <xamlComponents:ApiResultMessagesModalComponent ApiResultMessages="{Binding ApiResultMessages}" />
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand" >
+                <apiResultMessagesXamlComponents:ApiResultMessagesButtonComponent ApiResultMessages="{Binding ApiResultMessages}" />
+                <apiResultMessagesXamlComponents:ApiResultMessagesButtonComponent ApiResultMessages="{Binding IntroductionSearchViewModel.ApiResultMessages}" />
+            </HorizontalStackLayout>
 
             <Label
                 Text="Welcome to the Recipe App"

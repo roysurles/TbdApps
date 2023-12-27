@@ -19,10 +19,9 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
 {
     protected readonly ILogger<MainPageViewModel> _logger;
 
-    public MainPageViewModel(IIntroductionSearchViewModel introductionSearchViewModel, IIntroductionViewModel introductionViewModel, ILogger<MainPageViewModel> logger)
+    public MainPageViewModel(IIntroductionSearchViewModel introductionSearchViewModel, ILogger<MainPageViewModel> logger)
     {
         IntroductionSearchViewModel = introductionSearchViewModel;
-        IntroductionViewModel = introductionViewModel;
         _logger = logger;
 
         //SearchAsyncCommand = new AsyncRelayCommand<object>((object searchText) => SearchAsync(searchText));
@@ -30,18 +29,20 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
         WeakReferenceMessenger.Default.Register<IsBusyValueChangedMessage>(this, (r, m) => IsBusy = m.Value);
 
         // TODO:  remove testing messages
-        AddInformationMessage("Info");
-        AddErrorMessage("Error");
+        AddInformationMessage("Info 1", code: 200);
+        AddInformationMessage("Info 2", code: 200);
+        AddInformationMessage("Info 3", code: 200);
+        AddInformationMessage("Info 4", code: 200);
+        AddErrorMessage("Error 1", code: 600);
+        AddErrorMessage("Error 2", code: 600);
+        AddErrorMessage("Error 3", code: 600);
+        AddErrorMessage("Error 4", code: 600);
         // ******************************
     }
 
     [ObservableProperty]
     [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
     public IIntroductionSearchViewModel introductionSearchViewModel;
-
-    [ObservableProperty]
-    [SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "Utilizing ObservableProperty attribute")]
-    public IIntroductionViewModel introductionViewModel;
 
     [RelayCommand]
     public async Task NavigatedToAsync(object obj)
@@ -85,8 +86,6 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
 public interface IMainPageViewModel : IBaseViewModel
 {
     IIntroductionSearchViewModel IntroductionSearchViewModel { get; }
-
-    IIntroductionViewModel IntroductionViewModel { get; }
 
     Task NavigatedToAsync(object obj);
 

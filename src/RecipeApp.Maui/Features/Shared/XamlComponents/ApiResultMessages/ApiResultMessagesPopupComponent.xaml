@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mct:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:mct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+           xmlns:local="clr-namespace:RecipeApp.Maui.Features.Shared.XamlComponents.ApiResultMessages"
+           x:Class="RecipeApp.Maui.Features.Shared.XamlComponents.ApiResultMessages.ApiResultMessagesPopupComponent"
+           CanBeDismissedByTappingOutsideOfPopup="False"
+           Color="Transparent"
+           Size="350, 600"
+           x:Name="this">
+
+    <Border x:Name="ThisBorder" Padding="0"
+            HeightRequest="300"
+            WidthRequest="300"
+            Stroke="Transparent"
+            BackgroundColor="#FFEAE7EC">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="10"/>
+        </Border.StrokeShape>
+        <!--BackgroundColor="{AppThemeBinding Light={StaticResource colorWhite}, Dark={StaticResource DisableBackgroundDark},Default={StaticResource colorWhite}}"-->
+        <VerticalStackLayout Padding="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+            <Label Text="Messages"
+                   VerticalOptions="Start"
+                   HorizontalOptions="Start"
+                   FontSize="Medium"
+                   FontAttributes="Bold"/>
+            <BoxView HeightRequest="1" />
+            <ScrollView HeightRequest="200" VerticalOptions="FillAndExpand" VerticalScrollBarVisibility="Always" HorizontalScrollBarVisibility="Always">
+                <VerticalStackLayout>
+                    <local:ApiResultMessagesCategorySectionComponent Caption="Information"
+                                                                     TextColor="{StaticResource InfoColor}" />
+                    <local:ApiResultMessagesCategorySectionComponent Caption=
+                                                                     "Warnings" TextColor="{StaticResource WarningColor}" />
+                    <local:ApiResultMessagesCategorySectionComponent Caption="Erros"
+                                                                     TextColor="{StaticResource DangerColor}" />
+                    <local:ApiResultMessagesCategorySectionComponent Caption="Unhandled Exceptions"
+                                                                     TextColor="{StaticResource DangerColor}" />
+                </VerticalStackLayout>
+            </ScrollView>
+            <BoxView HeightRequest="1" />
+            <Button VerticalOptions="End" Text="Close" Clicked="Button_Clicked" WidthRequest="70"/>
+        </VerticalStackLayout>
+    </Border>
+
+</mct:Popup>

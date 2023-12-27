@@ -1,16 +1,16 @@
-namespace RecipeApp.Maui.Features.Shared.XamlComponents;
+namespace RecipeApp.Maui.Features.Shared.XamlComponents.ApiResultMessages;
 
-public partial class ApiResultMessagesModalComponent : ContentView
+public partial class ApiResultMessagesButtonComponent : ContentView
 {
-    public ApiResultMessagesModalComponent()
+    public ApiResultMessagesButtonComponent()
     {
         InitializeComponent();
     }
 
     public static readonly BindableProperty ApiResultMessagesProperty =
-        BindableProperty.Create(nameof(ApiResultMessages), typeof(IList<IApiResultMessageModel>), typeof(ApiResultMessagesModalComponent), propertyChanged: (bindable, oldValue, newValue) =>
+        BindableProperty.Create(nameof(ApiResultMessages), typeof(IList<IApiResultMessageModel>), typeof(ApiResultMessagesButtonComponent), propertyChanged: (bindable, oldValue, newValue) =>
         {
-            var control = (ApiResultMessagesModalComponent)bindable;
+            var control = (ApiResultMessagesButtonComponent)bindable;
 
             control.IsVisible = control.ApiResultMessages.Any();
 
@@ -29,6 +29,12 @@ public partial class ApiResultMessagesModalComponent : ContentView
             control.WarningsImageButton.IsVisible = control.HasInformations;
             control.ErrorsImageButton.IsVisible = control.HasInformations;
             control.UnhandledExceptionsImageButton.IsVisible = control.HasInformations;
+
+            if (control.IsVisible)
+            {
+                control._isBlinking = true;
+                control.StartBlinkingAnimationAsync();
+            }
         });
     public IList<IApiResultMessageModel> ApiResultMessages
     {
@@ -56,4 +62,37 @@ public partial class ApiResultMessagesModalComponent : ContentView
     protected IEnumerable<IApiResultMessageModel> UnhandledExceptions =>
         ApiResultMessages.Where(x => x.MessageType.Equals(ApiResultMessageModelTypeEnumeration.UnhandledException));
 
+    private void ImageButton_Clicked(object sender, EventArgs e)
+    {
+        //var popup = new Popup();
+        //popup.CanBeDismissedByTappingOutsideOfPopup = false;
+        //popup.Content = new StackLayout
+        //{
+        //    Children =
+        //        {
+        //            new Label { Text = "This is a Popup!" },
+        //            new Button { Text = "Close Popup", Command = new Command(() => popup.Close()) }
+        //        }
+        //};
+
+        //App.Current.MainPage.ShowPopup(popup);
+
+        // https://github.com/jfversluis/MauiToolkitPopupSample/blob/main/MauiToolkitPopupSample/PopupPage.xaml
+        var apiResultMessagesPopupComponent = new ApiResultMessagesPopupComponent();
+        apiResultMessagesPopupComponent.ApiResultMessages = ApiResultMessages;
+        apiResultMessagesPopupComponent.Content.BackgroundColor = Application.Current.RequestedTheme == AppTheme.Dark ? Colors.Black : Colors.White;
+        apiResultMessagesPopupComponent.PopupBorder.Stroke = Brush.Cyan;
+        App.Current.MainPage.ShowPopup(apiResultMessagesPopupComponent);
+    }
+
+    private bool _isBlinking;
+    private async Task StartBlinkingAnimationAsync()
+    {
+        do
+        {
+            await ThisBorder.FadeTo(0, 500);
+            await ThisBorder.FadeTo(1, 500);
+        }
+        while (_isBlinking);
+    }
 }

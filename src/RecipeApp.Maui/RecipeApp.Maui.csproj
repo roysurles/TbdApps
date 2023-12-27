@@ -49,7 +49,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Refit.HttpClientFactory" Version="7.0.0" />
@@ -64,7 +64,13 @@
 	  <MauiXaml Update="Features\Introduction\IntroductionEditComponent.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Features\Shared\XamlComponents\ApiResultMessagesModalComponent.xaml">
+	  <MauiXaml Update="Features\Shared\XamlComponents\ApiResultMessages\ApiResultMessagesButtonComponent.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Features\Shared\XamlComponents\ApiResultMessages\ApiResultMessagesCategorySectionComponent.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Features\Shared\XamlComponents\ApiResultMessages\ApiResultMessagesPopupComponent.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Features\Shared\XamlComponents\ArrowLabelComponent.xaml">
