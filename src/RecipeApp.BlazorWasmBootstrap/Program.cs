@@ -48,6 +48,10 @@ public static class Program
         builder.Services.AddScoped<CustomMessageHandler>();
         builder.Services.AddTransient(typeof(IApiResultModel<>), typeof(ApiResultModel<>));
 
+        builder.Services.AddRefitClient<IApiLogApiClientV1_0>()
+            .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))
+            .AddHttpMessageHandler<CustomMessageHandler>();
+
         builder.Services.AddRefitClient<IIntroductionApiClientV1_0>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))
             .AddHttpMessageHandler<CustomMessageHandler>();

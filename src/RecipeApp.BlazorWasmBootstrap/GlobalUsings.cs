@@ -15,6 +15,7 @@ global using Microsoft.JSInterop;
 
 global using RecipeApp.BlazorWasmBootstrap.Features.Shared.Enums;
 global using RecipeApp.BlazorWasmBootstrap.Features.Shared.Models;
+global using RecipeApp.Shared.Features.ApiLog;
 global using RecipeApp.Shared.Features.Details;
 global using RecipeApp.Shared.Features.Ingredient;
 global using RecipeApp.Shared.Features.Instruction;
