@@ -51,6 +51,7 @@ public static class Program
         builder.Services.AddRefitClient<IApiLogApiClientV1_0>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))
             .AddHttpMessageHandler<CustomMessageHandler>();
+        builder.Services.AddTransient<IApiLogSearchViewModel, ApiLogSearchViewModel>();
 
         builder.Services.AddRefitClient<IIntroductionApiClientV1_0>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrlsOptionsModel.CoreApiUrl))
