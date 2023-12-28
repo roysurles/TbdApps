@@ -1,0 +1,166 @@
+﻿@page "/ApiLog"
+
+@inject ISessionViewModel SessionViewModel
+@inject IApiLogSearchViewModel ApiLogSearchViewModel
+@inject ILogger<ApiLogPage> Logger
+@inject IJSRuntime JSRuntime
+
+<PageTitle>RecipeApp - Api Log</PageTitle>
+
+<div class="row mb-3"></div>
+<div class="row mb-3">
+    <div class="col text-start">
+        <div style="display: inline-flex">
+            <h3>Api Logs</h3> <ApiResultMessagesModalComponent ApiResultMessages="@ApiLogSearchViewModel.ApiResultMessages" />
+        </div>
+    </div>
+</div>
+
+@if (ApiLogSearchViewModel.IsLoading || ApiLogSearchViewModel.IsBusy)
+{
+    //Need spinner / Progress bar
+    <div class="row text-center text-primary">
+        <div class="col">
+            <h3>Searching... please wait</h3>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row mb-3">
+        <div class="col">
+            <button type="button" class="btn btn-primary" @onclick="@(_ => SearchAsync())">
+                Search
+            </button>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col" style="overflow: auto;">
+            <QuickGrid Items="@(ApiLogSearchViewModel.ApiLogSearchResultDataAsQueryable)">
+                <TemplateColumn Title="ID" Sortable="false" >
+                    <nobr>
+                        @context.Id
+                    </nobr>
+                </TemplateColumn>
+                <TemplateColumn Title="Connection ID" Sortable="false" >
+                    <nobr>
+                        @context.ConnectionId
+                    </nobr>
+                </TemplateColumn>
+                <TemplateColumn Title="Trace ID" Sortable="false" >
+                    <nobr>
+                        @context.TraceId
+                    </nobr>
+                </TemplateColumn>
+                <TemplateColumn Title="Machine Name" Sortable="false">
+                    <nobr>
+                        @context.MachineName
+                    </nobr>
+                </TemplateColumn>
+                <TemplateColumn Title="User Agent" Sortable="false">
+                    <div style=" width:200px; white-space: nowrap; overflow:auto;">
+                        @context.UserAgent
+                    </div>
+                </TemplateColumn>
+                <TemplateColumn Title="Claims" Sortable="false">
+                    <nobr>
+                        @context.Claims
+                    </nobr>
+                </TemplateColumn>
+                <TemplateColumn Title="Local Ip Address" Sortable="false">
+                    <nobr>
+                        @context.LocalIpAddress
+                    </nobr>
+                </TemplateColumn>
+                <TemplateColumn Title="Remote Ip Address" Sortable="false">
+                    <nobr>
+                        @context.RemoteIpAddress
+                    </nobr>
+                </TemplateColumn>
+                <TemplateColumn Title="Assembly Name" Sortable="false">
+                    <div style=" width:200px; white-space: nowrap; overflow:auto;">
+                        @context.AssemblyName
+                    </div>
+                </TemplateColumn>
+                <TemplateColumn Title="Url" Sortable="false">
+                    <nobr>
+                        @context.Url
+                    </nobr>
+                </TemplateColumn>
+                <TemplateColumn Title="Controller Name" Sortable="false">
+                    <nobr>
+                        @context.ControllerName
+                    </nobr>
+                </TemplateColumn>
+                <TemplateColumn Title="Action Name" Sortable="false">
+                    <nobr>
+                        @context.ActionName
+                    </nobr>
+                </TemplateColumn>
+                <TemplateColumn Title="Action DateTimeOffset" Sortable="false">
+                    <nobr>
+                        @context.ActionDateTimeOffset
+                    </nobr>
+                </TemplateColumn>
+                <TemplateColumn Title="Http Protocol" Sortable="false">
+                    <nobr>
+                        @context.HttpProtocol
+                    </nobr>
+                </TemplateColumn>
+                <TemplateColumn Title="Http StatusCode" Sortable="false">
+                    <nobr>
+                        @context.HttpStatusCode
+                    </nobr>
+                </TemplateColumn>
+@*                 <TemplateColumn Title="Exception Data" Sortable="false">
+                    <nobr>
+                        @context.ExceptionData
+                    </nobr>
+                </TemplateColumn> *@
+                <TemplateColumn Title="Elapsed Milliseconds" Sortable="false">
+                    <div class="text-end">
+                        @context.ElapsedMilliseconds.ToString("#,##0")
+                    </div>
+                </TemplateColumn>
+@*                 <TemplateColumn Title="Http Request Body" Sortable="false">
+                    <nobr>
+                        @context.HttpRequestBody
+                    </nobr>
+                </TemplateColumn>
+                <TemplateColumn Title="Http Response Body" Sortable="false">
+                    <nobr>
+                        @context.HttpResponseBody
+                    </nobr>
+                </TemplateColumn> *@
+            </QuickGrid>
+            <Paginator State="@pagination" />
+        </div>
+    </div>
+}
+
+@code {
+
+    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
+
+    protected async Task SearchAsync(int pageNumber = 1, int pageSize = 10)
+    {
+        try
+        {
+            Logger.LogInformation("{methodName}({pageNumber}, {pageSize})", nameof(SearchAsync), pageNumber, pageSize);
+
+            ApiLogSearchViewModel.IsBusy = true;
+            await ApiLogSearchViewModel.SearchAsync(pageNumber, pageSize);
+            await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Search Results", $"Found {ApiLogSearchViewModel.ApiLogSearchResult.Meta.TotalItemCount} result(s)"));
+        }
+        catch (Exception ex)
+        {
+            SessionViewModel.HandleException(ex, ApiLogSearchViewModel.ApiResultMessages, this.ComponentName());
+        }
+        finally
+        {
+            ApiLogSearchViewModel.IsBusy = false;
+        }
+    }
+
+}

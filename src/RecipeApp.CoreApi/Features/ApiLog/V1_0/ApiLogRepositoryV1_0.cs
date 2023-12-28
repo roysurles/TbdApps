@@ -33,10 +33,10 @@ public class ApiLogRepositoryV1_0 : BaseRepository, IApiLogRepositoryV1_0
                       ,HttpProtocol
                       ,HttpMethod
                       ,HttpStatusCode
-                      ,ExceptionData
+                      --,ExceptionData
                       ,ElapsedMilliseconds
-                      ,HttpRequestBody
-                      ,HttpResponseBody
+                      --,HttpRequestBody
+                      --,HttpResponseBody
                 FROM Recipe.dbo.ApiLog
                 {apiLogSearchRequestDto.OrderByClause.ToSqlString()}
                 OFFSET @Offset ROWS FETCH NEXT @Fetch ROWS ONLY";

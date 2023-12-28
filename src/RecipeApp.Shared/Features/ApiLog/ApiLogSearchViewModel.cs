@@ -21,9 +21,11 @@ public class ApiLogSearchViewModel : BaseViewModel, IApiLogSearchViewModel
         .SetMeta(1, 10, 0)
         .SetData([]);
 
+    public IQueryable<ApiLogDto> ApiLogSearchResultDataAsQueryable => ApiLogSearchResult.Data.AsQueryable();
+
     public async Task SearchAsync(int pageNumber = 1, int pageSize = 10)
     {
-        _logger.LogInformation($"{nameof(SearchAsync)}({pageNumber}, {pageSize})");
+        _logger.LogInformation("{methodName}({pageNumber}, {pageSize})", nameof(SearchAsync), pageNumber, pageSize);
 
         ClearApiResultMessages();
 
@@ -46,6 +48,8 @@ public interface IApiLogSearchViewModel : IBaseViewModel
     ApiLogSearchRequestDto ApiLogSearchRequestDto { get; }
 
     IApiResultModel<List<ApiLogDto>> ApiLogSearchResult { get; }
+
+    IQueryable<ApiLogDto> ApiLogSearchResultDataAsQueryable { get; }
 
     Task SearchAsync(int pageNumber = 1, int pageSize = 10);
 }

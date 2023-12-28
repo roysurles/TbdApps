@@ -12,6 +12,9 @@
     <ApiResultMessagesComponent ApiResultMessages="@IntroductionSearchViewModel.ApiResultMessages" />
 </div> *@
 
+<div class="row text-center mt-5"></div>
+<div class="row text-center mt-4"></div>
+
 @if (IntroductionSearchViewModel.IsBusy)
 {
     <div class="row text-center text-primary">
@@ -78,7 +81,7 @@ else
     }
     else
     {
-        <div class="row text-center mt-5">
+        <div class="row text-center">
             <div class="col text-center">
                 <div style="display: inline-flex">
                     <h3>Welcome to the Recipe App</h3> <ApiResultMessagesModalComponent ApiResultMessages="@IntroductionSearchViewModel.ApiResultMessages" />
@@ -132,7 +135,7 @@ else
     {
         try
         {
-            Logger.LogInformation($"{nameof(SearchAsync)}({pageNumber}, {pageSize})");
+            Logger.LogInformation("{methodName}({pageNumber}, {pageSize})", nameof(SearchAsync), pageNumber, pageSize);
 
             IntroductionSearchViewModel.SetBusyFlag(true);
             await IntroductionSearchViewModel.SearchAsync(pageNumber, pageSize);
