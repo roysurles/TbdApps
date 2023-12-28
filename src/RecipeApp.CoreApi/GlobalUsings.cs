@@ -35,12 +35,14 @@ global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.IdentityModel.Logging;
 
+global using RecipeApp.CoreApi.Features.ApiLog.V1_0;
 global using RecipeApp.CoreApi.Features.HealthChecks;
 global using RecipeApp.CoreApi.Features.Ingredient.Cqrs;
 global using RecipeApp.CoreApi.Features.Ingredient.V1_0;
 global using RecipeApp.CoreApi.Features.Instruction.V1_0;
 global using RecipeApp.CoreApi.Features.Introduction.V1_0;
 global using RecipeApp.Database.Ef.RecipeDb;
+global using RecipeApp.Shared.Features.ApiLog;
 global using RecipeApp.Shared.Features.Ingredient;
 global using RecipeApp.Shared.Features.Instruction;
 global using RecipeApp.Shared.Features.Introduction;

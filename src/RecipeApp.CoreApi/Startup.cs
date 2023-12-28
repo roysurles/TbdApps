@@ -91,6 +91,9 @@ namespace RecipeApp.CoreApi
 
             _ = services.AddScoped(_ => new DatabaseHealthCheckRepository(defaultConnectionString));
 
+            services.AddScoped<IApiLogRepositoryV1_0>(_ => new ApiLogRepositoryV1_0(defaultConnectionString));
+            services.AddScoped<IApiLogServiceV1_0, ApiLogServiceV1_0>();
+
             _ = useDapperForDataAccess
                 ? services.AddScoped<IIntroductionRepositoryV1_0>(_ => new IntroductionRepositoryV1_0(defaultConnectionString))
                 : services.AddScoped<IIntroductionRepositoryV1_0, IntroductionEfRepositoryV1_0>();
