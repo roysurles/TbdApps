@@ -40,16 +40,17 @@ else
             <QuickGrid Items="@(ApiLogSearchViewModel.ApiLogSearchResultDataAsQueryable)">
                 <TemplateColumn Title="ID" Sortable="false" >
                     <nobr>
-                        @context.Id
+                        <ClipboardSpanComponent TextForClipboard="@context.Id.ToString()">@context.Id</ClipboardSpanComponent>
                     </nobr>
                 </TemplateColumn>
                 <TemplateColumn Title="Connection ID" Sortable="false" >
                     <nobr>
-                        @context.ConnectionId
+                        <ClipboardSpanComponent TextForClipboard="@context.ConnectionId">@context.ConnectionId</ClipboardSpanComponent>
                     </nobr>
                 </TemplateColumn>
                 <TemplateColumn Title="Trace ID" Sortable="false" >
                     <nobr>
+                        <ClipboardSpanComponent TextForClipboard="@context.TraceId"></ClipboardSpanComponent>
                         @context.TraceId
                     </nobr>
                 </TemplateColumn>

@@ -1,0 +1,39 @@
+﻿@inject IJSRuntime JSRuntime
+
+<TooltipComponent Text="@TooltipText">
+    <div class="d-inline-flex">
+        <span @onclick="@((_) => SpanClickedAsync())" @onmouseout="@((_) => SpanBlur())">
+            <i class="far fa-copy"></i>
+        </span>
+        &nbsp;&nbsp;
+        @ChildContent
+    </div>
+</TooltipComponent>
+
+@code {
+
+    [Parameter]
+    public string TextForClipboard { get; set; } = string.Empty;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private string TooltipText { get; set; } = "Copy to clipboard";
+
+    private async Task SpanClickedAsync()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("window.navigator.clipboard.writeText", TextForClipboard);
+            TooltipText = "Copied";
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", ex.Message);
+        }
+    }
+
+    private void SpanBlur() => TooltipText = "Copy to clipboard";
+
+}
