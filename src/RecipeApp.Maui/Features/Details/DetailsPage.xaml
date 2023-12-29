@@ -8,6 +8,7 @@
              xmlns:instructionFeature="clr-namespace:RecipeApp.Maui.Features.Instruction"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:sharedComponents="clr-namespace:RecipeApp.Maui.Features.Shared.XamlComponents"
+             xmlns:apiResultMessagesXamlComponents="clr-namespace:RecipeApp.Maui.Features.Shared.XamlComponents.ApiResultMessages"
              Title="Details"
              x:DataType="local:DetailsPageViewModel" >
 
@@ -95,8 +96,10 @@
                                 <Grid ColumnDefinitions="45, 45,100,100,Auto" Padding="5">
                                     <Button Text="+" Grid.Column="0" WidthRequest="40" HeightRequest="40"
                                             Command="{Binding IngredientViewModel.AddIngredientCommand}" />
-                                    <!--IsEnabled="{Binding IngredientViewModel.IsAddEnabled}"-->
-                                    <Label Text="" Grid.Column="1" WidthRequest="40" HeightRequest="40"></Label>
+                                    <!-- TODO: IsEnabled="{Binding IngredientViewModel.IsAddEnabled}"-->
+                                    <apiResultMessagesXamlComponents:ApiResultMessagesButtonComponent Grid.Column="1"
+                                                                                                      ApiResultMessages="{Binding IngredientViewModel.ApiResultMessages}" />
+                                    <!--<Label Text="" Grid.Column="1" WidthRequest="40" HeightRequest="40"></Label>-->
                                     <Label Text="Measurement" Grid.Column="2" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
                                     <Label Text="Description" Grid.Column="3" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />
                                     <Label Text="Move" Grid.Column="4" VerticalTextAlignment="End" FontAttributes="Bold" TextDecorations="Underline" />

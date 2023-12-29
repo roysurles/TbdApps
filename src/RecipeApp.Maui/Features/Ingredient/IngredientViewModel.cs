@@ -133,7 +133,7 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
 
             // TODO EXCEPTION:  *** this throws exception if one of the inputs (description or measurement) has focus ***
 
-            IsBusy = true;
+            SetIsBusy(true);
             // await IngredientViewModel.DeleteIngredientAsync(ingredientDto);
             var index = Ingredients.IndexOf(ingredientDto);
             var response = await RefitExStaticMethods.TryInvokeApiAsync(() => _ingredientApiClientV1_0.DeleteAsync(ingredientDto.Id), ApiResultMessages);
@@ -141,8 +141,8 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
                 Ingredients.RemoveAt(index);
             // ***************************************************************
 
-            if (ApiResultMessages.Any(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error))
-                await App.Current.MainPage.DisplaySnackbar("Ingredient deleted successfully!");
+            // TODO:  if (ApiResultMessages.Any(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error))
+            //    await App.Current.MainPage.DisplaySnackbar("Ingredient deleted successfully!");
             //var errorMessages = ApiResultMessages.Where(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error);
             //if (errorMessages.Any())
             //{
@@ -151,18 +151,18 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
             //    return;
             //}
 
-            await App.Current.MainPage.DisplaySnackbar("Ingredient deleted successfully!");
+            using var _ = await this.ShowSnackbarAndToastAsync("Ingredient deleted successfully!");
             // TODO:  toast replacement - await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Ingredient", "Deleted successfully!"));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unhandled exception occurred: ");
-            await App.Current.MainPage.DisplaySnackbar("Unhandled exception occurred!");
+            using var _ = await this.ShowSnackbarAndToastAsync("Unhandled exception occurred");
             // TODO implement: SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
         }
         finally
         {
-            IsBusy = false;
+            SetIsBusy(false);
         }
     }
 

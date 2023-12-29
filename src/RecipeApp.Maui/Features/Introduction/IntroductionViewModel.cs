@@ -54,8 +54,14 @@ public partial class IntroductionViewModel : BaseViewModel, IIntroductionViewMod
 
             var message = $"{Introduction.Title} saved";
             await App.Current.MainPage.DisplaySnackbar(message);
-            var toast = Toast.Make(message);
+            using var toast = Toast.Make(message);
             await toast.Show();
+        }
+        catch (Exception ex)
+        {
+            // TODO:  implement exception handler --> global or local
+            _logger.LogError(ex, "Unhandled exception occurred: ");
+            await App.Current.MainPage.DisplaySnackbar("Unhandled exception occurred!");
         }
         finally
         {
