@@ -82,7 +82,7 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
     //[ObservableProperty]
 
     [RelayCommand]
-    public async Task AddIngredientAsync()
+    public async Task<IIngredientViewModel> AddIngredientAsync()
     {
         _logger.LogInformation("{AddIngredient}()", nameof(AddIngredientAsync));
 
@@ -91,28 +91,30 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
         if (IsIntroductionNew)
         {
             await App.Current.MainPage.DisplayAlert("Add", "Save introduction, before adding ingredients.", Constants.AlertButtonText.OK);
-            return;
+            return this;
         }
 
         if (Ingredients.Any(x => x.IsNew))
         {
             await App.Current.MainPage.DisplayAlert("Add", "Save unsaved ingredient before adding another.", Constants.AlertButtonText.OK);
-            return;
+            return this;
         }
 
         Ingredients.Add(new IngredientDto { IntroductionId = _introductionId, SortOrder = Ingredients.Count + 1 });
 
+        return this;
         // TODO cleanup: await App.Current.MainPage.DisplayAlert("Add", $"AddIngredientAsync", Constants.AlertButtonText.OK);
     }
 
     [RelayCommand]
-    public async Task SaveIngredientAsync(object args)
+    public async Task<IIngredientViewModel> SaveIngredientAsync(object args)
     {
         await App.Current.MainPage.DisplayAlert("Save", $"SaveIngredientAsync {args}?", Constants.AlertButtonText.OK);
+        return this;
     }
 
     [RelayCommand]
-    public async Task DeleteIngredientAsync(object args)
+    public async Task<IIngredientViewModel> DeleteIngredientAsync(object args)
     {
         // await App.Current.MainPage.DisplayAlert("Delete", $"DeleteIngredientAsync {args}?", Constants.AlertButtonText.OK);
         try
@@ -123,12 +125,12 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
             var ingredientDto = args as IngredientDto;
 
             if (!(await App.Current.MainPage.DisplayAlert("Delete", "Are you sure you want to delete this ingredient?", "Yes", "No")))
-                return;
+                return this;
 
             if (ingredientDto.IsNew)
             {
                 Ingredients.Remove(ingredientDto);
-                return;
+                return this;
             }
 
             // TODO EXCEPTION:  *** this throws exception if one of the inputs (description or measurement) has focus ***
@@ -164,30 +166,48 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
         {
             SetIsBusy(false);
         }
+
+        return this;
     }
 
     [RelayCommand]
-    public async Task MoveIngredientFirstAsync(object args)
+    public async Task<IIngredientViewModel> MoveIngredientFirstAsync(object args)
     {
         await App.Current.MainPage.DisplayAlert("Move First", $"MoveIngredientFirstAsync {args}", Constants.AlertButtonText.OK);
+        return this;
     }
 
     [RelayCommand]
-    public async Task MoveIngredientUpAsync(object args)
+    public async Task<IIngredientViewModel> MoveIngredientUpAsync(object args)
     {
         await App.Current.MainPage.DisplayAlert("Move Up", $"MoveIngredientUpAsync {args}", Constants.AlertButtonText.OK);
+        return this;
     }
 
     [RelayCommand]
-    public async Task MoveIngredientDownAsync(object args)
+    public async Task<IIngredientViewModel> MoveIngredientDownAsync(object args)
     {
         await App.Current.MainPage.DisplayAlert("Move Down", $"MoveIngredientDownAsync {args}", Constants.AlertButtonText.OK);
+        return this;
     }
 
     [RelayCommand]
-    public async Task MoveIngredientLastAsync(object args)
+    public async Task<IIngredientViewModel> MoveIngredientLastAsync(object args)
     {
         await App.Current.MainPage.DisplayAlert("Move Last", $"MoveIngredientLastAsync {args}", Constants.AlertButtonText.OK);
+        return this;
+    }
+
+    protected async Task<IIngredientViewModel> ResequenceIngredientsSortOrderAsync()
+    {
+        var index = 0;
+        foreach (var item in Ingredients)
+            item.SortOrder = ++index;
+
+        var ingredientsDto = new IngredientsDto { Ingredients = Ingredients };
+        await RefitExStaticMethods.TryInvokeApiAsync(() => _ingredientApiClientV1_0.UpdateMultipleAsync(ingredientsDto), ApiResultMessages);
+
+        return this;
     }
 }
 
@@ -199,31 +219,31 @@ public interface IIngredientViewModel : IBaseViewModel
 
     Task<IIngredientViewModel> InitializeAsync(Guid introductionId);
 
-    Task AddIngredientAsync();
+    Task<IIngredientViewModel> AddIngredientAsync();
 
     IAsyncRelayCommand AddIngredientCommand { get; }
 
-    Task SaveIngredientAsync(object args);
+    Task<IIngredientViewModel> SaveIngredientAsync(object args);
 
     IAsyncRelayCommand<object> SaveIngredientCommand { get; }
 
-    Task DeleteIngredientAsync(object args);
+    Task<IIngredientViewModel> DeleteIngredientAsync(object args);
 
     IAsyncRelayCommand<object> DeleteIngredientCommand { get; }
 
-    Task MoveIngredientFirstAsync(object args);
+    Task<IIngredientViewModel> MoveIngredientFirstAsync(object args);
 
     IAsyncRelayCommand<object> MoveIngredientFirstCommand { get; }
 
-    Task MoveIngredientUpAsync(object args);
+    Task<IIngredientViewModel> MoveIngredientUpAsync(object args);
 
     IAsyncRelayCommand<object> MoveIngredientUpCommand { get; }
 
-    Task MoveIngredientDownAsync(object args);
+    Task<IIngredientViewModel> MoveIngredientDownAsync(object args);
 
     IAsyncRelayCommand<object> MoveIngredientDownCommand { get; }
 
-    Task MoveIngredientLastAsync(object args);
+    Task<IIngredientViewModel> MoveIngredientLastAsync(object args);
 
     IAsyncRelayCommand<object> MoveIngredientLastCommand { get; }
 }
