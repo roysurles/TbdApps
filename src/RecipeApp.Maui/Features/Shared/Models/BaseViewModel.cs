@@ -1,4 +1,6 @@
-﻿namespace RecipeApp.Maui.Features.Shared.Models;
+﻿using System.Runtime.CompilerServices;
+
+namespace RecipeApp.Maui.Features.Shared.Models;
 
 public partial class BaseViewModel : ObservableValidator, IBaseViewModel
 {
@@ -36,6 +38,76 @@ public partial class BaseViewModel : ObservableValidator, IBaseViewModel
 
     public IBaseViewModel AddErrorMessage(string message, string source = null, int? code = null) =>
         AddApiResultMessage(ApiResultMessageModelTypeEnumeration.Error, message, source, code);
+
+    public IBaseViewModel AddUnhandledException(Exception ex, ILogger logger, [CallerMemberName] string callerMemberName = null, params KeyValuePair<string, string>[] additionalData)
+    {
+        if (logger is not null)
+            logger.LogError(ex, "{methodName} encountered exception:", callerMemberName);
+
+        // TODO:  verify GetObjectAndMemberName returns name of sub class not base class
+        var fullSourceName = this.GetObjectAndMemberName(callerMemberName);
+
+        // TODO:  check HostEnvironment.IsProduction() to redact (remove stack trace)
+        var message = $"Exception encountered: {ex}{Environment.NewLine}StackTrace: {ex.StackTrace}";
+
+        ApiResultMessages?.Add(new ApiResultMessageModel
+        {
+            MessageType = ApiResultMessageModelTypeEnumeration.UnhandledException,
+            Code = 600,
+            Source = fullSourceName,
+            Message = message
+        });
+
+
+        return this;
+        /*
+    public ISessionViewModel HandleException(Exception ex
+        , List<IApiResultMessageModel> apiResultMessages = null
+        , string callerComponentName = null
+        , [CallerMemberName] string callerMemberName = null
+        , params KeyValuePair<string, string>[] additionalData)
+    {
+        const string NewLineHtml = "<br />";
+
+        //if (ex is AccessTokenNotAvailableException accessTokenNotAvailableException)
+        //{
+        //    accessTokenNotAvailableException.Redirect();
+        //    return;
+        //}
+
+        var dictionary = new Dictionary<string, string>(additionalData)
+        {
+            { "DateTimeOffset", DateTimeOffset.Now.ToString() },
+            { "SessionId", SessionId.ToString() },
+            { "TraceId", TraceId.ToString() }
+        };
+
+        var dictionaryAsString = dictionary?.Count > 0
+            ? $"{NewLineHtml}Additional Data: {NewLineHtml}{string.Join(NewLineHtml, dictionary.Select(x => $"{x.Key} = {x.Value}"))}"
+            : string.Empty;
+
+        var fullSourceName = $"{callerComponentName}.{callerMemberName}";
+
+        var message = HostEnvironment.IsProduction()
+            ? "Oops, we encountered an unhandled exception!  Please try again in a few minutes."
+            : $"{fullSourceName} encountered exception: {ex}{NewLineHtml}StackTrace: {ex.StackTrace}{dictionaryAsString}".Replace(Environment.NewLine, NewLineHtml);
+
+        if (HostEnvironment.IsProduction().Equals(false))
+            _logger.LogError(ex, $"{fullSourceName}{NewLineHtml}{message}".Replace(NewLineHtml, Environment.NewLine));
+
+        apiResultMessages?.Add(new ApiResultMessageModel
+        {
+            MessageType = ApiResultMessageModelTypeEnumeration.UnhandledException,
+            Code = 600,
+            Source = fullSourceName,
+            Message = message
+        });
+
+        return this;
+    }
+
+         */
+    }
 
     public IBaseViewModel AddMessages(IEnumerable<ApiResultMessageModel> messages)
     {
@@ -87,6 +159,8 @@ public interface IBaseViewModel
     IBaseViewModel AddWarningMessage(string message, string source = null, int? code = null);
 
     IBaseViewModel AddErrorMessage(string message, string source = null, int? code = null);
+
+    IBaseViewModel AddUnhandledException(Exception ex, ILogger logger, [CallerMemberName] string callerMemberName = null, params KeyValuePair<string, string>[] additionalData);
 
     IBaseViewModel AddMessages(IEnumerable<ApiResultMessageModel> messages);
 

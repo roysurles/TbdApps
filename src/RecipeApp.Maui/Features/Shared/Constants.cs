@@ -10,6 +10,8 @@ public static class Constants
     {
         public const string OK = "OK";
         public const string Cancel = "Cancel";
+        public const string Yes = "Yes";
+        public const string No = "Mo";
     }
 
     public static class PaginationButtonText

@@ -84,26 +84,32 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
     [RelayCommand]
     public async Task<IIngredientViewModel> AddIngredientAsync()
     {
-        _logger.LogInformation("{AddIngredient}()", nameof(AddIngredientAsync));
-
-        ClearApiResultMessages();
-
-        if (IsIntroductionNew)
+        try
         {
-            await App.Current.MainPage.DisplayAlert("Add", "Save introduction, before adding ingredients.", Constants.AlertButtonText.OK);
-            return this;
-        }
+            _logger.LogInformation("{methodName}", nameof(AddIngredientAsync));
 
-        if (Ingredients.Any(x => x.IsNew))
+            ResetForNextOperation(false);
+
+            if (IsIntroductionNew)
+            {
+                await this.DisplayOkAlertAsync("Add", "Save introduction, before adding ingredients.");
+                return this;
+            }
+
+            if (Ingredients.Any(x => x.IsNew))
+            {
+                await this.DisplayOkAlertAsync("Add", "Save unsaved ingredient before adding another.");
+                return this;
+            }
+
+            Ingredients.Add(new IngredientDto { IntroductionId = _introductionId, SortOrder = Ingredients.Count + 1 });
+        }
+        catch (Exception ex)
         {
-            await App.Current.MainPage.DisplayAlert("Add", "Save unsaved ingredient before adding another.", Constants.AlertButtonText.OK);
-            return this;
+            AddUnhandledException(ex, _logger);
         }
-
-        Ingredients.Add(new IngredientDto { IntroductionId = _introductionId, SortOrder = Ingredients.Count + 1 });
 
         return this;
-        // TODO cleanup: await App.Current.MainPage.DisplayAlert("Add", $"AddIngredientAsync", Constants.AlertButtonText.OK);
     }
 
     [RelayCommand]
@@ -116,11 +122,9 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
     [RelayCommand]
     public async Task<IIngredientViewModel> DeleteIngredientAsync(object args)
     {
-        // await App.Current.MainPage.DisplayAlert("Delete", $"DeleteIngredientAsync {args}?", Constants.AlertButtonText.OK);
         try
         {
             _logger.LogInformation($"{nameof(DeleteIngredientAsync)}({nameof(args)})");
-            ClearApiResultMessages();
 
             var ingredientDto = args as IngredientDto;
 
@@ -134,33 +138,20 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
             }
 
             // TODO EXCEPTION:  *** this throws exception if one of the inputs (description or measurement) has focus ***
+            ResetForNextOperation(true);
 
-            SetIsBusy(true);
-            // await IngredientViewModel.DeleteIngredientAsync(ingredientDto);
             var index = Ingredients.IndexOf(ingredientDto);
             var response = await RefitExStaticMethods.TryInvokeApiAsync(() => _ingredientApiClientV1_0.DeleteAsync(ingredientDto.Id), ApiResultMessages);
             if (response.IsSuccessHttpStatusCode)
                 Ingredients.RemoveAt(index);
-            // ***************************************************************
-
-            // TODO:  if (ApiResultMessages.Any(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error))
-            //    await App.Current.MainPage.DisplaySnackbar("Ingredient deleted successfully!");
-            //var errorMessages = ApiResultMessages.Where(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error);
-            //if (errorMessages.Any())
-            //{
-            //    foreach (var errorMessage in errorMessages)
-            //        await JSRuntime.ToastAsync(new ToastModel(ToastType.error, "Ingredient", errorMessage.Message));
-            //    return;
-            //}
 
             using var _ = await this.ShowSnackbarAndToastAsync("Ingredient deleted successfully!");
-            // TODO:  toast replacement - await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Ingredient", "Deleted successfully!"));
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Unhandled exception occurred: ");
-            using var _ = await this.ShowSnackbarAndToastAsync("Unhandled exception occurred");
             // TODO implement: SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
+            AddUnhandledException(ex, _logger);
+            using var _ = await this.ShowSnackbarAndToastAsync("Unhandled exception occurred");
         }
         finally
         {
