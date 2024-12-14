@@ -6,29 +6,37 @@
     <MudText Class="mt-4 mr-1">Environment:</MudText>
     <MudText Class="mt-4 mr-3">@(SessionViewModel.HostEnvironment.Environment)</MudText>
     <MudText Class="mt-4 mr-1">Trace Id:</MudText>
-    <MudTextField ReadOnly="true"
+    @* DisableUnderLine="true" *@
+    <MudTextField T="string"
+                  ReadOnly="true"
                   Class="mr-1 my-2"
                   Style="width: 330px; color: white;"
                   Margin="Margin.Dense"
-                  DisableUnderLine="true"
                   Variant="Variant.Outlined"
                   UserAttributes="@TraceIdUserAttributes"
                   Value="@(SessionViewModel.TraceId.ToString())">
     </MudTextField>
-    <MudIconButton Icon="@Icons.Material.Filled.FileCopy"
-                   Title="Copy to Clipboard"
-                   Color="Color.Inherit"
-                   OnClick="@(_ => JSRuntime.CopyToClipboard("TraceIdTextBox"))">
-    </MudIconButton>
-    <MudIconButton Icon="@Icons.Material.Filled.InsertDriveFile"
-                   Title="Generate new Id"
-                   Color="Color.Inherit"
-                   OnClick="@(_ => SessionViewModel.NewTraceId())">
-    </MudIconButton>
-    <MudSwitch Class="mt-3" Checked="@SessionViewModel.IsDarkMode" CheckedChanged="@((bool isChecked) => DarkModeSwitchChanged(isChecked))" Label="Dark" />
+    @* Title="Copy to Clipboard" *@
+    <MudTooltip Text="Copy to Clipboard"
+                Arrow="true"
+                Placement="Placement.Right">
+        <MudIconButton Icon="@Icons.Material.Filled.FileCopy"
+                       Color="Color.Inherit"
+                       OnClick="@(_ => JSRuntime.CopyToClipboard("TraceIdTextBox"))">
+        </MudIconButton>
+    </MudTooltip>
+    @* Title="Generate new Id" *@
+    <MudTooltip Text="Generate new Id">
+        <MudIconButton Icon="@Icons.Material.Filled.InsertDriveFile"
+                       Color="Color.Inherit"
+                       OnClick="@(_ => SessionViewModel.NewTraceId())">
+        </MudIconButton>
+    </MudTooltip>
+    <MudSwitch T="bool" Class="mt-3" Value="@SessionViewModel.IsDarkMode" ValueChanged="@((bool isChecked) => DarkModeSwitchChanged(isChecked))" Label="Dark" />
+    @* <MudSwitch T="bool" Class="mt-3" Checked="@SessionViewModel.IsDarkMode" CheckedChanged="@((bool isChecked) => DarkModeSwitchChanged(isChecked))" Label="Dark" /> *@
 </div>
 
-    @code {
+@code {
 
     public void Dispose() =>
         SessionViewModel.StateHasChangedEvent -= SessionViewModel_StateHasChangedEvent;

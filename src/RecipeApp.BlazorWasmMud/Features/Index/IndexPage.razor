@@ -14,85 +14,85 @@
         <ApiResultMessagesComponent ApiResultMessages="@IntroductionSearchViewModel.ApiResultMessages" />
     </MudItem>
 
-@if (IntroductionSearchViewModel.IsBusy)
-{
-    <MudItem xs="12" Class="d-flex align-center justify-center mud-width-full py-8">
-            <MudText Typo="Typo.h5">Searching... please wait</MudText>
-    </MudItem>
-}
-else
-{
-    @if (IntroductionSearchViewModel.HasSearched)
+    @if (IntroductionSearchViewModel.IsBusy)
     {
-        <MudItem xs="12" Class="d-flex align-center justify-center mud-width-full py-0">
-
-            <MudTable @ref="@_mudTable"
-                      T="IntroductionSearchResultDto"
-                      Items="@(IntroductionSearchViewModel.IntroductionSearchResult.Data)"
-                      Hover="true"
-                      Bordered="true"
-                      Striped="true"
-                      Dense="true"
-                      Style="width:100%">
-                <ToolBarContent>
-                    <MudText Typo="Typo.h6">Recipe(s)</MudText>
-                    <MudSpacer />
-                    <MudTextField T="string"
-                                  Placeholder="Filter"
-                                  Adornment="Adornment.Start"
-                                  AdornmentIcon="@Icons.Material.Filled.Search"
-                                  IconSize="Size.Medium"
-                                  Class="mt-0">
-                    </MudTextField>
-                </ToolBarContent>
-                <HeaderContent>
-                    <MudTh Style="text-align: center">Title</MudTh>
-                    <MudTh Style="text-align: center; width: 10%">Ingredients</MudTh>
-                    <MudTh Style="text-align: center; width: 10%">Instructions</MudTh>
-                </HeaderContent>
-                <RowTemplate>
-                    <MudTd DataLabel="Title" title="@(context.Comment)">
-                        <MudNavLink Href="@($"/Details/{@context.Id.ToString()}")" Style="height:30px">
-                            @context.Title
-                        </MudNavLink>
-                    </MudTd>
-                    <MudTd DataLabel="Ingredients" Style="text-align: center">
-                        <MudChip Color="Color.Info" Size="Size.Small">
-                            @context.IngredientsCount
-                        </MudChip>
-                    </MudTd>
-                    <MudTd DataLabel="Instructions" Style="text-align: center">
-                        <MudChip Color="Color.Info" Size="Size.Small">
-                            @context.InstructionsCount
-                        </MudChip>
-                    </MudTd>
-                </RowTemplate>
-                <PagerContent>
-                    @* <MudTablePager /> *@
-                    <div class="d-flex align-center flex-grow-1 gap-4" >
-                        <MudPagination Selected="@(IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.PageNumber)"
-                                       SelectedChanged="@((int pageNumber) => SearchAsync(pageNumber))"
-                                       Count="@(Math.Min(IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.PageCount, 10))"
-                                       Class="d-flex py-5 "  />
-                        <MudText Class="d-flex py-5"
-                                 Align="Align.Left">@PaginationText</MudText>
-                    </div>
-                </PagerContent>
-            </MudTable>
-
+        <MudItem xs="12" Class="d-flex align-center justify-center mud-width-full py-8">
+            <MudText Typo="Typo.h5">Searching... please wait</MudText>
         </MudItem>
     }
     else
     {
-        <MudItem xs="12" Class="d-flex align-center justify-center mud-width-full py-0">
-            <MudText Typo="Typo.h5">Welcome to the Recipe App</MudText>
-        </MudItem>
+        @if (IntroductionSearchViewModel.HasSearched)
+        {
+            <MudItem xs="12" Class="d-flex align-center justify-center mud-width-full py-0">
 
-        <MudItem xs="12" Class="d-flex align-center justify-center mud-width-full py-0">
-            <MudText>Input a search term and click Search</MudText>
-        </MudItem>
+                <MudTable @ref="@_mudTable"
+                          T="IntroductionSearchResultDto"
+                          Items="@(IntroductionSearchViewModel.IntroductionSearchResult.Data)"
+                          Hover="true"
+                          Bordered="true"
+                          Striped="true"
+                          Dense="true"
+                          Style="width:100%">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">Recipe(s)</MudText>
+                        <MudSpacer />
+                        <MudTextField T="string"
+                                      Placeholder="Filter"
+                                      Adornment="Adornment.Start"
+                                      AdornmentIcon="@Icons.Material.Filled.Search"
+                                      IconSize="Size.Medium"
+                                      Class="mt-0">
+                        </MudTextField>
+                    </ToolBarContent>
+                    <HeaderContent>
+                        <MudTh Style="text-align: center">Title</MudTh>
+                        <MudTh Style="text-align: center; width: 10%">Ingredients</MudTh>
+                        <MudTh Style="text-align: center; width: 10%">Instructions</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Title" title="@(context.Comment)">
+                            <MudNavLink Href="@($"/Details/{@context.Id.ToString()}")" Style="height:30px">
+                                @context.Title
+                            </MudNavLink>
+                        </MudTd>
+                        <MudTd DataLabel="Ingredients" Style="text-align: center">
+                            <MudChip T="int" Color="Color.Info" Size="Size.Small">
+                                @context.IngredientsCount
+                            </MudChip>
+                        </MudTd>
+                        <MudTd DataLabel="Instructions" Style="text-align: center">
+                            <MudChip T="int" Color="Color.Info" Size="Size.Small">
+                                @context.InstructionsCount
+                            </MudChip>
+                        </MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        @* <MudTablePager /> *@
+                        <div class="d-flex align-center flex-grow-1 gap-4">
+                            <MudPagination Selected="@(IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.PageNumber)"
+                                           SelectedChanged="@((int pageNumber) => SearchAsync(pageNumber))"
+                                           Count="@(Math.Min(IntroductionSearchViewModel.FilteredIntroductionSearchResult.Meta.PageCount, 10))"
+                                           Class="d-flex py-5 " />
+                            <MudText Class="d-flex py-5"
+                                     Align="Align.Left">@PaginationText</MudText>
+                        </div>
+                    </PagerContent>
+                </MudTable>
+
+            </MudItem>
+        }
+        else
+        {
+            <MudItem xs="12" Class="d-flex align-center justify-center mud-width-full py-0">
+                <MudText Typo="Typo.h5">Welcome to the Recipe App</MudText>
+            </MudItem>
+
+            <MudItem xs="12" Class="d-flex align-center justify-center mud-width-full py-0">
+                <MudText>Input a search term and click Search</MudText>
+            </MudItem>
+        }
     }
-}
 
 </MudGrid>
 
