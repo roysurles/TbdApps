@@ -150,7 +150,7 @@ namespace RecipeApp.CoreApi
 
             app.UseCorrelationIdEx();                                           // Custom CorrelationId:  this must be before app.UseApiLoggingEx() to change HttpContext.TraceIdentifier
 
-            app.UseApiLoggingEx();                                              // Custom ApiLogging:  this must be after app.UseSwaggerEx to avoid logging swagger
+            //app.UseApiLoggingEx();                                              // Custom ApiLogging:  this must be after app.UseSwaggerEx to avoid logging swagger
 
             app.UseExceptionHandlerEx(env, false);                              // Custom ExceptionHandler:  this must be after app.UseApiLoggingEx to set HttpStatusCode and write out ApiResultModel
 
@@ -167,6 +167,8 @@ namespace RecipeApp.CoreApi
             });
 
             // app.UseRateLimiter();       // This has to go after app.UseRouting(); --> https://github.com/dotnet/aspnetcore/issues/45302
+
+            app.UseApiLoggingEx();                                                            // Custom ApiLogging:  this must be after app.UseSwaggerEx & AuthZ to avoid logging swagger and have auth info
 
             //app.UseEndpoints(endpoints => endpoints.MapControllers());
             // https://github.com/dotnet/aspnetcore/issues/45302
