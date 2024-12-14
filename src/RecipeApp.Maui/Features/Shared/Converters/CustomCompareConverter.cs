@@ -1,6 +1,6 @@
 ﻿namespace RecipeApp.Maui.Features.Shared.Converters;
 
-public class CustomCompareConverter : CompareConverter<object>
+public class CustomCompareConverter : CompareConverter<IComparable, object> //: CompareConverter<object>
 {
     public object MyParam { get; set; }
 
