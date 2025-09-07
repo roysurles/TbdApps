@@ -63,14 +63,14 @@ public partial class ApiResultMessagesButtonComponent : ContentView
         //        }
         //};
 
-        //App.Current.MainPage.ShowPopup(popup);
+        //App.Current.Windows[0].Page.ShowPopup(popup);
 
         // https://github.com/jfversluis/MauiToolkitPopupSample/blob/main/MauiToolkitPopupSample/PopupPage.xaml
         var apiResultMessagesPopupComponent = new ApiResultMessagesPopupComponent();
         apiResultMessagesPopupComponent.ApiResultMessages = ApiResultMessages;
         apiResultMessagesPopupComponent.Content.BackgroundColor = Application.Current.RequestedTheme == AppTheme.Dark ? Colors.Black : Colors.White;
         apiResultMessagesPopupComponent.PopupBorder.Stroke = Brush.Cyan;
-        App.Current.MainPage.ShowPopup(apiResultMessagesPopupComponent);
+        App.Current.Windows[0].Page.ShowPopup(apiResultMessagesPopupComponent);
     }
 
     private bool _isBlinking;

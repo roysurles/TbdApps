@@ -2,6 +2,7 @@
 @page "/Details/{IntroductionId}"
 @inject ISessionViewModel SessionViewModel
 @inject IDetailsPageViewModel DetailsPageViewModel
+@inject NavigationManager NavigationManager
 @inject ILogger<DetailsPage> Logger
 
 <PageTitle>RecipeApp - Details</PageTitle>
@@ -88,7 +89,7 @@ else
     <div class="row mb-3">
         <div class="col">
             <button class="btn btn-secondary"
-                    onclick="history.back">
+                    @onclick="@(() => NavigationManager.NavigateTo("/"))">
                 Back
             </button>
         </div>
@@ -106,7 +107,7 @@ else
     {
         try
         {
-            Logger.LogInformation($"{nameof(OnInitializedAsync)}({IntroductionId})");
+            Logger.LogInformation("{MemberName} ( {IntroductionId} )", nameof(OnInitializedAsync),IntroductionId);
 
             DetailsPageViewModel.IsLoading = true;
             await DetailsPageViewModel.InitializeAsync(IntroductionId.ToGuid());
@@ -125,7 +126,7 @@ else
     protected override async Task OnParametersSetAsync()
     {
         Logger.LogInformation($"{nameof(OnParametersSet)}({IntroductionId})");
-        base.OnParametersSet();
+        await base.OnParametersSetAsync();
         await OnInitializedAsync();
     }
 

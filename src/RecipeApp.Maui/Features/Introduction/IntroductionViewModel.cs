@@ -53,7 +53,7 @@ public partial class IntroductionViewModel : BaseViewModel, IIntroductionViewMod
             Introduction = saveIntroductionTask.Result.Data;
 
             var message = $"{Introduction.Title} saved";
-            await App.Current.MainPage.DisplaySnackbar(message);
+            await App.Current.Windows[0].Page.DisplaySnackbar(message);
             using var toast = Toast.Make(message);
             await toast.Show();
         }
@@ -61,7 +61,7 @@ public partial class IntroductionViewModel : BaseViewModel, IIntroductionViewMod
         {
             // TODO:  implement exception handler --> global or local
             _logger.LogError(ex, "Unhandled exception occurred: ");
-            await App.Current.MainPage.DisplaySnackbar("Unhandled exception occurred!");
+            await App.Current.Windows[0].Page.DisplaySnackbar("Unhandled exception occurred!");
         }
         finally
         {
@@ -82,7 +82,7 @@ public partial class IntroductionViewModel : BaseViewModel, IIntroductionViewMod
 
             if (Equals(introductionId, Guid.Empty))
             {
-                await App.Current.MainPage.DisplayAlert("Delete", "There is nothing to Delete!", Constants.AlertButtonText.OK);
+                await App.Current.Windows[0].Page.DisplayAlert("Delete", "There is nothing to Delete!", Constants.AlertButtonText.OK);
                 //AddInformationMessage("There is nothing to Delete!", $"{nameof(IntroductionViewModel)}.{nameof(DeleteIntroductionAsync)}");
                 return this;
             }
@@ -93,7 +93,7 @@ public partial class IntroductionViewModel : BaseViewModel, IIntroductionViewMod
             //if (apiResult.IsSuccessHttpStatusCode)
             //{
             //    var message = "Recipe deleted successfully!";
-            //    await App.Current.MainPage.DisplaySnackbar(message);
+            //    await App.Current.Windows[0].Page.DisplaySnackbar(message);
             //    var toast = Toast.Make(message);
             //    await toast.Show();
 

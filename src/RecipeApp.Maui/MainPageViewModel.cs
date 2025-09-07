@@ -45,7 +45,7 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
 
             ResetForNextOperation();
             await IntroductionSearchViewModel.SearchAsync();
-            //await App.Current.MainPage.DisplayAlert("MainPageViewModel.NavigatedToAsync", "MainPageViewModel.NavigatedToAsync", Constants.AlertButtonText.OK);
+            //await App.Current.Windows[0].Page.DisplayAlert("MainPageViewModel.NavigatedToAsync", "MainPageViewModel.NavigatedToAsync", Constants.AlertButtonText.OK);
         }
         finally
         {
@@ -59,11 +59,11 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
         var introduction = introductionSearchResultDto as IntroductionSearchResultDto;
         if (introduction is null)
         {
-            await App.Current.MainPage.DisplayAlert("Mismatch", "Cannot convert introductionSearchResultDto to IntroductionSearchResultDto", Constants.AlertButtonText.OK);
+            await App.Current.Windows[0].Page.DisplayAlert("Mismatch", "Cannot convert introductionSearchResultDto to IntroductionSearchResultDto", Constants.AlertButtonText.OK);
             return;
         }
 
-        //await App.Current.MainPage.DisplayAlert("Edit", $"Navigate to {introduction.Title}?", Constants.AlertButtonText.OK);
+        //await App.Current.Windows[0].Page.DisplayAlert("Edit", $"Navigate to {introduction.Title}?", Constants.AlertButtonText.OK);
 
         // https://www.youtube.com/watch?v=ddmZ6k1GIkM
         //await Shell.Current.Navigation.PushAsync

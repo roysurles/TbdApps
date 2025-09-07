@@ -4,21 +4,21 @@ public static class VisualElementExtensions
 {
 
     public static Task DisplayOkAlertAsync(this object anything, string title, string message) =>
-        App.Current.MainPage.DisplayAlert(title, message, Constants.AlertButtonText.OK);
+        App.Current.Windows[0].Page.DisplayAlert(title, message, Constants.AlertButtonText.OK);
 
     public static Task DisplayCancelAlertAsync(this object anything, string title, string message) =>
-        App.Current.MainPage.DisplayAlert(title, message, Constants.AlertButtonText.Cancel);
+        App.Current.Windows[0].Page.DisplayAlert(title, message, Constants.AlertButtonText.Cancel);
 
     public static Task<bool> DisplayOkCancelAlertAsync(this object anything, string title, string message) =>
-        App.Current.MainPage.DisplayAlert(title, message, Constants.AlertButtonText.OK, Constants.AlertButtonText.Cancel);
+        App.Current.Windows[0].Page.DisplayAlert(title, message, Constants.AlertButtonText.OK, Constants.AlertButtonText.Cancel);
 
     public static Task<bool> DisplayYesNoAlertAsync(this object anything, string title, string message) =>
-        App.Current.MainPage.DisplayAlert(title, message, Constants.AlertButtonText.Yes, Constants.AlertButtonText.No);
+        App.Current.Windows[0].Page.DisplayAlert(title, message, Constants.AlertButtonText.Yes, Constants.AlertButtonText.No);
 
     public static Task DisplaySnackbarAsync(this object anything, string message
         , Action action = null, string actionButtonText = "OK", TimeSpan? duration = null
         , SnackbarOptions snackbarOptions = null, CancellationToken cancellationToken = default) =>
-        App.Current.MainPage.DisplaySnackbar(message, action, actionButtonText, duration, snackbarOptions, cancellationToken);
+        App.Current.Windows[0].Page.DisplaySnackbar(message, action, actionButtonText, duration, snackbarOptions, cancellationToken);
 
     /// <summary>
     /// Create new IToast
@@ -34,7 +34,8 @@ public static class VisualElementExtensions
     public static async Task<IToast> ShowToastAsync(this object anything, string message, ToastDuration toastDuration = ToastDuration.Short, double textSize = 14, CancellationToken cancellationToken = default)
     {
         var toast = Toast.Make(message, toastDuration, textSize);
-        await toast.Show(cancellationToken);
+        return await Task.FromResult(toast);
+        await toast.Show(cancellationToken);        // this throws disposed exception after going to details page, then back
         return toast;
     }
 

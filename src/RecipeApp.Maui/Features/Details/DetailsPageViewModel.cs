@@ -56,7 +56,7 @@ public partial class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
 
             await Task.WhenAll(initializeIntroductionViewModelTask, initializeIngredientViewModelTask, initializeInstructionViewModelTask);
 
-            //await App.Current.MainPage.DisplayAlert("InitializeAsync", $"InitializeAsync: {IntroductionViewModel.Introduction.Title}", Constants.AlertButtonText.OK);
+            //await App.Current.Windows[0].Page.DisplayAlert("InitializeAsync", $"InitializeAsync: {IntroductionViewModel.Introduction.Title}", Constants.AlertButtonText.OK);
         }
         finally
         {
@@ -67,7 +67,7 @@ public partial class DetailsPageViewModel : BaseViewModel, IDetailsPageViewModel
     [RelayCommand]
     public Task DeleteIntroductionAsync()
     {
-        return App.Current.MainPage.DisplayAlert("Delete", $"Delete {IntroductionId}?", Constants.AlertButtonText.OK);
+        return App.Current.Windows[0].Page.DisplayAlert("Delete", $"Delete {IntroductionId}?", Constants.AlertButtonText.OK);
     }
 }
 

@@ -115,7 +115,7 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
     [RelayCommand]
     public async Task<IIngredientViewModel> SaveIngredientAsync(object args)
     {
-        await App.Current.MainPage.DisplayAlert("Save", $"SaveIngredientAsync {args}?", Constants.AlertButtonText.OK);
+        await App.Current.Windows[0].Page.DisplayAlert("Save", $"SaveIngredientAsync {args}?", Constants.AlertButtonText.OK);
         return this;
     }
 
@@ -128,7 +128,7 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
 
             var ingredientDto = args as IngredientDto;
 
-            if (!(await App.Current.MainPage.DisplayAlert("Delete", "Are you sure you want to delete this ingredient?", "Yes", "No")))
+            if (!(await App.Current.Windows[0].Page.DisplayAlert("Delete", "Are you sure you want to delete this ingredient?", "Yes", "No")))
                 return this;
 
             if (ingredientDto.IsNew)
@@ -164,28 +164,28 @@ public partial class IngredientViewModel : BaseViewModel, IIngredientViewModel
     [RelayCommand]
     public async Task<IIngredientViewModel> MoveIngredientFirstAsync(object args)
     {
-        await App.Current.MainPage.DisplayAlert("Move First", $"MoveIngredientFirstAsync {args}", Constants.AlertButtonText.OK);
+        await App.Current.Windows[0].Page.DisplayAlert("Move First", $"MoveIngredientFirstAsync {args}", Constants.AlertButtonText.OK);
         return this;
     }
 
     [RelayCommand]
     public async Task<IIngredientViewModel> MoveIngredientUpAsync(object args)
     {
-        await App.Current.MainPage.DisplayAlert("Move Up", $"MoveIngredientUpAsync {args}", Constants.AlertButtonText.OK);
+        await App.Current.Windows[0].Page.DisplayAlert("Move Up", $"MoveIngredientUpAsync {args}", Constants.AlertButtonText.OK);
         return this;
     }
 
     [RelayCommand]
     public async Task<IIngredientViewModel> MoveIngredientDownAsync(object args)
     {
-        await App.Current.MainPage.DisplayAlert("Move Down", $"MoveIngredientDownAsync {args}", Constants.AlertButtonText.OK);
+        await App.Current.Windows[0].Page.DisplayAlert("Move Down", $"MoveIngredientDownAsync {args}", Constants.AlertButtonText.OK);
         return this;
     }
 
     [RelayCommand]
     public async Task<IIngredientViewModel> MoveIngredientLastAsync(object args)
     {
-        await App.Current.MainPage.DisplayAlert("Move Last", $"MoveIngredientLastAsync {args}", Constants.AlertButtonText.OK);
+        await App.Current.Windows[0].Page.DisplayAlert("Move Last", $"MoveIngredientLastAsync {args}", Constants.AlertButtonText.OK);
         return this;
     }
 

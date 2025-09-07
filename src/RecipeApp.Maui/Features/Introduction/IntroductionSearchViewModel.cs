@@ -83,7 +83,7 @@ public partial class IntroductionSearchViewModel : BaseViewModel, IIntroductionS
             var foundResultsTest = $"Found {introductionSearchResult.Meta.TotalItemCount:#,##0} results";
             using var _ = await this.ShowSnackbarAndToastAsync(foundResultsTest);    // short hand alternative
             //await this.DisplaySnackbarAsync(foundResultsTest);
-            //await App.Current.MainPage.DisplaySnackbar(foundResultsTest);
+            //await App.Current.Windows[0].Page.DisplaySnackbar(foundResultsTest);
             //using var toast = Toast.Make(foundResultsTest);       // not very friendly.. get rid of .Net and display towards top?
             //await toast.Show();                                   // the .Net image / icon is the app icon --> /Resources/AppIcon/*
             //https://learn.microsoft.com/en-us/dotnet/communitytoolkit/maui/alerts/toast?tabs=android

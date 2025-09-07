@@ -54,31 +54,31 @@ public partial class InstructionViewModel : BaseViewModel, IInstructionViewModel
 
         if (IsIntroductionNew)
         {
-            await App.Current.MainPage.DisplayAlert("Add", "Save introduction, before adding instructions.", Constants.AlertButtonText.OK);
+            await App.Current.Windows[0].Page.DisplayAlert("Add", "Save introduction, before adding instructions.", Constants.AlertButtonText.OK);
             return;
         }
 
         if (Instructions.Any(x => x.IsNew))
         {
-            await App.Current.MainPage.DisplayAlert("Add", "Save unsaved instruction before adding another.", Constants.AlertButtonText.OK);
+            await App.Current.Windows[0].Page.DisplayAlert("Add", "Save unsaved instruction before adding another.", Constants.AlertButtonText.OK);
             return;
         }
 
         Instructions.Add(new InstructionDto { IntroductionId = _introductionId, SortOrder = Instructions.Count + 1 });
 
-        // TODO cleanup: await App.Current.MainPage.DisplayAlert("Add", $"AddInstructionAsync", Constants.AlertButtonText.OK);
+        // TODO cleanup: await App.Current.Windows[0].Page.DisplayAlert("Add", $"AddInstructionAsync", Constants.AlertButtonText.OK);
     }
 
     [RelayCommand]
     public async Task SaveInstructionAsync(object args)
     {
-        await App.Current.MainPage.DisplayAlert("Save", $"SaveInstructionAsync {args}?", Constants.AlertButtonText.OK);
+        await App.Current.Windows[0].Page.DisplayAlert("Save", $"SaveInstructionAsync {args}?", Constants.AlertButtonText.OK);
     }
 
     [RelayCommand]
     public async Task DeleteInstructionAsync(object args)
     {
-        //await App.Current.MainPage.DisplayAlert("Delete", $"DeleteInstructionAsync {args}?", Constants.AlertButtonText.OK);
+        //await App.Current.Windows[0].Page.DisplayAlert("Delete", $"DeleteInstructionAsync {args}?", Constants.AlertButtonText.OK);
         try
         {
             _logger.LogInformation($"{nameof(DeleteInstructionAsync)}({nameof(args)})");
@@ -86,7 +86,7 @@ public partial class InstructionViewModel : BaseViewModel, IInstructionViewModel
 
             var instructionDto = args as InstructionDto;
 
-            if (!(await App.Current.MainPage.DisplayAlert("Delete", "Are you sure you want to delete this instruction?", "Yes", "No")))
+            if (!(await App.Current.Windows[0].Page.DisplayAlert("Delete", "Are you sure you want to delete this instruction?", "Yes", "No")))
                 return;
 
             if (instructionDto.IsNew)
@@ -106,7 +106,7 @@ public partial class InstructionViewModel : BaseViewModel, IInstructionViewModel
             // ***************************************************************
 
             if (ApiResultMessages.Any(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error))
-                await App.Current.MainPage.DisplaySnackbar("Instruction deleted successfully!");
+                await App.Current.Windows[0].Page.DisplaySnackbar("Instruction deleted successfully!");
             //var errorMessages = ApiResultMessages.Where(m => m.MessageType == ApiResultMessageModelTypeEnumeration.Error);
             //if (errorMessages.Any())
             //{
@@ -115,13 +115,13 @@ public partial class InstructionViewModel : BaseViewModel, IInstructionViewModel
             //    return;
             //}
 
-            await App.Current.MainPage.DisplaySnackbar("Instruction deleted successfully!");
+            await App.Current.Windows[0].Page.DisplaySnackbar("Instruction deleted successfully!");
             // TODO:  toast replacement - await JSRuntime.ToastAsync(new ToastModel(ToastType.info, "Ingredient", "Deleted successfully!"));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unhandled exception occurred: ");
-            await App.Current.MainPage.DisplaySnackbar("Unhandled exception occurred!");
+            await App.Current.Windows[0].Page.DisplaySnackbar("Unhandled exception occurred!");
             // TODO implement: SessionViewModel.HandleException(ex, IngredientViewModel.ApiResultMessages, ComponentName);
         }
         finally
@@ -133,25 +133,25 @@ public partial class InstructionViewModel : BaseViewModel, IInstructionViewModel
     [RelayCommand]
     public async Task MoveInstructionFirstAsync(object args)
     {
-        await App.Current.MainPage.DisplayAlert("Move First", $"MoveInstructionFirstAsync {args}", Constants.AlertButtonText.OK);
+        await App.Current.Windows[0].Page.DisplayAlert("Move First", $"MoveInstructionFirstAsync {args}", Constants.AlertButtonText.OK);
     }
 
     [RelayCommand]
     public async Task MoveInstructionUpAsync(object args)
     {
-        await App.Current.MainPage.DisplayAlert("Move Up", $"MoveInstructionUpAsync {args}", Constants.AlertButtonText.OK);
+        await App.Current.Windows[0].Page.DisplayAlert("Move Up", $"MoveInstructionUpAsync {args}", Constants.AlertButtonText.OK);
     }
 
     [RelayCommand]
     public async Task MoveInstructionDownAsync(object args)
     {
-        await App.Current.MainPage.DisplayAlert("Move Down", $"MoveInstructionDownAsync {args}", Constants.AlertButtonText.OK);
+        await App.Current.Windows[0].Page.DisplayAlert("Move Down", $"MoveInstructionDownAsync {args}", Constants.AlertButtonText.OK);
     }
 
     [RelayCommand]
     public async Task MoveInstructionLastAsync(object args)
     {
-        await App.Current.MainPage.DisplayAlert("Move Last", $"MoveInstructionLastAsync {args}", Constants.AlertButtonText.OK);
+        await App.Current.Windows[0].Page.DisplayAlert("Move Last", $"MoveInstructionLastAsync {args}", Constants.AlertButtonText.OK);
     }
 }
 
