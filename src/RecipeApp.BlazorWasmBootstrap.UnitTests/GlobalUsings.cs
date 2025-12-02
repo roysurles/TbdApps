@@ -1,5 +1,7 @@
 global using Bunit;
 
+global using FluentAssertions;
+
 global using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
@@ -11,7 +13,6 @@ global using RecipeApp.BlazorWasmBootstrap.Features.Index;
 global using RecipeApp.BlazorWasmBootstrap.Features.Ingredient;
 global using RecipeApp.BlazorWasmBootstrap.Features.Instruction;
 global using RecipeApp.BlazorWasmBootstrap.Features.Introduction;
-
 global using RecipeApp.BlazorWasmBootstrap.UnitTests.Shared.Extensions;
 global using RecipeApp.Shared.Features.Details;
 global using RecipeApp.Shared.Features.Ingredient;

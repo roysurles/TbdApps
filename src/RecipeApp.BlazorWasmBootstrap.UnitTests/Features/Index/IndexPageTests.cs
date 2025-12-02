@@ -1,6 +1,6 @@
 ﻿namespace RecipeApp.BlazorWasmBootstrap.UnitTests.Features.Index;
 
-public class IndexPageTests : TestContext
+public class IndexPageTests : BunitContext
 {
     protected readonly ITestOutputHelper _output;
 
@@ -22,9 +22,10 @@ public class IndexPageTests : TestContext
             , mockLogger.Object));
 
         // Act
-        var cut = RenderComponent<IndexPage>();
+        var cut = Render<IndexPage>();
 
         // Assert
         var divHtml = cut.Find("div");
+        divHtml.Should().NotBeNull();
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace RecipeApp.BlazorWasmBootstrap.UnitTests.Features.Introduction;
 
-public class IntroductionEditComponentTests : TestContext
+public class IntroductionEditComponentTests : BunitContext
 {
     protected readonly ITestOutputHelper _output;
 
@@ -18,11 +18,12 @@ public class IntroductionEditComponentTests : TestContext
         var mockLogger = new Mock<ILogger<IntroductionViewModel>>();
 
         // Act
-        var cut = RenderComponent<IntroductionEditComponent>(parameters =>
+        var cut = Render<IntroductionEditComponent>(parameters =>
             parameters.Add(p => p.IntroductionViewModel, new IntroductionViewModel(mockIntroductionApiClientV1_0.Object, mockLogger.Object)));
 
         // Assert
         var formHtml = cut.Find("form");
+        formHtml.Should().NotBeNull();
 
         _output.WriteLine("*** Finished");
     }

@@ -2,11 +2,11 @@
 
 public static class TestServiceProviderExtensions
 {
-    public static TestServiceProvider AddDefaultServices(this TestServiceProvider testServiceProvider)
+    public static IServiceCollection AddDefaultServices(this IServiceCollection services)
     {
-        testServiceProvider.AddSingleton<IWebAssemblyHostEnvironment, TestWebAssemblyHostEnvironment>();
-        testServiceProvider.AddSingleton<ISessionViewModel, SessionViewModel>();
+        services.AddSingleton<IWebAssemblyHostEnvironment, TestWebAssemblyHostEnvironment>();
+        services.AddSingleton<ISessionViewModel, SessionViewModel>();
 
-        return testServiceProvider;
+        return services;
     }
 }

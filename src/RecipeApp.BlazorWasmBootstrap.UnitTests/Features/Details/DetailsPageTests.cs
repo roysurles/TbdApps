@@ -1,6 +1,6 @@
 ﻿namespace RecipeApp.BlazorWasmBootstrap.UnitTests.Features.Details
 {
-    public class DetailsPageTests : TestContext
+    public class DetailsPageTests : BunitContext
     {
         protected readonly ITestOutputHelper _output;
 
@@ -35,10 +35,11 @@
             Services.AddTransient<IDetailsPageViewModel, DetailsPageViewModel>();
 
             // Act
-            var cut = RenderComponent<DetailsPage>();
+            var cut = Render<DetailsPage>();
 
             // Assert
             var divHtml = cut.Find("div");
+            divHtml.Should().NotBeNull();
         }
     }
 }

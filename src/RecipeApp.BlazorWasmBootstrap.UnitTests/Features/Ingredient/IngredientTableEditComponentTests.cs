@@ -1,6 +1,6 @@
 ﻿namespace RecipeApp.BlazorWasmBootstrap.UnitTests.Features.Ingredient
 {
-    public class IngredientTableEditComponentTests : TestContext
+    public class IngredientTableEditComponentTests : BunitContext
     {
         protected readonly ITestOutputHelper _output;
 
@@ -18,11 +18,12 @@
             var mockLogger = new Mock<ILogger<IngredientViewModel>>();
 
             // Act
-            var cut = RenderComponent<IngredientTableEditComponent>(parameters =>
+            var cut = Render<IngredientTableEditComponent>(parameters =>
                 parameters.Add(p => p.IngredientViewModel, new IngredientViewModel(mockIngredientApiClientV1_0.Object, mockLogger.Object)));
 
             // Assert
             var divHtml = cut.Find("div");
+            divHtml.Should().NotBeNull();
         }
     }
 }
