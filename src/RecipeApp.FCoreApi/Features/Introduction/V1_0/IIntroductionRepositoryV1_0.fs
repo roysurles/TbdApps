@@ -22,24 +22,24 @@ type IIntroductionRepositoryV1_0 =
     //Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken);
 
 
-    type IntroductionRepositoryV1_0(connectionString: string) =
-        inherit BaseRepository(connectionString)
-        interface IIntroductionRepositoryV1_0 with
-            member this.DeleteAsync id cancellationToken =
-                task {
-                    let x : int = 5
-                    let b : byte = byte x
+type IntroductionRepositoryV1_0(connectionString: string) =
+    inherit BaseRepository(connectionString)
+    interface IIntroductionRepositoryV1_0 with
+        member this.DeleteAsync id cancellationToken =
+            task {
+                let x : int = 5
+                let b : byte = byte x
 
-                    use! connection = this.CreateConnectionAsync(cancellationToken)
-                    let a : SqlConnection = connection :?> SqlConnection
-                    use! transaction = a.BeginTransactionAsync(cancellationToken)
+                use! connection = this.CreateConnectionAsync(cancellationToken)
+                let a : SqlConnection = connection :?> SqlConnection
+                use! transaction = a.BeginTransactionAsync(cancellationToken)
 
-                    let parameters = {| Id = id |}  //TODO use dict[string, obj]
-                    let commandDefinition = new CommandDefinition(commandText = "IntroductionDelete", parameters = parameters, transaction = transaction, commandType = CommandType.StoredProcedure, cancellationToken = cancellationToken)
+                let parameters = {| Id = id |}  //TODO use dict[string, obj]
+                let commandDefinition = new CommandDefinition(commandText = "IntroductionDelete", parameters = parameters, transaction = transaction, commandType = CommandType.StoredProcedure, cancellationToken = cancellationToken)
 
-                    let! result = connection.ExecuteScalarAsync<int>(commandDefinition).ConfigureAwait(false);
+                let! result = connection.ExecuteScalarAsync<int>(commandDefinition).ConfigureAwait(false);
 
-                    transaction.Commit()
+                transaction.Commit()
 
-                    return result
-                }
+                return result
+            }

@@ -1,7 +1,8 @@
 ﻿namespace RecipeApp.Maui;
+
 public static class MauiProgram
 {
-    public static string CoreApiUrl = "https://localhost:44350";
+    public static string CoreApiUrl = "https://localhost:7133";
 
     public static MauiApp CreateMauiApp()
     {

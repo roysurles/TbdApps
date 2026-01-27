@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Extensions;
+
 namespace RecipeApp.Maui.Features.Shared.XamlComponents.ApiResultMessages;
 
 public partial class ApiResultMessagesButtonComponent : ContentView
@@ -70,7 +72,8 @@ public partial class ApiResultMessagesButtonComponent : ContentView
         apiResultMessagesPopupComponent.ApiResultMessages = ApiResultMessages;
         apiResultMessagesPopupComponent.Content.BackgroundColor = Application.Current.RequestedTheme == AppTheme.Dark ? Colors.Black : Colors.White;
         apiResultMessagesPopupComponent.PopupBorder.Stroke = Brush.Cyan;
-        App.Current.Windows[0].Page.ShowPopup(apiResultMessagesPopupComponent);
+        //App.Current.Windows[0].Page.ShowPopup(apiResultMessagesPopupComponent);
+        Application.Current.Windows[0].Page.ShowPopup(apiResultMessagesPopupComponent);
     }
 
     private bool _isBlinking;

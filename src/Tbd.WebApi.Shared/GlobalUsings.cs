@@ -1,3 +1,27 @@
+global using Asp.Versioning;
+
+global using Dapper;
+
+global using Microsoft.AspNetCore.Authentication;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.AspNetCore.Diagnostics;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Mvc.Controllers;
+global using Microsoft.AspNetCore.Mvc.Filters;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Options;
+global using Microsoft.Extensions.Primitives;
+global using Microsoft.OpenApi;
+
+global using RecipeApp.Shared.Extensions;
+
+global using Swashbuckle.AspNetCore.SwaggerGen;
+global using Swashbuckle.AspNetCore.SwaggerUI;
+
 global using System;
 global using System.Collections.Generic;
 global using System.Data;
@@ -16,30 +40,6 @@ global using System.Text.Json;
 global using System.Text.Json.Serialization;
 global using System.Threading;
 global using System.Threading.Tasks;
-
-global using Asp.Versioning;
-
-global using Dapper;
-
-global using Microsoft.AspNetCore.Authentication;
-global using Microsoft.AspNetCore.Authorization;
-global using Microsoft.AspNetCore.Builder;
-global using Microsoft.AspNetCore.Diagnostics;
-global using Microsoft.AspNetCore.Http;
-global using Microsoft.AspNetCore.Mvc;
-global using Microsoft.AspNetCore.Mvc.Controllers;
-global using Microsoft.AspNetCore.Mvc.Filters;
-global using Microsoft.Extensions.DependencyInjection;
-global using Microsoft.Extensions.Hosting;
-global using Microsoft.Extensions.Logging;
-global using Microsoft.Extensions.Options;
-global using Microsoft.Extensions.Primitives;
-global using Microsoft.OpenApi.Models;
-
-global using RecipeApp.Shared.Extensions;
-
-global using Swashbuckle.AspNetCore.SwaggerGen;
-global using Swashbuckle.AspNetCore.SwaggerUI;
 
 global using Tbd.Shared.ApiLog;
 global using Tbd.Shared.ApiResult;

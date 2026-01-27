@@ -76,6 +76,8 @@ namespace RecipeApp.CoreApi
 
             services.AddApiVersioningEx();                      // Custom ApiVersioning
 
+            services.AddOpenApi();
+
             services.AddEndpointsApiExplorer();
             // https://levelup.gitconnected.com/how-to-use-fluentvalidation-in-asp-net-core-net-6-543d52bd36b4
             services.AddFluentValidationAutoValidation();
@@ -133,6 +135,8 @@ namespace RecipeApp.CoreApi
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //((WebApplication)app).MapOpenApi();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -155,6 +159,12 @@ namespace RecipeApp.CoreApi
             app.UseExceptionHandlerEx(env, false);                              // Custom ExceptionHandler:  this must be after app.UseApiLoggingEx to set HttpStatusCode and write out ApiResultModel
 
             app.UseAuthorization();
+
+            //((WebApplication)app).MapScalarApiReference(options => options
+            //    .WithTitle("RecipeApp CoreApi")
+            //    .WithTheme(ScalarTheme.Default)
+            //    .EnableDarkMode()
+            //    .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient));
 
             // https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-7.0
             // https://www.youtube.com/watch?v=p2faw9DCSsY

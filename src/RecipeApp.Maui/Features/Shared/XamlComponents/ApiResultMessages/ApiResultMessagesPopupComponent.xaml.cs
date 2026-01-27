@@ -59,5 +59,6 @@ public partial class ApiResultMessagesPopupComponent : Popup
         set => SetValue(UnhandledExceptionsProperty, value);
     }
 
-    private void Button_Clicked(object sender, EventArgs e) => Close();
+    //private void Button_Clicked(object sender, EventArgs e) => Close();
+    private void Button_Clicked(object sender, EventArgs e) => CloseAsync();
 }

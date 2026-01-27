@@ -3,7 +3,7 @@
 open System.Runtime.InteropServices
 open Microsoft.AspNetCore.Builder
 open Microsoft.Extensions.DependencyInjection
-open Microsoft.OpenApi.Models
+open Microsoft.OpenApi
 open Swashbuckle.AspNetCore.SwaggerUI
 
 module SwaggerMiddlewareExtensions =
@@ -21,18 +21,18 @@ module SwaggerMiddlewareExtensions =
         openApiSecurityScheme.BearerFormat <- "JWT"
         openApiSecurityScheme
 
-    let NewOpenApiReference =
-        let openApiReference = new OpenApiReference(Type = ReferenceType.SecurityScheme, Id = "Bearer")
-        openApiReference
+    // TODO: let NewOpenApiReference =
+    //    let openApiReference = new OpenApiReference(Type = ReferenceType.SecurityScheme, Id = "Bearer")
+    //    openApiReference
 
-    let New_Bearer_OpenApiSecurityScheme =
-        let openApiSecurityScheme = new OpenApiSecurityScheme(Reference = NewOpenApiReference)
-        openApiSecurityScheme
+    // TODO: let New_Bearer_OpenApiSecurityScheme =
+    //    let openApiSecurityScheme = new OpenApiSecurityScheme(Reference = NewOpenApiReference)
+    //    openApiSecurityScheme
 
-    let NewOpenApiSecurityRequirement =
-        let openApiSecurityRequirement = new OpenApiSecurityRequirement()
-        openApiSecurityRequirement.Add(New_Bearer_OpenApiSecurityScheme, new System.Collections.Generic.List<string>())
-        openApiSecurityRequirement
+    // TODO: let NewOpenApiSecurityRequirement =
+    //    let openApiSecurityRequirement = new OpenApiSecurityRequirement()
+    //    openApiSecurityRequirement.Add(New_Bearer_OpenApiSecurityScheme, new System.Collections.Generic.List<string>())
+    //    openApiSecurityRequirement
 
     type IServiceCollection with
         member this.AddSwaggerGenEx(title: string, description: string, versions : seq<string>
@@ -51,7 +51,7 @@ module SwaggerMiddlewareExtensions =
             if addBearerTokenAuthorizationInput
             then
                 options.AddSecurityDefinition("Bearer", New_Header_OpenApiSecurityScheme)
-                options.AddSecurityRequirement(NewOpenApiSecurityRequirement)
+                // TODO: options.AddSecurityRequirement(NewOpenApiSecurityRequirement)
 
             ) |> ignore
             this

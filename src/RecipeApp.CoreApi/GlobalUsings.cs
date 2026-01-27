@@ -1,15 +1,3 @@
-global using System;
-global using System.Collections.Generic;
-global using System.Collections.ObjectModel;
-global using System.ComponentModel.DataAnnotations;
-global using System.Diagnostics.CodeAnalysis;
-global using System.IO;
-global using System.Linq;
-global using System.Net;
-global using System.Reflection;
-global using System.Threading;
-global using System.Threading.Tasks;
-
 global using Asp.Versioning;
 
 global using Dapper;
@@ -47,6 +35,20 @@ global using RecipeApp.Shared.Features.Ingredient;
 global using RecipeApp.Shared.Features.Instruction;
 global using RecipeApp.Shared.Features.Introduction;
 global using RecipeApp.Shared.Handlers;
+
+global using Scalar.AspNetCore;
+
+global using System;
+global using System.Collections.Generic;
+global using System.Collections.ObjectModel;
+global using System.ComponentModel.DataAnnotations;
+global using System.Diagnostics.CodeAnalysis;
+global using System.IO;
+global using System.Linq;
+global using System.Net;
+global using System.Reflection;
+global using System.Threading;
+global using System.Threading.Tasks;
 
 global using Tbd.Shared.ApiLog;
 global using Tbd.Shared.ApiResult;

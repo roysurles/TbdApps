@@ -40,30 +40,30 @@ public static class SwaggerMiddlewareExtensions
             // Set the comments path for the Swagger JSON and UI.
             c.IncludeXmlComments(xmlPath);
 
-            // Add JWT bearer token input for testing.
-            if (addBearerTokenAuthorizationInput)
-            {
-                var openApiSecurityScheme = new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Header,
-                    Description = "Please insert JWT with Bearer into field",
-                    Name = "Authorization",
-                    Scheme = "bearer",
-                    Type = SecuritySchemeType.ApiKey,
-                    BearerFormat = "JWT"
-                };
-                c.AddSecurityDefinition("Bearer", openApiSecurityScheme);
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
-                        },
-                        new List<string>()
-                    }
-                });
-            }
+            // TODO: Add JWT bearer token input for testing.
+            //if (addBearerTokenAuthorizationInput)
+            //{
+            //    var openApiSecurityScheme = new OpenApiSecurityScheme
+            //    {
+            //        In = ParameterLocation.Header,
+            //        Description = "Please insert JWT with Bearer into field",
+            //        Name = "Authorization",
+            //        Scheme = "bearer",
+            //        Type = SecuritySchemeType.ApiKey,
+            //        BearerFormat = "JWT"
+            //    };
+            //    c.AddSecurityDefinition("Bearer", openApiSecurityScheme);
+            //    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            //    {
+            //        {
+            //            new OpenApiSecurityScheme
+            //            {
+            //                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+            //            },
+            //            new List<string>()
+            //        }
+            //    });
+            //}
         });
 
         return services;
@@ -72,7 +72,10 @@ public static class SwaggerMiddlewareExtensions
     public static IApplicationBuilder UseSwaggerEx(this IApplicationBuilder app, string name, IEnumerable<string> versions)
     {
         // Enable middleware to serve generated Swagger as a JSON endpoint.
-        app.UseSwagger();
+        app.UseSwagger(c =>
+        {
+            c.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi3_1;
+        });
 
         // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
         app.UseSwaggerUI(c =>
