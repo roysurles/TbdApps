@@ -5,6 +5,8 @@ namespace RecipeApp.CoreApi
     /// </summary>
     public class Startup
     {
+        private const string _swaggerTitle = "RecipeApp CoreApi";
+
         // Add Swagger Document Versions to the list here...
         private readonly IEnumerable<string> _swaggerDocumentVersions = new List<string> { "1.0", "1.1" };
 
@@ -85,7 +87,7 @@ namespace RecipeApp.CoreApi
 
             // Custom Swagger
             var xmlFullFileName = Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
-            services.AddSwaggerEx("RecipeApp CoreApi", "RecipeApp CoreApi", _swaggerDocumentVersions, xmlFullFileName);
+            services.AddSwaggerEx(_swaggerTitle, _swaggerTitle, _swaggerDocumentVersions, xmlFullFileName);
 
             services.AddTransient(typeof(IApiResultModel<>), typeof(ApiResultModel<>));
 
@@ -135,8 +137,6 @@ namespace RecipeApp.CoreApi
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //((WebApplication)app).MapOpenApi();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -150,7 +150,7 @@ namespace RecipeApp.CoreApi
 
             app.UseHttpsRedirection();
 
-            app.UseSwaggerEx("RecipeApp CoreApi", _swaggerDocumentVersions);    // Custom Swagger
+            app.UseSwaggerEx(_swaggerTitle, _swaggerDocumentVersions);          // Custom Swagger
 
             app.UseCorrelationIdEx();                                           // Custom CorrelationId:  this must be before app.UseApiLoggingEx() to change HttpContext.TraceIdentifier
 
@@ -159,12 +159,6 @@ namespace RecipeApp.CoreApi
             app.UseExceptionHandlerEx(env, false);                              // Custom ExceptionHandler:  this must be after app.UseApiLoggingEx to set HttpStatusCode and write out ApiResultModel
 
             app.UseAuthorization();
-
-            //((WebApplication)app).MapScalarApiReference(options => options
-            //    .WithTitle("RecipeApp CoreApi")
-            //    .WithTheme(ScalarTheme.Default)
-            //    .EnableDarkMode()
-            //    .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient));
 
             // https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-7.0
             // https://www.youtube.com/watch?v=p2faw9DCSsY
@@ -186,6 +180,12 @@ namespace RecipeApp.CoreApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers().RequireRateLimiting("FixedWindowLimiter");
+                endpoints.MapOpenApi();
+                endpoints.MapScalarApiReference(options => options
+                    .WithTitle(_swaggerTitle)
+                    .WithTheme(ScalarTheme.Default)
+                    .EnableDarkMode()
+                    .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient));
             });
         }
     }
