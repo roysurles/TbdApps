@@ -1,6 +1,6 @@
 ﻿namespace RecipeApp.CoreApi.UnitTests.Features.Instruction.V1_0;
 
-public partial class InstructionServiceTests
+public partial class InstructionServiceTests : IClassFixture<TestClassFixture>
 {
     [Theory(DisplayName = "InstructionServiceTests.Insert")]
     [InlineData("00000000-0000-0000-0000-000000000000", null, HttpStatusCode.BadRequest, new string[] { "Introduction Id is required." })]

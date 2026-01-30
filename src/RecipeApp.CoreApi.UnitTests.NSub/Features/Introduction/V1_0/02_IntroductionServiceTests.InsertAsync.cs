@@ -1,6 +1,6 @@
 ﻿namespace RecipeApp.CoreApi.UnitTests.NSub.Features.Introduction.V1_0;
 
-public partial class IntroductionServiceTests
+public partial class IntroductionServiceTests : IClassFixture<TestClassFixture>
 {
     [Theory(DisplayName = "IntroductionServiceTests.Insert")]
     [InlineData(null, HttpStatusCode.BadRequest, new string[] { "The Title field is required." })]

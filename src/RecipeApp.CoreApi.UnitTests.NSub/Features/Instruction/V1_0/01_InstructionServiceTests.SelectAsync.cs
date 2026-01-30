@@ -1,6 +1,6 @@
 ﻿namespace RecipeApp.CoreApi.UnitTests.NSub.Features.Instruction.V1_0;
 
-public partial class InstructionServiceTests
+public partial class InstructionServiceTests : IClassFixture<TestClassFixture>
 {
     [Theory(DisplayName = "InstructionServiceTests.Select")]
     [InlineData("00000000-0000-0000-0000-000000000000", HttpStatusCode.BadRequest, new string[] { "Id is required." })]

@@ -1,6 +1,6 @@
 ﻿namespace RecipeApp.CoreApi.UnitTests.Features.Introduction.V1_0;
 
-public partial class IntroductionServiceTests
+public partial class IntroductionServiceTests : IClassFixture<TestClassFixture>
 {
     [Theory(DisplayName = "IntroductionServiceTests.Delete")]
     [InlineData("00000000-0000-0000-0000-000000000000", HttpStatusCode.BadRequest, "Id is required.")]
